@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-core/
+public/paged.polyfill.js
+src-tauri/target/
+src-tauri/gen/
+
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+coverage/
+
+# Generated export artifacts (golden PDFs are regenerated on demand).
+# The Phase-0 rendering spike evidence is committed on purpose.
+artifacts/*
+!artifacts/spike/
+
+# Local env / editor noise
+*.local
+.DS_Store
+.vscode/*
+!.vscode/extensions.json

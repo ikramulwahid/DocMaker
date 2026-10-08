@@ -1,0 +1,5 @@
+# pnpm project settings (pnpm >= 10 reads settings from this file).
+allowBuilds:
+  core-js: false
+  es5-ext: false
+  esbuild: true

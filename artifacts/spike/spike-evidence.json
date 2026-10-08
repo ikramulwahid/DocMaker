@@ -1,0 +1,300 @@
+{
+  "pages": [
+    {
+      "index": 0,
+      "classes": "pagedjs_page pagedjs_first_page pagedjs_right_page pagedjs_named_page pagedjs_port_page pagedjs_port_first_page",
+      "widthPx": 794,
+      "heightPx": 1123,
+      "inlineStyle": null,
+      "sheetWidthPx": 794,
+      "sheetHeightPx": 1123,
+      "pageboxWidth": "793.688px",
+      "pageboxHeight": "1122.52px",
+      "varPageboxWidth": "210mm",
+      "varPageboxHeight": "297mm",
+      "topRight": {
+        "text": "",
+        "after": null
+      },
+      "topLeft": {
+        "text": "",
+        "after": null
+      },
+      "topCenter": {
+        "text": "",
+        "after": null
+      },
+      "bottomRight": {
+        "text": "",
+        "after": "\"Page \" counter(page) \" of \" counter(pages)"
+      },
+      "bottomCenter": {
+        "text": "",
+        "after": null
+      },
+      "watermarkContent": "\"DRAFT\"",
+      "tables": [
+        {
+          "hasThead": true,
+          "splitFrom": false,
+          "headerRepeated": true,
+          "firstRowText": "Parameter Method Limit Result Remark"
+        }
+      ],
+      "images": [],
+      "contentOverflowPx": 0,
+      "hasOverflow": false
+    },
+    {
+      "index": 1,
+      "classes": "pagedjs_page pagedjs_left_page pagedjs_named_page pagedjs_port_page",
+      "widthPx": 794,
+      "heightPx": 1123,
+      "inlineStyle": null,
+      "sheetWidthPx": 794,
+      "sheetHeightPx": 1123,
+      "pageboxWidth": "793.688px",
+      "pageboxHeight": "1122.52px",
+      "varPageboxWidth": "210mm",
+      "varPageboxHeight": "297mm",
+      "topRight": {
+        "text": "",
+        "after": null
+      },
+      "topLeft": {
+        "text": "",
+        "after": null
+      },
+      "topCenter": {
+        "text": "",
+        "after": null
+      },
+      "bottomRight": {
+        "text": "",
+        "after": "\"Page \" counter(page) \" of \" counter(pages)"
+      },
+      "bottomCenter": {
+        "text": "",
+        "after": null
+      },
+      "watermarkContent": "\"DRAFT\"",
+      "tables": [
+        {
+          "hasThead": true,
+          "splitFrom": true,
+          "headerRepeated": true,
+          "firstRowText": "Parameter Method Limit Result Remark"
+        }
+      ],
+      "images": [],
+      "contentOverflowPx": 0,
+      "hasOverflow": false
+    },
+    {
+      "index": 2,
+      "classes": "pagedjs_page pagedjs_right_page pagedjs_named_page pagedjs_port_page",
+      "widthPx": 794,
+      "heightPx": 1123,
+      "inlineStyle": null,
+      "sheetWidthPx": 794,
+      "sheetHeightPx": 1123,
+      "pageboxWidth": "793.688px",
+      "pageboxHeight": "1122.52px",
+      "varPageboxWidth": "210mm",
+      "varPageboxHeight": "297mm",
+      "topRight": {
+        "text": "",
+        "after": null
+      },
+      "topLeft": {
+        "text": "",
+        "after": null
+      },
+      "topCenter": {
+        "text": "",
+        "after": null
+      },
+      "bottomRight": {
+        "text": "",
+        "after": "\"Page \" counter(page) \" of \" counter(pages)"
+      },
+      "bottomCenter": {
+        "text": "",
+        "after": null
+      },
+      "watermarkContent": "\"DRAFT\"",
+      "tables": [],
+      "images": [
+        {
+          "nw": 420,
+          "w": 420,
+          "h": 180
+        }
+      ],
+      "contentOverflowPx": 0,
+      "hasOverflow": false
+    },
+    {
+      "index": 3,
+      "classes": "pagedjs_page pagedjs_left_page pagedjs_named_page pagedjs_land_page pagedjs_land_first_page",
+      "widthPx": 1123,
+      "heightPx": 794,
+      "inlineStyle": null,
+      "sheetWidthPx": 1123,
+      "sheetHeightPx": 794,
+      "pageboxWidth": "1122.52px",
+      "pageboxHeight": "793.688px",
+      "varPageboxWidth": "297mm",
+      "varPageboxHeight": "210mm",
+      "topRight": {
+        "text": "",
+        "after": null
+      },
+      "topLeft": {
+        "text": "",
+        "after": null
+      },
+      "topCenter": {
+        "text": "",
+        "after": "\"LANDSCAPE HEADER | Spike | Rev 03\""
+      },
+      "bottomRight": {
+        "text": "",
+        "after": null
+      },
+      "bottomCenter": {
+        "text": "",
+        "after": "\"Land page \" counter(page) \" of \" counter(pages)"
+      },
+      "watermarkContent": "\"DRAFT\"",
+      "tables": [
+        {
+          "hasThead": true,
+          "splitFrom": false,
+          "headerRepeated": true,
+          "firstRowText": "EquipmentIdRangeCal dueStdTraceabilityLocationStatus"
+        }
+      ],
+      "images": [],
+      "contentOverflowPx": 0,
+      "hasOverflow": false
+    },
+    {
+      "index": 4,
+      "classes": "pagedjs_page pagedjs_right_page pagedjs_named_page pagedjs_port_page pagedjs_port_first_page",
+      "widthPx": 794,
+      "heightPx": 1123,
+      "inlineStyle": null,
+      "sheetWidthPx": 794,
+      "sheetHeightPx": 1123,
+      "pageboxWidth": "793.688px",
+      "pageboxHeight": "1122.52px",
+      "varPageboxWidth": "210mm",
+      "varPageboxHeight": "297mm",
+      "topRight": {
+        "text": "",
+        "after": null
+      },
+      "topLeft": {
+        "text": "",
+        "after": null
+      },
+      "topCenter": {
+        "text": "",
+        "after": null
+      },
+      "bottomRight": {
+        "text": "",
+        "after": "\"Page \" counter(page) \" of \" counter(pages)"
+      },
+      "bottomCenter": {
+        "text": "",
+        "after": null
+      },
+      "watermarkContent": "\"DRAFT\"",
+      "tables": [],
+      "images": [],
+      "contentOverflowPx": 0,
+      "hasOverflow": false
+    }
+  ],
+  "general": {
+    "pageCount": 5,
+    "blockPages": {
+      "h-1": 0,
+      "p-1": 0,
+      "h-1-1": 0,
+      "p-2": 0,
+      "p-3": 0,
+      "table-1": 0,
+      "figure-1": 2,
+      "img-1": 2,
+      "keep-together-1": 2,
+      "h-1-2": 2,
+      "p-4": 2,
+      "sec-land": 3,
+      "h-2": 3,
+      "p-landscape": 3,
+      "table-2": 3,
+      "sec-port-2": 4,
+      "h-3": 4,
+      "p-5": 4
+    },
+    "keepTogetherPages": [
+      2
+    ],
+    "keepTogetherIntact": true,
+    "keepTogetherSplitAttr": "intact",
+    "theadStats": {
+      "inserted": 1,
+      "lookupsFailed": 0
+    },
+    "namedPageRules": [
+      "@page { size: letter; margin: 0px; }",
+      "@supports ( font-variant-position: super ) {\n  [data-footnote-call]::after { vertical-align: baseline; font-size: 100%; line-height: inherit; font-variant-position: super; }\n}",
+      "@media print {\n  html { width: 100%; height: 100%; print-color-adjust: exact; }\n  body { margin: 0px; padding: 0px; min-width: 100%; max-width: 100%; min-height: 100%; max-height: 100%; width: 100% !important; height: 100% !important; }\n  .pagedjs_pages { width: auto; min-height: 100%; max-height: 100%; overflow: visible; display: block !important; transform: none !important; height: 100% !important; }\n  .pagedjs_page { margin: 0px; padding: 0px; max-height: 100%; min-height: 100%; break-after: ",
+      "@page { size: a4; margin: 0px; padding: 0px; }"
+    ],
+    "pagedjsSizeRules": [
+      ".pagedjs_sheet { box-sizing: border-box; width: var(--pagedjs-width); height: var(--pagedjs-height); overflow: hidden; position: relative; display: grid; grid-template-columns: [bleed-left] var(--pagedjs-bleed-left) [sheet-center] calc(var(--pagedjs-width) - var(--pagedjs-bleed-left) - var(--pagedjs-bleed-right)) [bleed-right] var(--pagedjs-bleed-right); grid-template-rows: [bleed-top] var(--paged",
+      ".pagedjs_right_page .pagedjs_sheet { width: var(--pagedjs-width-right); height: var(--pagedjs-height-right); grid-template-columns: [bleed-left] var(--pagedjs-bleed-right-left) [sheet-center] calc(var(--pagedjs-width) - var(--pagedjs-bleed-right-left) - var(--pagedjs-bleed-right-right)) [bleed-right] var(--pagedjs-bleed-right-right); grid-template-rows: [bleed-top] var(--pagedjs-bleed-right-top) [",
+      ".pagedjs_left_page .pagedjs_sheet { width: var(--pagedjs-width-left); height: var(--pagedjs-height-left); grid-template-columns: [bleed-left] var(--pagedjs-bleed-left-left) [sheet-center] calc(var(--pagedjs-width) - var(--pagedjs-bleed-left-left) - var(--pagedjs-bleed-left-right)) [bleed-right] var(--pagedjs-bleed-left-right); grid-template-rows: [bleed-top] var(--pagedjs-bleed-left-top) [sheet-mi",
+      ".pagedjs_pagebox { box-sizing: border-box; width: var(--pagedjs-pagebox-width); height: var(--pagedjs-pagebox-height); position: relative; display: grid; grid-template-columns: [left] var(--pagedjs-margin-left) [center] calc(var(--pagedjs-pagebox-width) - var(--pagedjs-margin-left) - var(--pagedjs-margin-right)) [right] var(--pagedjs-margin-right); grid-template-rows: [header] var(--pagedjs-margin",
+      ".pagedjs_pagebox > .pagedjs_area { grid-area: page / center; width: 100%; height: 100%; padding: var(--pagedjs-padding-top) var(--pagedjs-padding-right) var(--pagedjs-padding-bottom) var(--pagedjs-padding-left); border-top: var(--pagedjs-border-top); border-right: var(--pagedjs-border-right); border-bottom: var(--pagedjs-border-bottom); border-left: var(--pagedjs-border-left); }",
+      ".pagedjs_pagebox > .pagedjs_area > .pagedjs_page_content { width: 100%; height: calc(100% - var(--pagedjs-footnotes-height)); position: relative; column-fill: auto; }",
+      ".pagedjs_pagebox > .pagedjs_area > .pagedjs_page_content > div { height: inherit; }",
+      ".pagedjs_pagebox > .pagedjs_area > .pagedjs_footnote_area { position: relative; overflow: hidden; height: var(--pagedjs-footnotes-height); display: flex; justify-content: flex-end; flex-flow: column; }",
+      ".pagedjs_page { counter-increment: page var(--pagedjs-page-counter-increment); width: var(--pagedjs-width); height: var(--pagedjs-height); }",
+      ".pagedjs_page.pagedjs_right_page { width: var(--pagedjs-width-right); height: var(--pagedjs-height-right); }",
+      ".pagedjs_page.pagedjs_left_page { width: var(--pagedjs-width-left); height: var(--pagedjs-height-left); }",
+      ".pagedjs_pages .pagedjs_margin .pagedjs_margin-content { width: 100%; }",
+      ".pagedjs_pages > .pagedjs_page > .pagedjs_sheet > .pagedjs_pagebox > .pagedjs_area > div [data-split-from] > ::first-letter, .pagedjs_pages > .pagedjs_page > .pagedjs_sheet > .pagedjs_pagebox > .pagedjs_area > div [data-split-from]::first-letter { font-size: unset; font-weight: unset; font-family: unset; color: unset; line-height: unset; float: unset; padding: unset; margin: unset; }",
+      ".pagedjs_page { --pagedjs-margin-top: 20mm; --pagedjs-margin-right: 18mm; --pagedjs-margin-left: 18mm; --pagedjs-margin-bottom: 20mm; --pagedjs-pagebox-width: 210mm; --pagedjs-pagebox-height: 297mm; }",
+      ".pagedjs_page.pagedjs_named_page.pagedjs_land_page { --pagedjs-margin-top: 15mm; --pagedjs-margin-right: 20mm; --pagedjs-margin-left: 20mm; --pagedjs-margin-bottom: 15mm; --pagedjs-pagebox-width: 297mm; --pagedjs-pagebox-height: 210mm; }",
+      ".pagedjs_page.pagedjs_named_page.pagedjs_port_page { --pagedjs-margin-top: 20mm; --pagedjs-margin-right: 18mm; --pagedjs-margin-left: 18mm; --pagedjs-margin-bottom: 20mm; --pagedjs-pagebox-width: 210mm; --pagedjs-pagebox-height: 297mm; }"
+    ],
+    "pdfMediaBoxes": [
+      {
+        "wPt": 595.92,
+        "hPt": 841.92
+      },
+      {
+        "wPt": 595.92,
+        "hPt": 841.92
+      },
+      {
+        "wPt": 595.92,
+        "hPt": 841.92
+      },
+      {
+        "wPt": 595.92,
+        "hPt": 841.92
+      },
+      {
+        "wPt": 595.92,
+        "hPt": 841.92
+      }
+    ],
+    "pdfPageCountGuess": 5
+  }
+}

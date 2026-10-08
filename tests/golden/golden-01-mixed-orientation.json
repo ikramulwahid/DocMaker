@@ -1,0 +1,431 @@
+{
+  "schema": "labdoc",
+  "schema_version": "1.0",
+  "document": {
+    "id": "doc_hrt8frpy",
+    "type": "document",
+    "metadata": {
+      "title": "Test Method",
+      "docNumber": "TM-001",
+      "revision": "03",
+      "effectiveDate": "2026-10-08",
+      "author": "A. Tester",
+      "organization": "Lab",
+      "description": "Fixture"
+    },
+    "settings": {
+      "watermark": {
+        "enabled": true,
+        "text": "DRAFT",
+        "opacity": 0.12,
+        "angle": -45,
+        "fontSizePt": 64
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_dsq4yk3c",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_vvbmruon",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Purpose",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_8noh4agh",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Intro ",
+                "marks": []
+              },
+              {
+                "text": "bold",
+                "marks": [
+                  {
+                    "type": "bold"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hd_dcfp4fk8",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Background",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_qtbw9m82",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Body text",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "im_yzoawifb",
+            "type": "image",
+            "src": "data:image/svg+xml;utf8,PHN2Zy8+",
+            "alt": "plot",
+            "widthMm": null,
+            "caption": "Calibration curve"
+          },
+          {
+            "id": "tb_4ibc8zbw",
+            "type": "table",
+            "caption": "Results",
+            "headerRow": true,
+            "columnWidths": [],
+            "rows": [
+              {
+                "id": "tr_1zi0dqtu",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_7k5y3fot",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pt0ug3uu",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "A",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_v2vrl4bk",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_js6uzme7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "B",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_ram0eni3",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_tct6uivr",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pkuw4kl3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_0x0yyki9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_p5tertly",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sec_4pgsp8be",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_e834o0zi",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Appendix A — Raw Data",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "tb_3tlvxgiz",
+            "type": "table",
+            "caption": "Raw measurements",
+            "headerRow": true,
+            "columnWidths": [],
+            "rows": [
+              {
+                "id": "tr_cgstj8c8",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_i2us5xd9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_1cmdrrlf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Run",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pyfr2jui",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_fcl72k7h",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Value",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_2hilnw05",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ydopvuok",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Unit",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_1bm69emp",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_0ymhx7wg",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_n56et6f9",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_bos5mfq2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_07f4se76",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_8bpf8b8k",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_d8ukdbsz",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_kw5xscav",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_v10oydg9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_yv358y4g",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_h3eed329",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_k8azwijp",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_qbli4ljn",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_tho55v1k",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

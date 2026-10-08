@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>DocMaker Paged.js capability spike</title>
+    <style>
+      @page {
+        size: A4 portrait;
+        margin: 20mm 18mm;
+      }
+
+      @page land {
+        size: A4 landscape;
+        margin: 15mm 20mm;
+        @top-center {
+          content: "LANDSCAPE HEADER | Spike | Rev 03";
+        }
+        @bottom-center {
+          content: "Land page " counter(page) " of " counter(pages);
+        }
+      }
+
+      @page port {
+        size: A4 portrait;
+        margin: 20mm 18mm;
+        @top-left {
+          content: element(hdr);
+        }
+        @bottom-right {
+          content: "Page " counter(page) " of " counter(pages);
+        }
+      }
+
+      body {
+        font-family: Georgia, serif;
+        font-size: 11pt;
+        color: #111;
+      }
+
+      h1 {
+        font-size: 16pt;
+        break-after: avoid;
+      }
+
+      h2 {
+        font-size: 13pt;
+        break-after: avoid;
+      }
+
+      .section-land {
+        page: land;
+      }
+
+      /* paged.js 0.4.3 gap: named @page rules resize --pagedjs-pagebox-* but
+         NOT the sheet frame (--pagedjs-width/height + side variants). Without
+         this override the landscape content is clipped by the portrait sheet.
+         This is the workaround shipped in DocMaker's layout stylesheet. */
+      .pagedjs_land_page {
+        --pagedjs-width: 297mm;
+        --pagedjs-height: 210mm;
+        --pagedjs-width-left: 297mm;
+        --pagedjs-height-left: 210mm;
+        --pagedjs-width-right: 297mm;
+        --pagedjs-height-right: 210mm;
+      }
+
+      .section-port {
+        page: port;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 9pt;
+      }
+
+      th,
+      td {
+        border: 0.3pt solid #444;
+        padding: 2mm;
+        text-align: left;
+      }
+
+      thead {
+        display: table-header-group;
+      }
+
+      .keep-together {
+        break-inside: avoid;
+      }
+
+      .pagedjs_sheet::after {
+        content: "DRAFT";
+        position: absolute;
+        top: 42%;
+        left: 30%;
+        font-size: 64pt;
+        font-family: Arial, sans-serif;
+        color: rgba(180, 0, 0, 0.12);
+        transform: rotate(-45deg);
+        z-index: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="section-port" data-testid="sec-port-1">
+      <div style="position: running(hdr)">Spike Laboratory | SOP-SPIKE-001 | Rev 03</div>
+
+      <h1 data-testid="h-1">1. Purpose</h1>
+      <p data-testid="p-1">
+        This spike validates Paged.js pagination capabilities for the DocMaker
+        architecture decision. The purpose paragraph is intentionally long
+        enough to interact with pagination behaviour in a realistic way. It
+        repeats: controlled laboratory documentation requires deterministic
+        page-oriented rendering with headers, footers, page numbering, and
+        repeated table headers across page boundaries.
+      </p>
+
+      <h2 data-testid="h-1-1">1.1 Background</h2>
+      <p data-testid="p-2">
+        Background paragraph one. Quality manuals, standard operating
+        procedures and work instructions all rely on stable pagination. This
+        paragraph pads the page so the following table begins near the page
+        boundary, which is required to observe multi-page table behaviour.
+      </p>
+      <p data-testid="p-3">
+        Background paragraph two with additional filler content so that the
+        table below starts close to the bottom of page one. Repeat filler:
+        accreditation documentation, calibration records, environmental
+        monitoring, corrective action registers, internal audit schedules and
+        management review minutes.
+      </p>
+
+      <table data-testid="table-1">
+        <caption>Table 1 — Sample Acceptance Criteria</caption>
+        <thead>
+          <tr>
+            <th>Parameter</th>
+            <th>Method</th>
+            <th>Limit</th>
+            <th>Result</th>
+            <th>Remark</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>pH</td><td>IS 3025 Pt. 40</td><td>6.5 – 8.5</td><td>7.2</td><td>Pass</td></tr>
+          <tr><td>Turbidity</td><td>IS 3025 Pt. 21</td><td>&lt; 1 NTU</td><td>0.4</td><td>Pass</td></tr>
+          <tr><td>TDS</td><td>IS 3025 Pt. 26</td><td>&lt; 500 mg/L</td><td>312</td><td>Pass</td></tr>
+          <tr><td>Chloride</td><td>IS 3025 Pt. 23</td><td>&lt; 250 mg/L</td><td>88</td><td>Pass</td></tr>
+          <tr><td>Hardness</td><td>IS 3025 Pt. 19</td><td>&lt; 200 mg/L</td><td>142</td><td>Pass</td></tr>
+          <tr><td>Iron</td><td>IS 3025 Pt. 59</td><td>&lt; 0.3 mg/L</td><td>0.11</td><td>Pass</td></tr>
+          <tr><td>Fluoride</td><td>IS 3025 Pt. 60</td><td>&lt; 1.0 mg/L</td><td>0.42</td><td>Pass</td></tr>
+          <tr><td>Sulphate</td><td>IS 3025 Pt. 30</td><td>&lt; 200 mg/L</td><td>96</td><td>Pass</td></tr>
+          <tr><td>Nitrate</td><td>IS 3025 Pt. 34</td><td>&lt; 45 mg/L</td><td>7.9</td><td>Pass</td></tr>
+          <tr><td>Colour</td><td>IS 3025 Pt. 2</td><td>&lt; 15 TCU</td><td>4</td><td>Pass</td></tr>
+          <tr><td>Odour</td><td>Organoleptic</td><td>Acceptable</td><td>Nil</td><td>Pass</td></tr>
+          <tr><td>EC</td><td>IS 3025 Pt. 302</td><td>&lt; 1500 µS/cm</td><td>640</td><td>Pass</td></tr>
+          <tr><td>Calcium</td><td>IS 3025 Pt. 45</td><td>&lt; 100 mg/L</td><td>58</td><td>Pass</td></tr>
+          <tr><td>Magnesium</td><td>IS 3025 Pt. 45</td><td>&lt; 100 mg/L</td><td>29</td><td>Pass</td></tr>
+          <tr><td>Sodium</td><td>IS 3025 Pt. 47</td><td>&lt; 200 mg/L</td><td>64</td><td>Pass</td></tr>
+          <tr><td>Potassium</td><td>Flame photometry</td><td>&lt; 50 mg/L</td><td>12</td><td>Pass</td></tr>
+          <tr><td>Zinc</td><td>AAS</td><td>&lt; 5.0 mg/L</td><td>0.08</td><td>Pass</td></tr>
+          <tr><td>Copper</td><td>AAS</td><td>&lt; 1.5 mg/L</td><td>0.03</td><td>Pass</td></tr>
+          <tr><td>Manganese</td><td>AAS</td><td>&lt; 0.1 mg/L</td><td>0.02</td><td>Pass</td></tr>
+          <tr><td>Lead</td><td>AAS</td><td>&lt; 0.01 mg/L</td><td>&lt; 0.01</td><td>Pass</td></tr>
+          <tr><td>Arsenic</td><td>Hydride generation</td><td>&lt; 0.01 mg/L</td><td>&lt; 0.01</td><td>Pass</td></tr>
+          <tr><td>Cadmium</td><td>AAS</td><td>&lt; 0.003 mg/L</td><td>&lt; 0.003</td><td>Pass</td></tr>
+          <tr><td>Nickel</td><td>AAS</td><td>&lt; 0.02 mg/L</td><td>0.005</td><td>Pass</td></tr>
+          <tr><td>Chromium</td><td>AAS</td><td>&lt; 0.05 mg/L</td><td>0.01</td><td>Pass</td></tr>
+          <tr><td>Cyanide</td><td>IS 3025 Pt. 42</td><td>&lt; 0.05 mg/L</td><td>&lt; 0.02</td><td>Pass</td></tr>
+          <tr><td>Phenol</td><td>4-AAP</td><td>&lt; 0.001 mg/L</td><td>&lt; 0.001</td><td>Pass</td></tr>
+          <tr><td>MBAS</td><td>IS 3025 Pt. 15</td><td>&lt; 0.2 mg/L</td><td>0.05</td><td>Pass</td></tr>
+          <tr><td>Residual Cl</td><td>DPD</td><td>&lt; 0.2 mg/L</td><td>0.1</td><td>Pass</td></tr>
+          <tr><td>Coliform</td><td>MPN</td><td>Absent</td><td>Absent</td><td>Pass</td></tr>
+          <tr><td>E. coli</td><td>MPN</td><td>Absent</td><td>Absent</td><td>Pass</td></tr>
+          <tr><td>Total plate count</td><td>IS 3025 Pt. 90</td><td>&lt; 100 CFU/mL</td><td>&lt; 1</td><td>Pass</td></tr>
+          <tr><td>Halogens</td><td>Titration</td><td>&lt; 200 mg/L</td><td>121</td><td>Pass</td></tr>
+          <tr><td>Alkalinity</td><td>Titration</td><td>&lt; 200 mg/L</td><td>150</td><td>Pass</td></tr>
+          <tr><td>Free CO2</td><td>Titration</td><td>Report</td><td>8</td><td>Info</td></tr>
+          <tr><td>Oil &amp; grease</td><td>Hexane extract</td><td>&lt; 10 mg/L</td><td>&lt; 1</td><td>Pass</td></tr>
+          <tr><td>SS</td><td>Gravimetric</td><td>&lt; 100 mg/L</td><td>22</td><td>Pass</td></tr>
+          <tr><td>BOD</td><td>IS 3025 Pt. 58</td><td>&lt; 30 mg/L</td><td>4</td><td>Pass</td></tr>
+          <tr><td>COD</td><td>Reflux titration</td><td>&lt; 100 mg/L</td><td>18</td><td>Pass</td></tr>
+          <tr><td>Ammonia</td><td>Phenate</td><td>&lt; 0.5 mg/L</td><td>0.12</td><td>Pass</td></tr>
+          <tr><td>Hardness CaCO3</td><td>Titration</td><td>&lt; 200 mg/L</td><td>142</td><td>Pass</td></tr>
+          <tr><td>Moisture</td><td>Karl Fischer</td><td>Report</td><td>0.04%</td><td>Info</td></tr>
+          <tr><td>Conductivity</td><td>IS 3025 Pt. 302</td><td>&lt; 1500</td><td>640</td><td>Pass</td></tr>
+          <tr><td>Particle count</td><td>ISO 11500</td><td>Report</td><td>Class 8</td><td>Info</td></tr>
+          <tr><td>Viscosity</td><td>Brookfield</td><td>Report</td><td>1.01 cP</td><td>Info</td></tr>
+          <tr><td>Flash point</td><td>Pensky-Martens</td><td>Report</td><td>N/A</td><td>Info</td></tr>
+          <tr><td>Density</td><td>pycnometer</td><td>Report</td><td>0.998</td><td>Info</td></tr>
+          <tr><td>Melting point</td><td>Capillary</td><td>Report</td><td>N/A</td><td>Info</td></tr>
+          <tr><td>Assay</td><td>Titration</td><td>99.5%</td><td>99.7%</td><td>Pass</td></tr>
+          <tr><td>Loss on drying</td><td>Gravimetric</td><td>&lt; 0.5%</td><td>0.21%</td><td>Pass</td></tr>
+          <tr><td>Residue on ignition</td><td>Gravimetric</td><td>&lt; 0.1%</td><td>0.03%</td><td>Pass</td></tr>
+          <tr><td>Heavy metals</td><td>ICP-MS</td><td>&lt; 10 ppm</td><td>&lt; 1</td><td>Pass</td></tr>
+        </tbody>
+      </table>
+
+      <figure data-testid="figure-1" style="margin: 6mm 0; break-inside: avoid;">
+        <img
+          alt="Calibration plot"
+          src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22180%22%3E%3Crect%20width%3D%22420%22%20height%3D%22180%22%20fill%3D%22%23dbeafe%22%20stroke%3D%22%231e40af%22%2F%3E%3Cpolyline%20points%3D%2230%2C150%20120%2C110%20210%2C80%20300%2C50%20390%2C25%22%20fill%3D%22none%22%20stroke%3D%22%231e40af%22%20stroke-width%3D%223%22%2F%3E%3Ctext%20x%3D%22210%22%20y%3D%22172%22%20text-anchor%3D%22middle%22%20font-family%3D%22Arial%22%20font-size%3D%2212%22%3EFigure%201%20-%20Calibration%20curve%3C%2Ftext%3E%3C%2Fsvg%3E"
+          style="max-width: 100%; height: auto; display: block;"
+          data-testid="img-1"
+        />
+        <figcaption style="font-size: 9pt; text-align: center; margin-top: 2mm;">
+          Figure 1 — Instrument calibration curve (data-URI image)
+        </figcaption>
+      </figure>
+
+      <div class="keep-together" data-testid="keep-together-1">
+        <p>
+          Keep-together paragraph A. These two paragraphs must never be split
+          across a page boundary because the layout engine honours
+          break-inside: avoid on their container.
+        </p>
+        <p>
+          Keep-together paragraph B. If pagination places paragraph A on one
+          page, paragraph B must appear on the same page or the whole block
+          must move to the next page.
+        </p>
+      </div>
+
+      <h2 data-testid="h-1-2">1.2 Records</h2>
+      <p data-testid="p-4">
+        Records paragraph after the keep-together block, used to observe
+        whether the avoid-break block behaves sensibly when followed by more
+        content near the page boundary.
+      </p>
+    </div>
+
+    <div class="section-land" data-testid="sec-land">
+      <h1 data-testid="h-2">2. Landscape Section</h1>
+      <p data-testid="p-landscape">
+        This section must render as A4 landscape with its own header and
+        footer rules.
+      </p>
+      <table data-testid="table-2">
+        <thead>
+          <tr>
+            <th>Equipment</th><th>Id</th><th>Range</th><th>Cal due</th><th>Std</th><th>Traceability</th><th>Location</th><th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Balance</td><td>EQ-01</td><td>0–220 g</td><td>2026-11-01</td><td>Class E2</td><td>NPL</td><td>Lab 1</td><td>OK</td></tr>
+          <tr><td>Pipette</td><td>EQ-07</td><td>1–10 mL</td><td>2026-12-15</td><td>Gravimetric</td><td>NPL</td><td>Lab 1</td><td>OK</td></tr>
+          <tr><td>Oven</td><td>EQ-11</td><td>ambient–300 °C</td><td>2027-01-20</td><td>PT-100 probe</td><td>NPL</td><td>Lab 2</td><td>OK</td></tr>
+          <tr><td>pH meter</td><td>EQ-03</td><td>0–14 pH</td><td>2026-10-30</td><td>Buffer 4/7/9</td><td>NPL</td><td>Lab 1</td><td>OK</td></tr>
+          <tr><td>Conductivity</td><td>EQ-04</td><td>0–200 mS</td><td>2026-11-11</td><td>KCl std</td><td>NPL</td><td>Lab 1</td><td>OK</td></tr>
+          <tr><td>Incubator</td><td>EQ-09</td><td>20–60 °C</td><td>2027-02-01</td><td>PT-100 probe</td><td>NPL</td><td>Lab 3</td><td>OK</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-port" data-testid="sec-port-2">
+      <h1 data-testid="h-3">3. Back to Portrait</h1>
+      <p data-testid="p-5">
+        The final section returns to A4 portrait and reuses the running header
+        pattern with "Page X of Y" in the footer.
+      </p>
+    </div>
+
+    <script>
+      window.__spikeDone = false;
+      window.PagedConfig = {
+        autoStart: true,
+        after: function () {
+          window.__spikeDone = true;
+        },
+      };
+    </script>
+    <script src="file:///C:/Projects/Doc/DocMaker/node_modules/pagedjs/dist/paged.polyfill.js"></script>
+    <script>
+      // Prototype: repeat table headers on continuation pages.
+      // paged.js rebuilds ancestor chains (table > tbody) when resuming from a
+      // break token, which drops <thead>. This handler re-inserts it and
+      // re-runs overflow detection so the header's height is accounted for.
+      (function () {
+        var stats = { inserted: 0, lookupsFailed: 0 };
+        window.__theadStats = stats;
+
+        function repeatTheads(root) {
+          if (!root || !root.querySelectorAll) return 0;
+          var inserted = 0;
+          var tables = root.querySelectorAll("table");
+          for (var i = 0; i < tables.length; i++) {
+            var t = tables[i];
+            if (t.dataset.headerRepeated === "true") continue;
+            if (t.querySelector("thead")) {
+              t.dataset.headerRepeated = "true";
+              continue;
+            }
+            if (!t.querySelector("tr")) continue;
+            var src = t.dataset.splitFrom;
+            if (!src) {
+              t.dataset.headerRepeated = "true";
+              continue;
+            }
+            var thead = null;
+            var candidates = document.querySelectorAll(
+              'table[data-ref="' + CSS.escape(src) + '"]',
+            );
+            for (var j = 0; j < candidates.length; j++) {
+              var th = candidates[j].querySelector("thead");
+              if (th) {
+                thead = th;
+                break;
+              }
+            }
+            if (!thead) {
+              stats.lookupsFailed++;
+              continue;
+            }
+            var clone = thead.cloneNode(true);
+            clone.setAttribute("data-repeated-header", "true");
+            t.insertBefore(clone, t.firstElementChild);
+            t.dataset.headerRepeated = "true";
+            inserted++;
+            stats.inserted++;
+          }
+          return inserted;
+        }
+
+        class TableHeaderRepeater extends Paged.Handler {
+          onOverflow(overflow, rendered, bounds, layout) {
+            var inserted = repeatTheads(rendered);
+            if (overflow || inserted) {
+              return layout.findOverflow(rendered, bounds);
+            }
+            return undefined;
+          }
+          afterPageLayout(pageEl) {
+            repeatTheads(pageEl);
+          }
+        }
+
+        Paged.registerHandlers(TableHeaderRepeater);
+      })();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,80 @@
+# DocMaker — Laboratory Document Maker
+
+Phase 0 checkpoint of a single-user, local-first desktop application for
+authoring laboratory documents (SOPs, test methods, reports) with a
+print-faithful A4 live preview and PDF export.
+
+**Stack**: Tauri 2 · React · TypeScript · Vite · Tiptap (editing view) ·
+Paged.js (pagination, preview **and** PDF) · pdf-lib (PDF merge) · Zod
+(schema-first IR) · Vitest · Playwright.
+
+## Principles (see AGENTS.md / Main_Prompt.md)
+
+- **Document IR is the single source of truth.** Every node has a stable
+  semantic id (`hd_…`, `sec_…`, …) never derived from visible numbering;
+  numbering is computed at resolve time and never stored.
+- **Tiptap is only an editing view**, mapped through an explicit pure adapter
+  (`src/editor/adapter.ts`); features the IR cannot represent are disabled in
+  the editor instead of being silently dropped.
+- **One layout pipeline** (`src/core/layout`) feeds both the live preview and
+  the PDF export, so they cannot diverge (ADR-002, verified by an e2e parity
+  test).
+- **Local-first**: no backend, no auth, no cloud, no network calls.
+
+## Quick start
+
+```bash
+pnpm install
+pnpm dev            # browser dev server → http://localhost:5173
+pnpm tauri:dev      # desktop shell
+```
+
+## Tests
+
+```bash
+pnpm typecheck      # tsc --noEmit
+pnpm test           # Vitest: IR, numbering, resolve, JSON round-trip,
+                    #         adapter, margin-text tokens, goldens
+pnpm test:e2e       # Playwright: live preview, adapter→preview flow,
+                    #             golden SOP (mixed orientation, multi-page
+                    #             table + repeated thead, image, watermark,
+                    #             Page X of Y), save, PDF parity
+pnpm golden:update  # regenerate golden JSON (only if missing) + expected HTML
+```
+
+## PDF export
+
+```bash
+pnpm pdf tests/golden/golden-02-sop-long-table.json -o out.pdf
+```
+
+Prints the **same** paginated DOM the preview shows: Paged.js paginates →
+pages are grouped into contiguous paper-size runs → each run is printed by
+headless Chromium with a trailing `@page { size }` override
+(`preferCSSPageSize: true`) → runs are merged with pdf-lib. Mixed
+portrait/landscape output is proven by the e2e suite and the committed spike
+evidence. The in-app "Export PDF" button uses the browser print dialog, which
+is single-paper-size only — see [docs/limitations.md](docs/limitations.md).
+
+## Layout
+
+| Path | Purpose |
+| --- | --- |
+| `src/core/` | Document IR (zod), ids, factory, numbering, resolve, JSON envelope, layout pipeline — pure, no DOM |
+| `src/editor/` | Tiptap extension set + the IR ⇄ Tiptap adapter |
+| `src/components/`, `src/App.tsx`, `src/store.ts` | App shell: sidebar (metadata/watermark/sections), editor pane, live preview |
+| `scripts/` | Golden updater, PDF export CLI + shared lib, rendering spike + debug scripts |
+| `tests/unit`, `tests/golden`, `tests/e2e` | Vitest, golden documents, Playwright |
+| `docs/` | Acceptance criteria, ADRs (tech stack, rendering engine), limitations |
+| `artifacts/spike/` | Committed rendering-engine evidence (HTML, PDFs, screenshots, JSON) |
+
+## Status
+
+Phase 0 checkpoint: builds and runs (browser + Tauri shell), IR independence,
+JSON round-trip, editor adapter, metadata, derived heading numbering,
+A4 portrait/landscape/mixed sections, headers/footers with Page X of Y,
+multi-page tables with repeated headers, images, watermarks, live preview,
+PDF export with preview parity, passing unit + e2e suites, golden-document
+foundation, and documented rendering decision + limitations. V1 features
+(theme library, forms, calculations, lifecycle, import, AI) are **not**
+implemented yet.
