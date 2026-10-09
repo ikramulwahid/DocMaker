@@ -68,42 +68,74 @@ are disabled rather than silently dropped — see §"Disabled by design".
    Current limits: insert/edit goes through a simple dialog, and there is no
    equation numbering/cross-referencing yet.
 
+## Untrusted document input
+
+`.labdoc.json` files are untrusted (AGENTS.md §27, V1-SEC-003): a hand-edited
+or externally supplied document must not be able to trigger external resource
+requests, script execution, or CSS injection. Two allow-lists are enforced at
+the schema/load boundary and re-checked by the renderer (defense in depth —
+see `src/core/ir/sanitize.ts`):
+
+10. **Embedded image sources are allow-listed.** `image.src` must be a
+    `data:image/…` URI of a supported type — raster `png`, `jpeg`, `gif`,
+    `webp`, `bmp` (base64 payloads only, exactly what the editor's FileReader
+    produces) plus `image/svg+xml` (shipped in the Phase-0 goldens before this
+    policy; loaded only via `<img>`, where SVG is a static, inert image — no
+    scripts, no external fetches). External URLs (`https:`, `http:`, `file:`,
+    `javascript:`, `blob:`, relative paths) and unsupported MIME types are
+    **rejected with an actionable message** at load/save, and the editor
+    refuses to insert them. Maximum source size:
+    `IMAGE_SRC_MAX_CHARS = 10 MiB` of data-URI text (≈7.5 MiB binary for
+    base64) — oversized payloads are rejected, not truncated. Remote image
+    support is deliberately not added (V1 is local-first).
+11. **Table column widths are a strict grammar, not arbitrary CSS.**
+    `table.columnWidths` entries may be `""` (auto, produced by the editor for
+    un-resized columns) or a non-negative number with an approved unit —
+    `px`, `mm`, `cm`, `pt`, `%` (e.g. `"120px"`, `"1.5cm"`, `"33.3%"`). CSS
+    separators, `url(…)`, `expression(…)`, braces, `!important`, extra
+    declarations, negative/unitless/unknown-unit values and control characters
+    are rejected. If any width in a table is invalid the document is rejected
+    on load; the renderer additionally drops the whole fixed-layout `colgroup`
+    (safe auto-layout fallback) so injected widths can never emit extra CSS.
+
 ## Editor ⇄ IR adapter
 
-10. **Nested lists are flattened.** Tiptap allows arbitrary nesting; the IR
+12. **Nested lists are flattened.** Tiptap allows arbitrary nesting; the IR
     stores flat bullet lists. Nested lists are flattened depth-first on
     conversion (structure lost, content kept).
-11. **Merged cells are dropped.** IR table cells carry no colspan/rowspan;
+13. **Merged cells are dropped.** IR table cells carry no colspan/rowspan;
     Tiptap cells with spans are converted to plain cells.
-12. **Column widths are px-only in the editor.** Tiptap's `colwidth` attr is
-    pixel-based; non-pixel widths (`%`, `mm`) are preserved via a table-level
-    IR attribute but are not resizable in the Phase-0 UI.
-13. **Table captions and image captions/widths are IR-preserved but not
+14. **Column widths are px-only in the editor.** Tiptap's `colwidth` attr is
+    pixel-based; non-pixel widths (`%`, `mm`, `cm`, `pt`) are preserved via a
+    table-level IR attribute but are not resizable in the Phase-0 UI. The IR
+    accepts the documented width grammar (see item 11); the editor only ever
+    produces `px` values (or `""` for un-resized columns).
+15. **Table captions and image captions/widths are IR-preserved but not
     editable** in the Phase-0 UI (no caption input). They render from the IR
     and survive round-trips (adapter tests cover this).
-14. **Disabled by design** (IR cannot represent them → editor must not create
+16. **Disabled by design** (IR cannot represent them → editor must not create
     them): ordered lists, strikethrough, blockquote, code blocks, hard breaks.
     Content containing them from elsewhere is dropped rather than faked.
-15. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
+17. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
     requires a non-empty doc), so `[] → [empty paragraph]` on round-trip.
 
 ## Application
 
-16. **One section is edited at a time** via the section selector; no
+18. **One section is edited at a time** via the section selector; no
     cross-section search/replace.
-17. **Metadata is basic** (title, doc number, revision, effective date,
+19. **Metadata is basic** (title, doc number, revision, effective date,
     author, organization, description). Document lifecycle states
     (draft/review/approved) are V1 scope.
-18. **Header editing supports plain text + `[field]` tokens**
+20. **Header editing supports plain text + `[field]` tokens**
     (`[title]`, `[docNumber]`, `[revision]`, `[effectiveDate]`, `[page]`,
     `[count]`). Structured multi-run headers are representable in the IR but
     not editable as separate runs in the sidebar.
-19. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
+21. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
     IR/CSS pipeline but have no Phase-0 controls).
-20. **Theme selection is a minimal POC**: two themes (Lab Default /
+22. **Theme selection is a minimal POC**: two themes (Lab Default /
     B&W Standard — ids `lab_default` / `bw_standard`) selectable in the
     sidebar; presentation-only, semantic data is unchanged (tests prove it).
     The full theme library (20 themes) is post-Phase-0.
-21. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
+23. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
     native open/save dialogs wired (manual desktop validation pending — see
     item 4).

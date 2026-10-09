@@ -9,6 +9,7 @@
  *  - Zod is the single schema: all TS types are inferred from it.
  */
 import { z } from "zod";
+import { columnWidthProblem, imageSrcProblem } from "./sanitize";
 
 /* ------------------------------------------------------------------ ids */
 
@@ -112,8 +113,20 @@ export const tableSchema = z.object({
   /** Title text only — the "Table N" label is derived, never stored. */
   caption: z.string().nullable().default(null),
   headerRow: z.boolean().default(true),
-  /** Relative column widths (any unit; normalised by layout). */
-  columnWidths: z.array(z.string()).default([]),
+  /**
+   * Relative column widths (px/mm/cm/pt/%, or "" for auto) — a strict
+   * allow-list so an untrusted document cannot inject CSS. Any invalid
+   * width entry fails validation; the renderer also drops the whole
+   * colgroup as defense in depth. See `src/core/ir/sanitize.ts`.
+   */
+  columnWidths: z
+    .array(
+      z.string().superRefine((value, ctx) => {
+        const problem = columnWidthProblem(value);
+        if (problem) ctx.addIssue({ code: "custom", message: problem });
+      }),
+    )
+    .default([]),
   rows: z.array(tableRowSchema).min(1),
 });
 export type Table = z.infer<typeof tableSchema>;
@@ -121,8 +134,17 @@ export type Table = z.infer<typeof tableSchema>;
 export const imageSchema = z.object({
   ...blockBase,
   type: z.literal("image"),
-  /** Data URI (base64) — local-first, no external fetches. */
-  src: z.string().min(1),
+  /**
+   * Embedded data URI only — local-first, no external fetches (AGENTS.md §16).
+   * Enforced as a documented allow-list of image types (png/jpeg/gif/webp/bmp
+   * base64 + svg+xml), with a maximum source size; external URLs such as
+   * `https://`, `file:`, `javascript:` are rejected. See
+   * `src/core/ir/sanitize.ts` and docs/limitations.md.
+   */
+  src: z.string().superRefine((value, ctx) => {
+    const problem = imageSrcProblem(value);
+    if (problem) ctx.addIssue({ code: "custom", message: problem });
+  }),
   alt: z.string().default(""),
   /** Rendered width in mm; null = intrinsic width capped by the area. */
   widthMm: z.number().positive().nullable().default(null),

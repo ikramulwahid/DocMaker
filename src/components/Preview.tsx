@@ -1,7 +1,9 @@
 /**
- * Live preview: the SAME renderLayout() output the PDF exporter prints.
- * Paged.js paginates it inside the iframe; the srcdoc update is debounced so
- * typing stays smooth. There is intentionally no second renderer here.
+ * Live preview: paginates the SAME renderLayout() output the PDF exporter also
+ * consumes (each execution context paginates its own copy with the same
+ * Paged.js). The srcdoc update is debounced so typing stays smooth. There is
+ * intentionally no second renderer/pipeline here; parity with PDF is verified
+ * by page counts, page order, MediaBox sizes and extracted text (ADR-002/003).
  */
 import { useEffect, useMemo, useRef, useState } from "react";
 import { renderLayout } from "@/core/layout";

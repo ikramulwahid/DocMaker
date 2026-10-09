@@ -26,11 +26,17 @@
 **Paged.js is the pagination engine for both preview and PDF.**
 
 - The **layout module** (`src/core/layout`) emits one HTML + CSS document from
-  the resolved Document IR. That document is what Paged.js paginates for the
-  in-app preview, and the *same* paginated DOM is what Chromium prints for PDF
-  export (per-size contiguous runs → `pdf-lib` merge). There is exactly one
-  semantic → layout → pagination pipeline; the PDF cannot diverge from the
-  preview because it is printed from the preview's DOM.
+  the resolved Document IR. That same `renderLayout()` output is consumed by
+  both the in-app preview (Paged.js paginates it inside the preview iframe)
+  and the PDF exporter (headless Chromium loads the same HTML, paginates it
+  with the same Paged.js version in its own context, prints per-size
+  contiguous runs → `pdf-lib` merge). There is exactly one
+  semantic → layout → pagination pipeline.
+- Preview and PDF export run in **separate execution contexts**. The PDF is
+  *not* printed from the preview's DOM, and the two outputs are not byte- or
+  pixel-identical. Parity is the consequence of pipeline-identical input and
+  is **verified** with reproducible evidence (page counts, page order,
+  per-page MediaBox sizes, extracted text — see Consequences), never assumed.
 - **Chromium native named-page printing is explicitly rejected** for PDF
   export even though the spike proved it works: it would be a *second*
   paginator (Chromium's) with different break behaviour than the preview
@@ -68,5 +74,5 @@
   late counter-reset rules, restart digits are materialized as real DOM text
   nodes once layout completes — identically for preview and PDF.
 - **Equations** render through the same layout pipeline (LaTeX source in the
-  IR, offline KaTeX) so preview and PDF cannot diverge syntactically
+  IR, offline KaTeX), so the equation markup is identical in both contexts
   (V1-EQ POC, see ADR-003).

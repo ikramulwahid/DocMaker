@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { createExtensions } from "./extensions";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "./adapter";
-import { sanitizeHref } from "@/core/ir/sanitize";
+import { sanitizeHref, sanitizeImageSrc } from "@/core/ir/sanitize";
 import { useDocStore } from "@/store";
 
 export function EditorPanel() {
@@ -83,12 +83,26 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
       if (!file) return;
       const reader = new FileReader();
       reader.onload = () => {
+        const src = String(reader.result);
+        // Images are untrusted embedded data URIs: reject anything outside the
+        // documented allow-list up front so an unrenderable/unsupported source
+        // never enters the IR (schema would reject it on save, but failing
+        // here gives the user an immediate, actionable message).
+        if (sanitizeImageSrc(src) === null) {
+          const contentType = file.type || "unknown";
+          useDocStore
+            .getState()
+            .setStatus(
+              `Image not added: unsupported image type (${contentType}) — allowed: png, jpeg, gif, webp, bmp, svg (embedded data URI, max 10 MiB)`,
+            );
+          return;
+        }
         editor
           .chain()
           .focus()
           .insertContent({
             type: "image",
-            attrs: { src: String(reader.result), alt: file.name },
+            attrs: { src, alt: file.name },
           })
           .run();
       };

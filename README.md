@@ -17,8 +17,13 @@ Paged.js (pagination, preview **and** PDF) · pdf-lib (PDF merge) · Zod
   (`src/editor/adapter.ts`); features the IR cannot represent are disabled in
   the editor instead of being silently dropped.
 - **One layout pipeline** (`src/core/layout`) feeds both the live preview and
-  the PDF export, so they cannot diverge (ADR-002, verified by an e2e parity
-  test).
+  the PDF export, which paginate that same HTML in separate execution contexts.
+  Parity is verified — page counts, page order, MediaBox sizes and extracted
+  text — not assumed identical (ADR-002/003).
+- **Untrusted documents are validated at every boundary.** Links, embedded
+  image sources and table column widths from `.labdoc.json` input pass a
+  documented allow-list (no external URLs, no CSS injection); the renderer
+  re-checks them as defense in depth (see `src/core/ir/sanitize.ts`).
 - **Local-first**: no backend, no auth, no cloud, no network calls.
 
 ## Quick start
@@ -52,10 +57,12 @@ pnpm golden:update  # regenerate golden JSON (only if missing) + expected HTML
 pnpm pdf tests/golden/golden-02-sop-long-table.json -o out.pdf
 ```
 
-Prints the **same** paginated DOM the preview shows: Paged.js paginates →
-pages are grouped into contiguous paper-size runs → each run is printed by
-headless Chromium with a trailing `@page { size }` override
-(`preferCSSPageSize: true`) → runs are merged with pdf-lib. Mixed
+Paginates the **same** `renderLayout()` HTML the preview shows, in its own
+headless context: Paged.js paginates → pages are grouped into contiguous
+paper-size runs → each run is printed by headless Chromium with a trailing
+`@page { size }` override (`preferCSSPageSize: true`) → runs are merged with
+pdf-lib. Preview/PDF parity means pipeline-identical input and agreeing page
+count, order, MediaBox sizes and text — not pixel/byte identity. Mixed
 portrait/landscape output is proven by the e2e suite and the committed spike
 evidence. The in-app "Export PDF" button uses the browser print dialog, which
 is single-paper-size only — see [docs/limitations.md](docs/limitations.md).

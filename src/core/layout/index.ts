@@ -1,9 +1,14 @@
 /**
  * The single semantic → layout pipeline. The SAME HTML+CSS produced here is
- * used by:
- *  - the in-app live preview (iframe → Paged.js paginates), and
- *  - the PDF export (headless Chromium prints this exact paginated DOM).
- * There is no second renderer, so preview and PDF cannot diverge.
+ * consumed by:
+ *  - the in-app live preview (iframe → Paged.js paginates it), and
+ *  - the PDF export (headless Chromium loads the same HTML, paginates it with
+ *    the same Paged.js in its own context, prints per-size runs, merges).
+ *
+ * The two run in SEPARATE execution contexts: the PDF is not printed from the
+ * preview's DOM and the outputs are not byte/pixel-identical. Parity is the
+ * shared pipeline-identical input and is VERIFIED by page count, page order,
+ * MediaBox sizes and extracted text (ADR-002/003), not assumed.
  */
 import { buildCss } from "./css";
 import { buildBody, buildScripts, documentHasEquations } from "./html";
@@ -11,7 +16,7 @@ import { katexCss } from "./katex-css";
 import type { ResolvedDocument } from "../resolve";
 
 export { buildCss, cssString, marginContent, pageSizeMm } from "./css";
-export { buildBody, documentHasEquations, escapeHtml, inlineHtml } from "./html";
+export { buildBody, blockHtml, documentHasEquations, escapeHtml, inlineHtml } from "./html";
 export { katexCss } from "./katex-css";
 
 export interface LayoutOptions {

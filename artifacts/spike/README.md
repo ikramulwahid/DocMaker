@@ -1,5 +1,15 @@
 # Phase-0 Rendering Spike — Evidence
 
+> **How to read this file.** This is the *historical* Phase-0 spike record
+> (produced 2026-10-08, before the architecture decision). Statements in it —
+> for example that printing the spike's paginated DOM made the PDF
+> "byte-identical" to the preview — describe the **spike experiment as it was
+> run**, not DocMaker's current implementation guarantees. The current
+> architecture is recorded in ADR-002/003: preview and PDF export paginate the
+> same `renderLayout()` HTML in **separate execution contexts**, and parity is
+> defined as pipeline-identical input verified by page counts, page order,
+> MediaBox sizes and extracted text — not by byte or pixel identity.
+
 Empirical validation of the pagination engine before committing the architecture
 (ADR-001 §21, §39: "chosen by PoC evidence, not popularity"). Engine: **Paged.js
 0.4.3**. All results below were produced by the scripts in `scripts/` on
@@ -52,10 +62,17 @@ node scripts/spike-pdf-perpage.mjs    # per-size-run print + pdf-lib merge (end-
 
 ## PDF export strategy selected
 
-Print the paginated DOM (not the raw source) so the PDF is byte-identical to the
-preview: group consecutive pages by page size, one `page.pdf()` job per run with
-an injected trailing `@page { size }` rule + `preferCSSPageSize: true`, then merge
-runs in order with `pdf-lib`. Verified: `[A4×3, A4L×1, A4×1]`.
+Print the paginated DOM (not the raw source) with the *goal* of a PDF
+byte-identical to the preview: group consecutive pages by page size, one
+`page.pdf()` job per run with an injected trailing `@page { size }` rule +
+`preferCSSPageSize: true`, then merge runs in order with `pdf-lib`. What the
+spike actually verified was page count, order and sizes
+(`[A4×3, A4L×1, A4×1]`) — it did **not** measure byte/pixel equality with the
+preview, and "byte-identical" was the experiment's aim, not a demonstrated
+guarantee. DocMaker's shipped exporter (`scripts/lib/pdf-export.mjs`) runs the
+same per-size-run strategy; current parity claims are the ADR-002/003 ones
+(pipeline-identical input; verified geometry + text), explicitly not
+byte-identity.
 
 Native Chromium named-page print (row 13) is *not* used: it would paginate with a
 second, different engine than the preview (Chromium vs Paged.js) and break the

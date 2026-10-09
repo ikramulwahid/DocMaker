@@ -5,7 +5,7 @@
 import type { Block, Inline, Section } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
 import type { Numbering } from "../numbering";
-import { sanitizeHref } from "../ir/sanitize";
+import { isValidColumnWidth, sanitizeHref, sanitizeImageSrc } from "../ir/sanitize";
 import { renderMath } from "../equation";
 
 export function escapeHtml(value: string): string {
@@ -59,7 +59,13 @@ function captionLabel(
   return label ?? null;
 }
 
-function blockHtml(block: Block, resolved: ResolvedDocument): string {
+/**
+ * One block → semantic markup. Exported for the renderer-boundary regression
+ * tests (AGENTS.md §54: business/render safety must be testable without a DOM).
+ * Re-checks image sources and column widths so that bypassing IR validation
+ * cannot reintroduce external resource requests or CSS injection.
+ */
+export function blockHtml(block: Block, resolved: ResolvedDocument): string {
   const { numbering } = resolved;
   switch (block.type) {
     case "heading": {
@@ -84,10 +90,21 @@ function blockHtml(block: Block, resolved: ResolvedDocument): string {
         block.caption != null && block.caption !== ""
           ? `${label ? `${label} — ` : ""}${escapeHtml(block.caption)}`
           : (label ? escapeHtml(label) : null);
-      const fixed = block.columnWidths.length > 0 && block.columnWidths.length === (rows[0]?.cells.length ?? 0);
-      const colgroup = fixed
+      // Column widths are untrusted CSS candidates: only emit a colgroup when
+      // EVERY width is allow-listed (see sanitize.ts) AND the count matches the
+      // row width. Any invalid entry drops the whole fixed-layout colgroup, so
+      // an untrusted document can never inject extra CSS declarations.
+      const cellCount = rows[0]?.cells.length ?? 0;
+      const widthsOk =
+        block.columnWidths.length > 0 &&
+        block.columnWidths.length === cellCount &&
+        block.columnWidths.every((w) => isValidColumnWidth(w));
+      const hasWidths =
+        widthsOk && block.columnWidths.some((w) => w.trim() !== "");
+      const colgroup = hasWidths
         ? `<colgroup>${block.columnWidths
-            .map((w) => `<col style="width:${escapeAttr(w)}" />`)
+            .filter((w) => w.trim() !== "")
+            .map((w) => `<col style="width:${escapeAttr(w.trim())}" />`)
             .join("")}</colgroup>`
         : "";
       const rowHtml = (row: (typeof rows)[number], tag: "th" | "td") =>
@@ -100,7 +117,7 @@ function blockHtml(block: Block, resolved: ResolvedDocument): string {
           )
           .join("")}</tr>`;
       return (
-        `<table id="${escapeAttr(block.id)}" class="doc-table${fixed ? " fixed-layout" : ""}">` +
+        `<table id="${escapeAttr(block.id)}" class="doc-table${widthsOk ? " fixed-layout" : ""}">` +
         (captionText ? `<caption class="doc-caption">${captionText}</caption>` : "") +
         colgroup +
         (headRows.length
@@ -119,9 +136,18 @@ function blockHtml(block: Block, resolved: ResolvedDocument): string {
           ? escapeHtml(label)
           : null;
       const widthStyle = block.widthMm ? ` style="width:${block.widthMm}mm"` : "";
+      // Defense in depth: even if a document bypassed IR validation, an image
+      // source that is not an allow-listed embedded data URI is never emitted.
+      // Rendering nothing for it avoids any external resource request while
+      // surfacing the omission instead of silently dropping the figure.
+      const safeSrc = sanitizeImageSrc(block.src);
+      const imgHtml =
+        safeSrc !== null
+          ? `<img src="${escapeAttr(safeSrc)}" alt="${escapeAttr(block.alt)}"${widthStyle} />`
+          : `<p class="doc-image-invalid">Image not rendered: unsupported or oversized image source.</p>`;
       return (
         `<figure class="doc-figure" id="${escapeAttr(block.id)}">` +
-        `<img src="${escapeAttr(block.src)}" alt="${escapeAttr(block.alt)}"${widthStyle} />` +
+        imgHtml +
         (captionText ? `<figcaption class="doc-caption">${captionText}</figcaption>` : "") +
         `</figure>`
       );
