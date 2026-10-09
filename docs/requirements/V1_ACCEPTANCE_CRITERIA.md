@@ -1278,7 +1278,7 @@ Recovery must not overwrite an intentional saved document without user awareness
 
 Import is divided into different support levels.
 
-## Markdown
+## V1-IMP-001 — Markdown
 
 **Priority:** SHOULD PASS for V1
 
@@ -1292,7 +1292,7 @@ Support:
 
 ---
 
-## DOCX
+## V1-IMP-002 — DOCX
 
 **Priority:** DEFERRED / V1.1 unless already proven
 
@@ -1302,7 +1302,7 @@ If implemented in V1, supported structures must be explicitly documented.
 
 ---
 
-## PDF
+## V1-IMP-003 — PDF
 
 **Priority:** DEFERRED / V1.1 unless already proven
 
@@ -1312,7 +1312,7 @@ Do not claim perfect semantic reconstruction.
 
 ---
 
-## DOC
+## V1-IMP-004 — DOC
 
 **Priority:** DEFERRED
 
@@ -1321,6 +1321,8 @@ Legacy DOC support must not delay the V1 foundation.
 ---
 
 # 30. IMPORT ACCEPTANCE PRINCIPLE
+
+## V1-IMP-005 — Import acceptance principle
 
 For supported import formats:
 
@@ -1526,7 +1528,7 @@ No login or authentication is required.
 
 Nevertheless:
 
-## V1-SEC-001
+## V1-SECU-001
 
 **Priority:** MUST PASS
 
@@ -1534,7 +1536,7 @@ The application must not execute arbitrary imported document content.
 
 ---
 
-## V1-SEC-002
+## V1-SECU-002
 
 **Priority:** MUST PASS
 
@@ -1542,7 +1544,7 @@ The application must not execute arbitrary JavaScript supplied through calculati
 
 ---
 
-## V1-SEC-003
+## V1-SECU-003
 
 **Priority:** MUST PASS
 
@@ -1679,7 +1681,7 @@ The main editor interface must support:
 
 # 44. DOCUMENTATION ACCEPTANCE
 
-## V1-DOC-001
+## V1-DOCU-001 — Documentation acceptance
 
 **Priority:** MUST PASS
 
@@ -1696,6 +1698,8 @@ The repository contains current documentation for:
 ---
 
 # 45. TECHNOLOGY ACCEPTANCE
+
+## V1-TECH-001 — Technology baseline
 
 V1 should use the selected technology baseline:
 
@@ -1718,6 +1722,8 @@ The final pagination/rendering library must be validated by the Phase-0 proof of
 ---
 
 # 46. PHASE-0 RENDERING ACCEPTANCE
+
+## V1-GATE-001 — Phase-0 rendering acceptance gate
 
 Before V1 rendering architecture is considered stable, demonstrate a document containing:
 
@@ -1777,6 +1783,8 @@ These remain future phases.
 
 # 48. RELEASE-BLOCKING DEFECTS
 
+## V1-GATE-002 — Release-blocking defects
+
 V1 must NOT be released with a known critical defect involving:
 
 * document data loss
@@ -1794,6 +1802,8 @@ V1 must NOT be released with a known critical defect involving:
 ---
 
 # 49. ACCEPTANCE DEMONSTRATION
+
+## V1-DEMO-001 — Final acceptance demonstration
 
 The final V1 demonstration should create a realistic laboratory SOP.
 
@@ -1863,6 +1873,8 @@ without a backend.
 
 # 50. FINAL V1 ACCEPTANCE STATEMENT
 
+## V1-GATE-003 — Final acceptance statement
+
 V1 is accepted when the application demonstrates all of the following:
 
 > A single user can locally create a structured laboratory document, edit it using a professional document editor, apply reusable styles, structure content using headings/lists/tables/images, configure pages and sections, use metadata and dynamic fields, automatically number supported objects, view a live paginated preview, switch among 20 themes including at least 5 B&W themes, save and reload the document as versioned JSON, and generate a reliable PDF whose structure and pagination are consistent with the preview.
@@ -1878,6 +1890,8 @@ And:
 ---
 
 # 51. V1 RELEASE CHECKLIST
+
+## V1-GATE-004 — V1 release checklist
 
 ```text
 PRODUCT
