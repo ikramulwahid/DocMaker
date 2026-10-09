@@ -20,13 +20,16 @@ are disabled rather than silently dropped — see §"Disabled by design".
    mixed-orientation documents the browser print dialog keeps a single paper
    size and landscape pages are clipped/scaled — the app warns and points at
    `pnpm pdf`. A native in-app run-merge exporter is post-Phase-0 work.
-3. **WebView2 print path unvalidated.** All print/PDF evidence was gathered in
-   Playwright's Chromium, which is engine-identical to WebView2, but the
-   desktop shell's print call has not been exercised yet. The Tauri window's
-   WebView2 print-to-PDF remains a documented limitation; the verified PDF
-   path is `pnpm pdf` / the e2e exporter. Status re-confirmed at the Phase-0
-   final acceptance review (2026-10-09): no desktop-session evidence had been
-   supplied.
+3. **WebView2 print path — validated in a desktop session (2026-10-09,**
+   **Phase 0.6).** Exercised via the in-app Export PDF button in the native
+   Tauri shell. Portrait-only document: faithful PDF
+   (`C:\Users\Ikram\Downloads\Moisture_in_Coal.labdoc.pdf`, 3 pages, all
+   595×842 pt). Mixed-orientation document: the print dialog keeps the
+   documented single paper size — `golden-03-phase0-gate.pdf` has 5 pages, all
+   595×842 pt, landscape pages clipped/scaled — with the in-app warning
+   pointing at `pnpm pdf` (matches items 1–2; documented limitation, not a
+   defect). The **verified mixed-orientation path remains `pnpm pdf`** / the
+   e2e exporter; a native in-app run-merge exporter is post-Phase-0 work.
 4. **Tauri native file workflow is wired, but the interactive dialogs were not
    click-driven in the automated suite.** `tauri-plugin-dialog` +
    `tauri-plugin-fs` are registered with an fs scope covering `$HOME/**`,

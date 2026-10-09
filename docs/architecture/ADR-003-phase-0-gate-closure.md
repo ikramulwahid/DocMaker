@@ -148,6 +148,16 @@ wording is mirrored in the acceptance evidence.
   resolves outside the root), with regression coverage extended in
   `tests/unit/path-scope.test.ts`. The guard remains an application-level
   check on `saveJson()`/`openJson()`-routed paths, not an OS boundary.
+  Phase-0.6 (2026-10-09): the native-desktop gate was executed end-to-end —
+  all nine `docs/phase0-manual-smoke-check.md` rows PASS with recorded
+  evidence (native save/open artifacts + WebView2 PDFs on disk). The scope
+  guard was re-validated: out-of-scope Save/Open rejected with the block
+  message; a typed `..` path was canonicalized by the Windows dialog itself
+  into the in-scope folder. The WebView2 print path was exercised: portrait
+  Export PDF faithful; mixed-orientation export keeps the documented
+  single-paper-size limitation (5 pages, all portrait sheets; landscape
+  clipped/scaled) with the in-app warning pointing at `pnpm pdf`. **Phase 0
+  gate: closed (PASS).**
 
 ## Consequences
 
