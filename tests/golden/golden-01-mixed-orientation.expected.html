@@ -39,9 +39,14 @@
 body {
   font-family: Georgia, "Times New Roman", serif;
   font-size: 11pt;
-  color: #111;
+  color: #111111;
 }
-.doc-heading { break-after: avoid; break-inside: avoid; }
+.doc-heading {
+  break-after: avoid;
+  break-inside: avoid;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1f3a5f;
+}
 h1.doc-heading { font-size: 16pt; margin: 6mm 0 3mm; }
 h2.doc-heading { font-size: 13pt; margin: 5mm 0 2.5mm; }
 h3.doc-heading { font-size: 11.5pt; margin: 4mm 0 2mm; }
@@ -53,7 +58,8 @@ p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-list { margin: 0 0 3mm; padding-left: 6mm; }
 .doc-list li { margin-bottom: 1.5mm; line-height: 1.45; }
 .doc-page-break { break-before: page; height: 0; }
-hr.doc-hr { border: none; border-top: 0.5pt solid #444; margin: 4mm 0; }
+hr.doc-hr { border: none; border-top: 0.5pt solid #444444; margin: 4mm 0; }
+a { color: #1f3a5f; text-decoration: underline; }
 figure.doc-figure {
   margin: 4mm 0;
   break-inside: avoid;
@@ -64,6 +70,20 @@ figcaption.doc-caption, caption.doc-caption {
   text-align: center;
   margin-top: 2mm;
   caption-side: top;
+  color: #444444;
+}
+.doc-equation {
+  margin: 4mm 0;
+  break-inside: avoid;
+  text-align: center;
+}
+.doc-equation.display { text-align: center; }
+.doc-equation .katex { font-size: 1.05em; }
+.doc-equation .katex-display { margin: 2mm 0; }
+.doc-equation-error {
+  color: #b00020;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.9em;
 }
 table.doc-table {
   border-collapse: collapse;
@@ -73,12 +93,16 @@ table.doc-table {
 }
 table.doc-table.fixed-layout { table-layout: fixed; }
 table.doc-table th, table.doc-table td {
-  border: 0.3pt solid #444;
+  border: 0.3pt solid #444444;
   padding: 1.6mm 2mm;
   text-align: left;
   vertical-align: top;
 }
-table.doc-table th { background: #f2f2f2; font-weight: bold; }
+table.doc-table th {
+  background: #eef2f7;
+  color: #111111;
+  font-weight: bold;
+}
 table.doc-table thead { display: table-header-group; }
 
 
@@ -113,9 +137,68 @@ table.doc-table thead { display: table-header-group; }
 <table id="tb_3tlvxgiz" class="doc-table"><caption class="doc-caption">Table 2 — Raw measurements</caption><thead><tr id="tr_cgstj8c8"><th id="tc_i2us5xd9"><p class="doc-paragraph" style="margin:0">Run</p></th><th id="tc_pyfr2jui"><p class="doc-paragraph" style="margin:0">Value</p></th><th id="tc_2hilnw05"><p class="doc-paragraph" style="margin:0">Unit</p></th></tr></thead><tbody><tr id="tr_1bm69emp"><td id="tc_0ymhx7wg"><p class="doc-paragraph" style="margin:0">1</p></td><td id="tc_bos5mfq2"><p class="doc-paragraph" style="margin:0">7.2</p></td><td id="tc_8bpf8b8k"><p class="doc-paragraph" style="margin:0">pH</p></td></tr><tr id="tr_kw5xscav"><td id="tc_v10oydg9"><p class="doc-paragraph" style="margin:0">2</p></td><td id="tc_h3eed329"><p class="doc-paragraph" style="margin:0">7.1</p></td><td id="tc_qbli4ljn"><p class="doc-paragraph" style="margin:0">pH</p></td></tr></tbody></table>
 </section>
     <script>
+      /*
+       * Page-number materialization for pageNumberStart (per-section restarts).
+       *
+       * Paged.js 0.4.3 emits [data-counter-page-reset] as a CSS
+       * "counter-reset: page N" rule during layout. On a fresh load Chromium
+       * honours it at first paint, but the app's live preview swaps iframe
+       * srcdoc documents — and in that path the reset does NOT change the
+       * painted margin-box ::after digits (verified empirically; Chromium does
+       * not reliably repaint CSS content changes on a painted ::after, and a
+       * bare-number literal like content: "Page " 5 ... is invalid CSS and is
+       * dropped by the parser). The shared renderer therefore replaces any
+       * counter-based margin content with a REAL text node per page once
+       * layout is complete. DOM text always repaints and prints verbatim.
+       * Runs for preview and PDF export alike (both consume this same HTML).
+       */
+      function materializePageNumbers() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        // No restarts → CSS counters already paint correct ordinals.
+        if (!document.querySelector("[data-counter-page-reset]")) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var boxes = page.querySelectorAll(".pagedjs_pagebox .pagedjs_margin");
+          for (var b = 0; b < boxes.length; b++) {
+            var box = boxes[b];
+            var mc = box.querySelector(".pagedjs_margin-content");
+            if (!mc) continue;
+            var raw = getComputedStyle(mc, "::after").content;
+            if (raw.indexOf("counter(page)") === -1 && raw.indexOf("counter(pages)") === -1) continue;
+            // Resolve the serialized content (e.g. "Page " counter(page) " of "
+            // counter(pages)) into display text: unquote string tokens and
+            // substitute the counters with the per-page value + global total.
+            var text = raw
+              .replace(/counter\(page\)/g, "%%PAGE%%")
+              .replace(/counter\(pages\)/g, "%%TOTAL%%")
+              .replace(/"([^"]*)"/g, "$1")
+              .replace(/\s+/g, " ")
+              .replace(/%%PAGE%%/g, String(visible))
+              .replace(/%%TOTAL%%/g, String(total));
+            var div = document.createElement("div");
+            div.setAttribute("data-pp", "1");
+            div.textContent = text;
+            box.replaceChild(div, mc);
+          }
+        }
+      }
+
       window.PagedConfig = {
         auto: true,
         after: function () {
+          materializePageNumbers();
           window.__layoutDone = true;
           window.dispatchEvent(new Event("layout-done"));
         }

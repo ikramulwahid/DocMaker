@@ -3,6 +3,7 @@
  * Every field writes straight into the IR (store) — no shadow state.
  */
 import { serializeMarginText } from "@/app/marginText";
+import { listThemes } from "@/core/theme";
 import { useDocStore } from "@/store";
 
 function Field(props: {
@@ -28,6 +29,7 @@ export function Sidebar() {
   const document_ = useDocStore((s) => s.document);
   const activeSection = useDocStore((s) => s.activeSection);
   const setMetadata = useDocStore((s) => s.setMetadata);
+  const setTheme = useDocStore((s) => s.setTheme);
   const setWatermark = useDocStore((s) => s.setWatermark);
   const setActiveSection = useDocStore((s) => s.setActiveSection);
   const setPageSetup = useDocStore((s) => s.setPageSetup);
@@ -54,6 +56,28 @@ export function Sidebar() {
         <Field label="Author" value={metadata.author} onChange={(v) => setMetadata({ author: v })} />
         <Field label="Organization" value={metadata.organization} onChange={(v) => setMetadata({ organization: v })} />
         <Field label="Description" wide value={metadata.description} onChange={(v) => setMetadata({ description: v })} />
+      </section>
+
+      <section>
+        <h2>Theme</h2>
+        <label className="field">
+          <span>Document theme</span>
+          <select
+            value={settings.theme}
+            data-testid="theme-select"
+            onChange={(e) => setTheme(e.target.value)}
+          >
+            {listThemes().map((theme) => (
+              <option key={theme.id} value={theme.id}>
+                {theme.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <p className="hint">
+          Themes change presentation only — content, ids, numbering and fields
+          are unchanged.
+        </p>
       </section>
 
       <section>

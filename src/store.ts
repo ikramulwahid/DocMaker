@@ -39,6 +39,7 @@ export interface DocState {
   setActiveSection(index: number): void;
   setSectionBlocks(index: number, blocks: Block[]): void;
   setMetadata(patch: Partial<Metadata>): void;
+  setTheme(theme: string): void;
   setWatermark(patch: Partial<Watermark>): void;
   setPageSetup(index: number, patch: Partial<Section["pageSetup"]>): void;
   setHeaderText(index: number, tokenText: string): void;
@@ -152,6 +153,16 @@ export const useDocStore = create<DocState>((set) => ({
     set((state) => ({
       document: mutate(state.document, (doc) => Object.assign(doc.metadata, patch)),
       dirty: true,
+    })),
+
+  setTheme: (theme) =>
+    set((state) => ({
+      // Theme is presentation only: it must not touch content/ids/numbering.
+      document: mutate(state.document, (doc) => {
+        doc.settings.theme = theme;
+      }),
+      dirty: true,
+      status: `Theme: ${theme}`,
     })),
 
   setWatermark: (patch) =>

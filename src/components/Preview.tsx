@@ -12,6 +12,11 @@ function pagedJsSrc(): string {
   return new URL("paged.polyfill.js", document.baseURI).href;
 }
 
+/** Absolute base URL of the locally bundled KaTeX fonts (offline). */
+function katexFontsBaseUrl(): string {
+  return new URL("katex/fonts/", document.baseURI).href;
+}
+
 interface LayoutOutput {
   html?: string;
   error?: string;
@@ -28,7 +33,10 @@ export function Preview() {
     if (!result.ok) return { error: result.error };
     try {
       return {
-        html: renderLayout(result.resolved, { pagedJsSrc: pagedJsSrc() }),
+        html: renderLayout(result.resolved, {
+          pagedJsSrc: pagedJsSrc(),
+          katexFontsBaseUrl: katexFontsBaseUrl(),
+        }),
       };
     } catch (err) {
       return { error: err instanceof Error ? err.message : String(err) };

@@ -14,6 +14,7 @@
       "description": "Fixture"
     },
     "settings": {
+      "theme": "lab_default",
       "watermark": {
         "enabled": true,
         "text": "DRAFT",

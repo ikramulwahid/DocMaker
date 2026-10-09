@@ -5,6 +5,8 @@
 import type { Block, Inline, Section } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
 import type { Numbering } from "../numbering";
+import { sanitizeHref } from "../ir/sanitize";
+import { renderMath } from "../equation";
 
 export function escapeHtml(value: string): string {
   return value
@@ -33,9 +35,14 @@ export function inlineHtml(inlines: Inline[]): string {
           case "code":
             html = `<code>${html}</code>`;
             break;
-          case "link":
-            html = `<a href="${escapeAttr(mark.href)}">${html}</a>`;
+          case "link": {
+            // Untrusted document link: only allow-listed schemes reach the DOM.
+            const href = sanitizeHref(mark.href);
+            if (href !== null) {
+              html = `<a href="${escapeAttr(href)}" rel="noopener noreferrer">${html}</a>`;
+            }
             break;
+          }
         }
       }
       return html;
@@ -121,6 +128,10 @@ function blockHtml(block: Block, resolved: ResolvedDocument): string {
     }
     case "pageBreak":
       return `<div id="${escapeAttr(block.id)}" class="doc-page-break"></div>`;
+    case "equation": {
+      const rendered = renderMath(block.latex, block.display);
+      return `<div id="${escapeAttr(block.id)}" class="doc-equation${block.display ? " display" : " inline"}">${rendered}</div>`;
+    }
     case "horizontalRule":
       return `<hr id="${escapeAttr(block.id)}" class="doc-hr" />`;
     default: {
@@ -150,12 +161,78 @@ export function buildBody(resolved: ResolvedDocument): string {
     .join("\n");
 }
 
+/** True when the document contains at least one structured equation. */
+export function documentHasEquations(resolved: ResolvedDocument): boolean {
+  return resolved.document.sections.some((section) =>
+    section.blocks.some((block) => block.type === "equation"),
+  );
+}
+
 /** The boot scripts: PagedConfig + repeated-thead handler (spike-proven). */
 export function buildScripts(pagedJsSrc: string): string {
   return `<script>
+      /*
+       * Page-number materialization for pageNumberStart (per-section restarts).
+       *
+       * Paged.js 0.4.3 emits [data-counter-page-reset] as a CSS
+       * "counter-reset: page N" rule during layout. On a fresh load Chromium
+       * honours it at first paint, but the app's live preview swaps iframe
+       * srcdoc documents — and in that path the reset does NOT change the
+       * painted margin-box ::after digits (verified empirically; Chromium does
+       * not reliably repaint CSS content changes on a painted ::after, and a
+       * bare-number literal like content: "Page " 5 ... is invalid CSS and is
+       * dropped by the parser). The shared renderer therefore replaces any
+       * counter-based margin content with a REAL text node per page once
+       * layout is complete. DOM text always repaints and prints verbatim.
+       * Runs for preview and PDF export alike (both consume this same HTML).
+       */
+      function materializePageNumbers() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        // No restarts → CSS counters already paint correct ordinals.
+        if (!document.querySelector("[data-counter-page-reset]")) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var boxes = page.querySelectorAll(".pagedjs_pagebox .pagedjs_margin");
+          for (var b = 0; b < boxes.length; b++) {
+            var box = boxes[b];
+            var mc = box.querySelector(".pagedjs_margin-content");
+            if (!mc) continue;
+            var raw = getComputedStyle(mc, "::after").content;
+            if (raw.indexOf("counter(page)") === -1 && raw.indexOf("counter(pages)") === -1) continue;
+            // Resolve the serialized content (e.g. "Page " counter(page) " of "
+            // counter(pages)) into display text: unquote string tokens and
+            // substitute the counters with the per-page value + global total.
+            var text = raw
+              .replace(/counter\\(page\\)/g, "%%PAGE%%")
+              .replace(/counter\\(pages\\)/g, "%%TOTAL%%")
+              .replace(/"([^"]*)"/g, "$1")
+              .replace(/\\s+/g, " ")
+              .replace(/%%PAGE%%/g, String(visible))
+              .replace(/%%TOTAL%%/g, String(total));
+            var div = document.createElement("div");
+            div.setAttribute("data-pp", "1");
+            div.textContent = text;
+            box.replaceChild(div, mc);
+          }
+        }
+      }
+
       window.PagedConfig = {
         auto: true,
         after: function () {
+          materializePageNumbers();
           window.__layoutDone = true;
           window.dispatchEvent(new Event("layout-done"));
         }

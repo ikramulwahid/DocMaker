@@ -5,6 +5,7 @@ node_modules/
 dist/
 dist-core/
 public/paged.polyfill.js
+public/katex/
 src-tauri/target/
 src-tauri/gen/
 

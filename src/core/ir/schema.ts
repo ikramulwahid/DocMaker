@@ -23,6 +23,7 @@ export const ID_PREFIXES = [
   "tr",
   "tc",
   "im",
+  "eq",
   "hr",
   "pb",
 ] as const;
@@ -136,6 +137,22 @@ export const pageBreakSchema = z.object({
 });
 export type PageBreak = z.infer<typeof pageBreakSchema>;
 
+/**
+ * Structured mathematical equation (V1-EQ-001/003). Stored as LaTeX source,
+ * never as an image or pre-rendered HTML: KaTeX renders it at layout time so
+ * `renderLayout()` stays a pure semantic → layout transformation. The equation
+ * number (where used) is derived, never stored (AGENTS.md §12).
+ */
+export const equationSchema = z.object({
+  ...blockBase,
+  type: z.literal("equation"),
+  /** LaTeX source, e.g. `x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}`. */
+  latex: z.string().min(1),
+  /** true → display (block) math; false → inline math. */
+  display: z.boolean().default(true),
+});
+export type Equation = z.infer<typeof equationSchema>;
+
 export const horizontalRuleSchema = z.object({
   ...blockBase,
   type: z.literal("horizontalRule"),
@@ -148,6 +165,7 @@ export const blockSchema = z.discriminatedUnion("type", [
   bulletListSchema,
   tableSchema,
   imageSchema,
+  equationSchema,
   pageBreakSchema,
   horizontalRuleSchema,
 ]);
@@ -231,6 +249,12 @@ export const watermarkSchema = z.object({
 export type Watermark = z.infer<typeof watermarkSchema>;
 
 export const settingsSchema = z.object({
+  /**
+   * Selected document theme id (presentation only — V1-THEME-004). Stored
+   * semantically in the document, not only in UI state, and resolved against
+   * the theme registry at layout time. Unknown ids fall back to the default.
+   */
+  theme: z.string().min(1).default("lab_default"),
   watermark: watermarkSchema.default({}),
 });
 export type Settings = z.infer<typeof settingsSchema>;

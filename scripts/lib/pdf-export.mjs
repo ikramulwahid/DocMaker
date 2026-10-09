@@ -11,12 +11,16 @@
  * This module is plain ESM so both scripts/export-pdf.mjs (CLI) and the
  * Playwright e2e suite use the exact same code.
  */
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { pathToFileURL } from "node:url";
+import { cpSync, existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { pathToFileURL, fileURLToPath } from "node:url";
 import os from "node:os";
 import path from "node:path";
 import { chromium } from "@playwright/test";
 import { PDFDocument } from "pdf-lib";
+
+const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
+const REPO_ROOT = path.resolve(SCRIPT_DIR, "..", "..");
+const KATEX_FONTS = path.join(REPO_ROOT, "node_modules", "katex", "dist", "fonts");
 
 /**
  * Page sizes of a PDF buffer via the pdf-lib API (pdf-lib writes MediaBox
@@ -58,6 +62,11 @@ export async function exportPaginatedPdf({ html, outputPath, timeoutMs = 60_000 
   const dir = mkdtempSync(path.join(tmpBase, "docmaker-pdf-"));
   const htmlPath = path.join(dir, "layout.html");
   writeFileSync(htmlPath, html, "utf8");
+  // KaTeX fonts are referenced as `katex/fonts/…` from the layout CSS; place
+  // them next to the temp HTML so equations render offline in file:// context.
+  if (existsSync(KATEX_FONTS)) {
+    cpSync(KATEX_FONTS, path.join(dir, "katex", "fonts"), { recursive: true });
+  }
 
   const browser = await chromium.launch();
   try {

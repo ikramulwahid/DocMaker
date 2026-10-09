@@ -52,4 +52,18 @@
   be validated in a later phase; see `docs/limitations.md`).
 - We carry maintenance of the two workarounds above against Paged.js version
   changes; both are covered by automated golden-document tests.
-- Equations are *not* rendered in Phase 0 (see `docs/limitations.md`).
+- **Parity is verified, not assumed.** Live preview and PDF export consume the
+  *same* `renderLayout()` HTML (identical markup + CSS + Paged.js version and
+  configuration) but run Paged.js in separate execution contexts (preview
+  iframe vs. headless Chromium print). The automated parity suite compares
+  page counts, per-page MediaBox sizes, and extracted PDF text — it does
+  **not** claim pixel-identical output between the two contexts, only
+  pipeline-identical input and agreeing pagination geometry.
+- **Per-section page numbering restarts** (`pageNumberStart`) are handled in
+  the shared layout script (`materializePageNumbers`, see ADR-003): because
+  Chromium does not reliably repaint CSS `::after` counters for Paged.js's
+  late counter-reset rules, restart digits are materialized as real DOM text
+  nodes once layout completes — identically for preview and PDF.
+- **Equations** render through the same layout pipeline (LaTeX source in the
+  IR, offline KaTeX) so preview and PDF cannot diverge syntactically
+  (V1-EQ POC, see ADR-003).

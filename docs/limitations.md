@@ -22,59 +22,84 @@ are disabled rather than silently dropped — see §"Disabled by design".
    `pnpm pdf`. A native in-app run-merge exporter is post-Phase-0 work.
 3. **WebView2 print path unvalidated.** All print/PDF evidence was gathered in
    Playwright's Chromium, which is engine-identical to WebView2, but the
-   desktop shell's print call has not been exercised yet.
+   desktop shell's print call has not been exercised yet. The Tauri window's
+   WebView2 print-to-PDF remains a documented limitation; the verified PDF
+   path is `pnpm pdf` / the e2e exporter.
+4. **Tauri native file workflow is wired, but the interactive dialogs were not
+   click-driven in the automated suite.** `tauri-plugin-dialog` +
+   `tauri-plugin-fs` are registered with an fs scope covering `$HOME/**`,
+   `$APPDATA/**` and `$APPCONFIG/**` (`src-tauri/capabilities/default.json`).
+   The native Open/Save dialogs require manual validation in a desktop
+   session; the automated tests exercise the browser fallback path
+   (`src/app/files.ts`).
 
 ## Preview rendering
 
-4. **Headers/footers are CSS, not DOM.** Paged.js materializes margin boxes
+5. **Headers/footers are CSS, not DOM.** Paged.js materializes margin boxes
    (`@top-center`, `@bottom-right`, …) as CSS `::after` content on
    `.pagedjs_margin-content`. Consequences: margin text is not selectable, is
    absent from `innerText`, and is not exposed to assistive technology
    (paged.js upstream limitation). Field *resolution* (e.g. `[title]`,
    `[docNumber]`) is asserted through `getComputedStyle(…, '::after').content`
-   in the e2e suite; `counter(page)` digits are verified by per-page footer
-   pixel variance.
-5. **System fonts only.** No font embedding or font management; layout uses
+   in the e2e suite. When a section restarts page numbering
+   (`pageNumberStart ≠ 1`), the shared layout script replaces the counter
+   digits with **real DOM text nodes** (`div[data-pp]`, see ADR-003) — those
+   specific digits are selectable and asserted by text + pixel diff; default
+   (no restart) documents keep CSS counters verified by pixel variance.
+6. **Page-number restart shows the global total.** `Page X of N` renders `N`
+   as the document-wide page count, not a per-section count (Word restarts
+   `N` per section). Documented approximation — see ADR-003.
+7. **System fonts only.** No font embedding or font management; layout uses
    the platform's default serif/sans stacks.
-6. **Scale not stress-tested.** Validated on ~5-page golden documents. Paged.js
-   re-paginates on every content change (debounced 250 ms); 100+ page
-   performance is unknown.
-7. **Equations are deferred.** Prompt 001's Phase-0 gate does not list
-   equations, but V1 acceptance §46 does include equation rendering in the
-   Phase-0 rendering gate. This is a tracked traceability gap: no KaTeX/
-   MathML pipeline exists yet (documented, not silently ignored).
+8. **Scale is stress-tested at ~93 pages (2026-10-09).** A generated 93-page
+   document (64 portrait + 29 landscape sheets, 340 long paragraphs, a 43-row
+   multi-page table with repeated headers, 3 images, 2 equations, 1 manual
+   page break, a page-number restart at page 71) renders in the app preview in
+   ~3.4 s and exports through the shared pipeline to a 93-page mixed PDF in
+   ~4.2 s. Facts are recorded in `artifacts/stress-summary.json` (produced by
+   `tests/e2e/stress.spec.ts`). Paged.js still re-paginates on every content
+   change (debounced 250 ms); pathological single-document sizes beyond ~100
+   pages remain uncharacterized.
+9. **Equations are implemented as semantic IR blocks** (LaTeX source stored,
+   rendered offline with bundled KaTeX — never an image, no CDN; V1-EQ).
+   Current limits: insert/edit goes through a simple dialog, and there is no
+   equation numbering/cross-referencing yet.
 
 ## Editor ⇄ IR adapter
 
-8. **Nested lists are flattened.** Tiptap allows arbitrary nesting; the IR
-   stores flat bullet lists. Nested lists are flattened depth-first on
-   conversion (structure lost, content kept).
-9. **Merged cells are dropped.** IR table cells carry no colspan/rowspan;
-   Tiptap cells with spans are converted to plain cells.
-10. **Column widths are px-only in the editor.** Tiptap's `colwidth` attr is
+10. **Nested lists are flattened.** Tiptap allows arbitrary nesting; the IR
+    stores flat bullet lists. Nested lists are flattened depth-first on
+    conversion (structure lost, content kept).
+11. **Merged cells are dropped.** IR table cells carry no colspan/rowspan;
+    Tiptap cells with spans are converted to plain cells.
+12. **Column widths are px-only in the editor.** Tiptap's `colwidth` attr is
     pixel-based; non-pixel widths (`%`, `mm`) are preserved via a table-level
     IR attribute but are not resizable in the Phase-0 UI.
-11. **Table captions and image captions/widths are IR-preserved but not
+13. **Table captions and image captions/widths are IR-preserved but not
     editable** in the Phase-0 UI (no caption input). They render from the IR
     and survive round-trips (adapter tests cover this).
-12. **Disabled by design** (IR cannot represent them → editor must not create
+14. **Disabled by design** (IR cannot represent them → editor must not create
     them): ordered lists, strikethrough, blockquote, code blocks, hard breaks.
     Content containing them from elsewhere is dropped rather than faked.
-13. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
+15. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
     requires a non-empty doc), so `[] → [empty paragraph]` on round-trip.
 
 ## Application
 
-14. **One section is edited at a time** via the section selector; no
+16. **One section is edited at a time** via the section selector; no
     cross-section search/replace.
-15. **Metadata is basic** (title, doc number, revision, effective date,
+17. **Metadata is basic** (title, doc number, revision, effective date,
     author, organization, description). Document lifecycle states
     (draft/review/approved) are V1 scope.
-16. **Header editing supports plain text + `[field]` tokens**
+18. **Header editing supports plain text + `[field]` tokens**
     (`[title]`, `[docNumber]`, `[revision]`, `[effectiveDate]`, `[page]`,
     `[count]`). Structured multi-run headers are representable in the IR but
     not editable as separate runs in the sidebar.
-17. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
+19. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
     IR/CSS pipeline but have no Phase-0 controls).
-18. **Web "Save" downloads a file** (browser fallback); native save dialogs
-    are available in the Tauri shell.
+20. **Theme selection is a minimal POC**: two themes (Iceberg / Editorial)
+    selectable in the sidebar; presentation-only, semantic data is unchanged
+    (tests prove it). The full theme library (20 themes) is post-Phase-0.
+21. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
+    native open/save dialogs wired (manual desktop validation pending — see
+    item 4).

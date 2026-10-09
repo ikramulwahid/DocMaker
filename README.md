@@ -34,11 +34,14 @@ pnpm tauri:dev      # desktop shell
 ```bash
 pnpm typecheck      # tsc --noEmit
 pnpm test           # Vitest: IR, numbering, resolve, JSON round-trip,
-                    #         adapter, margin-text tokens, goldens
+                    #         adapter, margin-text tokens, equations, themes,
+                    #         link sanitizing, goldens
 pnpm test:e2e       # Playwright: live preview, adapter→preview flow,
-                    #             golden SOP (mixed orientation, multi-page
-                    #             table + repeated thead, image, watermark,
-                    #             Page X of Y), save, PDF parity
+                    #             golden SOP + five-page Phase-0 gate doc,
+                    #             equation insert/edit, theme switching,
+                    #             pageNumberStart/showPageNumber truthfulness,
+                    #             PDF parity (page counts + sizes + text),
+                    #             save, ~93-page stress (see artifacts/stress-summary.json)
 pnpm golden:update  # regenerate golden JSON (only if missing) + expected HTML
 ```
 
@@ -65,7 +68,7 @@ is single-paper-size only — see [docs/limitations.md](docs/limitations.md).
 | `src/components/`, `src/App.tsx`, `src/store.ts` | App shell: sidebar (metadata/watermark/sections), editor pane, live preview |
 | `scripts/` | Golden updater, PDF export CLI + shared lib, rendering spike + debug scripts |
 | `tests/unit`, `tests/golden`, `tests/e2e` | Vitest, golden documents, Playwright |
-| `docs/` | Acceptance criteria, ADRs (tech stack, rendering engine), limitations |
+| `docs/` | Acceptance criteria, ADRs (tech stack, rendering engine, Phase-0 gate closure), limitations |
 | `artifacts/spike/` | Committed rendering-engine evidence (HTML, PDFs, screenshots, JSON) |
 
 ## Status
@@ -74,7 +77,9 @@ Phase 0 checkpoint: builds and runs (browser + Tauri shell), IR independence,
 JSON round-trip, editor adapter, metadata, derived heading numbering,
 A4 portrait/landscape/mixed sections, headers/footers with Page X of Y,
 multi-page tables with repeated headers, images, watermarks, live preview,
-PDF export with preview parity, passing unit + e2e suites, golden-document
-foundation, and documented rendering decision + limitations. V1 features
-(theme library, forms, calculations, lifecycle, import, AI) are **not**
-implemented yet.
+PDF export with preview parity, structured equations (offline KaTeX), a
+minimal two-theme system, truthful page-number start/hide controls, a frozen
+five-page mixed-orientation gate golden, a ~93-page stress document, native
+Tauri open/save wiring, passing unit + e2e suites, and documented decisions +
+limitations (ADR-001/002/003). V1 features (full theme library, forms,
+calculations, lifecycle, import, AI) are **not** implemented yet.

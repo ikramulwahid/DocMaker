@@ -6,8 +6,9 @@
  * orientation/margins/margin-boxes, the paged.js 0.4.3 named-page sheet-var
  * workaround, the repeated-thead handler, watermark pseudo-element.
  */
-import type { MarginBox } from "../ir/schema";
+import type { MarginBox, MarginField } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
+import { resolveTheme } from "../theme";
 
 export function cssString(value: string): string {
   // JSON string syntax is a safe subset for CSS `content` strings once
@@ -15,27 +16,68 @@ export function cssString(value: string): string {
   return JSON.stringify(value.replace(/\r?\n/g, " "));
 }
 
-/** Builds the content expression for a margin box (header/footer). */
-export function marginContent(box: MarginBox, strings: Record<string, string>): string {
-  const parts = box.parts.map((part) => {
-    if (part.kind === "text") return cssString(part.value);
-    switch (part.field) {
-      case "pageNumber":
-        return "counter(page)";
-      case "pageCount":
-        return "counter(pages)";
-      case "title":
-        return cssString(strings.title ?? "");
-      case "docNumber":
-        return cssString(strings.docNumber ?? "");
-      case "revision":
-        return cssString(strings.revision ?? "");
-      case "effectiveDate":
-        return cssString(strings.effectiveDate ?? "");
-      default:
-        return cssString("");
-    }
-  });
+/** Page-counter margin fields (governed by section.pageSetup.showPageNumber). */
+function isPageField(field: MarginField): field is "pageNumber" | "pageCount" {
+  return field === "pageNumber" || field === "pageCount";
+}
+
+function fieldExpression(field: MarginField, strings: Record<string, string>): string {
+  switch (field) {
+    case "pageNumber":
+      return "counter(page)";
+    case "pageCount":
+      return "counter(pages)";
+    case "title":
+      return cssString(strings.title ?? "");
+    case "docNumber":
+      return cssString(strings.docNumber ?? "");
+    case "revision":
+      return cssString(strings.revision ?? "");
+    case "effectiveDate":
+      return cssString(strings.effectiveDate ?? "");
+    default:
+      return cssString("");
+  }
+}
+
+/**
+ * Builds the content expression for a margin box (header/footer).
+ *
+ * `showPageNumber` governs ONLY the page-counter fields (§verify): when false,
+ * the page-number tokens are stripped but any other footer content (e.g. a
+ * document number) is preserved. A footer that consisted solely of the page
+ * counter disappears entirely (nothing meaningful left to show).
+ */
+export function marginContent(
+  box: MarginBox,
+  strings: Record<string, string>,
+  showPageNumber = true,
+): string {
+  if (!showPageNumber && box.parts.some((p) => p.kind === "field" && isPageField(p.field))) {
+    // Page numbers hidden: keep everything else, dropping the phrase
+    // scaffolding ("Page", "of", separators) that only ever framed the counter.
+    const kept = box.parts
+      .filter((part) => {
+        if (part.kind === "field" && isPageField(part.field)) return false;
+        if (part.kind === "field") return true;
+        const t = part.value.trim();
+        if (t === "") return false;
+        // Pure separators ("—", "|", …) never carried content of their own.
+        if (/^[\s,./|:;\-–—]+$/.test(t)) return false;
+        // Page-phrase scaffolding ("Page", "of", " — Page", "Page 3 of 9"
+        // minus the counters) belongs to the hidden counter, so drop it too.
+        const bare = t.replace(/[\s,./|:;\-–—]+/g, "");
+        if (/^(page|of)$/i.test(bare)) return false;
+        return true;
+      })
+      .map((part) =>
+        part.kind === "field" ? fieldExpression(part.field, strings) : cssString(part.value),
+      );
+    return kept.length ? kept.join(" ") : '""';
+  }
+  const parts = box.parts.map((part) =>
+    part.kind === "text" ? cssString(part.value) : fieldExpression(part.field, strings),
+  );
   return parts.length ? parts.join(" ") : '""';
 }
 
@@ -76,8 +118,14 @@ export function buildCss(resolved: ResolvedDocument): string {
     if (section.header) {
       lines.push(`  @top-center { content: ${marginContent(section.header, metadataStrings)}; }`);
     }
-    if (section.footer && setup.showPageNumber) {
-      lines.push(`  @bottom-right { content: ${marginContent(section.footer, metadataStrings)}; }`);
+    // showPageNumber governs ONLY the page-counter tokens (see marginContent).
+    // A footer that is nothing but the page counter disappears; a footer with
+    // other content keeps that content.
+    if (section.footer) {
+      const footer = marginContent(section.footer, metadataStrings, setup.showPageNumber);
+      if (footer !== '""') {
+        lines.push(`  @bottom-right { content: ${footer}; }`);
+      }
     }
     lines.push(`}`);
 
@@ -99,17 +147,25 @@ export function buildCss(resolved: ResolvedDocument): string {
   }
 
   /* ---------------------------------------------------------- typography */
+  // Presentation is theme-driven (V1-THEME-004). Theme tokens come from the
+  // fixed registry — never from user strings — so no CSS injection is possible.
+  const theme = resolveTheme(doc.settings.theme);
   lines.push(`
 body {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 11pt;
-  color: #111;
+  font-family: ${theme.bodyFont};
+  font-size: ${theme.bodyFontPt}pt;
+  color: ${theme.ink};
 }
-.doc-heading { break-after: avoid; break-inside: avoid; }
-h1.doc-heading { font-size: 16pt; margin: 6mm 0 3mm; }
-h2.doc-heading { font-size: 13pt; margin: 5mm 0 2.5mm; }
-h3.doc-heading { font-size: 11.5pt; margin: 4mm 0 2mm; }
-h4.doc-heading, h5.doc-heading, h6.doc-heading { font-size: 11pt; margin: 3mm 0 2mm; }
+.doc-heading {
+  break-after: avoid;
+  break-inside: avoid;
+  font-family: ${theme.headingFont};
+  color: ${theme.headingInk};
+}
+h1.doc-heading { font-size: ${theme.headingPt[0]}pt; margin: 6mm 0 3mm; }
+h2.doc-heading { font-size: ${theme.headingPt[1]}pt; margin: 5mm 0 2.5mm; }
+h3.doc-heading { font-size: ${theme.headingPt[2]}pt; margin: 4mm 0 2mm; }
+h4.doc-heading, h5.doc-heading, h6.doc-heading { font-size: ${theme.headingPt[3]}pt; margin: 3mm 0 2mm; }
 .doc-num { font-weight: inherit; }
 p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-section { break-before: page; }
@@ -117,7 +173,8 @@ p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-list { margin: 0 0 3mm; padding-left: 6mm; }
 .doc-list li { margin-bottom: 1.5mm; line-height: 1.45; }
 .doc-page-break { break-before: page; height: 0; }
-hr.doc-hr { border: none; border-top: 0.5pt solid #444; margin: 4mm 0; }
+hr.doc-hr { border: none; border-top: 0.5pt solid ${theme.rule}; margin: 4mm 0; }
+a { color: ${theme.accent}; text-decoration: underline; }
 figure.doc-figure {
   margin: 4mm 0;
   break-inside: avoid;
@@ -128,6 +185,20 @@ figcaption.doc-caption, caption.doc-caption {
   text-align: center;
   margin-top: 2mm;
   caption-side: top;
+  color: ${theme.mutedInk};
+}
+.doc-equation {
+  margin: 4mm 0;
+  break-inside: avoid;
+  text-align: center;
+}
+.doc-equation.display { text-align: center; }
+.doc-equation .katex { font-size: 1.05em; }
+.doc-equation .katex-display { margin: 2mm 0; }
+.doc-equation-error {
+  color: #b00020;
+  font-family: ${theme.monoFont};
+  font-size: 0.9em;
 }
 table.doc-table {
   border-collapse: collapse;
@@ -137,12 +208,16 @@ table.doc-table {
 }
 table.doc-table.fixed-layout { table-layout: fixed; }
 table.doc-table th, table.doc-table td {
-  border: 0.3pt solid #444;
+  border: 0.3pt solid ${theme.tableBorder};
   padding: 1.6mm 2mm;
   text-align: left;
   vertical-align: top;
 }
-table.doc-table th { background: #f2f2f2; font-weight: bold; }
+table.doc-table th {
+  background: ${theme.tableHeaderBg};
+  color: ${theme.tableHeaderInk};
+  font-weight: bold;
+}
 table.doc-table thead { display: table-header-group; }
 `);
 

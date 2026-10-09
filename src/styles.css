@@ -171,6 +171,13 @@ body {
   flex: none;
 }
 
+.hint {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+  margin: 4px 0 0;
+}
+
 .section-card {
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -317,6 +324,31 @@ body {
 
 .editor-content img.ProseMirror-selectednode {
   outline: 2px solid var(--accent);
+}
+
+.ir-equation {
+  margin: 10px 0;
+  padding: 6px 8px;
+  text-align: center;
+  border: 1px dashed transparent;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.ir-equation:hover {
+  border-color: var(--accent);
+  background: #f8fafc;
+}
+
+.ir-equation.inline {
+  display: inline-block;
+  margin: 0 2px;
+  padding: 0 2px;
+  text-align: left;
+}
+
+.ir-equation .katex-error {
+  color: #b00020;
 }
 
 .ir-page-break {

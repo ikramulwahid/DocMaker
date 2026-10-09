@@ -1,0 +1,4695 @@
+{
+  "schema": "labdoc",
+  "schema_version": "1.0",
+  "document": {
+    "id": "doc_rdans31h",
+    "type": "document",
+    "metadata": {
+      "title": "Phase-0 Rendering Gate Document",
+      "docNumber": "SOP-GATE-001",
+      "revision": "01",
+      "effectiveDate": "2026-10-09",
+      "author": "Q. A. Manager",
+      "organization": "Analytical Laboratory",
+      "description": "V1 §46 Phase-0 rendering acceptance gate"
+    },
+    "settings": {
+      "theme": "lab_default",
+      "watermark": {
+        "enabled": true,
+        "text": "DRAFT",
+        "opacity": 0.1,
+        "angle": -45,
+        "fontSizePt": 64
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_4r8d40o0",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": {
+          "parts": [
+            {
+              "kind": "field",
+              "field": "docNumber"
+            },
+            {
+              "kind": "text",
+              "value": " | "
+            },
+            {
+              "kind": "field",
+              "field": "title"
+            },
+            {
+              "kind": "text",
+              "value": " | Rev "
+            },
+            {
+              "kind": "field",
+              "field": "revision"
+            }
+          ]
+        },
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_4d9i084b",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Purpose",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_mhinp97w",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "This controlled document describes the routine receipt, identification and acceptance of laboratory samples.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_qe1o9ysv",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "All activities shall be performed by trained and authorised personnel in accordance with the quality manual.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_w47731rg",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Records generated during the procedure shall be retained for the period defined by the quality management system.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_3d6gbg9u",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Where a result falls outside the acceptance criteria, the analyst shall initiate an out-of-specification investigation.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "hd_m3tgcczx",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Scope",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_14dtu7mq",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "The laboratory shall monitor and record environmental conditions throughout the testing period.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_yqftbwft",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Reagents and reference standards shall be within their stated expiry period at the time of use.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_445bued8",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Instrument calibration status shall be verified before each analytical run and documented on the worksheet.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "hd_q9y23zu7",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Definitions",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "bl_gategate1",
+            "type": "bulletList",
+            "items": [
+              {
+                "id": "pg_v7so10ej",
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Sample — a portion of material submitted for examination.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "pg_me4a0erw",
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "Acceptance criterion — a documented limit used to judge conformity.",
+                    "marks": []
+                  }
+                ]
+              },
+              {
+                "id": "pg_q3exeix5",
+                "type": "paragraph",
+                "content": [
+                  {
+                    "text": "OOS — a result that falls outside an established acceptance criterion.",
+                    "marks": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hd_afnpkuzj",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Structured equations",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_bhugcp1t",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "The analytical model is evaluated using the standard quadratic expression ",
+                "marks": []
+              },
+              {
+                "text": "shown below",
+                "marks": [
+                  {
+                    "type": "italic"
+                  }
+                ]
+              },
+              {
+                "text": ".",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "eq_0y6aijf0",
+            "type": "equation",
+            "latex": "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+            "display": true
+          },
+          {
+            "id": "pg_ztv5bst8",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Common scientific and unit notation used in the procedure includes water ",
+                "marks": []
+              },
+              {
+                "text": "\\mathrm{H_2O}",
+                "marks": []
+              },
+              {
+                "text": ", carbon dioxide and derived quantities.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "eq_qhuic77f",
+            "type": "equation",
+            "latex": "\\mathrm{H_2O},\\ \\mathrm{CO_2},\\ m^2,\\ m^3,\\ 10^{-3},\\ \\mu,\\ \\sigma,\\ \\Delta,\\ \\pm,\\ \\leq,\\ \\geq,\\ \\approx,\\ \\neq,\\ \\sqrt{x},\\ \\sum_{i=1}^{n} x_i",
+            "display": true
+          },
+          {
+            "id": "hd_nl22vdt4",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Acceptance criteria",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_6pbrr2l9",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "All parameters shall conform to the limits summarised in Table 1.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "tb_hdnci79g",
+            "type": "table",
+            "caption": "Summary acceptance criteria",
+            "headerRow": true,
+            "columnWidths": [],
+            "rows": [
+              {
+                "id": "tr_6j7zgzj3",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_zsol718e",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_eo5eywej",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Parameter",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_whxslyi1",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_i10ib1ib",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Method",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7abcenna",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_z6uvdzso",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Limit",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_rlzxd8y7",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_imxqs46i",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pshvheli",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_onfdt2pv",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_3ikp6w4n",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 11",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_q0npdpfw",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_71host4a",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5 – 8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_cjbyli9w",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_sqzlp7a3",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_m4x2xb55",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Conductivity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ve9qc8hz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_cgtspogf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 14",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_775rhxuf",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9bdbbw62",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1.0 µS/cm",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_bxjwix46",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_p68wletz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_e8zwdbzs",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TOC",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jzf04cbz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_qapkbey7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 35",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yh4vz3dr",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2ova4w2q",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500 ppb",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "hd_ht7qol9c",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Trending",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_sjncaxu1",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Results are trended monthly and reported against the limits above; see Figure 1.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "im_tep8m4vf",
+            "type": "image",
+            "src": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22160%22%3E%3Crect%20width%3D%22420%22%20height%3D%22160%22%20fill%3D%22%23eef6ff%22%20stroke%3D%22%23336699%22%2F%3E%3Cpolyline%20points%3D%2230%2C130%20130%2C100%20230%2C70%20330%2C45%20400%2C30%22%20fill%3D%22none%22%20stroke%3D%22%23336699%22%20stroke-width%3D%223%22%2F%3E%3C%2Fsvg%3E",
+            "alt": "Trending plot",
+            "widthMm": null,
+            "caption": "Conductivity trend"
+          },
+          {
+            "id": "pg_8lrcaqb9",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "This controlled document describes the routine receipt, identification and acceptance of laboratory samples.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_9v8v4qlq",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "All activities shall be performed by trained and authorised personnel in accordance with the quality manual.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_dvy6ixjo",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Records generated during the procedure shall be retained for the period defined by the quality management system.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_bgn5scrj",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Where a result falls outside the acceptance criteria, the analyst shall initiate an out-of-specification investigation.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_42gf268k",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "The laboratory shall monitor and record environmental conditions throughout the testing period.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_rd2h1rz5",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Reagents and reference standards shall be within their stated expiry period at the time of use.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "hd_cmrg2lsw",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Records",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_bqahkt7f",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Worksheets and instrument printouts are filed as controlled records for five years.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sec_s4fdxznx",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "landscape",
+          "margins": {
+            "top": 15,
+            "right": 15,
+            "bottom": 15,
+            "left": 15
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": {
+          "parts": [
+            {
+              "kind": "field",
+              "field": "docNumber"
+            },
+            {
+              "kind": "text",
+              "value": " | Raw data | Rev "
+            },
+            {
+              "kind": "field",
+              "field": "revision"
+            }
+          ]
+        },
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_paxh5tj6",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Raw data register",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_15aouccc",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Wide register rendered in landscape orientation; the table below spans multiple pages and repeats its header row on each continuation page.",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "tb_2dm190a4",
+            "type": "table",
+            "caption": "Raw data register (monitoring period)",
+            "headerRow": true,
+            "columnWidths": [],
+            "rows": [
+              {
+                "id": "tr_m19328jm",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_90vax2bi",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sxlny1ll",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Run id",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4u0z1ahk",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_gnerlopl",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Analyte",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_9glq8hdo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_gpzj7gxt",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Method",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_onuu010d",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9z9j01r6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Result",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_iiyylxy6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_7hpz2xyq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Unit",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_b15k9zuk",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9y931mz1",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Limit",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_3kurrlib",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_j9rf31ob",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Analyst",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_sv8pbbml",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_6vrqxmzk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Remark",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_saahxbin",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_kfk8yx6l",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9q1jnltf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2001",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_3q2r3n06",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_w4bedza7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pi1pvf8y",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_lzkm8ga8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 40",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_vplbngkv",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_n4fl6kpl",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_mxxylgzu",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_w9cfa5sw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "-",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ivvu9c2s",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_y950adxb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5–8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_m5lj1t7f",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_eevzqbo1",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_sc7wpjcb",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0sg4o2ti",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Info",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_0x2boubf",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_4gqpf8ww",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ph1nyu0r",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2002",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_b3fnss8b",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_d7cb2zwa",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Turbidity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_k41xz5jo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wm143h9s",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 41",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_mlx3klnp",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_b27gyp20",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.6",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_zltuhd77",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_abyfbl0y",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "NTU",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_z4vmqsj7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_1n5jon1k",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7a66mbm4",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_7dxhofns",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_cgshymhz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_dd7o2ysi",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_aw8jnn5l",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_7dv8ozv7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_yb4im8y8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2003",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_00qp2xr0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_zywcz0mt",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TDS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4onhiyi1",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_qmaxmx50",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 42",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_2cb66zv2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_uajruj6m",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.7",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_r6gg7jki",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sbm1cv8o",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_hyxrf8dk",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_bgxuwcq0",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_xraw5wib",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_voiexpos",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_clyespze",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ozameban",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_5e01owph",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_99z409yu",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_mr24ldrr",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2004",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_mdrqqksp",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_uh49qo9b",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Chloride",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_gq9l3qws",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_b49zzqsv",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 43",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_iih1tjvn",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hk694bhz",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.8",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_sfqk1wl7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_3wpgtjdf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_shei6l7x",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4f3sd8ss",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 250",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_sgqeja7l",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_fq04io29",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_n6amho5v",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_kogsi8d6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_50vxf3u8",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_flmpsw6s",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_lir0wgsb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2005",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_o3xdf99i",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_otml33ft",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Hardness",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ullv89uv",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2kxomrrp",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 44",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_j8vbu013",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_c4gxkwgm",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.9",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_6ftzmqqr",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_mionq941",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7ketimh7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0rfokr4o",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 200",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yxuiwysi",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_nd0rzrsm",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_fjgw51vr",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_yam1d8hl",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_6u56rr6u",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_s692stry",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_axrwvynl",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2006",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_5swo3i4q",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_dsh22mcv",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Iron",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_g0mrzur8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2ab9642b",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 45",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jb5gxgin",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_igfto1x8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.0",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4sii1h1p",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_cmujyuph",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_fpbt6f7p",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vjtwsgkc",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 0.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_oh4mfio5",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_f6s71j3z",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_6x2m0wkz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_7075eib8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_1zbja8w0",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_51eiqay0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_kmtntzxg",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2007",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_o5aempau",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vcjri3tm",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pm4oobab",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_96kvgeio",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 46",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_h0d0oaf5",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hd7wri6e",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_up3xdxed",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4lm20y07",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "-",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_3w88kae9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ojqvv9mw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5–8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pad2bszs",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wro4ex76",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_5797suys",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_44xsqb01",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_yllusbtk",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_1aiv0qcu",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9cfkm69x",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2008",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ja6s605i",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0csvpaq6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Turbidity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rhu2vg6s",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0kf1cmey",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 47",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_a0y46ybt",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ilhjlpvl",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_mt8s64is",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_d3t72a23",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "NTU",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_fm7tl1z7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_djq3y651",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_hcrxhlm9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ohvttx2q",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_0j5zemb0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_gmajgz2d",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Info",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_n9syo583",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_bb8ourh6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_bk64due4",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2009",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_1kqcta9l",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_z27byqrp",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TDS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rwqwob0a",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_nc9545j3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 48",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_69xry5cm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_z9zvdelp",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pzn487jo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4e4gzdse",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_0wyeq4ao",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_1nfbxvsy",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_evdkfscd",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hkaulmud",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_tvzmpdm9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_k4mvnxaj",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_drmjl6f3",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_6eprkwf8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_islb9iac",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2010",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_g643rq7t",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_v8l47t7q",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Chloride",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_vc7kvh09",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_clye3g9f",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 49",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jw88hv7y",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4hm5ar7i",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.4",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_swrowi90",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_su9c8e6g",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_tk85fshn",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_xhg26sb3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 250",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_nb5buwd9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_43d73s6u",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_68rljp81",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0izrpchd",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_cwxcgbdl",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_uycblk1j",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_218bl9eo",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2011",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_9w7mk2v6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sdoc1l8c",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Hardness",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_i9njuota",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sm5df697",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 50",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ozhivnds",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_cj3bd358",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_93ug51cd",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_nzkbxfzp",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_nputq9kt",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vupnb4gs",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 200",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_z0lhuez2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_6vh7dibs",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rea26j20",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_s980d2bb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_s3y7rmbl",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_bjw3cm5j",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0qcv61on",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2012",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_cexuwqfc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_jg9933cf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Iron",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4q0e73tx",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ab4vbati",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 51",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_758hz3ko",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_klznpnjq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.6",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_eedpkd8r",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_bdk0b2ku",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4mrnsg6e",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hvxnamqw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 0.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_bgdfj2y6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_uzl31tgk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_frawxkqo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_k0bu7y3e",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_78qz6wof",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_meb41p20",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_aeb16bel",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2013",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ctbn6a19",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_fen2rtor",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_8hyzmzn7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_eaklgrht",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 52",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_wrnjiz5z",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_h71r29f1",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.7",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_kdrv9eqi",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_nnign7r8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "-",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_fvb3rzm7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0uvgouuq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5–8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_tdr2esqo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wkka9vk6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_q8t9z4h8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rsc5gnzz",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_iygh27i6",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_xqmcjgtl",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wwnqr5vb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2014",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_f2k8l90q",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rdga9aa0",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Turbidity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_wb2ksu7l",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hgul08l4",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 53",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_gfje7nb8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_8imdbb5y",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.8",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_vojryukw",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_8gfuucau",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "NTU",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_sav27f9a",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_lum1yu92",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_guc470y1",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vsrueem8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_6ygf2wdt",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_32howz2j",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_kom6u4c5",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_et5s5trv",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_y21mggde",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2015",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_unawxad1",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_s17kbkj1",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TDS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7q09wxxc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_gc7lhys5",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 54",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_5yvjh5bm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_szhf0xgx",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.9",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_emuxg7d6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_govov5m9",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_3kwhq7l2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_qz131vvd",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_fbckn00m",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2p02dwvc",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_l7j6s86f",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_70qb0uq3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Info",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_ovia2pv5",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_ockwrbgp",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_xzpk74lu",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2016",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_6dl4ejr2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sjswlpjg",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Chloride",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_t5p13dxg",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_z3iyjdsi",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 55",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_0m4p3gge",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4tnyh4x7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.0",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_3ofdcbw6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ogp9g6vb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_aja4gm6s",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ll7r55pg",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 250",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_dq0ba85q",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ggeyw7s4",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_p1irnexh",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4gccntvy",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_fmc2debi",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_dnk1mbt0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_5dsqgb1m",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2017",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_27p21wde",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_600ek64f",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Hardness",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_gc8xp3ne",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_9p2a37bw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 56",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_9oyzm32h",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rskwj8qi",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7fet6tfz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sf3vqt33",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7tjsfoch",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_i1ph0ba2",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 200",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_c2lm0x4k",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_y78yv1uy",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_j12f97gz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_3eupjm2f",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_46dx8vfi",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_cl5wutyj",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ouyvxgxm",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2018",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_y8guotg6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hp2x3bvk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Iron",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_frf2ha53",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_s6k1eq3z",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 57",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_nuc26puj",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_z37ir0iy",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_59op4j4r",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hxu81tu6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_e7aqi7ba",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_acd19ta6",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 0.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rkk2s67g",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_nar53m6x",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_9zgsweeh",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_cdm25te1",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_9bpv9uez",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_4c4h7yua",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rvx9nymr",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2019",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_x18shg90",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_22hplp6p",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_io885fae",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_sz425k7v",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 58",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_x7j5hceu",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2x0ipffq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_hidfgzrf",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_daobxxro",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "-",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_lowg9dnu",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_fodk9v3o",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5–8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_1tyst965",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_e9j49a77",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yues6la2",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_hs0bdsgw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_8e92erfi",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_9ssqozff",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_epmzpda3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2020",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_eip2xlc8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_fuihvsfq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Turbidity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_2s784oy5",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ripfkixu",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 59",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_otmanm1a",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_bh84xbem",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.4",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_osiubrwm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_d6flamww",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "NTU",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_8t5tsj50",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ka8labky",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ejh54aw0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_tvz4he1u",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_0jq349rf",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_b9irbqzw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_732k9lge",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_qxc0v0eo",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_x24qxox2",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2021",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jo9bni20",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_qtkc3jg4",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TDS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_uyb7x2rh",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_6dxnfg3m",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 40",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yndur192",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_eb5z9x11",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_znfbwlf6",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vbgdk2i7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_xhm60w7g",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_814q3aae",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_kkbnjbfm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rxj4q0xc",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_wxuiksil",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_vcj3mt56",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_xawmt9w5",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_n6dodeem",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_s34l8oae",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2022",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_omwopc8q",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ykbzo4f2",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Chloride",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_bgd7gslf",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_i82rx0po",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 41",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_nviprdul",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_4kj2fwxw",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.6",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yodmzeif",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ngr2dgug",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_b4yz3edc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rtos9y86",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 250",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_r69w3nk5",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_t08vqri2",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jtu2ku6r",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_5yh07eus",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Info",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_zaadixe5",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_jgf9i0wt",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_jekp94jd",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2023",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_5od9e8ke",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wpkgftry",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Hardness",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_hd1ti7kx",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_icr6m3lk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 42",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_z9elqo8p",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_5y7jy4aj",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.7",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ghvqk9di",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_8x4un6kk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_jw4xbzab",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_zvgub9el",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 200",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_gzxk3a5g",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_30oe26kq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_1lu2cuho",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_8t8t7grr",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_vvptzrjo",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_40taq2k3",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ka39vtmt",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2024",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ync7y44e",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_n3bsa6xe",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Iron",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rqbazz64",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_56b1l20v",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 43",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_1kdki10w",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_mfifi242",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.8",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_5a1ydex3",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_aipp5p0y",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_uulrd8mm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_h8jgn335",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 0.3",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_8yzg4408",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ovfhnxfb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_6400se4q",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2h00gwbh",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_5w51hct9",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_f6u3sqbi",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ot5q4jr7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2025",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_c7c65fde",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_smd3sjmj",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_376mygu9",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_43c6odiu",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 44",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_o57q4b6r",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pjd9tzfz",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.9",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_e12djr3y",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_158omo2n",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "-",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_r0hz6ics",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pcngd4q9",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5–8.5",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_9ut6pjip",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_mbj16zqz",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_duej9iuf",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_rg56rlos",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_s226ls6r",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_e480gszp",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ut0r60zy",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2026",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_uhf5t97v",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ow4ifi90",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Turbidity",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_mckpckqz",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_pnbkjyrj",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 45",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_u9j93igh",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_n10nowty",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.0",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_gjoiujxa",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_oaicaw2i",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "NTU",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_60s6cfhx",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_xrz2cqyo",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_7vaoqeg8",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_f5i7y48j",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RM",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_seeym9a4",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_6sx35xft",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_6hc527wy",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_mtr8s2vc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_uptw6abo",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2027",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_qrd4yxxi",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_8gdu4uvk",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "TDS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_cooe8spc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_bhgv9ho7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 46",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_ytnppi4a",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_6oq1fw4n",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.1",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_cglzjhf0",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_5au37tly",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_yilstixs",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_f0dy2n3u",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 500",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_pkyqq2jq",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_dk8kvcfr",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "JS",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_4h521v45",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_n9hnhhko",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_3bo9kgzx",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_akj2k3ul",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_a1ghwxzn",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "RUN-2028",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_b06e7xom",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_1sod4rnb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Chloride",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_46v38uqc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_dk6qhj1f",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "IS 3025 Pt. 47",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_hcmkpdz3",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_iyvpx03q",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "7.2",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_8k1mmjyc",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_piu5fvf8",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "mg/L",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_rnj07k2z",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wwi3ai5b",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 250",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_kk5okix1",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_ca6k7bic",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "AK",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_z77al9wd",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_cueftfar",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Pass",
+                            "marks": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "sec_lbisccai",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_sa5bl08m",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Sign-off",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "pg_u0jc1gd9",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Prepared by: Q. A. Manager        Reviewed by: ____________",
+                "marks": []
+              }
+            ]
+          },
+          {
+            "id": "eq_a7sfu099",
+            "type": "equation",
+            "latex": "E = m c^2",
+            "display": true
+          },
+          {
+            "id": "pg_41n5g0om",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "This page closes the Phase-0 gate document and is intentionally a single portrait page.",
+                "marks": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

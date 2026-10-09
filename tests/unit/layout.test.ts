@@ -115,11 +115,33 @@ describe("layout rendering (shared preview/PDF pipeline)", () => {
     expect(html).toContain("Paged.registerHandlers");
   });
 
-  it("honours showPageNumber:false by omitting the footer box", () => {
+  it("showPageNumber:false hides page counters but keeps other footer content", () => {
+    // Default footer is only "Page X of Y" → nothing meaningful left → omitted.
     const doc = createEmptyDocument();
     doc.sections[0].pageSetup.showPageNumber = false;
     const out = renderLayout(resolveDocument(doc), { pagedJsSrc: "x.js" });
     expect(out).not.toContain("@bottom-right");
+    // No @bottom-right rule referencing the page counter (the layout script
+    // legitimately contains the literal string "counter(page)" — scope to CSS).
+    expect(out).not.toMatch(/@bottom-right \{[^}]*counter\(page\)/);
+
+    // Footer with unrelated content (doc number) keeps it; only the counter
+    // tokens + their phrase scaffolding are stripped.
+    const doc2 = createEmptyDocument();
+    doc2.metadata.docNumber = "TM-001";
+    doc2.sections[0].footer = {
+      parts: [
+        { kind: "field", field: "docNumber" },
+        { kind: "text", value: " — Page " },
+        { kind: "field", field: "pageNumber" },
+        { kind: "text", value: " of " },
+        { kind: "field", field: "pageCount" },
+      ],
+    };
+    doc2.sections[0].pageSetup.showPageNumber = false;
+    const out2 = renderLayout(resolveDocument(doc2), { pagedJsSrc: "x.js" });
+    expect(out2).toContain('@bottom-right { content: "TM-001"; }');
+    expect(out2).not.toMatch(/@bottom-right \{[^}]*counter\(page\)/);
   });
 
   it("output is deterministic for the same document", () => {
@@ -141,6 +163,8 @@ describe("layout rendering (shared preview/PDF pipeline)", () => {
     const out2 = renderLayout(resolveDocument(createEmptyDocument()), {
       pagedJsSrc: "x.js",
     });
-    expect(out2).not.toContain("data-counter-page-reset");
+    // The layout script legitimately contains the string inside its selector —
+    // scope the assertion to an emitted section attribute (with a value).
+    expect(out2).not.toContain('data-counter-page-reset="');
   });
 });

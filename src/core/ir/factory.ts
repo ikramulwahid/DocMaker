@@ -6,6 +6,7 @@ import { newId } from "./ids";
 import type {
   Block,
   Document,
+  Equation,
   Heading,
   Image,
   Inline,
@@ -63,6 +64,11 @@ export function createTable(
   };
 }
 
+/** Structured equation block (LaTeX source, rendered by KaTeX at layout). */
+export function createEquation(latex: string, display = true): Equation {
+  return { id: newId("eq"), type: "equation", latex, display };
+}
+
 /** Default footer: "Page X of Y" driven by margin-box fields. */
 export function createDefaultFooter(): MarginBox {
   return {
@@ -106,6 +112,7 @@ export function createEmptyDocument(title = ""): Document {
       description: "",
     },
     settings: {
+      theme: "lab_default",
       watermark: {
         enabled: true,
         text: "DRAFT",

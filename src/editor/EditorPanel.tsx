@@ -7,6 +7,7 @@ import { useEffect, useRef } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import { createExtensions } from "./extensions";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "./adapter";
+import { sanitizeHref } from "@/core/ir/sanitize";
 import { useDocStore } from "@/store";
 
 export function EditorPanel() {
@@ -98,8 +99,30 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
   const link = () => {
     const href = window.prompt("Link URL (empty removes the link)");
     if (href === null) return;
-    if (href === "") editor.chain().focus().unsetLink().run();
-    else editor.chain().focus().setLink({ href }).run();
+    if (href === "") {
+      editor.chain().focus().unsetLink().run();
+      return;
+    }
+    // Document links are untrusted data: refuse unsafe schemes up front.
+    const safe = sanitizeHref(href);
+    if (safe === null) {
+      useDocStore.getState().setStatus("Link blocked: only http, https, mailto, tel or relative URLs are allowed");
+      return;
+    }
+    editor.chain().focus().setLink({ href: safe }).run();
+  };
+  const addEquation = () => {
+    const latex = window.prompt(
+      "Equation (LaTeX), e.g. x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}",
+    );
+    if (latex === null) return;
+    const trimmed = latex.trim();
+    if (trimmed === "") return;
+    editor
+      .chain()
+      .focus()
+      .insertContent({ type: "equation", attrs: { latex: trimmed, display: true } })
+      .run();
   };
   const button = (
     label: string,
@@ -178,6 +201,7 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
         "Insert table",
       )}
       {button("img", addImage, false, "Insert image (local file)")}
+      {button("∑ eq", addEquation, false, "Insert equation (LaTeX)")}
       {button(
         "⎘ break",
         () => editor.chain().focus().insertContent({ type: "pageBreak" }).run(),

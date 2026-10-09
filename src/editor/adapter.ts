@@ -10,6 +10,7 @@
  */
 import type { Block, Inline, Mark, Paragraph, Table, TableRow, TableCell } from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
+import { sanitizeHref } from "@/core/ir/sanitize";
 
 export interface TiptapMark {
   type: string;
@@ -34,6 +35,7 @@ const PREFIX_BY_TYPE: Record<string, string> = {
   tableCell: "tc",
   tableHeader: "tc",
   image: "im",
+  equation: "eq",
   horizontalRule: "hr",
   pageBreak: "pb",
 };
@@ -64,8 +66,9 @@ function markToIr(mark: TiptapMark): Mark | null {
       return { type: "code" };
     case "link": {
       const href = mark.attrs?.href;
-      if (typeof href === "string" && href.length > 0) {
-        return { type: "link", href };
+      if (typeof href === "string") {
+        const safe = sanitizeHref(href);
+        if (safe !== null) return { type: "link", href: safe };
       }
       return null;
     }
@@ -193,6 +196,11 @@ function blockToTiptap(block: Block): TiptapNode {
       };
     case "pageBreak":
       return { type: "pageBreak", attrs: { id: block.id } };
+    case "equation":
+      return {
+        type: "equation",
+        attrs: { id: block.id, latex: block.latex, display: block.display },
+      };
     case "horizontalRule":
       return { type: "horizontalRule", attrs: { id: block.id } };
     default: {
@@ -343,6 +351,18 @@ function blockFromTiptap(node: TiptapNode): Block | null {
     }
     case "pageBreak":
       return { id: idFor(node), type: "pageBreak" };
+    case "equation": {
+      const attrs = node.attrs ?? {};
+      const latex = typeof attrs.latex === "string" ? attrs.latex : "";
+      // An equation with no LaTeX source cannot exist in the IR.
+      if (latex.trim() === "") return null;
+      return {
+        id: idFor(node),
+        type: "equation",
+        latex,
+        display: attrs.display !== false,
+      };
+    }
     case "horizontalRule":
       return { id: idFor(node), type: "horizontalRule" };
     default:

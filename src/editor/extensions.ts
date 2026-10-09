@@ -16,6 +16,7 @@ import { Table as TableBase } from "@tiptap/extension-table";
 import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
+import { renderMath } from "@/core/equation";
 
 /** Atom block: explicit page break between sections of content. */
 export const PageBreak = Node.create({
@@ -34,6 +35,68 @@ export const PageBreak = Node.create({
         class: "ir-page-break",
       }),
     ];
+  },
+});
+
+/**
+ * Structured equation node (LaTeX source). The editor shows the KaTeX render;
+ * clicking it offers to edit the LaTeX. The IR stores only the source, never
+ * the rendered markup or an image (V1-EQ-003).
+ */
+export const Equation = Node.create({
+  name: "equation",
+  group: "block",
+  atom: true,
+  selectable: true,
+  addAttributes() {
+    return {
+      id: {
+        default: "",
+        parseHTML: (element: HTMLElement) =>
+          element.getAttribute("data-ir-id") ?? "",
+        renderHTML: (attributes: { id?: string }) =>
+          attributes.id ? { "data-ir-id": attributes.id } : {},
+      },
+      latex: { default: "" },
+      display: { default: true },
+    };
+  },
+  parseHTML() {
+    return [{ tag: 'div[data-type="equation"]' }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "div",
+      mergeAttributes(HTMLAttributes, { "data-type": "equation", class: "ir-equation" }),
+    ];
+  },
+  addNodeView() {
+    return ({ node, editor, getPos }) => {
+      const dom = document.createElement("div");
+      dom.className = `ir-equation${node.attrs.display ? " display" : " inline"}`;
+      dom.setAttribute("data-type", "equation");
+      dom.setAttribute("data-ir-id", String(node.attrs.id ?? ""));
+      dom.setAttribute("contenteditable", "false");
+      const paint = (latex: string, display: boolean) => {
+        dom.innerHTML = renderMath(latex, display);
+      };
+      paint(String(node.attrs.latex ?? ""), node.attrs.display !== false);
+      dom.addEventListener("click", () => {
+        const current = String(node.attrs.latex ?? "");
+        const next = window.prompt("Edit equation (LaTeX source)", current);
+        if (next === null) return;
+        const trimmed = next.trim();
+        if (trimmed === "" || typeof getPos !== "function") return;
+        const pos = getPos();
+        if (typeof pos !== "number") return;
+        const tr = editor.view.state.tr.setNodeMarkup(pos, undefined, {
+          ...node.attrs,
+          latex: trimmed,
+        });
+        editor.view.dispatch(tr);
+      });
+      return { dom };
+    };
   },
 });
 
@@ -115,5 +178,6 @@ export function createExtensions(): Extensions {
     TableCell,
     TableHeader,
     PageBreak,
+    Equation,
   ];
 }
