@@ -84,7 +84,11 @@ see `src/core/ir/sanitize.ts`):
     scripts, no external fetches). External URLs (`https:`, `http:`, `file:`,
     `javascript:`, `blob:`, relative paths) and unsupported MIME types are
     **rejected with an actionable message** at load/save, and the editor
-    refuses to insert them. Maximum source size:
+    refuses to insert them. `;base64` payloads must also satisfy standard
+    base64 **syntax** — standard alphabet, total length a multiple of 4,
+    canonical `=` padding (impossible lengths such as a single data character
+    are rejected; this is syntax validation, not a claim that the bytes decode
+    into a valid image). Maximum source size:
     `IMAGE_SRC_MAX_CHARS = 10 MiB` of data-URI text (≈7.5 MiB binary for
     base64) — oversized payloads are rejected, not truncated. Remote image
     support is deliberately not added (V1 is local-first).

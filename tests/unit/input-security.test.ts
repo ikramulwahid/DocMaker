@@ -16,6 +16,7 @@ import {
   columnWidthProblem,
   IMAGE_SRC_MAX_CHARS,
   imageSrcProblem,
+  isCanonicalBase64,
   isValidColumnWidth,
   sanitizeImageSrc,
 } from "@/core/ir/sanitize";
@@ -118,6 +119,39 @@ describe("image src allow-list (local-first, no external fetches)", () => {
     }
   });
 
+  it("accepts canonical base64 payloads of every valid padded shape", () => {
+    for (const src of [
+      "data:image/png;base64,AA==", // 1 byte (pad 2)
+      "data:image/png;base64,AAA=", // 2 bytes (pad 1)
+      "data:image/png;base64,AAAA", // 3 bytes (no padding)
+      "data:image/png;base64,AQID", // 3 non-zero bytes
+      "data:image/png;base64,AQIDBA==", // 4 bytes
+    ]) {
+      expect(imageSrcProblem(src), src).toBeNull();
+      expect(sanitizeImageSrc(src), src).toBe(src);
+      expect(isCanonicalBase64(src.split(",")[1]!), src).toBe(true);
+    }
+  });
+
+  it("rejects impossible base64 lengths, character classes and padding", () => {
+    for (const src of [
+      "data:image/png;base64,A", // single data char — the previously missed gap
+      "data:image/png;base64,AA", // length 2
+      "data:image/png;base64,AAA", // length 3
+      "data:image/png;base64,AAAAA", // length 5
+      "data:image/png;base64,A==", // 1 data char with pad 2 → length 3
+      "data:image/png;base64,====", // padding only, no data
+      "data:image/png;base64,A===", // three pad chars
+      "data:image/png;base64,A=AA", // padding before the end
+      "data:image/png;base64,AB==", // valid length but non-canonical low bits
+      "data:image/png;base64,AB=", // same, one pad
+    ]) {
+      expect(imageSrcProblem(src), src).toMatch(/base64/);
+      expect(sanitizeImageSrc(src), src).toBeNull();
+      expect(isCanonicalBase64(src.split(",")[1]!), src).toBe(false);
+    }
+  });
+
   it("rejects oversized payloads (max is explicit and documented)", () => {
     const oversized = `data:image/png;base64,${"A".repeat(IMAGE_SRC_MAX_CHARS + 1)}`;
     expect(imageSrcProblem(oversized)).toMatch(/maximum/);
@@ -198,6 +232,21 @@ describe("untrusted .labdoc.json input is rejected at the load boundary", () => 
       );
     });
     expect(() => deserializeDocument(oversized)).toThrow(/maximum/);
+  });
+
+  it("rejects an impossibly short base64 payload with an actionable field message", () => {
+    const json = envelopeJsonWith((doc) => {
+      doc.sections[0].blocks[0] = createImage("data:image/png;base64,A");
+    });
+    try {
+      deserializeDocument(json);
+      expect.unreachable("should have thrown");
+    } catch (err) {
+      expect(err).toBeInstanceOf(DocFormatError);
+      const message = (err as DocFormatError).message;
+      expect(message).toMatch(/blocks\.0\.src/);
+      expect(message).toMatch(/malformed base64/);
+    }
   });
 
   it("rejects column-width CSS injection with an actionable per-field message", () => {

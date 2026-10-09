@@ -77,8 +77,52 @@ export const ALLOWED_IMAGE_TYPES = new Set([
  */
 export const IMAGE_SRC_MAX_CHARS = 10 * 1024 * 1024;
 
-const BASE64_RE = /^[A-Za-z0-9+/]*={0,2}$/;
 const CONTROL_CHARS_RE = /[\u0000-\u001f\u007f]/;
+
+/**
+ * Standard (RFC 4648) base64 syntax validation.
+ *
+ * A character-class check alone accepts impossible payloads such as `"A"` or
+ * `"AA"` (a length that cannot encode a whole number of bytes). We therefore
+ * enforce the full base64 syntax:
+ *
+ *   - at least one alphabetic data character, standard alphabet, then at most
+ *     two trailing `=` padding characters (padding appears only at the end);
+ *   - total length is a multiple of 4 (4 chars → 3 bytes, `xxx=` → 2 bytes,
+ *     `xx==` → 1 byte).
+ *   - canonical padding: when padding is present, the unused low bits of the
+ *     final data character are zero — every standard encoder emits this, and
+ *     while lenient decoders silently ignore stray bits, such strings are
+ *     malformed and are rejected here.
+ *
+ * This validates base64 SYNTAX only. It does NOT verify that the decoded
+ * bytes form a decodable image — image-format validation is a separate
+ * concern (the app displays what the browser can decode; the tests treat
+ * grammar and decodability as distinct, per docs/limitations.md).
+ */
+function base64Index(ch: string): number | undefined {
+  const c = ch.charCodeAt(0);
+  if (c >= 65 && c <= 90) return c - 65; // A-Z
+  if (c >= 97 && c <= 122) return c - 97 + 26; // a-z
+  if (c >= 48 && c <= 57) return c - 48 + 52; // 0-9
+  if (c === 43) return 62; // '+'
+  if (c === 47) return 63; // '/'
+  return undefined;
+}
+
+/** True when `payload` is syntactically valid, canonical base64. */
+export function isCanonicalBase64(payload: string): boolean {
+  if (!/^[A-Za-z0-9+/]+={0,2}$/.test(payload)) return false;
+  if (payload.length % 4 !== 0) return false;
+  const padStart = payload.indexOf("=");
+  if (padStart === -1) return true; // no padding — 3 bytes per 4 chars
+  const padCount = payload.length - padStart;
+  if (padCount === 0 || padCount > 2) return false; // regex already makes this unreachable; kept for intent
+  const lastData = payload[padStart - 1];
+  const value = base64Index(lastData);
+  if (value === undefined) return false;
+  return padCount === 1 ? (value & 0b11) === 0 : (value & 0b1111) === 0;
+}
 
 /**
  * Why an image `src` is rejected, or `null` when it may be rendered.
@@ -112,7 +156,9 @@ export function imageSrcProblem(src: string): string | null {
   const payload = remainder.slice(sep + 1);
   if (payload.length === 0) return "malformed data URI: empty payload";
   if (params === ";base64") {
-    if (!BASE64_RE.test(payload)) return "malformed base64 payload";
+    if (!isCanonicalBase64(payload)) {
+      return "malformed base64 payload: invalid characters or length (expected standard base64 — alphabetic data chars only, length multiple of 4, canonical `=` padding)";
+    }
   } else if (type !== "svg+xml") {
     return "raster image data URIs must use base64 encoding (;base64,)";
   }
