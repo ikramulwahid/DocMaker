@@ -30,18 +30,18 @@ are disabled rather than silently dropped — see §"Disabled by design".
    pointing at `pnpm pdf` (matches items 1–2; documented limitation, not a
    defect). The **verified mixed-orientation path remains `pnpm pdf`** / the
    e2e exporter; a native in-app run-merge exporter is post-Phase-0 work.
-4. **Tauri native file workflow is wired, but the interactive dialogs were not
-   click-driven in the automated suite.** `tauri-plugin-dialog` +
-   `tauri-plugin-fs` are registered with an fs scope covering `$HOME/**`,
-   `$APPDATA/**` and `$APPCONFIG/**` (`src-tauri/capabilities/default.json`).
-   The native Open/Save dialogs require manual validation in a desktop
-   session; the automated tests exercise the browser fallback path
-   (`src/app/files.ts`). As of the Phase-0 final acceptance review
-   (2026-10-09) no manual desktop-session results had been supplied, so the
-   native-dialog workflow and the WebView2 print path (item 3) remain the
-   only open Phase-0 gate items and Phase 0 holds as a **conditional
-   pass** — see `docs/phase0-manual-smoke-check.md` for the exact checklist
-   and evidence requirements. **First manual desktop test (2026-10-09):** the
+4. **Tauri native file workflow — status: PASS (2026-10-09, Phase 0.6);
+   historical incident and mitigation recorded below.** Native Win32 Open/Save
+   dialogs cannot be click-driven by the automated (Playwright) suite —
+   engine-identical Chromium is not the desktop shell — so the dialogs require
+   a manual desktop session; the automated tests exercise the browser fallback
+   path (`src/app/files.ts`). That manual session has now been executed: **all
+   nine rows of `docs/phase0-manual-smoke-check.md` are PASS** with recorded
+   evidence (native Save/Open artifacts and WebView2 print PDFs, listed there).
+   The earlier statement that "Phase 0 holds as a **conditional pass** pending
+   desktop evidence" is **obsolete — superseded** by that walkthrough and is
+   retained below only as the historical record. **First manual desktop test
+   (2026-10-09):** the
    native Save dialog opened but the write was denied
    (`fs.write_text_file not allowed`) because `fs:default` in
    tauri-plugin-fs 2.6.0 does not enable `read_text_file`/`write_text_file`.
@@ -71,8 +71,14 @@ are disabled rather than silently dropped — see §"Disabled by design".
    application-level check on the paths routed through `saveJson()` /
    `openJson()`; it is **not** an OS-level security boundary and does not
    intercept direct calls to the Tauri fs plugin or other filesystem access.
-   Re-validation (desktop): in-scope Save/Open must succeed and an out-of-scope
-   path must be rejected with the block message.
+   Desktop re-validation (Phase 0.6, 2026-10-09): in-scope Save
+   (`C:\Users\Ikram\Documents\Moisture_in_Coal.labdoc.json`) and Open
+   succeeded; out-of-scope Save/Open was rejected with the block message; a
+   typed `..` path was canonicalized by the Windows dialog itself into the
+   in-scope folder, so the app-side dot-component rule could not be triggered
+   through the dialog and remains pinned by unit tests
+   (`tests/unit/path-scope.test.ts`). See `docs/phase0-manual-smoke-check.md`
+   for the full evidence set.
 
 ## Preview rendering
 
@@ -182,5 +188,5 @@ see `src/core/ir/sanitize.ts`):
     sidebar; presentation-only, semantic data is unchanged (tests prove it).
     The full theme library (20 themes) is post-Phase-0.
 23. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
-    native open/save dialogs wired (manual desktop validation pending — see
-    item 4).
+    native open/save dialogs wired and desktop-validated (2026-10-09 — see
+    item 4 and `docs/phase0-manual-smoke-check.md`).

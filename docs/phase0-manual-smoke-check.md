@@ -1,4 +1,4 @@
-# Phase 0 — Manual Windows Desktop Smoke Check (Open Gate)
+# Phase 0 — Manual Windows Desktop Smoke Check — Result: PASS
 
 - **Status (2026-10-09, Phase 0.5/0.6):** the full desktop walkthrough was
   executed in the native Tauri window with recorded evidence. **All nine rows

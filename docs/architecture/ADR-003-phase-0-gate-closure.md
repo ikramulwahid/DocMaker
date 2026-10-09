@@ -166,9 +166,18 @@ wording is mirrored in the acceptance evidence.
 - The materializer is a small, testable script with explicit no-op behaviour
   for the common case; it is covered by unit tests, e2e tests, and (for
   non-restart documents) unchanged goldens.
-- Two honest caveats are carried in `docs/limitations.md`: the global total in
-  `Page X of N`, and the un-click-driven native dialogs / unvalidated WebView2
-  print path.
+- Remaining honest caveats in `docs/limitations.md` — none are Phase-0 gate
+  blockers: the global total in `Page X of N` (item 6); the application-layer
+  path-scope guard, which protects only paths routed through
+  `saveJson()`/`openJson()` and is **not** an OS-level sandbox (item 4,
+  desktop re-validated 2026-10-09); and the Chromium single-paper-size print
+  constraint (items 1–2, observed in the Phase-0.6 native session) — the
+  in-app mixed-orientation export stays portrait-sized with clipped/scaled
+  landscape content plus the documented warning, while `pnpm pdf` remains the
+  verified mixed-orientation path. The native dialogs and the WebView2 print
+  path are **no longer untested**: all nine
+  `docs/phase0-manual-smoke-check.md` rows are PASS with recorded evidence;
+  screenshots were the only uncaptured (optional) evidence.
 - Future sections/counters (per-chapter `of N`, fields beyond
   counter(page)/counter(pages)) must extend `materializePageNumbers()` or move
   to a stronger counter strategy; the IR contract is unchanged.

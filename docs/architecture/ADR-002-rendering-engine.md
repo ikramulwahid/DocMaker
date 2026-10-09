@@ -53,9 +53,13 @@
 
 - Preview pagination costs a client-side render pass (acceptable: documents are
   small; re-render is debounced on edit).
-- PDF export requires a headless Chromium print (Playwright in Phase 0; in the
-  Tauri app the WebView2 print-to-PDF path, or the bundled headless print — to
-  be validated in a later phase; see `docs/limitations.md`).
+- PDF export requires a headless Chromium print (Playwright in Phase 0). In
+  the Tauri app, the in-app Export PDF uses the WebView2 print-to-PDF path,
+  desktop-validated in Phase 0.6 (2026-10-09): portrait-only documents export
+  faithfully, while mixed-orientation documents are single-paper-size only
+  (landscape pages clipped/scaled) with the documented warning; `pnpm pdf`
+  remains the verified mixed-orientation path (see `docs/limitations.md`
+  items 1–3).
 - We carry maintenance of the two workarounds above against Paged.js version
   changes; both are covered by automated golden-document tests.
 - **Parity is verified, not assumed.** Live preview and PDF export consume the
