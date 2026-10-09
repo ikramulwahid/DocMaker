@@ -46,7 +46,22 @@ are disabled rather than silently dropped — see §"Disabled by design".
    `fs:allow-write-text-file`, scoped to the same roots
    (`src-tauri/capabilities/default.json`, regression-tested in
    `tests/unit/tauri-capabilities.test.ts`); native save/open require
-   re-validation after the fix.
+   re-validation after the fix. **Desktop re-test (2026-10-09):** the native
+   Save dialog then succeeded (file written at
+   `C:\Projects\Doc\DocMaker\src-tauri\save\untitled.labdoc.json`), but that
+   path is **outside** `$HOME/**`, and a follow-up probe (Save As to
+   `C:\Temp\docmaker-probe\probe-outside.labdoc.json`, clearly outside the
+   declared scope) **also succeeded**. Conclusion: on tauri-plugin-fs 2.6.0
+   the capability `fs:scope` is **not enforced** for
+   `read_text_file`/`write_text_file` at runtime, so the documented boundary
+   did not hold. The application now enforces the same
+   `$HOME`/`$APPDATA`/`$APPCONFIG` boundary at the file-I/O layer
+   (`src/app/path-scope.ts` + `src/app/files.ts`, unit-tested in
+   `tests/unit/path-scope.test.ts`): out-of-scope paths are rejected with an
+   explicit, actionable error via the Save/Open status line. The capability
+   keeps the declared scope as defense-in-depth/documentation. Re-validation
+   (desktop): in-scope Save/Open must succeed and an out-of-scope path must be
+   rejected with the block message.
 
 ## Preview rendering
 

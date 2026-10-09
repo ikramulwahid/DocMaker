@@ -9,6 +9,11 @@ public/katex/
 src-tauri/target/
 src-tauri/gen/
 
+# Dev-session file artifacts. `tauri dev` runs with CWD = src-tauri, so the
+# native Save dialog defaults near src-tauri; files saved there (e.g.
+# src-tauri/save/) are user/test artifacts, not part of the repository.
+src-tauri/save/
+
 # Test artifacts
 test-results/
 playwright-report/

@@ -130,7 +130,18 @@ wording is mirrored in the acceptance evidence.
   even though the dialog opened. The capability now explicitly grants
   `fs:allow-read-text-file` and `fs:allow-write-text-file` under the same
   `$HOME`/`$APPDATA`/`$APPCONFIG` scope; native save/open need
-  re-validation after this fix.
+  re-validation after this fix. The fix was then verified in a desktop session
+  (Save succeeded), but the re-test exposed a second, security-relevant
+  discrepancy: the capability `fs:scope` is **not enforced** by
+  tauri-plugin-fs 2.6.0 at runtime — the native save wrote
+  `src-tauri\save\untitled.labdoc.json` (outside `$HOME/**`) and a probe Save
+  As to `C:\Temp\docmaker-probe\…` also succeeded. Decision (ADR, 2026-10-09):
+  enforce the documented boundary at the application layer
+  (`src/app/path-scope.ts` + `src/app/files.ts`, regression-tested in
+  `tests/unit/path-scope.test.ts`) instead of relying on the plugin ACL; the
+  capability keeps the declared scope as defense-in-depth. Out-of-scope
+  desktop Save/Open is rejected with an explicit error; re-verification of
+  that guard in a desktop session is required before the Phase-0 gate closes.
 
 ## Consequences
 
