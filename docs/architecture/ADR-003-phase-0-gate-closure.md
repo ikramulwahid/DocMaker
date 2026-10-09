@@ -1,8 +1,8 @@
 # ADR-003: Phase-0 Gate Closure — Page-Restart Rendering & Gate Evidence
 
 - **Status:** Accepted (Phase 0, 2026-10-09)
-- **Context:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md` §16 (Phase-0
-  gate) requires, among other items: a structured equation POC, a minimal
+- **Context:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md` §46 (Phase-0
+  Rendering Acceptance) requires, among other items: a structured equation POC, a minimal
   theme system (≥ 2 themes), a five-page mixed-orientation gate document
   (portrait/portrait/landscape/landscape/portrait) with heading/table
   numbering, multi-page table headers, header/footer, page numbers, image,
@@ -45,9 +45,13 @@ margin box.
 - Real DOM text always repaints and prints verbatim — no dependence on
   Chromium's pseudo-element repaint behaviour.
 - The same HTML is used by the preview iframe and the PDF exporter, so both
-  contexts show correct restart digits (verified by e2e text assertions,
-  pixel diffs, multi-page restarts `1,2 | 5,6,7,8`, and PDF text extraction
-  reading "Page 5 of 1").
+  contexts show correct restart digits. In-app restart digits are verified
+  automatically: e2e text assertions on the materialized `div[data-pp]`
+  (`tests/e2e/page-setup.spec.ts`), painted-footer pixel diffs, and the
+  multi-page restart sequences `1,2 | 5,6,7,8` (`tests/e2e/stress.spec.ts`).
+  PDF text extraction of those specific restart digits was additionally probed
+  manually with pdf.js during development; automated PDF text-layer
+  verification is exercised for the gate golden (see Problem 3).
 - No restarts (`pageNumberStart = 1` everywhere) → the function is a no-op and
   documents keep pure CSS counters (goldens unaffected).
 - **Documented approximation:** `Page X of N` renders `N` as the
@@ -68,10 +72,18 @@ re-enabled.
 
 The gate asks for parity between preview and PDF. Preview and export consume
 the **same** `renderLayout()` HTML (markup, CSS, Paged.js version and
-configuration) in **separate execution contexts**. The parity suite therefore
-verifies equal page counts and MediaBox sizes plus extracted PDF text — and
-explicitly does **not** claim pixel-identity between the two contexts (see
-ADR-002). This wording is mirrored in the acceptance evidence.
+configuration) in **separate execution contexts**. The automated suites compare
+page counts and per-page MediaBox sizes (`tests/e2e/pdf-parity.spec.ts`), and
+assert **reproducible PDF text-layer evidence** for the gate golden:
+`tests/e2e/phase0-gate.spec.ts` extracts the exported PDF's text with pdf.js
+(`scripts/verify-pdf-text.mjs`, also runnable as a CLI) and requires the
+document's distinctive content to be present — dynamic header/page fields
+(`SOP-GATE-001`, title, `Page N of M`), generated caption numbering
+(`Table 1`), the `DRAFT` watermark, and equation glyphs (`±`, `Δ`,
+whitespace-collapsed `E=mc2`). Parity here means pipeline-identical input and
+agreeing pagination geometry plus reproducible text — it explicitly does
+**not** claim pixel-identity between the two contexts (see ADR-002). This
+wording is mirrored in the acceptance evidence.
 
 ## Other gate-closure decisions
 
@@ -82,23 +94,27 @@ ADR-002). This wording is mirrored in the acceptance evidence.
   no CDN. Editor insert/edit round-trips IR → Tiptap → IR. Symbol coverage is
   tested (e.g. `\mathrm{H_2O}` renders H₂O). Equation numbering /
   cross-references are post-Phase-0.
-- **Themes (minimal POC):** two themes (Iceberg, Editorial) stored in
-  `settings.theme`; presentation-only (styles/CSS vars). Sidebar selection
-  re-renders the preview; unit tests prove semantic IR bytes are unchanged
-  while the rendered CSS changes. The full 20-theme library is deferred.
+- **Themes (minimal POC):** two presentation-only themes stored in
+  `settings.theme` — id `lab_default` ("Lab Default") and id `bw_standard`
+  ("B&W Standard") — changing fonts/sizes/colours only (styles/CSS vars).
+  Sidebar selection re-renders the preview; unit tests prove semantic IR bytes
+  are unchanged while the rendered CSS changes. The full 20-theme library is
+  deferred.
 - **Links are untrusted data:** link targets are sanitized (the `javascript:`
   scheme is blocked before it reaches `href`; see
   `src/core/ir/sanitize.ts`) and the renderer treats all document content as
   data — no document-supplied code is executed (AGENTS.md §61).
 - **Five-page gate document:** `tests/golden/golden-03-phase0-gate.json` is a
   frozen five-sheet portrait/portrait/landscape/landscape/portrait document
-  containing every §16 feature; it is the golden for the layout pipeline and
+  containing every §46 feature; it is the golden for the layout pipeline and
   the subject of `tests/e2e/phase0-gate.spec.ts` (sheet order, features, PDF
-  agreement).
+  agreement including the text-layer assertions above).
 - **Stress + golden tests:** `tests/e2e/stress.spec.ts` generates a ~93-page
   document (long paragraphs, 43-row multi-page table, varied images,
   equations, manual break, mixed orientations, page restart) and records
-  facts in `artifacts/stress-summary.json`; `tests/golden/` pins canonical
+  facts in `artifacts/stress-summary.json` — a generated local report (not
+  committed; timings are machine-specific observations, see
+  `docs/limitations.md`); `tests/golden/` pins canonical
   documents (mixed-orientation, SOP long-table, gate) as HTML regression goldens.
 - **Tauri file workflow:** `tauri-plugin-dialog` + `tauri-plugin-fs` with an
   fs scope of `$HOME/**`, `$APPDATA/**`, `$APPCONFIG/**`

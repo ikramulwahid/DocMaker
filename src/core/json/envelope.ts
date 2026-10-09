@@ -61,14 +61,21 @@ export function deserializeDocument(json: string): Document {
   const result = envelopeSchema.safeParse(raw);
   if (!result.success) {
     const issues = formatIssues(result.error.issues);
+    const rawObject =
+      raw && typeof raw === "object" ? (raw as Record<string, unknown>) : {};
     const version =
-      raw && typeof raw === "object" && "schema_version" in raw
-        ? String((raw as Record<string, unknown>).schema_version)
-        : "unknown";
-    throw new DocFormatError(
-      `Unsupported or invalid document (schema_version=${version})`,
-      issues,
-    );
+      "schema_version" in rawObject ? String(rawObject.schema_version) : "unknown";
+    // A `labdoc` envelope from a different schema_version is never silently
+    // mis-parsed: name the version and this build's supported version so the
+    // user gets an actionable message (ADR-004).
+    const isLabdocVersionMismatch =
+      rawObject.schema === SCHEMA_NAME &&
+      typeof rawObject.schema_version === "string" &&
+      rawObject.schema_version !== SCHEMA_VERSION;
+    const message = isLabdocVersionMismatch
+      ? `Document schema_version=${version} (${SCHEMA_NAME}) is not supported by this build; this build supports schema_version ${SCHEMA_VERSION} (unreleased development format).`
+      : `Unsupported or invalid document (schema_version=${version})`;
+    throw new DocFormatError(message, issues);
   }
   return result.data.document;
 }

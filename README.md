@@ -41,7 +41,8 @@ pnpm test:e2e       # Playwright: live preview, adapter→preview flow,
                     #             equation insert/edit, theme switching,
                     #             pageNumberStart/showPageNumber truthfulness,
                     #             PDF parity (page counts + sizes + text),
-                    #             save, ~93-page stress (see artifacts/stress-summary.json)
+                    #             save, ~93-page stress (generated local report:
+                    #             artifacts/stress-summary.json)
 pnpm golden:update  # regenerate golden JSON (only if missing) + expected HTML
 ```
 
@@ -68,7 +69,7 @@ is single-paper-size only — see [docs/limitations.md](docs/limitations.md).
 | `src/components/`, `src/App.tsx`, `src/store.ts` | App shell: sidebar (metadata/watermark/sections), editor pane, live preview |
 | `scripts/` | Golden updater, PDF export CLI + shared lib, rendering spike + debug scripts |
 | `tests/unit`, `tests/golden`, `tests/e2e` | Vitest, golden documents, Playwright |
-| `docs/` | Acceptance criteria, ADRs (tech stack, rendering engine, Phase-0 gate closure), limitations |
+| `docs/` | Acceptance criteria, ADRs (tech stack, rendering engine, Phase-0 gate closure, schema versioning), limitations |
 | `artifacts/spike/` | Committed rendering-engine evidence (HTML, PDFs, screenshots, JSON) |
 
 ## Status
@@ -81,5 +82,5 @@ PDF export with preview parity, structured equations (offline KaTeX), a
 minimal two-theme system, truthful page-number start/hide controls, a frozen
 five-page mixed-orientation gate golden, a ~93-page stress document, native
 Tauri open/save wiring, passing unit + e2e suites, and documented decisions +
-limitations (ADR-001/002/003). V1 features (full theme library, forms,
+limitations (ADR-001/002/003/004). V1 features (full theme library, forms,
 calculations, lifecycle, import, AI) are **not** implemented yet.

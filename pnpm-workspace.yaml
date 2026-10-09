@@ -3,3 +3,7 @@ allowBuilds:
   core-js: false
   es5-ext: false
   esbuild: true
+  # pdfjs-dist (dev-only PDF text verification) declares canvas as an optional
+  # native dep; text extraction never renders to canvas, so its build is
+  # deliberately skipped (see scripts/verify-pdf-text.mjs).
+  canvas: false

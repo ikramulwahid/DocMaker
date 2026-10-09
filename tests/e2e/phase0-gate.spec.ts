@@ -10,6 +10,10 @@ import { pathToFileURL } from "node:url";
 import { deserializeDocument, resolveDocument } from "@/core";
 import { renderLayout } from "@/core/layout";
 import { exportPaginatedPdf } from "../../scripts/lib/pdf-export.mjs";
+import {
+  extractPdfTextByPage,
+  findPageHits,
+} from "../../scripts/verify-pdf-text.mjs";
 
 const GOLDEN_GATE = path.resolve("tests/golden/golden-03-phase0-gate.json");
 const PAGED_JS = pathToFileURL(
@@ -108,7 +112,7 @@ test("gate preview: exactly P,P,L,L,P with every §46 feature", async ({ page })
   expect(watermark).toContain("DRAFT");
 });
 
-test("gate PDF export: exact P,P,L,L,P page sequence", async () => {
+test("gate PDF export: exact P,P,L,L,P page sequence + distinctive text/equations", async () => {
   test.setTimeout(120_000);
   const result = await exportPaginatedPdf({
     html: layoutHtml(GOLDEN_GATE),
@@ -122,4 +126,30 @@ test("gate PDF export: exact P,P,L,L,P page sequence", async () => {
     return w > h ? "landscape" : "portrait";
   });
   expect(dims).toEqual(["portrait", "portrait", "landscape", "landscape", "portrait"]);
+
+  // Reproducible text-layer evidence (Phase 0.2): the exported PDF must carry
+  // the document's distinctive content — dynamic header/page fields, generated
+  // numbering, the watermark and equation glyphs. The exact strings were
+  // chosen from an actual pdf.js extraction (scripts/verify-pdf-text.mjs is the
+  // same engine runnable as a CLI, e.g.
+  //   node scripts/verify-pdf-text.mjs artifacts/e2e-gate.pdf --expect ...
+  // ). Sub/superscript digits are emitted as trailing runs, so "E=mc2" is
+  // matched whitespace-collapsed, not verbatim.
+  const pages = await extractPdfTextByPage(result.pdf);
+  const expectInPdf: [string, string][] = [
+    ["SOP-GATE-001", "header dynamic field (docNumber)"],
+    ["Phase-0 Rendering Gate Document", "header dynamic field (title)"],
+    ["Page 1 of 5", "live page counter"],
+    ["Table 1", "generated table caption numbering"],
+    ["DRAFT", "watermark"],
+    ["±", "equation glyph (quadratic ±)"],
+    ["Δ", "equation glyph (symbol-set Δ)"],
+    ["E=mc2", "sign-off equation E = m c² (collapsed)"],
+  ];
+  for (const [expected, what] of expectInPdf) {
+    expect(
+      findPageHits(pages, expected),
+      `PDF text contains ${JSON.stringify(expected)} (${what})`,
+    ).not.toHaveLength(0);
+  }
 });

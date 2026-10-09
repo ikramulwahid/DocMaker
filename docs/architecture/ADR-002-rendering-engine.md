@@ -55,10 +55,13 @@
 - **Parity is verified, not assumed.** Live preview and PDF export consume the
   *same* `renderLayout()` HTML (identical markup + CSS + Paged.js version and
   configuration) but run Paged.js in separate execution contexts (preview
-  iframe vs. headless Chromium print). The automated parity suite compares
-  page counts, per-page MediaBox sizes, and extracted PDF text — it does
-  **not** claim pixel-identical output between the two contexts, only
-  pipeline-identical input and agreeing pagination geometry.
+  iframe vs. headless Chromium print). The automated suites compare page
+  counts and per-page MediaBox sizes (`tests/e2e/pdf-parity.spec.ts`) and
+  assert reproducible PDF text-layer evidence for the gate golden
+  (`tests/e2e/phase0-gate.spec.ts`, via `scripts/verify-pdf-text.mjs` — see
+  ADR-003 Problem 3). Parity here means pipeline-identical input and agreeing
+  pagination geometry plus reproducible text, not pixel-identical output
+  between the two contexts.
 - **Per-section page numbering restarts** (`pageNumberStart`) are handled in
   the shared layout script (`materializePageNumbers`, see ADR-003): because
   Chromium does not reliably repaint CSS `::after` counters for Paged.js's

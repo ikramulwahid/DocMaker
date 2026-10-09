@@ -17,6 +17,8 @@ coverage/
 
 # Generated export artifacts (golden PDFs are regenerated on demand).
 # The Phase-0 rendering spike evidence is committed on purpose.
+# Local stress/export reports (artifacts/stress-summary.json, *.pdf) are
+# regenerable observations — timing figures are machine-specific.
 artifacts/*
 !artifacts/spike/
 

@@ -84,3 +84,54 @@ describe("deserialization failures are explicit", () => {
     expect(result.ok).toBe(false);
   });
 });
+
+describe("schema versioning policy (ADR-004)", () => {
+  it("loads a legacy 1.0 envelope that predates additive fields (defaults apply)", () => {
+    // A Phase-0.0-era document: no settings.theme, no pageSetup overrides, no
+    // watermark — exactly the shape saved before those fields existed.
+    const legacy = {
+      schema: "labdoc",
+      schema_version: "1.0",
+      document: {
+        id: "doc_legacy01",
+        type: "document",
+        metadata: { title: "Legacy" },
+        sections: [
+          {
+            id: "sec_legacy01",
+            type: "section",
+            blocks: [
+              { id: "bl_legacy01", type: "paragraph", content: [{ text: "hi" }] },
+            ],
+          },
+        ],
+      },
+    };
+    const doc = deserializeDocument(JSON.stringify(legacy));
+    expect(doc.settings.theme).toBe("lab_default");
+    expect(doc.settings.watermark.text).toBe("DRAFT");
+    expect(doc.sections[0].pageSetup.orientation).toBe("portrait");
+    expect(doc.sections[0].pageSetup.pageNumberStart).toBe(1);
+    expect(doc.sections[0].blocks[0].type).toBe("paragraph");
+  });
+
+  it("rejects a newer labdoc schema_version with an actionable message", () => {
+    const parsed = JSON.parse(serializeDocument(createDocumentFixture()));
+    parsed.schema_version = "2.0";
+    try {
+      deserializeDocument(JSON.stringify(parsed));
+      expect.unreachable("should have thrown");
+    } catch (err) {
+      expect(err).toBeInstanceOf(DocFormatError);
+      const message = (err as DocFormatError).message;
+      expect(message).toMatch(/schema_version=2\.0/);
+      expect(message).toMatch(/not supported by this build/);
+      expect(message).toMatch(/1\.0/);
+    }
+  });
+
+  it("rejects bare document IR without the labdoc envelope (no silent wrap)", () => {
+    const bare = { id: "doc_bare01", type: "document", sections: [] };
+    expect(() => deserializeDocument(JSON.stringify(bare))).toThrow(/schema/);
+  });
+});
