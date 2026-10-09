@@ -38,7 +38,15 @@ are disabled rather than silently dropped — see §"Disabled by design".
    native-dialog workflow and the WebView2 print path (item 3) remain the
    only open Phase-0 gate items and Phase 0 holds as a **conditional
    pass** — see `docs/phase0-manual-smoke-check.md` for the exact checklist
-   and evidence requirements.
+   and evidence requirements. **First manual desktop test (2026-10-09):** the
+   native Save dialog opened but the write was denied
+   (`fs.write_text_file not allowed`) because `fs:default` in
+   tauri-plugin-fs 2.6.0 does not enable `read_text_file`/`write_text_file`.
+   The capability now explicitly grants `fs:allow-read-text-file` and
+   `fs:allow-write-text-file`, scoped to the same roots
+   (`src-tauri/capabilities/default.json`, regression-tested in
+   `tests/unit/tauri-capabilities.test.ts`); native save/open require
+   re-validation after the fix.
 
 ## Preview rendering
 

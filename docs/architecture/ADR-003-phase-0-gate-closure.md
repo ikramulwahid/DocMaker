@@ -123,7 +123,14 @@ wording is mirrored in the acceptance evidence.
   print-to-PDF remains unvalidated. The Phase-0 final acceptance review
   (2026-10-09) re-confirmed this: desktop-session evidence had not yet been
   supplied, so the Phase-0 gate stays **conditional** pending the native-dialog
-  and WebView2 checks (`docs/phase0-manual-smoke-check.md`).
+  and WebView2 checks (`docs/phase0-manual-smoke-check.md`). The first manual
+  desktop test then exposed a real defect fixed before the gate can close:
+  `fs:default` (tauri-plugin-fs 2.6.0) does not enable the `read_text_file` /
+  `write_text_file` commands, so the native save was ACL-denied at runtime
+  even though the dialog opened. The capability now explicitly grants
+  `fs:allow-read-text-file` and `fs:allow-write-text-file` under the same
+  `$HOME`/`$APPDATA`/`$APPCONFIG` scope; native save/open need
+  re-validation after this fix.
 
 ## Consequences
 
