@@ -1,61 +1,94 @@
-# Phase 1 — Planning Proposal R0.3 (Criteria Integrity and Decision Readiness)
+# Phase 1 — Plan & Approval Record R0.4 (Approved Scope and Decisions)
 
-- **Status:** Proposal — **not** authorized implementation scope. This document
-  is review input for the next milestone decision. No Phase 1 code is
-  authorized by it (AGENTS.md §82 `When to ask the human`).
-- **Revision:** R0.3 (2026-10-09) — supersedes R0.2 (same date).
+- **Status:** **APPROVED** — the Phase-1 scope and decisions listed in §0 are
+  explicitly approved by the human (approval record R0.4, 2026-10-09). This
+  document records the approval; it does **not by itself** authorize feature
+  implementation. Phase-1 implementation begins only in a separately authorized
+  task after this checkpoint (AGENTS.md workflow), starting from M1.
+- **Revision:** R0.4 (2026-10-09) — approval record; supersedes R0.3 (same day,
+  criteria-integrity and decision-readiness proposal).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
-  revisions R0.1/R0.2 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`.
-- **Authoritative criteria updated in this revision (permitted by scope):**
-  `docs/requirements/V1_ACCEPTANCE_CRITERIA.md` — identifier collisions
-  corrected (see §2). All criterion content preserved; headings/identifiers
-  only.
+  R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; this approval record
+  is based on `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3 published).
+- **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
+  (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
+  All Phase 0 PASS classifications and existing evidence in §4 are preserved
+  unchanged.
 - **Companion docs:** `Main_Prompt.md` §§46–51 (V1 Foundation / V1.1–V1.4 /
   Phase-0 PoC); `docs/requirements/V1_ACCEPTANCE_CRITERIA.md` (release gate);
   `AGENTS.md`; ADR-001..004; `docs/limitations.md`;
   `docs/phase0-manual-smoke-check.md`.
-- **Method:** every criterion and acceptance status was re-verified against the
-  current IR schema (`src/core/ir/schema.ts`), factory (`src/core/ir/factory.ts`),
+- **Method:** evidence in §4–§9 was re-verified in R0.3 against the current
+  IR schema (`src/core/ir/schema.ts`), factory (`src/core/ir/factory.ts`),
   editor extension set + adapter (`src/editor/extensions.ts`, `adapter.ts`),
   sidebar/editor UI, resolve/numbering engines, layout pipeline, theme
   registry, file workflow, and the unit/e2e/golden suites (including
   `tests/e2e/stress.spec.ts`, `tests/e2e/pdf-parity.spec.ts`,
-  `tests/golden/generator.ts`, `artifacts/stress-summary.json`).
+  `tests/golden/generator.ts`, `artifacts/stress-summary.json`). R0.4 is
+  documentation-only: no executable verification was run or claimed.
 
 ---
 
-## 0. Change log — R0.2 → R0.3 (2026-10-09)
+## 0. Approval record & change history (R0.4)
 
-Substantive changes in this revision:
+### 0.1 Approval summary
 
-1. **Criterion identifier integrity fixed** (§2): four collisions in the
-   authoritative criteria removed — `V1-DOC-001` (document creation vs
-   documentation acceptance) and `V1-SEC-001..003` (sections vs security) —
-   and all 11 unnumbered acceptance requirements now carry identifiers
-   (`V1-IMP-001..005`, `V1-TECH-001`, `V1-GATE-001..004`, `V1-DEMO-001`).
-   Recount documented explicitly (§2.2): **122 criterion blocks / 118 unique
-   IDs / 4 collisions / 11 unnumbered → 133 / 133 / 0 / 0**, one-to-one.
-2. **Status contradictions corrected** (§3–§4): `V1-PDF-002` reclassified
-   PASS → **PARTIAL** (non-A4 page dimensions unimplemented until M4; A4
-   evidence preserved); `V1-DOC-002`'s orphaned configurable-defaults work
-   assigned to **M4** (renamed milestone); the full matrix swept for
-   PASS-vs-planned-work contradictions (results in §4.3).
-3. **Phase-boundary reconciliation** (§5): four V1.1 capabilities pulled into
-   Phase 1 are now **explicit scope promotions requiring approval** — multilevel
-   lists/numbering (M3), cross-references (M6), equation numbering (M6),
-   advanced table pagination (M8). Boundarially intact items are confirmed and
-   the Markdown decision is retained.
-4. **Testable release gates defined** (§6): `V1-PERF-001` (fixture extension:
-   10+ tables / 10+ images / headers + recorded headings; committed thresholds
-   and gate condition), `V1-VIS-001/002` (corpus, committed screenshot
-   baselines, tolerance policy, gate condition), `V1-A11Y-001` (no automatic
-   waiver; M11 demonstrable per-requirement checks).
-5. **Nested-list schema proposal preserved** (§7) with the ADR-004
-   backward-vs-forward loading distinction made explicit; still unimplemented.
-6. **Open-decision list extended to ten items** (§9), now including the four
-   scope promotions and the two release-gate definitions (PERF thresholds,
-   VIS corpus policy).
+- **Status:** APPROVED (scope + decisions D1–D11, §9).
+- **Date:** 2026-10-09.
+- **Base:** `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3 published).
+- **Repository:** `https://github.com/ikramulwahid/DocMaker.git`, branch `main`.
+- **Authority:** explicit human approval of the Phase-1 scope and decisions
+  listed in §0.3. Approval is recorded exactly as granted; nothing not listed
+  is inferred as approved.
+
+### 0.2 Authorization boundary (this checkpoint)
+
+This checkpoint is **documentation-only**:
+
+- No Phase 1 feature implementation is authorized by this approval record.
+- No application code, IR schemas, dependencies, lockfiles, tests, test
+  fixtures, or golden artifacts were or may be modified by this checkpoint.
+- The only file change is this planning document (R0.4). The authoritative
+  criteria document was finalized in R0.3 and is unchanged here.
+- Phase-1 implementation begins only in a **separate task after this checkpoint
+  is published**, starting from M1, following the AGENTS.md checkpoint
+  workflow (inspect → plan → implement → test → review → commit → push →
+  report).
+
+### 0.3 Approved scope (as granted)
+
+| # | Approved item | Where recorded |
+|---|---|---|
+| 1 | M1–M11 as the Phase-1 scope | §8.2 (D1) |
+| 2 | Sequential execution with separate checkpoint commits per milestone; M4 conceptually independent but **no simultaneous implementation in the same working tree**; M1 starts only in a separate task | §8.1, §8.2 (D2) |
+| 3 | Markdown import scheduled as a separate remaining-V1 milestone after M1–M11 and before final V1 acceptance; recorded as an intentional deviation from `Main_Prompt.md` §50; `remark`/`unified` dependency approval remains separate and requires a package-version, license and security review before implementation | §5.2, §8.4, §9 (D3) |
+| 4 | Canonical `list` node + legacy `bulletList` compatibility strategy; `schema_version` stays `1.0` under ADR-004; documented that older builds may reject files containing newly introduced block types; **schema not implemented here** | §7 (D4) |
+| 5 | `rowSplit: "allow"` default + per-table "prevent row splitting"; deterministic behavior specified when a prevented row cannot fit within a page | §8.2 M8 (D5) |
+| 6 | `metadata.status` as an organizational label; lifecycle enforcement + immutable history deferred to V1.2 | §8.2 M5 (D6) |
+| 7 | paged.js margin-box accessibility constraint accepted **without waiving** main-interface accessibility acceptance requirements | §6.3 (D7) |
+| 8 | The four scope promotions (multilevel lists, cross-references, equation numbering, advanced table pagination) | §5.1 (D8) |
+| 9 | Performance targets preview ≤ 12 s and export ≤ 20 s as **targets**; reference environment and representative fixture documented and pinned before the release gate becomes enforceable | §6.1 (D9) |
+| 10 | Visual-regression corpus + committed screenshot baseline approach; exact browser/runtime pin and pixel-difference tolerance policy documented before the gate is activated | §6.2 (D10) |
+| 11 | Configurable new-document defaults stay in M4; treated separately from the visual-regression decision | §4.2, §8.2 M4 (D11) |
+
+### 0.4 Change history
+
+- **R0.1/R0.2 (2026-10-09):** initial Phase-1 planning proposal; full V1
+  acceptance-coverage audit (122 criterion blocks), milestone plan,
+  open decisions. Published at `c46cffa`.
+- **R0.3 (2026-10-09):** criteria-integrity and decision-readiness audit —
+  identifier collisions removed (133 unique IDs, one-to-one), status
+  corrections (V1-PDF-002 → PARTIAL; V1-DOC-002 orphan resolved),
+  phase-boundary reconciliation, testable release gates, nested-list ADR-004
+  clarification. Criteria document updated. Published at `b381ab3`.
+- **R0.4 (2026-10-09, this revision):** approval record — D1–D11 approved by
+  the human (R0.3 D10 split into D10 visual regression + D11 configurable
+  defaults); execution governance fixed (sequential checkpoints; M1 starts in
+  a separate task); Markdown import recorded separately from the four scope
+  promotions; reference-environment prerequisites added to the V1-PERF-001
+  gate; all Phase 0 PASS classifications and existing evidence preserved
+  unchanged.
 
 ---
 
@@ -66,11 +99,13 @@ targeting the V1 MUST/SHOULD criteria that remain open, in the core
 development order of `Main_Prompt.md` §46 / `AGENTS.md` §78: **Document Model →
 Business Logic → Rendering → Editor UI**, not UI-first.
 
-R0.3 adds a decision-readiness layer: every criterion has a unique,
-one-to-one matrix entry; every status is consistent with its named gaps; every
-phase-boundary tension is either resolved or flagged for approval; and the
-performance/visual-regression/accessibility requirements are defined as
-**testable release gates** rather than intentions.
+R0.3 established a decision-readiness layer: a unique, one-to-one matrix entry
+for every criterion; statuses consistent with their named gaps; every
+phase-boundary tension resolved or flagged; performance/visual-regression/
+accessibility requirements defined as **testable release gates** rather than
+intentions. **R0.4 records the human approval of that scope and of all
+decisions (D1–D11, §9)** without weakening any V1 acceptance criterion and
+without altering any Phase 0 PASS classification or evidence (§4).
 
 ---
 
@@ -129,9 +164,13 @@ references in ADRs, `docs/limitations.md` and the smoke-check remain valid.
 
 Status legend — **PASS**: implemented + evidenced in Phase 0. **PARTIAL**:
 works in part, remainder named. **PLANNED — P1-M#**: Phase-1 milestone.
-**DEFERRED**: later phase, justified. **OPEN**: human decision (§9).
-Rows marked **◂R0.3** changed in this revision (see §4.1 for the full
-rationale).
+**PLANNED — remaining-V1**: approved remaining-V1 work (after M1–M11).
+**DEFERRED**: later phase, justified. **OPEN**: human decision (§9) — no rows
+remain open after the R0.4 approval.
+Rows marked **◂R0.3** changed in the R0.3 audit (see §5 for the full
+rationale); the only R0.4 matrix change is V1-IMP-001 (status → PLANNED —
+remaining-V1, approved D3). **All Phase 0 PASS classifications and evidence
+are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -183,7 +222,7 @@ rationale).
 | V1-LIST-001 — Bullets (MUST) | **PARTIAL** | single default disc marker; circle/empty-circle/square/dash/arrow/check → **M3** |
 | V1-LIST-002 — Numbered lists (MUST) | **PLANNED — M3** | `orderedList: false` in extensions; flat `bulletList` only |
 | V1-LIST-003 — Basic automatic list numbering (MUST) | **PLANNED — M3** | derive-at-resolve per-level ordinals (§7) |
-| V1-LIST-004 — Multilevel lists (SHOULD) | **PLANNED — M3** ◂R0.3 | nested lists flattened (item 12); **promotes V1.1 multilevel numbering** — approval item D8 |
+| V1-LIST-004 — Multilevel lists (SHOULD) | **PLANNED — M3** ◂R0.3 | nested lists flattened (item 12); **promotes V1.1 multilevel numbering** — approved (D8) |
 
 ### §12 Page setup
 | Criterion | Status | Evidence / gap → assignment |
@@ -218,7 +257,7 @@ rationale).
 | V1-TABLE-005 — Table formatting | **PLANNED — M8** | borders only default; thickness/background/padding/row height missing (column widths exist) |
 | V1-TABLE-006 — Header row | **PASS** | `headerRow` flag + `<thead>` |
 | V1-TABLE-007 — Multi-page table | **PASS** | 43-row split + repeated `<thead>` (ADRs 002/003, stress) |
-| V1-TABLE-008 — Row split behavior | **PLANNED — M8** ◂R0.3 | new `rowSplit` policy; **advanced-table-pagination promotion** — approval item D8 |
+| V1-TABLE-008 — Row split behavior | **PLANNED — M8** ◂R0.3 | new `rowSplit` policy; **advanced-table-pagination promotion** — approved (D8) |
 | V1-TABLE-009 — Caption and identity | **PARTIAL** | stable `tb_` id + derived "Table N" + caption render PASS; caption editing → **M8** |
 
 ### §16 Images (MUST)
@@ -266,13 +305,13 @@ rationale).
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-REF-001 — Stable reference target (MUST) | **PASS** | stable IDs (V1-IR-003) |
-| V1-REF-002 — Basic cross-reference (SHOULD) | **PLANNED — M6** ◂R0.3 | **promotes V1.1 cross-references** — approval item D8 |
+| V1-REF-002 — Basic cross-reference (SHOULD) | **PLANNED — M6** ◂R0.3 | **promotes V1.1 cross-references** — approved (D8) |
 | V1-REF-003 — Reference updates (SHOULD) | **PLANNED — M6** ◂R0.3 | derived numbering ⇒ auto-update once resolver exists |
 
 ### §22 Equations
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-EQ-001 — Structured insertion (SHOULD) | **PARTIAL** | LaTeX insert/edit via dialog; numbering/cross-ref absent → **M6 (SHOULD element)** ◂R0.3 — equation numbering **promotes V1.1** — approval item D8 |
+| V1-EQ-001 — Structured insertion (SHOULD) | **PARTIAL** | LaTeX insert/edit via dialog; numbering/cross-ref absent → **M6 (SHOULD element)** ◂R0.3 — equation numbering **promotes V1.1** — approved (D8) |
 | V1-EQ-002 — Scientific notation (MUST) | **PASS** | H₂O, CO₂, m², ±, Δ, √, Σ … tested |
 | V1-EQ-003 — Semantic storage (MUST) | **PASS** | LaTeX source, bundled KaTeX — never an image |
 
@@ -327,7 +366,7 @@ rationale).
 ### §29–§30 Imports (identifiers added in R0.3)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-IMP-001 — Markdown (SHOULD for V1) | **OPEN** ◂R0.3 | not implemented; criteria SHOULD-for-V1 conflicts with `Main_Prompt.md` §50 (V1.4+) → decision D3 |
+| V1-IMP-001 — Markdown (SHOULD for V1) | **PLANNED — remaining-V1** ◂R0.4 | not implemented; **approved (D3)** as a separate remaining-V1 milestone after M1–M11 and before final V1 acceptance (intentional deviation from `Main_Prompt.md` §50); `remark`/`unified` dependency approval separate |
 | V1-IMP-002 — DOCX (DEFERRED / V1.1) | **DEFERRED — V1.1/V1.4+** | clean import boundary retained |
 | V1-IMP-003 — PDF (DEFERRED / V1.1) | **DEFERRED — V1.1/V1.4+** | extraction/reconstruction only; fidelity surfaced |
 | V1-IMP-004 — DOC (DEFERRED) | **DEFERRED — V1.4+** | must not delay V1 foundation |
@@ -351,7 +390,7 @@ rationale).
 ### §36 Performance
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-PERF-001 (MUST) | **PARTIAL** ◂R0.3 | stress baseline: 93 pages, 1 table, 3 images, 3 sections. Criterion minimum: 20+ pages, **10+ tables, 10+ images**, multiple headings, headers/footers, multiple sections. Fixture extension + **release gate** defined in §6.1 |
+| V1-PERF-001 (MUST) | **PARTIAL** ◂R0.3 | stress baseline: 93 pages, 1 table, 3 images, 3 sections. Criterion minimum: 20+ pages, **10+ tables, 10+ images**, multiple headings, headers/footers, multiple sections. Fixture extension + **release gate** defined in §6.1 (approved targets — D9) |
 
 ### §37 Data integrity (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -435,10 +474,10 @@ margins, **base style**, default theme, initial metadata structure) **and
   settings UI (V1-PAGE-004) plus a new-document default-settings surface
   covering page setup, default theme and metadata skeleton.
 - **Effect on V1 acceptance:** `V1-DOC-002` is **PARTIAL until M1 + M4** and
-  cannot be claimed PASS earlier. If the user prefers to defer configurability
-  beyond Phase 1, that is an explicit decision (D10) with rationale "predefined
-  defaults satisfy the letter of the criterion"; the deferral would keep
-  V1-DOC-002 PARTIAL and must be recorded — it is not an automatic pass.
+  cannot be claimed PASS earlier.
+- **Approved (R0.4, D11):** configurable new-document defaults stay **in M4**
+  as scoped here; no deferral was approved. A hypothetical future deferral
+  would keep V1-DOC-002 PARTIAL — it would not be an automatic pass.
 
 ### 4.3 Full-sweep result (no other PASS-vs-planned-work contradictions)
 
@@ -464,28 +503,35 @@ Re-checked every PASS row against its criterion text and implementation:
 
 ## 5. Phase-boundary reconciliation (vs Main_Prompt §§46–50)
 
-### 5.1 Promoted V1.1 capabilities inside Phase 1 (explicit, approval-gated)
+### 5.1 Promoted V1.1 capabilities inside Phase 1 (approved — D8)
 
 | Phase-1 item | Main_Prompt placement | Criteria demand | Classification |
 |---|---|---|---|
-| M3 multilevel lists + per-level numbering | §47 "multilevel numbering" (V1.1) | V1-LIST-004 (SHOULD, V1); V1-LIST-003 requires renumbering | **Intentional promotion** — approval D8 |
-| M6 cross-references | §47 "cross-references" (V1.1) | V1-REF-002/003 (SHOULD, V1) | **Intentional promotion** — approval D8 |
-| M6 equation numbering | §47 "equations/figures" (V1.1) | none (V1-NUM covers headings/tables/figures only) | **Intentional promotion** — approval D8 |
-| M8 advanced table pagination (merged cells × row-split × repeated headers) | §47 "advanced table pagination" (V1.1) | V1-TABLE-003/008 (MUST, V1) | **Criteria-mandated promotion** — approval D8 |
+| M3 multilevel lists + per-level numbering | §47 "multilevel numbering" (V1.1) | V1-LIST-004 (SHOULD, V1); V1-LIST-003 requires renumbering | **Intentional promotion** — approved (D8) |
+| M6 cross-references | §47 "cross-references" (V1.1) | V1-REF-002/003 (SHOULD, V1) | **Intentional promotion** — approved (D8) |
+| M6 equation numbering | §47 "equations/figures" (V1.1) | none (V1-NUM covers headings/tables/figures only) | **Intentional promotion** — approved (D8) |
+| M8 advanced table pagination (merged cells × row-split × repeated headers) | §47 "advanced table pagination" (V1.1) | V1-TABLE-003/008 (MUST, V1) | **Criteria-mandated promotion** — approved (D8) |
 
 Rationale, stated plainly: the V1 acceptance criteria (the release gate)
 demand merged cells, configured row-split and list renumbering **in V1**, and
 list cross-references as SHOULD in V1; `Main_Prompt.md` §47 defers the
 corresponding advanced capabilities to V1.1. Wherever the criteria mandate it,
-the work must happen inside V1. The promotions are **additive scope**, require
-explicit approval (D8), and do not weaken or rewrite the product roadmap —
-they are flagged precisely so the boundary is a decision, not a silent change.
+the work must happen inside V1. The promotions are **additive scope** and were
+**approved (D8)**: they do not weaken or rewrite the product roadmap — they
+are recorded precisely so the boundary remains a decision, not a silent
+change. **Markdown import (V1-IMP-001) is recorded separately** from these
+four promotions: approved (D3) as its own remaining-V1 milestone after
+M1–M11 and before final V1 acceptance, an intentional deviation from
+`Main_Prompt.md` §50 (§5.2, §8.4, §9).
 
 ### 5.2 Retained boundaries (no change)
 
 - **Imports:** V1-IMP-002/003/004 (DOCX/PDF/DOC) → V1.1+/V1.4+ per §50;
-  **V1-IMP-001 (Markdown)** stays an explicit decision (criteria SHOULD-for-V1
-  vs §50 V1.4+) — D3.
+  **V1-IMP-001 (Markdown)** is **approved (D3)** as a separate remaining-V1
+  milestone after M1–M11 and before final V1 acceptance — an intentional,
+  recorded deviation from `Main_Prompt.md` §50 (V1.4+). The `remark`/`unified`
+  dependency approval remains separate and requires a package-version, license
+  and security review before any implementation (AGENTS.md §35/§72).
 - **V1.1 §47 engine, not in V1 criteria:** TOC, generated lists, annexures,
   appendices, footnotes/endnotes, columns, widow/orphan control (which V1-FLOW
   -003/004 deferrals track), watermarks (already delivered in Phase 0).
@@ -529,17 +575,34 @@ they are flagged precisely so the boundary is a decision, not a silent change.
    restart marker + materialized "Page 5 of N"; split table + repeated
    `<thead>`; all images/equations present; mixed orientations in the PDF.
 
-**Release-gate condition (proposed, approval D9):** the extended
-representative fixture must render and export within **committed thresholds**
-on the documented reference environment. Proposed reference thresholds,
-derived from the recorded baseline (93-page preview ≈ 3.0 s, export ≈ 4.3 s on
-the Phase-0 recording machine) with ~3–4× headroom for the added
-tables/images and machine variance: **preview ≤ 12 s, export ≤ 20 s** for the
-extended fixture. The thresholds are committed constants in the perf spec,
-asserted at release, with observed values captured in
-`artifacts/perf-summary.json`. "Choosing thresholds later" is explicitly **not**
-acceptance evidence — the gate only passes with the fixture, measurements,
-computed thresholds, and a green assertion run.
+**Approved targets (D9, R0.4):** preview ≤ **12 s** and export ≤ **20 s** for
+the extended representative fixture, derived from the recorded baseline
+(93-page preview ≈ 3.0 s, export ≈ 4.3 s on the Phase-0 recording machine)
+with ~3–4× headroom for the added tables/images and machine variance.
+
+**Reference-environment prerequisites (D9, R0.4 — required before the release
+gate is enforceable):** the following must be documented and pinned in the
+repository before the gate can be enforced:
+
+- reference environment: OS version, Node.js and pnpm versions (from the repo
+  toolchain), browser engine pin (Playwright/Chromium version), and the
+  reference hardware class (the Phase-0 recording machine, described by
+  CPU/RAM class, is the documented reference);
+- representative fixture: built and committed as a test fixture meeting the
+  criterion minimum — ≥10 tables (incl. a multi-page split register), ≥10
+  images, ≥6 headings across ≥3 sections, explicit headers and footers, 20+
+  pages;
+- measurement protocol: `previewMs` and `exportMs` recorded to
+  `artifacts/perf-summary.json` on the pinned environment.
+
+**Release-gate condition:** the gate passes only when (a) the fixture meets
+the composition minimum (asserted in the spec), (b) the existing hard
+invariants stay green (preview pages == PDF pages; restart marker; split
+table + repeated `<thead>`; images/equations present; mixed orientations), and
+(c) the committed thresholds (12 s preview / 20 s export) are asserted on the
+pinned reference environment. The thresholds are committed constants in the
+perf spec, with observed values captured in `artifacts/perf-summary.json`.
+"Choosing thresholds later" is explicitly **not** acceptance evidence.
 
 ### 6.2 V1-VIS-001 / V1-VIS-002 release gate
 
@@ -566,16 +629,27 @@ pixel-difference *checks* (footer changes between pages —
 4. Only after baselines land: update the "screenshots not captured" notes in
    `docs/phase0-manual-smoke-check.md` / `docs/limitations.md` accordingly.
 
+**Approved (D10, R0.4):** the visual-regression corpus and committed
+screenshot-baseline approach are approved. **Gate-activation prerequisite
+(D10):** the exact browser/runtime pin and the pixel-difference tolerance
+policy must be documented in the repository before the gate is activated —
+the corpus and baselines land in release hardening, and only then do the
+"screenshots not captured" notes in `docs/phase0-manual-smoke-check.md` /
+`docs/limitations.md` get updated.
+
 **Release-gate condition:** the corpus e2e suite is green on CI with committed
-baselines and the documented tolerance; V1-VIS-001/002 are PASS on that gate
-(V1-VIS-002 additionally requires the 20-theme library from M7).
+baselines and the documented, pinned tolerance; V1-VIS-001/002 are PASS on
+that gate (V1-VIS-002 additionally requires the 20-theme library from M7).
+This gate is independent of the configurable-defaults decision (approved
+separately — D11).
 
-### 6.3 V1-A11Y-001 — no automatic waiver
+### 6.3 V1-A11Y-001 — no automatic waiver (approved — D7)
 
-The documented margin-box AT limitation (upstream paged.js, limitations item
-5) remains a **documented constraint scoped to the preview margin boxes
-only**; it does **not** waive the main-interface criterion. M11 must
-demonstrate each requirement with tests:
+**Approved (D7, R0.4):** the paged.js margin-box accessibility constraint is
+accepted as a documented limitation. The documented margin-box AT limitation
+(upstream paged.js, limitations item 5) remains a **documented constraint
+scoped to the preview margin boxes only**; it does **not** waive the
+main-interface criterion. M11 must demonstrate each requirement with tests:
 
 - **Keyboard navigation:** every toolbar/editing operation reachable
   keyboard-only; tab-order e2e assertions.
@@ -590,10 +664,12 @@ demonstrate each requirement with tests:
 
 ---
 
-## 7. Nested-list schema proposal (preserved; ADR-004 clarified)
+## 7. Nested-list schema proposal (approved — D4; not yet implemented)
 
 Preserved verbatim in intent from R0.2 §4 (still **unimplemented** — approval
-D4 required):
+D4 granted in R0.4; the schema change, migration code and tests are **not**
+part of this documentation-only checkpoint and begin only in authorized
+Phase-1 implementation, M3):
 
 - **Legacy shape (unchanged on disk):**
   ```json
@@ -635,7 +711,9 @@ D4 required):
     structures keep `1.0` and accept that older builds cannot read them. When
     `1.0` ships, this becomes the released baseline; post-release incompatible
     changes then bump to `2.0`.
-- **Not implemented in this task.**
+- **Not implemented in this task** (nor in any documentation-only checkpoint).
+  Implementation of the `list` kind begins in M3 under separately authorized
+  Phase-1 work.
 
 ---
 
@@ -647,8 +725,9 @@ D4 required):
 M1 Styles ─────────────┐
 M2 Character/paragraph format ─┐
 M3 Lists (uses M2 marks, numbering principles)   ◂ promoted: multilevel
-M4 Page setup, paper sizes & DOCUMENT DEFAULTS (parallel thread; also M4
-   closes V1-DOC-002 configurable defaults + V1-PAGE-004 settings UI)
+M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
+   executed sequentially per approved D2; also M4 closes V1-DOC-002
+   configurable defaults + V1-PAGE-004 settings UI)
 M5 Metadata + lab profile + fields (uses M1 styles for field rendering)
 M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq
 M7 Themes (needs M1 + M5)
@@ -660,12 +739,14 @@ M11 Accessibility pass (last; audits final controls/dialogs)
 
 Ordering rule: model/business logic before renderer/editor; shared engines
 (fields, numbering) before consumers; the risky table-pagination work after
-geometry + formatting exist; M4 genuinely independent (may overlap M2/M3);
-M11 (a11y) after the UI-heavy milestones so it audits final controls and
-dialog shapes. Every milestone is independently reviewable and ends at a Git
-checkpoint (AGENTS.md workflow).
+geometry + formatting exist; M4 conceptually independent but **executed
+sequentially — one milestone at a time in the working tree, with a separate
+checkpoint commit per milestone (approved D2)**; M11 (a11y) after the
+UI-heavy milestones so it audits final controls and dialog shapes. Every
+milestone is independently reviewable and ends at a Git checkpoint (AGENTS.md
+workflow). M1 starts only in a separate task after this approval checkpoint.
 
-### 8.2 Phase-1 milestones (proposed scope)
+### 8.2 Phase-1 milestones (approved scope — D1)
 
 #### M1 — Style system · V1-STYLE-001..004 (MUST), V1-TXT-001 (MUST), V1-DOC-002 (base-style default)
 Closes: no reusable styles; text types only as paragraph/heading. IR:
@@ -687,7 +768,7 @@ styles, never replacing them. Editor: toolbar; real dialogs replace
 e2e; limitations item 16 updated. Acceptance: V1-FMT-001/002 in a golden;
 V1-FMT-003 documented subset.
 
-#### M3 — Lists · V1-LIST-001 (MUST), 002 (MUST), 003 (MUST), 004 (SHOULD) ◂ promotes V1.1 multilevel
+#### M3 — Lists · V1-LIST-001 (MUST), 002 (MUST), 003 (MUST), 004 (SHOULD) ◂ promotes V1.1 multilevel (approved — D8)
 IR: new `list` block kind per §7; bullet markers; numbered types with `start`;
 derived per-level ordinals (extend numbering engine); legacy `bulletList`
 normalization. Dep: M2. Tests: §7 suite + e2e (insert/remove/reorder
@@ -697,9 +778,11 @@ numbering styles work; any multilevel remainder tracked honestly, not dropped.
 #### M4 — Page setup, paper sizes & document defaults · V1-PAGE-001/002/003/004 (MUST), V1-PAG-004 (MUST), V1-PDF-002 (MUST, non-A4 leg), V1-DOC-002 (configurable defaults)
 IR: `format` enum expansion + custom width/height pair; layout geometry table;
 document-level and new-document default settings (page setup, default theme,
-metadata skeleton) — closes the V1-DOC-002 configurability requirement (§4.2).
+metadata skeleton) — closes the V1-DOC-002 configurability requirement (§4.2);
+configurability **stays in M4 as approved (D11)** — no deferral.
 Renderer: per-size `@page` geometry; `pnpm pdf` run-grouping (already
-size-keyed) confirmed per-size MediaBoxes. Dep: none (parallel thread). Tests:
+size-keyed) confirmed per-size MediaBoxes. Dep: none (conceptually independent;
+executed sequentially — D2). Tests:
 unit geometry, goldens per size×orientation, e2e PDF media sizes, settings
 round-trip. Acceptance: every listed size paginates and exports correctly;
 V1-PDF-002 and V1-PAG-004 complete.
@@ -712,10 +795,10 @@ inline field node in `inlineSchema`; `marginFieldSchema` extension. Resolve:
 document/page/lab field resolution; unresolved-field registry served to
 V1-FIELD-004 UI + export validation. Dep: M1. Tests: resolution unit,
 round-trip, golden (fields in body + HF), e2e metadata→field updates and
-unresolved detection. `status` is a **field**, not lifecycle (V1-LIFE-001 stays
-V1.2).
+unresolved detection. `status` is a **field**, not lifecycle — approved (D6);
+V1-LIFE-001 stays V1.2.
 
-#### M6 — Numbering & cross-references · V1-REF-001 (retained), V1-REF-002/003 (SHOULD), equation numbering (SHOULD) ◂ promotes V1.1 cross-refs/equation numbering
+#### M6 — Numbering & cross-references · V1-REF-001 (retained), V1-REF-002/003 (SHOULD), equation numbering (SHOULD) ◂ promotes V1.1 cross-refs/equation numbering (approved — D8)
 IR: reference field node (`ref` → target stable id + kind); equation
 numbering (derived). Resolve: labels from `deriveNumbering` (heading number,
 "Table N", "Figure N", "Equation N") — automatic updates by construction
@@ -730,12 +813,31 @@ semantic-invariant suite and theme-regression e2e. Dep: M1, M5. Tests:
 invariants ×20, VIS-002 series over the corpus (§6.2). Acceptance: 20 themes,
 5 B&W, invariants green, VIS-002 corpus green.
 
-#### M8 — Table depth · V1-TABLE-002 (MUST UI), 003 (MUST), 004 (MUST), 005 (MUST), 008 (MUST), 009 caption-editing (MUST) ◂ promotes advanced table pagination
+#### M8 — Table depth · V1-TABLE-002 (MUST UI), 003 (MUST), 004 (MUST), 005 (MUST), 008 (MUST), 009 caption-editing (MUST) ◂ promotes advanced table pagination (approved — D8)
 IR: colspan/rowspan on `tableCell`; cell h/v alignment; table/cell borders,
-thickness, background, padding, row height; `rowSplit` policy (configurable
-per table — D5); caption editing persists to `caption`. Renderer: repeated
+thickness, background, padding, row height; `rowSplit` policy — **approved
+(D5)**: `rowSplit: "allow"` default, per-table "prevent row splitting" option;
+caption editing persists to `caption`. Renderer: repeated
 header + merged-cell continuation across pages (AGENTS.md §18); row-split
 enforcement by the layout script; goldens for multi-page merged tables.
+
+**Deterministic behavior when a prevented row cannot fit (D5):**
+
+1. A prevented row is **atomic** — the layout engine never splits it across
+   pages.
+2. If the row does not fit in the remaining space of the current page, the
+   engine inserts a page break **before** the row: the whole row moves to the
+   next page, and the repeated `<thead>` is emitted on the continuation page
+   (existing V1-TABLE-007 header-repeat behavior). The preceding whitespace on
+   the current page is preserved.
+3. Degenerate case — the row's natural height exceeds the usable page height
+   of a full page: the row is placed at the top of a fresh page and the
+   renderer records an **explicit layout warning** (surfaced through the same
+   non-destructive channel as other unresolved layout warnings, AGENTS.md §33);
+   it must not silently clip or split the row.
+
+These rules are baked into M8's layout-script tests and goldens (prevented row
+moves to the next page whole; degenerate-case warning asserted).
 Editor: row/column add-delete, merge/split, alignment, formatting. Dep: M4,
 M2. Tests: adapter, golden + e2e (multi-page merged tables, repeated headers,
 row-split), round-trip. Risk: merged cells × pagination is the highest table
@@ -770,8 +872,8 @@ disabled/limited to supported; per-milestone checkpoint commit + push.
 ### 8.4 Remaining-V1 roadmap and release gates (after Phase 1)
 | Work | Criteria | When / gate |
 |---|---|---|
-| **IMP-MD** — Markdown import (remark/unified → IR; fidelity report; V1-ERR-002 becomes active) | V1-IMP-001 (SHOULD) | **D3 decision** — Phase-1 late slot, remaining-V1, or V1.1 deferral; `remark`/`unified` approval separate (AGENTS.md §35/§72) |
-| **Release gates & hardening** | V1-PERF-001 gate, V1-VIS-001/002 gates, V1-GATE-002/003/004, V1-DEMO-001 | Release hardening: PERF fixture + thresholds (§6.1), VIS corpus + baselines (§6.2), demonstration SOP, checklist sign-off |
+| **IMP-MD** — Markdown import (remark/unified → IR; fidelity report; V1-ERR-002 becomes active) | V1-IMP-001 (SHOULD) | **Approved (D3):** separate remaining-V1 milestone after M1–M11 and before final V1 acceptance; intentional deviation from `Main_Prompt.md` §50 (V1.4+); `remark`/`unified` dependency approval remains separate (package-version, license and security review before implementation — AGENTS.md §35/§72) |
+| **Release gates & hardening** | V1-PERF-001 gate, V1-VIS-001/002 gates, V1-GATE-002/003/004, V1-DEMO-001 | Release hardening: PERF fixture + thresholds + reference-environment pin (§6.1), VIS corpus + baselines + browser-pin/tolerance policy (§6.2), demonstration SOP, checklist sign-off |
 | V1.1 advanced engine (Main_Prompt §47) | TOC, generated lists, annexures/appendices, footnotes, columns, widow/orphan | V1.1 (not V1 criteria) |
 | V1.2 controlled engine | V1-CD-001, V1-LIFE-001 | V1.2 |
 | V1.3 forms/calc/units | V1-FORM-001, V1-CALC-001 | V1.3 |
@@ -786,20 +888,27 @@ framework replacement (ADR-001/002 frozen), no backend/auth/cloud, JSON schema
 
 ---
 
-## 9. Open decisions (prioritized)
+## 9. Decision log (approved — R0.4)
 
-| # | Decision | Needed for | Recommendation |
+All decisions below were **approved** by the human on 2026-10-09 (approval
+record §0, items 1–11). R0.3 **D10 is split** into D10 (visual regression) and
+D11 (configurable new-document defaults) as required by the approval record.
+Resolutions do not weaken any V1 acceptance criterion; Phase 0 PASS results
+and evidence are unchanged.
+
+| # | R0.3 # | Decision | Resolution (approved) |
 |---|---|---|---|
-| D1 | Approve Phase-1 scope M1–M11 (§8.2) | Scope | Endorse as proposed (or amend) |
-| D2 | Milestone order + M4 parallel thread; M11 placement | Sequencing | Confirm; M4 ∥ (M2/M3); M11 in Phase 1 |
-| D3 | **V1-IMP-001 Markdown import**: Phase 1 / remaining-V1 / V1.1 deferral (+ separate `remark`/`unified` approval if in) | Imports | Decision required — criteria SHOULD vs Main_Prompt §50 |
-| D4 | Nested-list `list` schema (§7) + stay on `1.0` (additive, forward-incompatible by design) | Schema | Approve model + ADR-004 classification |
-| D5 | Table row-split semantics (V1-TABLE-008): default `allow` with per-table `prevent` + UI surface | Tables (M8) | Confirm proposed policy |
-| D6 | `metadata.status` as organizational label now; lifecycle deferred to V1.2 | Metadata (M5) | Confirm (prevents META-001 being gated on §34) |
-| D7 | Documented margin-box AT limitation vs V1-A11Y-001 (constraint, not waiver; M11 scope §6.3) | A11y (M11) | Accept constraint + M11 demonstrable scope |
-| D8 | **V1.1 scope promotions into Phase 1**: multilevel lists/numbering (M3), cross-references (M6), equation numbering (M6), advanced table pagination (M8) | Phase boundary | Approve as additive promotions (§5.1) |
-| D9 | **V1-PERF-001 gate**: extended fixture (10+ tables, 10+ images, headers, recorded headings) + committed thresholds (preview ≤ 12 s, export ≤ 20 s on reference env) + gate condition (§6.1) | Release gate | Approve gate + thresholds (or amend) |
-| D10 | **V1-VIS-001/002 gate**: corpus + committed screenshot baselines + tolerance policy (§6.2); and/or deferral of V1-DOC-002 configurability beyond Phase 1 (§4.2) | Release gate / defaults | Approve corpus policy; confirm configurability stays in M4 |
+| D1 | D1 | Phase-1 scope M1–M11 (§8.2) | **APPROVED** — milestones as scoped in §8.2 |
+| D2 | D2 | Milestone order; M4 "parallel" thread; M11 placement | **APPROVED** — sequential execution with a separate checkpoint commit per milestone; M4 conceptually independent but executed sequentially (no simultaneous implementation in one working tree); M11 in Phase 1; M1 starts only in a separate task after this checkpoint |
+| D3 | D3 | Markdown import (V1-IMP-001) placement + `remark`/`unified` dependency | **APPROVED** — separate remaining-V1 milestone after M1–M11 and before final V1 acceptance; intentional deviation from `Main_Prompt.md` §50 (V1.4+); `remark`/`unified` approval remains separate (package-version, license and security review before implementation) |
+| D4 | D4 | Nested-list `list` schema (§7) + stay on `1.0` | **APPROVED** — canonical `list` node + legacy `bulletList` compatibility (ADR-004 additive, `schema_version` stays `1.0`); it is documented that older builds may reject files containing newly introduced block types (`DocFormatError`); schema/migration/tests remain unimplemented until authorized Phase-1 M3 |
+| D5 | D5 | Table row-split semantics (V1-TABLE-008) | **APPROVED** — `rowSplit: "allow"` default; per-table "prevent row splitting" option; deterministic not-fit behavior specified (§8.2 M8) |
+| D6 | D6 | `metadata.status` label vs lifecycle | **APPROVED** — organizational label field in M5; lifecycle enforcement + immutable history deferred to V1.2 (V1-LIFE-001) |
+| D7 | D7 | paged.js margin-box AT limitation vs V1-A11Y-001 | **APPROVED** — accepted as a documented constraint (preview margin boxes only), **not** a waiver of main-interface accessibility requirements; M11 scope per §6.3 |
+| D8 | D8 | Four V1.1 scope promotions into Phase 1 (multilevel lists, cross-references, equation numbering, advanced table pagination) | **APPROVED** — additive promotions per §6.1/§5.1; **Markdown import recorded separately (D3)** |
+| D9 | D9 | V1-PERF-001 release gate (fixture + thresholds) | **APPROVED** — targets preview ≤ 12 s / export ≤ 20 s; reference environment and representative fixture documented and pinned before the gate is enforceable (§6.1) |
+| D10 | D10a | Visual-regression corpus + committed screenshot baselines (V1-VIS-001/002) | **APPROVED** — corpus + baseline approach approved; exact browser/runtime pin and pixel-difference tolerance policy documented before gate activation (§6.2) |
+| D11 | D10b | Configurable new-document defaults (V1-DOC-002) | **APPROVED** — stays in M4, treated separately from the visual-regression decision (§4.2, §8.2 M4) |
 
 ---
 
@@ -807,14 +916,19 @@ framework replacement (ADR-001/002 frozen), no backend/auth/cloud, JSON schema
 
 - `tests/unit/input-security.test.ts:2` comments reference the pre-rename
   security criterion `V1-SEC-003`. The test file is **not** modified by this
-  documentation-only revision; the comment becomes `V1-SECU-003` as a
-  comment-only update at the first Phase-1 checkpoint that touches the file.
+  documentation-only revision (R0.3 or R0.4 — no test files were touched); the
+  comment becomes `V1-SECU-003` as a comment-only update at the first Phase-1
+  checkpoint that touches the file. This follow-up stays visible here until
+  it is actioned.
 - `docs/phase0-manual-smoke-check.md` and `docs/limitations.md` "screenshots
   not captured" notes stay accurate until the V1-VIS corpus baselines land
   (§6.2).
 - The 133-identifier one-to-one matrix (§3) is the authoritative traceability
   map for Phase 1 planning and release gating.
 
-> This document is a proposal. Implementing any part of it requires explicit
-> approval of the scope, order and open decisions above (AGENTS.md §82). **No
-> Phase 1 implementation has been started.**
+> This document is the **approved** Phase-1 scope and decision record (§0,
+> R0.4, 2026-10-09). It records the approval only; feature implementation is
+> **not** authorized by this document. Phase-1 implementation begins in a
+> separate, explicitly authorized task after this checkpoint, starting from M1
+> (AGENTS.md checkpoint workflow). **No Phase 1 implementation has been
+> started.**
