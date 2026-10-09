@@ -59,9 +59,17 @@ are disabled rather than silently dropped — see §"Disabled by design".
    (`src/app/path-scope.ts` + `src/app/files.ts`, unit-tested in
    `tests/unit/path-scope.test.ts`): out-of-scope paths are rejected with an
    explicit, actionable error via the Save/Open status line. The capability
-   keeps the declared scope as defense-in-depth/documentation. Re-validation
-   (desktop): in-scope Save/Open must succeed and an out-of-scope path must be
-   rejected with the block message.
+   keeps the declared scope as defense-in-depth/documentation. Path traversal
+   is rejected as well: any path whose components include `.` or `..` (e.g.
+   `C:\Users\Ikram\..\..\Temp\probe.json`, which resolves to `C:\Temp\probe.json`
+   outside the root) is blocked by `src/app/path-scope.ts` before the
+   containment check — lexical prefix matching cannot resolve `..` safely
+   (regression-tested in `tests/unit/path-scope.test.ts`). This guard is an
+   application-level check on the paths routed through `saveJson()` /
+   `openJson()`; it is **not** an OS-level security boundary and does not
+   intercept direct calls to the Tauri fs plugin or other filesystem access.
+   Re-validation (desktop): in-scope Save/Open must succeed and an out-of-scope
+   path must be rejected with the block message.
 
 ## Preview rendering
 

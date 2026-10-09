@@ -10,6 +10,16 @@
  * The documented boundary is therefore enforced here, at the file-I/O layer,
  * deterministically and independently of the plugin/ACL behaviour.
  *
+ * Threat model: this guard validates only the paths routed through
+ * `saveJson()` / `openJson()` (src/app/files.ts). It is an application-level
+ * check, not an OS-level security boundary: it does not (and cannot) stop a
+ * caller that invokes the Tauri fs plugin directly or accesses the filesystem
+ * behind the app. Paths containing dot-directory components (`.`, `..`) are
+ * rejected outright — a lexical prefix check cannot safely interpret `..`
+ * (e.g. `C:\Users\Ikram\..\..\Temp\probe.json` resolves to `C:\Temp\probe.json`,
+ * outside the root). The OS dialogs return canonical paths, so rejecting dot
+ * components never blocks a real user selection.
+ *
  * Pure module: no Tauri imports, unit-tested in tests/unit/path-scope.test.ts.
  */
 
@@ -38,16 +48,22 @@ export function normalizeScopePath(p: string): string {
 /**
  * True when `path` is the root itself or a descendant of one of `roots`.
  *
- * The OS dialogs return canonical absolute file paths, so no `..` collapsing
- * is needed here (a `..`-containing path that still starts with a root prefix
- * is conservative: the comparison is purely lexical).
+ * Paths containing dot-directory components (`.`, `..`) are always rejected:
+ * see the module comment — lexical containment cannot resolve `..` safely, so
+ * they are refused before any prefix comparison happens.
  */
 export function isPathInScope(path: string, roots: readonly string[]): boolean {
   const p = normalizeScopePath(path);
+  if (hasDotDirectoryComponent(p)) return false;
   return roots.some((root) => {
     const r = normalizeScopePath(root);
     // Prefix rule handles bare roots ("/") and trailing-slash roots ("c:/").
     const prefix = r === "/" ? "/" : r.endsWith("/") ? r : r + "/";
     return p === r || p.startsWith(prefix);
   });
+}
+
+/** True when any normalized path component is exactly `.` or `..`. */
+function hasDotDirectoryComponent(p: string): boolean {
+  return p.split("/").some((c) => c === "." || c === "..");
 }

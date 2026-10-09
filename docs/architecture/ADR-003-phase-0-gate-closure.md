@@ -142,6 +142,12 @@ wording is mirrored in the acceptance evidence.
   capability keeps the declared scope as defense-in-depth. Out-of-scope
   desktop Save/Open is rejected with an explicit error; re-verification of
   that guard in a desktop session is required before the Phase-0 gate closes.
+  Phase-0.5 (2026-10-09): the guard was hardened against path traversal —
+  paths containing `.`/`..` path components are rejected outright (lexical
+  prefix matching cannot resolve `..`; e.g. `C:\Users\Ikram\..\..\Temp\probe.json`
+  resolves outside the root), with regression coverage extended in
+  `tests/unit/path-scope.test.ts`. The guard remains an application-level
+  check on `saveJson()`/`openJson()`-routed paths, not an OS boundary.
 
 ## Consequences
 
