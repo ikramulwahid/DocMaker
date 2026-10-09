@@ -120,7 +120,10 @@ wording is mirrored in the acceptance evidence.
   fs scope of `$HOME/**`, `$APPDATA/**`, `$APPCONFIG/**`
   (`src-tauri/capabilities/default.json`). Interactive dialogs require manual
   desktop validation (documented in `docs/limitations.md`); WebView2
-  print-to-PDF remains unvalidated.
+  print-to-PDF remains unvalidated. The Phase-0 final acceptance review
+  (2026-10-09) re-confirmed this: desktop-session evidence had not yet been
+  supplied, so the Phase-0 gate stays **conditional** pending the native-dialog
+  and WebView2 checks (`docs/phase0-manual-smoke-check.md`).
 
 ## Consequences
 

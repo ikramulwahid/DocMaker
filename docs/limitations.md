@@ -24,14 +24,21 @@ are disabled rather than silently dropped — see §"Disabled by design".
    Playwright's Chromium, which is engine-identical to WebView2, but the
    desktop shell's print call has not been exercised yet. The Tauri window's
    WebView2 print-to-PDF remains a documented limitation; the verified PDF
-   path is `pnpm pdf` / the e2e exporter.
+   path is `pnpm pdf` / the e2e exporter. Status re-confirmed at the Phase-0
+   final acceptance review (2026-10-09): no desktop-session evidence had been
+   supplied.
 4. **Tauri native file workflow is wired, but the interactive dialogs were not
    click-driven in the automated suite.** `tauri-plugin-dialog` +
    `tauri-plugin-fs` are registered with an fs scope covering `$HOME/**`,
    `$APPDATA/**` and `$APPCONFIG/**` (`src-tauri/capabilities/default.json`).
    The native Open/Save dialogs require manual validation in a desktop
    session; the automated tests exercise the browser fallback path
-   (`src/app/files.ts`).
+   (`src/app/files.ts`). As of the Phase-0 final acceptance review
+   (2026-10-09) no manual desktop-session results had been supplied, so the
+   native-dialog workflow and the WebView2 print path (item 3) remain the
+   only open Phase-0 gate items and Phase 0 holds as a **conditional
+   pass** — see `docs/phase0-manual-smoke-check.md` for the exact checklist
+   and evidence requirements.
 
 ## Preview rendering
 
