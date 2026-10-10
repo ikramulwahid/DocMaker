@@ -235,7 +235,12 @@ export const useDocStore = create<DocState>((set) => ({
   // content, ids, metadata and numbering are untouched by construction.
   setStyleDefinition: (id, patch) =>
     set((state) => {
-      const def: StyleDefinition | undefined = state.document.styles[id];
+      const def: StyleDefinition | undefined = Object.prototype.hasOwnProperty.call(
+        state.document.styles,
+        id,
+      )
+        ? state.document.styles[id]
+        : undefined;
       if (!def) return { status: `Unknown style "${id}"` };
       const { name: _name, ...formatPatch } = patch;
       // Validate the merged format before it enters the IR (the schema would
@@ -287,7 +292,10 @@ export const useDocStore = create<DocState>((set) => ({
 
   removeCustomStyle: (id) =>
     set((state) => {
-      if (isBuiltinStyleId(id) || !state.document.styles[id]) {
+      if (
+        isBuiltinStyleId(id) ||
+        !Object.prototype.hasOwnProperty.call(state.document.styles, id)
+      ) {
         return { status: `Style "${id}" cannot be removed` };
       }
       return {

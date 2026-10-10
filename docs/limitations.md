@@ -204,7 +204,11 @@ V1-STYLE-001..004, V1-TXT-001 and the V1-DOC-002 base-style leg are delivered
     renderer emits **no** CSS rule for the unknown id, so the block renders
     with defaults. The reference is *not* rewritten to `normal`, so a re-save
     preserves the author's (possibly stale) reference — deterministic, no
-    silent data loss (AGENTS.md §46/§64).
+    silent data loss (AGENTS.md §46/§64). Style lookups are own-property
+    based, so a reference whose id collides with a JavaScript object
+    prototype member (`constructor`, `toString`, `hasOwnProperty`, …) is
+    treated as exactly this unknown-id case: it falls back safely and never
+    resolves to an inherited member.
 25. **The style editor exposes an allow-listed token set only** — font size,
     line height, font family (inherit/serif/sans/mono), alignment, bold,
     italic, colour (`#rrggbb`), capitalization, indent, space before/after.

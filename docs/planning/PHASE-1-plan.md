@@ -1,16 +1,19 @@
-# Phase 1 — Plan & Approval Record R0.5 (M1 Delivered — Style System)
+# Phase 1 — Plan & Approval Record R0.6 (M1 Delivered — Style System)
 
 - **Status:** **APPROVED + M1 DELIVERED** — the Phase-1 scope and decisions
   listed in §0 remain explicitly approved by the human (approval record
-  R0.4, 2026-10-09). This revision (R0.5) records the **delivery of M1**
-  (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
-  base-style leg) as an implementation checkpoint with executed verification;
-  it does **not** alter the R0.4 approval, does not re-open approved
-  decisions, and does **not** authorize further milestones. M1's plan status
-  markers (§3, §4.2, §8.2) are updated; **all Phase 0 PASS classifications
-  and evidence are preserved unchanged.**
-- **Revision:** R0.5 (2026-10-10) — M1 delivery record; supersedes R0.4
-  (same day, approval record) which superseded R0.3.
+  R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1** (reusable
+  style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002 base-style leg)
+  as an implementation checkpoint with executed verification; this revision
+  (R0.6) records the **post-delivery hardening of M1** (own-property style
+  lookups for prototype-name ids; e2e parity PDF moved to an ignored output
+  path). It does **not** alter the R0.4 approval, does not re-open approved
+  decisions, does not change M1 acceptance, and does **not** authorize
+  further milestones. M1's plan status markers (§3, §4.2, §8.2) are
+  unchanged; **all Phase 0 PASS classifications and evidence are preserved
+  unchanged.**
+- **Revision:** R0.6 (2026-10-10) — M1 post-delivery hardening record;
+  supersedes R0.5 (delivery record) which superseded R0.4 (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
@@ -97,12 +100,20 @@ This checkpoint is **documentation-only**:
   promotions; reference-environment prerequisites added to the V1-PERF-001
   gate; all Phase 0 PASS classifications and existing evidence preserved
   unchanged. Published at `fc9b00b`.
-- **R0.5 (2026-10-10, this revision):** **M1 delivered** — reusable style
+- **R0.5 (2026-10-10):** **M1 delivered** — reusable style
   system implemented, tested and published (see §0.5). Plan status markers
   updated: V1-STYLE-001..004 and V1-TXT-001 → PASS; V1-DOC-002 base-style leg
   delivered (stays PARTIAL — configurability remains in M4). ADR-005 records
   the style-system architecture. R0.4 approval record retained verbatim in
   its substance.
+- **R0.6 (2026-10-10, this revision):** M1 post-delivery hardening (see
+  §0.6) — style fallback lookups hardened against JavaScript object
+  prototype property names (own-property checks in `resolveStyleDefinition`,
+  `resolveStyles` and the store; regression tests for `constructor`,
+  `toString`, `hasOwnProperty`); the e2e parity PDF was relocated from the
+  tracked `artifacts/spike/e2e-sop.pdf` to the ignored `artifacts/e2e-sop.pdf`
+  so E2E runs never dirty the working tree (tracked spike PDF restored to its
+  pre-M1 bytes). M1 acceptance unchanged; M2 not started.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -131,6 +142,34 @@ This checkpoint is **documentation-only**:
   (new), `docs/limitations.md`.
 - **Out of scope (unchanged):** M2–M11 not started; no new dependencies;
   no schema-version bump; no lifecycle/metadata-status work.
+
+### 0.6 M1 hardening record (R0.6)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the
+  hardening sits on top of the M1 delivery (§0.5).
+- **Scope:** (1) style fallback lookups use own-property checks
+  (`Object.prototype.hasOwnProperty`) in `resolveStyleDefinition`,
+  `resolveStyles` and the store, so a block reference that collides with a
+  JavaScript object prototype member (`constructor`, `toString`,
+  `hasOwnProperty`, …) is treated as an unknown id: the same deterministic
+  safe fallback applies, no inherited member leaks in as a style definition,
+  and the render pipeline never throws. The canonical style-id grammar
+  `^[a-z][a-z0-9-]{0,31}$` is unchanged. (2) `tests/e2e/pdf-parity.spec.ts`
+  writes its regenerated parity PDF to `artifacts/e2e-sop.pdf` (ignored by
+  `artifacts/*`) instead of the tracked spike path; the tracked
+  `artifacts/spike/e2e-sop.pdf` was restored to its pre-M1 bytes and is no
+  longer rewritten by E2E runs — committed spike evidence only.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (unit + golden); `pnpm test:e2e` PASS (full Playwright suite); `pnpm
+  build` PASS.
+- **Changed files:** `src/core/resolve/index.ts`, `src/store.ts`,
+  `tests/unit/styles.test.ts` (prototype-name regression tests),
+  `tests/e2e/pdf-parity.spec.ts`, `artifacts/spike/e2e-sop.pdf` (restored),
+  `docs/architecture/ADR-005-style-system.md`, `docs/limitations.md`, this
+  plan (R0.6).
+- **M1 acceptance:** unchanged — V1-STYLE-001..004, V1-TXT-001 and the
+  V1-DOC-002 base-style leg keep their R0.5 classifications; no criterion
+  re-opened. M2 not started.
 
 ---
 
@@ -808,6 +847,9 @@ leg. Out of scope: template authoring. **◂R0.5 — DELIVERED:** V1-STYLE-001..
 and V1-TXT-001 PASS (evidence: `tests/unit/styles.test.ts`, golden-04,
 `tests/e2e/styles.spec.ts`, ADR-005); V1-DOC-002 base-style leg closed, the
 configurability leg remains in M4 (a separate task per D2 — not started).
+**◂R0.6 — HARDENED:** post-delivery hardening of M1 (own-property style
+lookups for prototype-name ids; e2e parity PDF moved to an ignored output
+path) — M1 acceptance unchanged, see §0.6.
 
 #### M2 — Character & paragraph formatting · V1-FMT-001/002 (MUST), V1-FMT-003 (SHOULD, feasible subset)
 IR: extend `markSchema` (underline, strikethrough, superscript, subscript,

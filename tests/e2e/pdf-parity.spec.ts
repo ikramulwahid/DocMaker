@@ -69,9 +69,13 @@ test("preview and PDF agree on the golden SOP page count (parity)", async ({
   const previewPages = await appPreviewPageCount(page, GOLDEN_SOP);
   expect(previewPages).toBeGreaterThanOrEqual(3);
 
+  // Generated test output goes to an ignored location (`artifacts/*`), never a
+  // tracked path: the committed spike evidence in `artifacts/spike/` is listed
+  // in its README, while this parity PDF is regenerated on every run and would
+  // otherwise dirty the working tree with fresh PDF metadata timestamps.
   const result = await exportPaginatedPdf({
     html: layoutHtml(GOLDEN_SOP),
-    outputPath: path.resolve("artifacts/spike/e2e-sop.pdf"),
+    outputPath: path.resolve("artifacts/e2e-sop.pdf"),
   });
 
   // Same document → same number of pages in preview and PDF.

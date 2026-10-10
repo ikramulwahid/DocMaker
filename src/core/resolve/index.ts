@@ -58,10 +58,12 @@ export function resolveStyleDefinition(
   document: Document,
   id: string,
 ): StyleDefinition {
-  const stored = document.styles[id];
-  if (stored) return stored;
-  const builtin = DEFAULT_LIBRARY[id];
-  if (builtin) return builtin;
+  if (Object.prototype.hasOwnProperty.call(document.styles, id)) {
+    return document.styles[id] as StyleDefinition;
+  }
+  if (Object.prototype.hasOwnProperty.call(DEFAULT_LIBRARY, id)) {
+    return DEFAULT_LIBRARY[id] as StyleDefinition;
+  }
   // A reference to a deleted/unknown style: deterministic fallback so the
   // document still renders (documented — see docs/limitations.md).
   return defaultFallbackStyle();
@@ -96,13 +98,13 @@ export function resolveStyles(document: Document): Styles {
   for (const section of document.sections) {
     for (const block of section.blocks) {
       const effective = effectiveStyleOf(document, block);
-      if (effective && !out[effective.id]) {
+      if (effective && !Object.prototype.hasOwnProperty.call(out, effective.id)) {
         out[effective.id] = effective.definition;
       }
       if (block.type === "bulletList") {
         for (const item of block.items) {
           const itemStyle = effectiveStyleOf(document, item);
-          if (itemStyle && !out[itemStyle.id]) {
+          if (itemStyle && !Object.prototype.hasOwnProperty.call(out, itemStyle.id)) {
             out[itemStyle.id] = itemStyle.definition;
           }
         }
@@ -112,7 +114,7 @@ export function resolveStyles(document: Document): Styles {
           for (const cell of row.cells) {
             for (const cellParagraph of cell.content) {
               const cellStyle = effectiveStyleOf(document, cellParagraph);
-              if (cellStyle && !out[cellStyle.id]) {
+              if (cellStyle && !Object.prototype.hasOwnProperty.call(out, cellStyle.id)) {
                 out[cellStyle.id] = cellStyle.definition;
               }
             }

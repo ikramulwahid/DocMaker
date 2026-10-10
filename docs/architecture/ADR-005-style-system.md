@@ -54,7 +54,12 @@ presentation for text blocks:
   documented safe default (`defaultFallbackStyle()`, normal-shaped), and the
   renderer emits **no** CSS rule for the unknown id — the block renders with
   defaults. Removing a custom style and re-rendering is the same path as
-  deleting it in the UI.
+  deleting it in the UI. Lookups use own-property checks
+  (`Object.prototype.hasOwnProperty`), so a reference whose id collides with
+  a JavaScript object prototype member (`constructor`, `toString`,
+  `hasOwnProperty`, …) is treated as unknown and takes the exact same
+  deterministic fallback — an inherited member can never leak in as a style
+  definition or crash the renderer (hardened in R0.6).
 - **Compatibility (ADR-004):** all additions are additive with safe defaults.
   A legacy style-less `labdoc/1.0` document loads uncorrupted: blocks without
   a `style` field become `style: null` and derive the documented built-ins at

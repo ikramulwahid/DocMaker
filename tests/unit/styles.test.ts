@@ -18,7 +18,12 @@ import { describe, expect, it } from "vitest";
 import { readFileSync } from "node:fs";
 import { deserializeDocument, serializeDocument } from "@/core/json/envelope";
 import { renderLayout } from "@/core/layout";
-import { resolveDocument, effectiveStyleOf, resolveStyles } from "@/core/resolve";
+import {
+  resolveDocument,
+  effectiveStyleOf,
+  resolveStyles,
+  resolveStyleDefinition,
+} from "@/core/resolve";
 import {
   BUILTIN_STYLE_IDS,
   buildDefaultStyles,
@@ -35,6 +40,7 @@ import {
   createParagraph,
   text,
 } from "@/core/ir/factory";
+import { deriveNumbering } from "@/core/numbering";
 import type { Document } from "@/core/ir/schema";
 
 /** Strip <style> blocks so tests can compare document MARKUP alone. */
@@ -450,5 +456,80 @@ describe("invalid style values and unresolved references", () => {
     expect(html).not.toContain(".doc-style-deleted-style {");
     // The valid normal block unaffected.
     expect(html).toContain('class="doc-paragraph doc-style-normal"');
+  });
+
+  it("treats JavaScript object prototype names as unknown references (fallback)", () => {
+    // `constructor` is the only all-lowercase Object.prototype own name that
+    // also satisfies the style-id grammar, so it can reach the resolver
+    // through a schema-validated document. The others are exercised directly
+    // to prove the resolver's own-property check (not a JS lookup) governs.
+    const doc = createEmptyDocument("T");
+    doc.sections[0].blocks = [createParagraph([text("a")], "constructor")];
+    const resolved = resolveDocument(doc);
+
+    const protoNames = [
+      "constructor",
+      "toString",
+      "hasOwnProperty",
+      "valueOf",
+      "isPrototypeOf",
+      "propertyIsEnumerable",
+      "toLocaleString",
+      "__proto__",
+    ];
+    for (const id of protoNames) {
+      const def = resolveStyleDefinition(resolved.document, id);
+      // The inherited object member (a function/value) must NOT leak in;
+      // the documented safe fallback (normal-shaped) is returned instead.
+      expect(typeof def).toBe("object");
+      expect(def.id).toBe("normal");
+      expect(def.format.fontSizePt).toBeNull();
+      expect(def.format.bold).toBe(false);
+    }
+
+    // Schema-valid path: a block referencing "constructor" renders with the
+    // fallback definition and its own class, content preserved.
+    const block = doc.sections[0].blocks[0];
+    const eff = effectiveStyleOf(resolved.document, block);
+    expect(eff).not.toBeNull();
+    expect(eff!.id).toBe("constructor");
+    expect(eff!.derived).toBe(false);
+    expect(eff!.definition.id).toBe("normal");
+    const html = renderLayout(resolved, { pagedJsSrc: "/vendor/paged.polyfill.js" });
+    expect(html).toContain('class="doc-paragraph doc-style-constructor"');
+    expect(html).not.toContain(".doc-style-constructor {");
+    expect(html).toContain(">a<");
+
+    // `resolveStyles` must record it as an OWN key, never resolving to the
+    // inherited `Object.prototype.constructor`.
+    const styles = resolveStyles(resolved.document);
+    expect(Object.prototype.hasOwnProperty.call(styles, "constructor")).toBe(true);
+    expect(styles["constructor"].id).toBe("normal");
+  });
+
+  it("renders prototype-name style references safely when schema validation is bypassed", () => {
+    // Only `constructor` passes the style-id grammar; the rest are unreachable
+    // through a validated document. This test drives resolveStyles + renderLayout
+    // directly (no parse) so the pipeline itself is proven safe: fallback
+    // definitions, no inherited members copied, no exception, content intact.
+    const doc = createEmptyDocument("T");
+    const names = ["toString", "hasOwnProperty", "valueOf", "toLocaleString"];
+    doc.sections[0].blocks = names.map((n, i) => createParagraph([text(String(i))], n));
+    const resolved = {
+      document: doc,
+      numbering: deriveNumbering(doc),
+      styles: resolveStyles(doc),
+    };
+    const html = renderLayout(resolved, { pagedJsSrc: "/vendor/paged.polyfill.js" });
+    names.forEach((name, i) => {
+      expect(Object.prototype.hasOwnProperty.call(resolved.styles, name)).toBe(true);
+      expect(resolved.styles[name].id).toBe("normal"); // documented safe fallback
+      // Reference id preserved, content rendered, no CSS fabricated.
+      expect(html).toContain(`doc-style-${name}`);
+      expect(html).toContain(`>${i}<`);
+      expect(html).not.toContain(`.doc-style-${name} {`);
+    });
+    // The result map stays a plain object: no prototype members were summoned.
+    expect(Object.getPrototypeOf(resolved.styles)).toBe(Object.prototype);
   });
 });
