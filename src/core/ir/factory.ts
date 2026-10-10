@@ -3,6 +3,7 @@
  * All documents start from A4 defaults (ADR-001).
  */
 import { newId } from "./ids";
+import { buildDefaultStyles } from "./styles";
 import type {
   Block,
   Document,
@@ -20,12 +21,31 @@ export function text(value: string, marks: Inline["marks"] = []): Inline {
   return { text: value, marks };
 }
 
-export function createParagraph(content: Inline[] = []): Paragraph {
-  return { id: newId("pg"), type: "paragraph", content };
+/**
+ * The base style for a paragraph block (V1-DOC-002 base-style default).
+ * Not a table cell/list item context in itself — those derive from
+ * `createParagraph` and inherit this base reference.
+ */
+export const BASE_PARAGRAPH_STYLE = "normal";
+
+/** The derived built-in style for a semantic heading level. */
+export function headingStyleId(level: number): string {
+  return `heading-${Math.min(6, Math.max(1, Math.round(level)))}`;
 }
 
-export function createHeading(level: number, content: Inline[] = []): Heading {
-  return { id: newId("hd"), type: "heading", level, content };
+export function createParagraph(
+  content: Inline[] = [],
+  style: string | null = BASE_PARAGRAPH_STYLE,
+): Paragraph {
+  return { id: newId("pg"), type: "paragraph", content, style };
+}
+
+export function createHeading(
+  level: number,
+  content: Inline[] = [],
+  style: string | null = headingStyleId(level),
+): Heading {
+  return { id: newId("hd"), type: "heading", level, content, style };
 }
 
 export function createImage(
@@ -121,6 +141,9 @@ export function createEmptyDocument(title = ""): Document {
         fontSizePt: 64,
       },
     },
+    // New documents start from the full built-in style library (V1-DOC-002
+    // base-style default); blocks reference these styles by id.
+    styles: buildDefaultStyles(),
     sections: [createSection([createParagraph()])],
   };
 }

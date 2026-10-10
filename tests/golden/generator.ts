@@ -22,6 +22,7 @@ import {
   createTable,
   text,
 } from "@/core/ir/factory";
+import { buildDefaultStyles } from "@/core/ir/styles";
 import { documentSchema, type Block, type Document } from "@/core/ir/schema";
 import { createDocumentFixture } from "../unit/fixtures";
 
@@ -279,11 +280,82 @@ export function createPhase0GateDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 04 — reusable style system (V1-STYLE-001..004 / V1-TXT-001).
+ * Exercises the semantic heading hierarchy (H1–H4) and the style-based text
+ * types (Title, Subtitle, Body Text, Caption, Quote, Note, Warning, Important
+ * Notice, Definition, Reference, Table Text) as reusable style references,
+ * plus a custom document style to prove custom-style persistence (V1-STYLE-004).
+ */
+export function createStyleSystemDocument(): Document {
+  const doc = createEmptyDocument("Water Quality Monitoring Report");
+  doc.metadata = {
+    title: "Water Quality Monitoring Report",
+    docNumber: "WQ-2026-014",
+    revision: "01",
+    effectiveDate: "2026-10-09",
+    author: "N. Analyst",
+    organization: "Analytical Laboratory",
+    description: "Golden document: style system (V1-STYLE-001..004, V1-TXT-001)",
+  };
+  doc.settings.watermark.enabled = false;
+
+  // Custom style — document-level, persisted, referenced by blocks below.
+  const normal = buildDefaultStyles()["normal"];
+  doc.styles["custom-result"] = {
+    id: "custom-result",
+    name: "Result summary",
+    kind: "paragraph",
+    headingLevel: null,
+    format: { ...normal.format, fontSizePt: 12, bold: true, color: "#1f3a5f" },
+  };
+
+  const table = createTable(
+    [
+      ["Parameter", "Result", "Limit"],
+      ["pH", "7.2", "6.5 – 8.5"],
+    ],
+    { caption: "Monitoring results" },
+  );
+  table.rows[0].cells[0].content[0].style = "table-text";
+
+  doc.sections = [
+    createSection([
+      createParagraph([text("Water Quality Monitoring Report")], "title"),
+      createParagraph([text("Quarterly compliance summary — Q3 2026")], "subtitle"),
+      createHeading(1, [text("Scope")]),
+      createParagraph(
+        [text("This report summarises routine purified-water monitoring carried out during the quarter.")],
+        "body-text",
+      ),
+      createHeading(2, [text("Definitions")]),
+      createParagraph([text("Purified water: water meeting the specification in SOP-042.")], "definition"),
+      createHeading(3, [text("Procedure")]),
+      createParagraph(
+        [text("Samples were collected at the six designated points and analysed daily.")],
+        "body-text",
+      ),
+      createParagraph([text("All collection points met the acceptance criteria in Q3.")], "note"),
+      createParagraph([text("Do not use results outside the validated range for release decisions.")], "warning"),
+      createParagraph([text("Reviewed results are stated in the table below.")], "important-notice"),
+      createParagraph([text("“Quality is never an accident — it is always the result of intelligent effort.”")], "quote"),
+      createParagraph([text("Table 1 — Monitoring results")], "caption"),
+      table,
+      createParagraph([text("WQ-2026-014 · Rev 01 · 2026-10-09")], "reference"),
+      createParagraph([text("All parameters within specification.")], "custom-result"),
+      createHeading(4, [text("Records")]),
+      createParagraph([text("Raw data registers are retained for five years.")]),
+    ]),
+  ];
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
     { name: "golden-02-sop-long-table", doc: createSopDocument() },
     { name: "golden-03-phase0-gate", doc: createPhase0GateDocument() },
+    { name: "golden-04-style-system", doc: createStyleSystemDocument() },
   ];
 }
 

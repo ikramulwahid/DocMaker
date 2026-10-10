@@ -1,23 +1,28 @@
-# Phase 1 — Plan & Approval Record R0.4 (Approved Scope and Decisions)
+# Phase 1 — Plan & Approval Record R0.5 (M1 Delivered — Style System)
 
-- **Status:** **APPROVED** — the Phase-1 scope and decisions listed in §0 are
-  explicitly approved by the human (approval record R0.4, 2026-10-09). This
-  document records the approval; it does **not by itself** authorize feature
-  implementation. Phase-1 implementation begins only in a separately authorized
-  task after this checkpoint (AGENTS.md workflow), starting from M1.
-- **Revision:** R0.4 (2026-10-09) — approval record; supersedes R0.3 (same day,
-  criteria-integrity and decision-readiness proposal).
+- **Status:** **APPROVED + M1 DELIVERED** — the Phase-1 scope and decisions
+  listed in §0 remain explicitly approved by the human (approval record
+  R0.4, 2026-10-09). This revision (R0.5) records the **delivery of M1**
+  (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
+  base-style leg) as an implementation checkpoint with executed verification;
+  it does **not** alter the R0.4 approval, does not re-open approved
+  decisions, and does **not** authorize further milestones. M1's plan status
+  markers (§3, §4.2, §8.2) are updated; **all Phase 0 PASS classifications
+  and evidence are preserved unchanged.**
+- **Revision:** R0.5 (2026-10-10) — M1 delivery record; supersedes R0.4
+  (same day, approval record) which superseded R0.3.
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
-  R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; this approval record
-  is based on `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3 published).
+  R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
+  `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3) and `fc9b00b` (R0.4);
+  M1 delivered on top of `fc9b00b` (see §0.5 for the checkpoint commit).
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
   unchanged.
 - **Companion docs:** `Main_Prompt.md` §§46–51 (V1 Foundation / V1.1–V1.4 /
   Phase-0 PoC); `docs/requirements/V1_ACCEPTANCE_CRITERIA.md` (release gate);
-  `AGENTS.md`; ADR-001..004; `docs/limitations.md`;
+  `AGENTS.md`; ADR-001..005; `docs/limitations.md`;
   `docs/phase0-manual-smoke-check.md`.
 - **Method:** evidence in §4–§9 was re-verified in R0.3 against the current
   IR schema (`src/core/ir/schema.ts`), factory (`src/core/ir/factory.ts`),
@@ -26,11 +31,14 @@
   registry, file workflow, and the unit/e2e/golden suites (including
   `tests/e2e/stress.spec.ts`, `tests/e2e/pdf-parity.spec.ts`,
   `tests/golden/generator.ts`, `artifacts/stress-summary.json`). R0.4 is
-  documentation-only: no executable verification was run or claimed.
+  documentation-only: no executable verification was run or claimed. **R0.5**
+  is the first implementation checkpoint: M1 was executed end-to-end with
+  `pnpm typecheck`, `pnpm test`, `pnpm test:e2e` and `pnpm build` run against
+  the final tree (results recorded in §0.5).
 
 ---
 
-## 0. Approval record & change history (R0.4)
+## 0. Approval record, change history & M1 delivery (R0.5)
 
 ### 0.1 Approval summary
 
@@ -82,13 +90,47 @@ This checkpoint is **documentation-only**:
   corrections (V1-PDF-002 → PARTIAL; V1-DOC-002 orphan resolved),
   phase-boundary reconciliation, testable release gates, nested-list ADR-004
   clarification. Criteria document updated. Published at `b381ab3`.
-- **R0.4 (2026-10-09, this revision):** approval record — D1–D11 approved by
+- **R0.4 (2026-10-09):** approval record — D1–D11 approved by
   the human (R0.3 D10 split into D10 visual regression + D11 configurable
   defaults); execution governance fixed (sequential checkpoints; M1 starts in
   a separate task); Markdown import recorded separately from the four scope
   promotions; reference-environment prerequisites added to the V1-PERF-001
   gate; all Phase 0 PASS classifications and existing evidence preserved
-  unchanged.
+  unchanged. Published at `fc9b00b`.
+- **R0.5 (2026-10-10, this revision):** **M1 delivered** — reusable style
+  system implemented, tested and published (see §0.5). Plan status markers
+  updated: V1-STYLE-001..004 and V1-TXT-001 → PASS; V1-DOC-002 base-style leg
+  delivered (stays PARTIAL — configurability remains in M4). ADR-005 records
+  the style-system architecture. R0.4 approval record retained verbatim in
+  its substance.
+
+### 0.5 M1 delivery record (R0.5)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; M1
+  work sits on top of `fc9b00b` (R0.4 approval).
+- **Scope delivered:** document-level `styles` library (V1-STYLE-001),
+  per-block style references with `null` → derived built-in defaults
+  (V1-STYLE-002), definition edits re-rendering every assignee through the
+  shared resolve→layout pipeline (V1-STYLE-003), custom styles persisting
+  edit → save → reopen (V1-STYLE-004), style-based text types (V1-TXT-001),
+  and the base-style default for new documents (V1-DOC-002 base-style leg).
+  Architecture: ADR-005; schema additive under ADR-004 — `schema_version`
+  stays `1.0`.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (unit + golden); `pnpm test:e2e` PASS (Playwright, incl. new
+  `tests/e2e/styles.spec.ts`); `pnpm build` PASS. Golden suite extended with
+  `golden-04-style-system` (heading hierarchy H1–H4 + style-based text types
+  + persisted custom style).
+- **Changed files:** `src/core/ir/styles.ts` (new), `schema.ts`,
+  `factory.ts`, `ids.ts`, `resolve/index.ts`, `layout/html.ts`, `layout/css.ts`,
+  `layout/index.ts`, `editor/adapter.ts`, `editor/extensions.ts`,
+  `editor/EditorPanel.tsx`, `store.ts`, `components/Sidebar.tsx`,
+  `styles.css`, `tests/unit/styles.test.ts` (new), `tests/unit/adapter.test.ts`,
+  `tests/golden/generator.ts` + regenerated goldens + `golden-04-*`,
+  `tests/e2e/styles.spec.ts` (new), `docs/architecture/ADR-005-style-system.md`
+  (new), `docs/limitations.md`.
+- **Out of scope (unchanged):** M2–M11 not started; no new dependencies;
+  no schema-version bump; no lifecycle/metadata-status work.
 
 ---
 
@@ -162,15 +204,17 @@ references in ADRs, `docs/limitations.md` and the smoke-check remain valid.
 
 ## 3. One-to-one coverage matrix (133 / 133)
 
-Status legend — **PASS**: implemented + evidenced in Phase 0. **PARTIAL**:
-works in part, remainder named. **PLANNED — P1-M#**: Phase-1 milestone.
-**PLANNED — remaining-V1**: approved remaining-V1 work (after M1–M11).
-**DEFERRED**: later phase, justified. **OPEN**: human decision (§9) — no rows
-remain open after the R0.4 approval.
+Status legend — **PASS**: implemented + evidenced in Phase 0 or in M1 (R0.5).
+**PARTIAL**: works in part, remainder named. **PLANNED — P1-M#**: Phase-1
+milestone. **PLANNED — remaining-V1**: approved remaining-V1 work (after
+M1–M11). **DEFERRED**: later phase, justified. **OPEN**: human decision (§9) —
+no rows remain open after the R0.4 approval.
 Rows marked **◂R0.3** changed in the R0.3 audit (see §5 for the full
 rationale); the only R0.4 matrix change is V1-IMP-001 (status → PLANNED —
-remaining-V1, approved D3). **All Phase 0 PASS classifications and evidence
-are preserved unchanged.**
+remaining-V1, approved D3). **R0.5 (M1) transitions:**
+V1-STYLE-001..004 → PASS, V1-TXT-001 → PASS, V1-DOC-002 base-style leg
+delivered (still PARTIAL — configurability → M4). **All Phase 0 PASS
+classifications and evidence are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -191,13 +235,13 @@ are preserved unchanged.**
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-DOC-001 — New document | **PASS** | `newDocument()` + New button |
-| V1-DOC-002 — New document defaults | **PARTIAL** ◂R0.3 | A4/portrait/margins/theme/metadata defaults exist (`factory.ts`). Remaining: **base style → M1**; **defaults configurable where appropriate → M4** (§4.2). Not PASS until both land |
+| V1-DOC-002 — New document defaults | **PARTIAL** ◂R0.5 | A4/portrait/margins/theme/metadata defaults exist (`factory.ts`). **Base style leg delivered (M1, R0.5)** — new documents start from the built-in style library with `normal`/`heading-N` defaults. Remaining: **defaults configurable where appropriate → M4** (§4.2). Not PASS until M4 lands |
 | V1-DOC-003 — Document editing | **PASS** | Tiptap typing/edit/undo/redo/copy/paste via adapter (`adapter.test.ts`) |
 
 ### §8 Text and structure (MUST)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-TXT-001 — Text blocks | **PARTIAL** | paragraph/heading only; Title/Subtitle/Body Text/Caption/Quote/Note/Warning/Important Notice/Definition are style-based types → **M1** (V1-STYLE-001 lists the same names) |
+| V1-TXT-001 — Text blocks | **PASS** ◂R0.5 | Paragraph + style-based text types (Title, Subtitle, Body Text, Caption, Quote, Note, Warning, Important Notice, Definition) delivered as reusable styles in M1; headings stay semantic (V1-STYLE-001) — `styles.test.ts`, golden-04, `styles.spec.ts` |
 | V1-TXT-002 — Heading hierarchy | **PASS** | Semantic heading blocks levels 1–6, never font-derived |
 | V1-TXT-003 — Heading structure | **PASS** | Numbering + layout identify headings/levels independently of formatting |
 
@@ -211,10 +255,10 @@ are preserved unchanged.**
 ### §10 Style system (MUST)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-STYLE-001 — Reusable styles | **PLANNED — M1** | no `styles` model in IR |
-| V1-STYLE-002 — Style assignment | **PLANNED — M1** | blocks cannot reference a style |
-| V1-STYLE-003 — Style modification | **PLANNED — M1** | no definitions; re-render-on-change is new |
-| V1-STYLE-004 — Style persistence | **PLANNED — M1** | round-trip + golden tests required |
+| V1-STYLE-001 — Reusable styles | **PASS** ◂R0.5 | document-level `styles` library, sixteen listed built-ins + Heading 5/6, Quote, Important Notice (`src/core/ir/styles.ts`); allow-listed validated tokens (`styleFormatSchema`) — `styles.test.ts` "V1-STYLE-001"; ADR-005 |
+| V1-STYLE-002 — Style assignment | **PASS** ◂R0.5 | per-block `style` reference (paragraph/heading); `null` → derived built-ins (paragraph → normal, heading N → heading-N); toolbar select; adapter round-trip — `styles.test.ts` "V1-STYLE-002", `adapter.test.ts` |
+| V1-STYLE-003 — Style modification | **PASS** ◂R0.5 | definition edit re-renders every assignee via shared resolve→layout pipeline; content/ids/numbering untouched by construction — `styles.test.ts` "V1-STYLE-003", `styles.spec.ts` |
+| V1-STYLE-004 — Style persistence | **PASS** ◂R0.5 | custom styles + assignments survive edit → save → close → reopen (JSON round-trip, byte-stable re-save); golden-04 persists a custom style — `styles.test.ts` "V1-STYLE-004" |
 
 ### §11 Lists
 | Criterion | Status | Evidence / gap → assignment |
@@ -468,13 +512,16 @@ margins, **base style**, default theme, initial metadata structure) **and
 "configurable defaults" orphaned ("settings milestone"):
 
 - **Base style default** → **M1** (the style system is the only source of a
-  "base style").
+  "base style"). **DELIVERED (R0.5):** new documents start from the built-in
+  style library and default blocks reference `normal`/`heading-N`
+  (`factory.ts` + `styles.test.ts` "V1-DOC-002").
 - **Configurable defaults where appropriate** → **M4** (milestone renamed
   "Page setup, paper sizes & document defaults"): document-level page
   settings UI (V1-PAGE-004) plus a new-document default-settings surface
   covering page setup, default theme and metadata skeleton.
-- **Effect on V1 acceptance:** `V1-DOC-002` is **PARTIAL until M1 + M4** and
-  cannot be claimed PASS earlier.
+- **Effect on V1 acceptance:** `V1-DOC-002` is **PARTIAL until M4** — the
+  base-style leg (R0.5) closes half the gap, but the configurability
+  requirement remains open, so the criterion cannot be claimed PASS yet.
 - **Approved (R0.4, D11):** configurable new-document defaults stay **in M4**
   as scoped here; no deferral was approved. A hypothetical future deferral
   would keep V1-DOC-002 PARTIAL — it would not be an automatic pass.
@@ -757,7 +804,10 @@ base-style default for new documents. Schema: additive under ADR-004. Tests:
 assign/change/persist unit, round-trip, golden, e2e (style change re-renders;
 theme switch preserves style semantics). Acceptance: V1-STYLE-003 (change
 updates all users), V1-STYLE-004 (survives save/reopen), V1-DOC-002 base-style
-leg. Out of scope: template authoring.
+leg. Out of scope: template authoring. **◂R0.5 — DELIVERED:** V1-STYLE-001..004
+and V1-TXT-001 PASS (evidence: `tests/unit/styles.test.ts`, golden-04,
+`tests/e2e/styles.spec.ts`, ADR-005); V1-DOC-002 base-style leg closed, the
+configurability leg remains in M4 (a separate task per D2 — not started).
 
 #### M2 — Character & paragraph formatting · V1-FMT-001/002 (MUST), V1-FMT-003 (SHOULD, feasible subset)
 IR: extend `markSchema` (underline, strikethrough, superscript, subscript,

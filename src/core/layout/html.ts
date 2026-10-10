@@ -4,9 +4,21 @@
  */
 import type { Block, Inline, Section } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
+import { effectiveStyleOf } from "../resolve";
 import type { Numbering } from "../numbering";
 import { isValidColumnWidth, sanitizeHref, sanitizeImageSrc } from "../ir/sanitize";
 import { renderMath } from "../equation";
+
+/**
+ * The style class for a text block (V1-STYLE-002): an explicit reference or
+ * the derived built-in default. Classes are `doc-style-<id>` — style ids are
+ * validated (`^[a-z][a-z0-9-]{0,31}$`), so they are always safe CSS class
+ * names and can never smuggle markup.
+ */
+function styleClassName(resolved: ResolvedDocument, block: Block): string {
+  const style = effectiveStyleOf(resolved.document, block);
+  return style ? ` doc-style-${style.id}` : "";
+}
 
 export function escapeHtml(value: string): string {
   return value
@@ -71,14 +83,14 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
     case "heading": {
       const num = numbering.headings[block.id];
       const numHtml = num ? `<span class="doc-num">${escapeHtml(num)}</span> ` : "";
-      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading">${numHtml}${inlineHtml(block.content)}</h${block.level}>`;
+      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading${styleClassName(resolved, block)}">${numHtml}${inlineHtml(block.content)}</h${block.level}>`;
     }
     case "paragraph":
-      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph">${inlineHtml(block.content)}</p>`;
+      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph${styleClassName(resolved, block)}">${inlineHtml(block.content)}</p>`;
     case "bulletList":
       if (block.items.length === 0) return "";
       return `<ul id="${escapeAttr(block.id)}" class="doc-list">${block.items
-        .map((item) => `<li id="${escapeAttr(item.id)}">${inlineHtml(item.content)}</li>`)
+        .map((item) => `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}">${inlineHtml(item.content)}</li>`)
         .join("")}</ul>`;
     case "table": {
       const headerRow = block.headerRow;
@@ -112,7 +124,7 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
           .map(
             (cell) =>
               `<${tag} id="${escapeAttr(cell.id)}">${cell.content
-                .map((p) => `<p class="doc-paragraph" style="margin:0">${inlineHtml(p.content)}</p>`)
+                .map((p) => `<p class="doc-paragraph${styleClassName(resolved, p)}" style="margin:0">${inlineHtml(p.content)}</p>`)
                 .join("")}</${tag}>`,
           )
           .join("")}</tr>`;

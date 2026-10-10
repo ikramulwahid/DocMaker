@@ -23,6 +23,388 @@
         "fontSizePt": 64
       }
     },
+    "styles": {
+      "normal": {
+        "id": "normal",
+        "name": "Normal",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "body-text": {
+        "id": "body-text",
+        "name": "Body Text",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "title": {
+        "id": "title",
+        "name": "Title",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 22,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 6,
+          "indentMm": null
+        }
+      },
+      "subtitle": {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 14,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 4,
+          "indentMm": null
+        }
+      },
+      "heading-1": {
+        "id": "heading-1",
+        "name": "Heading 1",
+        "kind": "heading",
+        "headingLevel": 1,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-2": {
+        "id": "heading-2",
+        "name": "Heading 2",
+        "kind": "heading",
+        "headingLevel": 2,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-3": {
+        "id": "heading-3",
+        "name": "Heading 3",
+        "kind": "heading",
+        "headingLevel": 3,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-4": {
+        "id": "heading-4",
+        "name": "Heading 4",
+        "kind": "heading",
+        "headingLevel": 4,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-5": {
+        "id": "heading-5",
+        "name": "Heading 5",
+        "kind": "heading",
+        "headingLevel": 5,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-6": {
+        "id": "heading-6",
+        "name": "Heading 6",
+        "kind": "heading",
+        "headingLevel": 6,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "caption": {
+        "id": "caption",
+        "name": "Caption",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "table-text": {
+        "id": "table-text",
+        "name": "Table Text",
+        "kind": "tableText",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "quote": {
+        "id": "quote",
+        "name": "Quote",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": 8
+        }
+      },
+      "note": {
+        "id": "note",
+        "name": "Note",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "warning": {
+        "id": "warning",
+        "name": "Warning",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "important-notice": {
+        "id": "important-notice",
+        "name": "Important Notice",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "definition": {
+        "id": "definition",
+        "name": "Definition",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "reference": {
+        "id": "reference",
+        "name": "Reference",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 10.5,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "header": {
+        "id": "header",
+        "name": "Header",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "footer": {
+        "id": "footer",
+        "name": "Footer",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      }
+    },
     "sections": [
       {
         "id": "sec_4r8d40o0",
@@ -93,7 +475,8 @@
                 "text": "Purpose",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_mhinp97w",
@@ -103,7 +486,8 @@
                 "text": "This controlled document describes the routine receipt, identification and acceptance of laboratory samples.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_qe1o9ysv",
@@ -113,7 +497,8 @@
                 "text": "All activities shall be performed by trained and authorised personnel in accordance with the quality manual.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_w47731rg",
@@ -123,7 +508,8 @@
                 "text": "Records generated during the procedure shall be retained for the period defined by the quality management system.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_3d6gbg9u",
@@ -133,7 +519,8 @@
                 "text": "Where a result falls outside the acceptance criteria, the analyst shall initiate an out-of-specification investigation.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "hd_m3tgcczx",
@@ -144,7 +531,8 @@
                 "text": "Scope",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_14dtu7mq",
@@ -154,7 +542,8 @@
                 "text": "The laboratory shall monitor and record environmental conditions throughout the testing period.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_yqftbwft",
@@ -164,7 +553,8 @@
                 "text": "Reagents and reference standards shall be within their stated expiry period at the time of use.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_445bued8",
@@ -174,7 +564,8 @@
                 "text": "Instrument calibration status shall be verified before each analytical run and documented on the worksheet.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "hd_q9y23zu7",
@@ -185,7 +576,8 @@
                 "text": "Definitions",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "bl_gategate1",
@@ -199,7 +591,8 @@
                     "text": "Sample — a portion of material submitted for examination.",
                     "marks": []
                   }
-                ]
+                ],
+                "style": null
               },
               {
                 "id": "pg_me4a0erw",
@@ -209,7 +602,8 @@
                     "text": "Acceptance criterion — a documented limit used to judge conformity.",
                     "marks": []
                   }
-                ]
+                ],
+                "style": null
               },
               {
                 "id": "pg_q3exeix5",
@@ -219,7 +613,8 @@
                     "text": "OOS — a result that falls outside an established acceptance criterion.",
                     "marks": []
                   }
-                ]
+                ],
+                "style": null
               }
             ]
           },
@@ -232,7 +627,8 @@
                 "text": "Structured equations",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_bhugcp1t",
@@ -254,7 +650,8 @@
                 "text": ".",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "eq_0y6aijf0",
@@ -278,7 +675,8 @@
                 "text": ", carbon dioxide and derived quantities.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "eq_qhuic77f",
@@ -295,7 +693,8 @@
                 "text": "Acceptance criteria",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_6pbrr2l9",
@@ -305,7 +704,8 @@
                 "text": "All parameters shall conform to the limits summarised in Table 1.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "tb_hdnci79g",
@@ -330,7 +730,8 @@
                             "text": "Parameter",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -346,7 +747,8 @@
                             "text": "Method",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -362,7 +764,8 @@
                             "text": "Limit",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -384,7 +787,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -400,7 +804,8 @@
                             "text": "IS 3025 Pt. 11",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -416,7 +821,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -438,7 +844,8 @@
                             "text": "Conductivity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -454,7 +861,8 @@
                             "text": "IS 3025 Pt. 14",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -470,7 +878,8 @@
                             "text": "< 1.0 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -492,7 +901,8 @@
                             "text": "TOC",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -508,7 +918,8 @@
                             "text": "IS 3025 Pt. 35",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -524,7 +935,8 @@
                             "text": "< 500 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -541,7 +953,8 @@
                 "text": "Trending",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_sjncaxu1",
@@ -551,7 +964,8 @@
                 "text": "Results are trended monthly and reported against the limits above; see Figure 1.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "im_tep8m4vf",
@@ -569,7 +983,8 @@
                 "text": "This controlled document describes the routine receipt, identification and acceptance of laboratory samples.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_9v8v4qlq",
@@ -579,7 +994,8 @@
                 "text": "All activities shall be performed by trained and authorised personnel in accordance with the quality manual.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_dvy6ixjo",
@@ -589,7 +1005,8 @@
                 "text": "Records generated during the procedure shall be retained for the period defined by the quality management system.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_bgn5scrj",
@@ -599,7 +1016,8 @@
                 "text": "Where a result falls outside the acceptance criteria, the analyst shall initiate an out-of-specification investigation.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_42gf268k",
@@ -609,7 +1027,8 @@
                 "text": "The laboratory shall monitor and record environmental conditions throughout the testing period.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_rd2h1rz5",
@@ -619,7 +1038,8 @@
                 "text": "Reagents and reference standards shall be within their stated expiry period at the time of use.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "hd_cmrg2lsw",
@@ -630,7 +1050,8 @@
                 "text": "Records",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_bqahkt7f",
@@ -640,7 +1061,8 @@
                 "text": "Worksheets and instrument printouts are filed as controlled records for five years.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           }
         ]
       },
@@ -705,7 +1127,8 @@
                 "text": "Raw data register",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_15aouccc",
@@ -715,7 +1138,8 @@
                 "text": "Wide register rendered in landscape orientation; the table below spans multiple pages and repeats its header row on each continuation page.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "tb_2dm190a4",
@@ -740,7 +1164,8 @@
                             "text": "Run id",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -756,7 +1181,8 @@
                             "text": "Analyte",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -772,7 +1198,8 @@
                             "text": "Method",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -788,7 +1215,8 @@
                             "text": "Result",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -804,7 +1232,8 @@
                             "text": "Unit",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -820,7 +1249,8 @@
                             "text": "Limit",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -836,7 +1266,8 @@
                             "text": "Analyst",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -852,7 +1283,8 @@
                             "text": "Remark",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -874,7 +1306,8 @@
                             "text": "RUN-2001",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -890,7 +1323,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -906,7 +1340,8 @@
                             "text": "IS 3025 Pt. 40",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -922,7 +1357,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -938,7 +1374,8 @@
                             "text": "-",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -954,7 +1391,8 @@
                             "text": "6.5–8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -970,7 +1408,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -986,7 +1425,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1008,7 +1448,8 @@
                             "text": "RUN-2002",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1024,7 +1465,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1040,7 +1482,8 @@
                             "text": "IS 3025 Pt. 41",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1056,7 +1499,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1072,7 +1516,8 @@
                             "text": "NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1088,7 +1533,8 @@
                             "text": "< 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1104,7 +1550,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1120,7 +1567,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1142,7 +1590,8 @@
                             "text": "RUN-2003",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1158,7 +1607,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1174,7 +1624,8 @@
                             "text": "IS 3025 Pt. 42",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1190,7 +1641,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1206,7 +1658,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1222,7 +1675,8 @@
                             "text": "< 500",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1238,7 +1692,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1254,7 +1709,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1276,7 +1732,8 @@
                             "text": "RUN-2004",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1292,7 +1749,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1308,7 +1766,8 @@
                             "text": "IS 3025 Pt. 43",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1324,7 +1783,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1340,7 +1800,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1356,7 +1817,8 @@
                             "text": "< 250",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1372,7 +1834,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1388,7 +1851,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1410,7 +1874,8 @@
                             "text": "RUN-2005",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1426,7 +1891,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1442,7 +1908,8 @@
                             "text": "IS 3025 Pt. 44",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1458,7 +1925,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1474,7 +1942,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1490,7 +1959,8 @@
                             "text": "< 200",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1506,7 +1976,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1522,7 +1993,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1544,7 +2016,8 @@
                             "text": "RUN-2006",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1560,7 +2033,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1576,7 +2050,8 @@
                             "text": "IS 3025 Pt. 45",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1592,7 +2067,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1608,7 +2084,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1624,7 +2101,8 @@
                             "text": "< 0.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1640,7 +2118,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1656,7 +2135,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1678,7 +2158,8 @@
                             "text": "RUN-2007",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1694,7 +2175,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1710,7 +2192,8 @@
                             "text": "IS 3025 Pt. 46",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1726,7 +2209,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1742,7 +2226,8 @@
                             "text": "-",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1758,7 +2243,8 @@
                             "text": "6.5–8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1774,7 +2260,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1790,7 +2277,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1812,7 +2300,8 @@
                             "text": "RUN-2008",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1828,7 +2317,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1844,7 +2334,8 @@
                             "text": "IS 3025 Pt. 47",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1860,7 +2351,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1876,7 +2368,8 @@
                             "text": "NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1892,7 +2385,8 @@
                             "text": "< 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1908,7 +2402,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1924,7 +2419,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1946,7 +2442,8 @@
                             "text": "RUN-2009",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1962,7 +2459,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1978,7 +2476,8 @@
                             "text": "IS 3025 Pt. 48",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1994,7 +2493,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2010,7 +2510,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2026,7 +2527,8 @@
                             "text": "< 500",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2042,7 +2544,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2058,7 +2561,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2080,7 +2584,8 @@
                             "text": "RUN-2010",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2096,7 +2601,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2112,7 +2618,8 @@
                             "text": "IS 3025 Pt. 49",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2128,7 +2635,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2144,7 +2652,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2160,7 +2669,8 @@
                             "text": "< 250",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2176,7 +2686,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2192,7 +2703,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2214,7 +2726,8 @@
                             "text": "RUN-2011",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2230,7 +2743,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2246,7 +2760,8 @@
                             "text": "IS 3025 Pt. 50",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2262,7 +2777,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2278,7 +2794,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2294,7 +2811,8 @@
                             "text": "< 200",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2310,7 +2828,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2326,7 +2845,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2348,7 +2868,8 @@
                             "text": "RUN-2012",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2364,7 +2885,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2380,7 +2902,8 @@
                             "text": "IS 3025 Pt. 51",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2396,7 +2919,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2412,7 +2936,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2428,7 +2953,8 @@
                             "text": "< 0.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2444,7 +2970,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2460,7 +2987,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2482,7 +3010,8 @@
                             "text": "RUN-2013",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2498,7 +3027,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2514,7 +3044,8 @@
                             "text": "IS 3025 Pt. 52",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2530,7 +3061,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2546,7 +3078,8 @@
                             "text": "-",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2562,7 +3095,8 @@
                             "text": "6.5–8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2578,7 +3112,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2594,7 +3129,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2616,7 +3152,8 @@
                             "text": "RUN-2014",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2632,7 +3169,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2648,7 +3186,8 @@
                             "text": "IS 3025 Pt. 53",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2664,7 +3203,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2680,7 +3220,8 @@
                             "text": "NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2696,7 +3237,8 @@
                             "text": "< 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2712,7 +3254,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2728,7 +3271,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2750,7 +3294,8 @@
                             "text": "RUN-2015",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2766,7 +3311,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2782,7 +3328,8 @@
                             "text": "IS 3025 Pt. 54",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2798,7 +3345,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2814,7 +3362,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2830,7 +3379,8 @@
                             "text": "< 500",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2846,7 +3396,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2862,7 +3413,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2884,7 +3436,8 @@
                             "text": "RUN-2016",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2900,7 +3453,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2916,7 +3470,8 @@
                             "text": "IS 3025 Pt. 55",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2932,7 +3487,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2948,7 +3504,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2964,7 +3521,8 @@
                             "text": "< 250",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2980,7 +3538,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2996,7 +3555,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3018,7 +3578,8 @@
                             "text": "RUN-2017",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3034,7 +3595,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3050,7 +3612,8 @@
                             "text": "IS 3025 Pt. 56",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3066,7 +3629,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3082,7 +3646,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3098,7 +3663,8 @@
                             "text": "< 200",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3114,7 +3680,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3130,7 +3697,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3152,7 +3720,8 @@
                             "text": "RUN-2018",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3168,7 +3737,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3184,7 +3754,8 @@
                             "text": "IS 3025 Pt. 57",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3200,7 +3771,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3216,7 +3788,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3232,7 +3805,8 @@
                             "text": "< 0.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3248,7 +3822,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3264,7 +3839,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3286,7 +3862,8 @@
                             "text": "RUN-2019",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3302,7 +3879,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3318,7 +3896,8 @@
                             "text": "IS 3025 Pt. 58",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3334,7 +3913,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3350,7 +3930,8 @@
                             "text": "-",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3366,7 +3947,8 @@
                             "text": "6.5–8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3382,7 +3964,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3398,7 +3981,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3420,7 +4004,8 @@
                             "text": "RUN-2020",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3436,7 +4021,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3452,7 +4038,8 @@
                             "text": "IS 3025 Pt. 59",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3468,7 +4055,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3484,7 +4072,8 @@
                             "text": "NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3500,7 +4089,8 @@
                             "text": "< 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3516,7 +4106,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3532,7 +4123,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3554,7 +4146,8 @@
                             "text": "RUN-2021",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3570,7 +4163,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3586,7 +4180,8 @@
                             "text": "IS 3025 Pt. 40",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3602,7 +4197,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3618,7 +4214,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3634,7 +4231,8 @@
                             "text": "< 500",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3650,7 +4248,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3666,7 +4265,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3688,7 +4288,8 @@
                             "text": "RUN-2022",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3704,7 +4305,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3720,7 +4322,8 @@
                             "text": "IS 3025 Pt. 41",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3736,7 +4339,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3752,7 +4356,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3768,7 +4373,8 @@
                             "text": "< 250",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3784,7 +4390,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3800,7 +4407,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3822,7 +4430,8 @@
                             "text": "RUN-2023",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3838,7 +4447,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3854,7 +4464,8 @@
                             "text": "IS 3025 Pt. 42",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3870,7 +4481,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3886,7 +4498,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3902,7 +4515,8 @@
                             "text": "< 200",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3918,7 +4532,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3934,7 +4549,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3956,7 +4572,8 @@
                             "text": "RUN-2024",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3972,7 +4589,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3988,7 +4606,8 @@
                             "text": "IS 3025 Pt. 43",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4004,7 +4623,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4020,7 +4640,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4036,7 +4657,8 @@
                             "text": "< 0.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4052,7 +4674,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4068,7 +4691,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4090,7 +4714,8 @@
                             "text": "RUN-2025",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4106,7 +4731,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4122,7 +4748,8 @@
                             "text": "IS 3025 Pt. 44",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4138,7 +4765,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4154,7 +4782,8 @@
                             "text": "-",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4170,7 +4799,8 @@
                             "text": "6.5–8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4186,7 +4816,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4202,7 +4833,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4224,7 +4856,8 @@
                             "text": "RUN-2026",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4240,7 +4873,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4256,7 +4890,8 @@
                             "text": "IS 3025 Pt. 45",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4272,7 +4907,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4288,7 +4924,8 @@
                             "text": "NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4304,7 +4941,8 @@
                             "text": "< 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4320,7 +4958,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4336,7 +4975,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4358,7 +4998,8 @@
                             "text": "RUN-2027",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4374,7 +5015,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4390,7 +5032,8 @@
                             "text": "IS 3025 Pt. 46",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4406,7 +5049,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4422,7 +5066,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4438,7 +5083,8 @@
                             "text": "< 500",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4454,7 +5100,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4470,7 +5117,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4492,7 +5140,8 @@
                             "text": "RUN-2028",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4508,7 +5157,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4524,7 +5174,8 @@
                             "text": "IS 3025 Pt. 47",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4540,7 +5191,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4556,7 +5208,8 @@
                             "text": "mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4572,7 +5225,8 @@
                             "text": "< 250",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4588,7 +5242,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4604,7 +5259,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4660,7 +5316,8 @@
                 "text": "Sign-off",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_u0jc1gd9",
@@ -4670,7 +5327,8 @@
                 "text": "Prepared by: Q. A. Manager        Reviewed by: ____________",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "eq_a7sfu099",
@@ -4686,7 +5344,8 @@
                 "text": "This page closes the Phase-0 gate document and is intentionally a single portrait page.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           }
         ]
       }

@@ -28,3 +28,12 @@ export function newId(prefix: IdPrefix): NodeId {
 export function isNodeId(value: unknown): value is NodeId {
   return typeof value === "string" && /^[a-z]{2,3}_[a-z0-9]{6,24}$/.test(value);
 }
+
+/**
+ * Stable canonical style id for user-created styles (`custom-xxxxxxxx`).
+ * Style ids use hyphens, not underscores, and are validated by the
+ * `styleIdSchema` (`^[a-z][a-z0-9-]{0,31}$`).
+ */
+export function newStyleId(): string {
+  return `custom-${randomChars(8)}`;
+}

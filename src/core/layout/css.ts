@@ -6,9 +6,9 @@
  * orientation/margins/margin-boxes, the paged.js 0.4.3 named-page sheet-var
  * workaround, the repeated-thead handler, watermark pseudo-element.
  */
-import type { MarginBox, MarginField } from "../ir/schema";
+import type { MarginBox, MarginField, StyleDefinition } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
-import { resolveTheme } from "../theme";
+import { resolveTheme, type ThemeTokens } from "../theme";
 
 export function cssString(value: string): string {
   // JSON string syntax is a safe subset for CSS `content` strings once
@@ -221,6 +221,14 @@ table.doc-table th {
 table.doc-table thead { display: table-header-group; }
 `);
 
+  /* --------------------------------------------------------- style library */
+  // V1-STYLE-001..004: reusable document styles render as CSS classes derived
+  // from validated style definitions — never from user strings, so a style
+  // can never inject arbitrary CSS (AGENTS.md §61). The document theme stays
+  // the base typography; style tokens override/add presentation per style.
+  const styleCss = buildStyleCss(resolved.styles, theme);
+  if (styleCss) lines.push(styleCss);
+
   /* ------------------------------------------------------------ watermark */
   const wm = doc.settings.watermark;
   if (wm.enabled && wm.text) {
@@ -243,4 +251,70 @@ table.doc-table thead { display: table-header-group; }
   }
 
   return lines.join("\n");
+}
+
+/** System sans stack used when a style requests a sans family. */
+const SANS_FONT_STACK = 'Arial, Helvetica, "Segoe UI", sans-serif';
+
+/** A style id is a validated lowercase+digit+hyphen token — safe in CSS. */
+function styleSelectors(id: string, headingLevel: number | null): string[] {
+  const selectors = [
+    `.doc-paragraph.doc-style-${id}`,
+    `.doc-list-item.doc-style-${id}`,
+  ];
+  selectors.push(
+    headingLevel != null
+      ? `h${headingLevel}.doc-heading.doc-style-${id}`
+      : `.doc-heading.doc-style-${id}`,
+  );
+  return selectors;
+}
+
+/** Validated declarations (allow-listed values only). */
+function styleDeclarations(def: StyleDefinition, theme: ThemeTokens): string[] {
+  const f = def.format;
+  const out: string[] = [];
+  if (f.fontSizePt != null) out.push(`font-size: ${f.fontSizePt}pt;`);
+  if (f.bold) out.push("font-weight: 700;");
+  if (f.italic) out.push("font-style: italic;");
+  if (f.color) out.push(`color: ${f.color};`);
+  if (f.alignment !== "inherit") out.push(`text-align: ${f.alignment};`);
+  if (f.lineHeight != null) out.push(`line-height: ${f.lineHeight};`);
+  if (f.fontFamily !== "inherit") {
+    const family =
+      f.fontFamily === "serif"
+        ? theme.bodyFont
+        : f.fontFamily === "sans"
+          ? SANS_FONT_STACK
+          : theme.monoFont;
+    out.push(`font-family: ${family};`);
+  }
+  if (f.textTransform === "uppercase") out.push("text-transform: uppercase;");
+  if (f.marginTopMm != null) out.push(`margin-top: ${f.marginTopMm}mm;`);
+  if (f.marginBottomMm != null) out.push(`margin-bottom: ${f.marginBottomMm}mm;`);
+  if (f.indentMm != null && f.indentMm > 0) out.push(`margin-left: ${f.indentMm}mm;`);
+  return out;
+}
+
+/**
+ * Style-library CSS block, or "" when no style carries presentation tokens.
+ * The selectors carry two classes so style rules out-specify the base
+ * element rules (`hN.doc-heading`, `p.doc-paragraph`), letting a style
+ * override theme defaults without ever touching theme or block semantics.
+ */
+export function buildStyleCss(
+  styles: Record<string, StyleDefinition>,
+  theme: ThemeTokens,
+): string {
+  const rules: string[] = [];
+  for (const [id, def] of Object.entries(styles)) {
+    const declarations = styleDeclarations(def, theme);
+    if (declarations.length === 0) continue; // theme-driven style: no rule
+    rules.push(
+      `${styleSelectors(id, def.headingLevel).join(",\n")} {\n` +
+        declarations.map((d) => `  ${d}`).join("\n") +
+        `\n}`,
+    );
+  }
+  return rules.join("\n");
 }

@@ -231,6 +231,100 @@ body {
   color: var(--accent);
 }
 
+/* -------------------------------------------------------------- styles */
+
+.style-row {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 6px;
+  background: #fbfcfd;
+}
+
+.style-row-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 8px;
+}
+
+.style-name {
+  font: inherit;
+  font-weight: 600;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--ink);
+  text-align: left;
+  min-width: 0;
+}
+
+.style-name .style-id {
+  display: block;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.style-remove {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--muted);
+  flex: 0 0 auto;
+}
+
+.style-form {
+  border-top: 1px solid var(--line);
+  padding: 8px;
+}
+
+.style-form .field span {
+  flex-basis: 96px;
+}
+
+.style-form-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.style-form-row .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.style-form-row .field.check {
+  flex: 0 0 auto;
+}
+
+.style-color-input {
+  display: flex !important;
+  flex: 1;
+  gap: 6px;
+  align-items: center;
+  min-width: 0;
+}
+
+.style-color-input input[type="color"] {
+  flex: 1;
+  min-width: 0;
+  height: 26px;
+  padding: 1px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: #fff;
+}
+
+.style-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 8px;
+}
+
 /* ------------------------------------------------------------- editor */
 
 .editor-pane {

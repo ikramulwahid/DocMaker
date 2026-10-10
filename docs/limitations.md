@@ -190,3 +190,33 @@ see `src/core/ir/sanitize.ts`):
 23. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
     native open/save dialogs wired and desktop-validated (2026-10-09 — see
     item 4 and `docs/phase0-manual-smoke-check.md`).
+
+## Style system (M1, delivered 2026-10-10)
+
+V1-STYLE-001..004, V1-TXT-001 and the V1-DOC-002 base-style leg are delivered
+(ADR-005); the honest residual limits are:
+
+24. **Deleted/unknown style references fall back deterministically, they do
+    not delete content.** A block whose `style` reference no longer exists
+    (custom style removed, or a file hand-edited to reference an unknown id)
+    keeps its content and its reference; the resolver substitutes the
+    documented safe default (`defaultFallbackStyle()`, normal-shaped) and the
+    renderer emits **no** CSS rule for the unknown id, so the block renders
+    with defaults. The reference is *not* rewritten to `normal`, so a re-save
+    preserves the author's (possibly stale) reference — deterministic, no
+    silent data loss (AGENTS.md §46/§64).
+25. **The style editor exposes an allow-listed token set only** — font size,
+    line height, font family (inherit/serif/sans/mono), alignment, bold,
+    italic, colour (`#rrggbb`), capitalization, indent, space before/after.
+    Underline, strikethrough, superscript/subscript, font-size-on-marks and
+    other advanced formatting are character/paragraph formatting →
+    **M2** (V1-FMT-001/002), not style tokens, and are intentionally absent.
+26. **No template authoring, no style library import/export, no renumbering
+    of style definitions.** Styles are document-scoped; creating a reusable
+    cross-document template is a planned future capability (out of M1 scope).
+27. **Style defaults are theme-driven, not per-style locked.** Built-in style
+    definitions mostly hold `null` tokens; the effective look comes from the
+    active theme. Redefining a built-in style (e.g. "Note" bold) is a
+    document-level override that survives round-trips and wins over the theme
+    for that document — themes only supply defaults where the style has no
+    explicit token (separation of concerns, AGENTS.md §30; tested).

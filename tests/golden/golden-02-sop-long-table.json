@@ -23,6 +23,388 @@
         "fontSizePt": 64
       }
     },
+    "styles": {
+      "normal": {
+        "id": "normal",
+        "name": "Normal",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "body-text": {
+        "id": "body-text",
+        "name": "Body Text",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "title": {
+        "id": "title",
+        "name": "Title",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 22,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 6,
+          "indentMm": null
+        }
+      },
+      "subtitle": {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 14,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 4,
+          "indentMm": null
+        }
+      },
+      "heading-1": {
+        "id": "heading-1",
+        "name": "Heading 1",
+        "kind": "heading",
+        "headingLevel": 1,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-2": {
+        "id": "heading-2",
+        "name": "Heading 2",
+        "kind": "heading",
+        "headingLevel": 2,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-3": {
+        "id": "heading-3",
+        "name": "Heading 3",
+        "kind": "heading",
+        "headingLevel": 3,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-4": {
+        "id": "heading-4",
+        "name": "Heading 4",
+        "kind": "heading",
+        "headingLevel": 4,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-5": {
+        "id": "heading-5",
+        "name": "Heading 5",
+        "kind": "heading",
+        "headingLevel": 5,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-6": {
+        "id": "heading-6",
+        "name": "Heading 6",
+        "kind": "heading",
+        "headingLevel": 6,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "caption": {
+        "id": "caption",
+        "name": "Caption",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "table-text": {
+        "id": "table-text",
+        "name": "Table Text",
+        "kind": "tableText",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "quote": {
+        "id": "quote",
+        "name": "Quote",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": 8
+        }
+      },
+      "note": {
+        "id": "note",
+        "name": "Note",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "warning": {
+        "id": "warning",
+        "name": "Warning",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "important-notice": {
+        "id": "important-notice",
+        "name": "Important Notice",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "definition": {
+        "id": "definition",
+        "name": "Definition",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "reference": {
+        "id": "reference",
+        "name": "Reference",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 10.5,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "header": {
+        "id": "header",
+        "name": "Header",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "footer": {
+        "id": "footer",
+        "name": "Footer",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      }
+    },
     "sections": [
       {
         "id": "sec_sjb8jsyh",
@@ -70,7 +452,8 @@
                 "text": "Purpose",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_1iz9swkd",
@@ -92,7 +475,8 @@
                 "text": " against compendial limits.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "hd_gqj9l0np",
@@ -103,7 +487,8 @@
                 "text": "Responsibilities",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "bl_goldensop1",
@@ -117,7 +502,8 @@
                     "text": "Analyst performs daily sampling and testing.",
                     "marks": []
                   }
-                ]
+                ],
+                "style": null
               },
               {
                 "id": "pg_5wbk4qc2",
@@ -127,7 +513,8 @@
                     "text": "Laboratory head reviews records within 5 working days.",
                     "marks": []
                   }
-                ]
+                ],
+                "style": null
               }
             ]
           },
@@ -140,7 +527,8 @@
                 "text": "Acceptance criteria",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_l14ewclx",
@@ -150,7 +538,8 @@
                 "text": "All parameters shall conform to the limits in Table 1 across the monitoring period.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "tb_3koelv3d",
@@ -175,7 +564,8 @@
                             "text": "Parameter",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -191,7 +581,8 @@
                             "text": "Method",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -207,7 +598,8 @@
                             "text": "Limit",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -223,7 +615,8 @@
                             "text": "Result 1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -239,7 +632,8 @@
                             "text": "Result 2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -255,7 +649,8 @@
                             "text": "Result 3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -271,7 +666,8 @@
                             "text": "Remark",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -293,7 +689,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -309,7 +706,8 @@
                             "text": "IS 3025 Pt. 40",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -325,7 +723,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -341,7 +740,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -357,7 +757,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -373,7 +774,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -389,7 +791,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -411,7 +814,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -427,7 +831,8 @@
                             "text": "IS 3025 Pt. 41",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -443,7 +848,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -459,7 +865,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -475,7 +882,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -491,7 +899,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -507,7 +916,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -529,7 +939,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -545,7 +956,8 @@
                             "text": "IS 3025 Pt. 42",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -561,7 +973,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -577,7 +990,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -593,7 +1007,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -609,7 +1024,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -625,7 +1041,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -647,7 +1064,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -663,7 +1081,8 @@
                             "text": "IS 3025 Pt. 43",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -679,7 +1098,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -695,7 +1115,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -711,7 +1132,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -727,7 +1149,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -743,7 +1166,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -765,7 +1189,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -781,7 +1206,8 @@
                             "text": "IS 3025 Pt. 44",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -797,7 +1223,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -813,7 +1240,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -829,7 +1257,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -845,7 +1274,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -861,7 +1291,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -883,7 +1314,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -899,7 +1331,8 @@
                             "text": "IS 3025 Pt. 45",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -915,7 +1348,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -931,7 +1365,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -947,7 +1382,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -963,7 +1399,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -979,7 +1416,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1001,7 +1439,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1017,7 +1456,8 @@
                             "text": "IS 3025 Pt. 46",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1033,7 +1473,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1049,7 +1490,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1065,7 +1507,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1081,7 +1524,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1097,7 +1541,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1119,7 +1564,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1135,7 +1581,8 @@
                             "text": "IS 3025 Pt. 47",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1151,7 +1598,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1167,7 +1615,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1183,7 +1632,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1199,7 +1649,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1215,7 +1666,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1237,7 +1689,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1253,7 +1706,8 @@
                             "text": "IS 3025 Pt. 48",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1269,7 +1723,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1285,7 +1740,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1301,7 +1757,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1317,7 +1774,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1333,7 +1791,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1355,7 +1814,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1371,7 +1831,8 @@
                             "text": "IS 3025 Pt. 49",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1387,7 +1848,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1403,7 +1865,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1419,7 +1882,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1435,7 +1899,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1451,7 +1916,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1473,7 +1939,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1489,7 +1956,8 @@
                             "text": "IS 3025 Pt. 50",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1505,7 +1973,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1521,7 +1990,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1537,7 +2007,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1553,7 +2024,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1569,7 +2041,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1591,7 +2064,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1607,7 +2081,8 @@
                             "text": "IS 3025 Pt. 51",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1623,7 +2098,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1639,7 +2115,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1655,7 +2132,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1671,7 +2149,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1687,7 +2166,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1709,7 +2189,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1725,7 +2206,8 @@
                             "text": "IS 3025 Pt. 52",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1741,7 +2223,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1757,7 +2240,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1773,7 +2257,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1789,7 +2274,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1805,7 +2291,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1827,7 +2314,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1843,7 +2331,8 @@
                             "text": "IS 3025 Pt. 53",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1859,7 +2348,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1875,7 +2365,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1891,7 +2382,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1907,7 +2399,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1923,7 +2416,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -1945,7 +2439,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1961,7 +2456,8 @@
                             "text": "IS 3025 Pt. 54",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1977,7 +2473,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -1993,7 +2490,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2009,7 +2507,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2025,7 +2524,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2041,7 +2541,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2063,7 +2564,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2079,7 +2581,8 @@
                             "text": "IS 3025 Pt. 55",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2095,7 +2598,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2111,7 +2615,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2127,7 +2632,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2143,7 +2649,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2159,7 +2666,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2181,7 +2689,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2197,7 +2706,8 @@
                             "text": "IS 3025 Pt. 56",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2213,7 +2723,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2229,7 +2740,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2245,7 +2757,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2261,7 +2774,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2277,7 +2791,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2299,7 +2814,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2315,7 +2831,8 @@
                             "text": "IS 3025 Pt. 57",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2331,7 +2848,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2347,7 +2865,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2363,7 +2882,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2379,7 +2899,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2395,7 +2916,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2417,7 +2939,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2433,7 +2956,8 @@
                             "text": "IS 3025 Pt. 58",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2449,7 +2973,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2465,7 +2990,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2481,7 +3007,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2497,7 +3024,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2513,7 +3041,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2535,7 +3064,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2551,7 +3081,8 @@
                             "text": "IS 3025 Pt. 59",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2567,7 +3098,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2583,7 +3115,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2599,7 +3132,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2615,7 +3149,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2631,7 +3166,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2653,7 +3189,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2669,7 +3206,8 @@
                             "text": "IS 3025 Pt. 40",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2685,7 +3223,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2701,7 +3240,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2717,7 +3257,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2733,7 +3274,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2749,7 +3291,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2771,7 +3314,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2787,7 +3331,8 @@
                             "text": "IS 3025 Pt. 41",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2803,7 +3348,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2819,7 +3365,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2835,7 +3382,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2851,7 +3399,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2867,7 +3416,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -2889,7 +3439,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2905,7 +3456,8 @@
                             "text": "IS 3025 Pt. 42",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2921,7 +3473,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2937,7 +3490,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2953,7 +3507,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2969,7 +3524,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -2985,7 +3541,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3007,7 +3564,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3023,7 +3581,8 @@
                             "text": "IS 3025 Pt. 43",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3039,7 +3598,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3055,7 +3615,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3071,7 +3632,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3087,7 +3649,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3103,7 +3666,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3125,7 +3689,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3141,7 +3706,8 @@
                             "text": "IS 3025 Pt. 44",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3157,7 +3723,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3173,7 +3740,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3189,7 +3757,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3205,7 +3774,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3221,7 +3791,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3243,7 +3814,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3259,7 +3831,8 @@
                             "text": "IS 3025 Pt. 45",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3275,7 +3848,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3291,7 +3865,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3307,7 +3882,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3323,7 +3899,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3339,7 +3916,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3361,7 +3939,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3377,7 +3956,8 @@
                             "text": "IS 3025 Pt. 46",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3393,7 +3973,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3409,7 +3990,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3425,7 +4007,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3441,7 +4024,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3457,7 +4041,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3479,7 +4064,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3495,7 +4081,8 @@
                             "text": "IS 3025 Pt. 47",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3511,7 +4098,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3527,7 +4115,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3543,7 +4132,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3559,7 +4149,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3575,7 +4166,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3597,7 +4189,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3613,7 +4206,8 @@
                             "text": "IS 3025 Pt. 48",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3629,7 +4223,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3645,7 +4240,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3661,7 +4257,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3677,7 +4274,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3693,7 +4291,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3715,7 +4314,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3731,7 +4331,8 @@
                             "text": "IS 3025 Pt. 49",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3747,7 +4348,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3763,7 +4365,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3779,7 +4382,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3795,7 +4399,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3811,7 +4416,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3833,7 +4439,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3849,7 +4456,8 @@
                             "text": "IS 3025 Pt. 50",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3865,7 +4473,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3881,7 +4490,8 @@
                             "text": "6.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3897,7 +4507,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3913,7 +4524,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3929,7 +4541,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -3951,7 +4564,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3967,7 +4581,8 @@
                             "text": "IS 3025 Pt. 51",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3983,7 +4598,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -3999,7 +4615,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4015,7 +4632,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4031,7 +4649,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4047,7 +4666,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4069,7 +4689,8 @@
                             "text": "TDS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4085,7 +4706,8 @@
                             "text": "IS 3025 Pt. 52",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4101,7 +4723,8 @@
                             "text": "< 500 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4117,7 +4740,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4133,7 +4757,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4149,7 +4774,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4165,7 +4791,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4187,7 +4814,8 @@
                             "text": "Chloride",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4203,7 +4831,8 @@
                             "text": "IS 3025 Pt. 53",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4219,7 +4848,8 @@
                             "text": "< 250 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4235,7 +4865,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4251,7 +4882,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4267,7 +4899,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4283,7 +4916,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4305,7 +4939,8 @@
                             "text": "Hardness",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4321,7 +4956,8 @@
                             "text": "IS 3025 Pt. 54",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4337,7 +4973,8 @@
                             "text": "< 200 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4353,7 +4990,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4369,7 +5007,8 @@
                             "text": "7.3",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4385,7 +5024,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4401,7 +5041,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4423,7 +5064,8 @@
                             "text": "Iron",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4439,7 +5081,8 @@
                             "text": "IS 3025 Pt. 55",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4455,7 +5098,8 @@
                             "text": "< 0.3 mg/L",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4471,7 +5115,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4487,7 +5132,8 @@
                             "text": "7.4",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4503,7 +5149,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4519,7 +5166,8 @@
                             "text": "Info",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4541,7 +5189,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4557,7 +5206,8 @@
                             "text": "IS 3025 Pt. 56",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4573,7 +5223,8 @@
                             "text": "6.5 – 8.5",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4589,7 +5240,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4605,7 +5257,8 @@
                             "text": "6.6",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4621,7 +5274,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4637,7 +5291,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4659,7 +5314,8 @@
                             "text": "Turbidity",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4675,7 +5331,8 @@
                             "text": "IS 3025 Pt. 57",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4691,7 +5348,8 @@
                             "text": "< 1 NTU",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4707,7 +5365,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4723,7 +5382,8 @@
                             "text": "6.7",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4739,7 +5399,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4755,7 +5416,8 @@
                             "text": "Pass",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -4772,7 +5434,8 @@
                 "text": "Trending",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_p2llhywy",
@@ -4782,7 +5445,8 @@
                 "text": "Results are trended monthly; see Figure 1.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "im_twizk0nk",
@@ -4859,7 +5523,8 @@
                 "text": "Appendix A — Raw data register",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_n2df6ous",
@@ -4869,7 +5534,8 @@
                 "text": "Wide register rendered in landscape orientation.",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "tb_dvabhsod",
@@ -4894,7 +5560,8 @@
                             "text": "Run id",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4910,7 +5577,8 @@
                             "text": "Date",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4926,7 +5594,8 @@
                             "text": "Analyst",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4942,7 +5611,8 @@
                             "text": "pH",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4958,7 +5628,8 @@
                             "text": "Cond.",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4974,7 +5645,8 @@
                             "text": "TOC",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -4990,7 +5662,8 @@
                             "text": "Endotoxin",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5006,7 +5679,8 @@
                             "text": "Note",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -5028,7 +5702,8 @@
                             "text": "RUN-1001",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5044,7 +5719,8 @@
                             "text": "2026-09-01",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5060,7 +5736,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5076,7 +5753,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5092,7 +5770,8 @@
                             "text": "1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5108,7 +5787,8 @@
                             "text": "12 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5124,7 +5804,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5140,7 +5821,8 @@
                             "text": "retest",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -5162,7 +5844,8 @@
                             "text": "RUN-1002",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5178,7 +5861,8 @@
                             "text": "2026-09-02",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5194,7 +5878,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5210,7 +5895,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5226,7 +5912,8 @@
                             "text": "1.1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5242,7 +5929,8 @@
                             "text": "13 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5258,7 +5946,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5269,7 +5958,8 @@
                       {
                         "id": "pg_s8xjn3oo",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -5291,7 +5981,8 @@
                             "text": "RUN-1003",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5307,7 +5998,8 @@
                             "text": "2026-09-03",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5323,7 +6015,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5339,7 +6032,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5355,7 +6049,8 @@
                             "text": "1.2 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5371,7 +6066,8 @@
                             "text": "14 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5387,7 +6083,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5398,7 +6095,8 @@
                       {
                         "id": "pg_lz3ywpfz",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -5420,7 +6118,8 @@
                             "text": "RUN-1004",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5436,7 +6135,8 @@
                             "text": "2026-09-04",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5452,7 +6152,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5468,7 +6169,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5484,7 +6186,8 @@
                             "text": "1.3 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5500,7 +6203,8 @@
                             "text": "15 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5516,7 +6220,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5532,7 +6237,8 @@
                             "text": "retest",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -5554,7 +6260,8 @@
                             "text": "RUN-1005",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5570,7 +6277,8 @@
                             "text": "2026-09-05",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5586,7 +6294,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5602,7 +6311,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5618,7 +6328,8 @@
                             "text": "1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5634,7 +6345,8 @@
                             "text": "16 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5650,7 +6362,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5661,7 +6374,8 @@
                       {
                         "id": "pg_fampxs7p",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -5683,7 +6397,8 @@
                             "text": "RUN-1006",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5699,7 +6414,8 @@
                             "text": "2026-09-06",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5715,7 +6431,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5731,7 +6448,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5747,7 +6465,8 @@
                             "text": "1.1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5763,7 +6482,8 @@
                             "text": "17 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5779,7 +6499,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5790,7 +6511,8 @@
                       {
                         "id": "pg_qtd7zgef",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -5812,7 +6534,8 @@
                             "text": "RUN-1007",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5828,7 +6551,8 @@
                             "text": "2026-09-07",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5844,7 +6568,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5860,7 +6585,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5876,7 +6602,8 @@
                             "text": "1.2 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5892,7 +6619,8 @@
                             "text": "18 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5908,7 +6636,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5924,7 +6653,8 @@
                             "text": "retest",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -5946,7 +6676,8 @@
                             "text": "RUN-1008",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5962,7 +6693,8 @@
                             "text": "2026-09-08",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5978,7 +6710,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -5994,7 +6727,8 @@
                             "text": "7.0",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6010,7 +6744,8 @@
                             "text": "1.3 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6026,7 +6761,8 @@
                             "text": "19 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6042,7 +6778,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6053,7 +6790,8 @@
                       {
                         "id": "pg_69qmsu6g",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -6075,7 +6813,8 @@
                             "text": "RUN-1009",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6091,7 +6830,8 @@
                             "text": "2026-09-09",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6107,7 +6847,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6123,7 +6864,8 @@
                             "text": "7.1",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6139,7 +6881,8 @@
                             "text": "1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6155,7 +6898,8 @@
                             "text": "20 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6171,7 +6915,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6182,7 +6927,8 @@
                       {
                         "id": "pg_yfzpzh6g",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -6204,7 +6950,8 @@
                             "text": "RUN-1010",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6220,7 +6967,8 @@
                             "text": "2026-09-10",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6236,7 +6984,8 @@
                             "text": "AK",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6252,7 +7001,8 @@
                             "text": "7.2",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6268,7 +7018,8 @@
                             "text": "1.1 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6284,7 +7035,8 @@
                             "text": "21 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6300,7 +7052,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6316,7 +7069,8 @@
                             "text": "retest",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   }
@@ -6338,7 +7092,8 @@
                             "text": "RUN-1011",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6354,7 +7109,8 @@
                             "text": "2026-09-11",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6370,7 +7126,8 @@
                             "text": "RM",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6386,7 +7143,8 @@
                             "text": "6.8",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6402,7 +7160,8 @@
                             "text": "1.2 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6418,7 +7177,8 @@
                             "text": "22 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6434,7 +7194,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6445,7 +7206,8 @@
                       {
                         "id": "pg_5w8ld4p9",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -6467,7 +7229,8 @@
                             "text": "RUN-1012",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6483,7 +7246,8 @@
                             "text": "2026-09-12",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6499,7 +7263,8 @@
                             "text": "JS",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6515,7 +7280,8 @@
                             "text": "6.9",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6531,7 +7297,8 @@
                             "text": "1.3 µS/cm",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6547,7 +7314,8 @@
                             "text": "23 ppb",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6563,7 +7331,8 @@
                             "text": "< 0.25 EU/mL",
                             "marks": []
                           }
-                        ]
+                        ],
+                        "style": null
                       }
                     ]
                   },
@@ -6574,7 +7343,8 @@
                       {
                         "id": "pg_c50e5ywn",
                         "type": "paragraph",
-                        "content": []
+                        "content": [],
+                        "style": null
                       }
                     ]
                   }
@@ -6630,7 +7400,8 @@
                 "text": "Appendix B — Sign-off",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           },
           {
             "id": "pg_yf05m8dd",
@@ -6640,7 +7411,8 @@
                 "text": "Prepared by: Q. A. Manager      Approved by: ____________",
                 "marks": []
               }
-            ]
+            ],
+            "style": null
           }
         ]
       }

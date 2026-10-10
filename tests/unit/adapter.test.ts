@@ -35,7 +35,7 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
 
   it("preserves heading levels, image attrs, and page breaks", () => {
     const blocks: Block[] = [
-      { id: "hd_abcdef12", type: "heading", level: 3, content: [{ text: "Deep", marks: [] }] },
+      { id: "hd_abcdef12", type: "heading", level: 3, content: [{ text: "Deep", marks: [] }], style: null },
       {
         id: "im_abcdef12",
         type: "image",
@@ -55,6 +55,7 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
       {
         id: "pg_abcdef12",
         type: "paragraph",
+        style: null,
         content: [
           { text: "see ", marks: [] },
           { text: "manual", marks: [{ type: "link", href: "https://example.org/m" }] },
@@ -89,8 +90,8 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
             id: "tr_abcdef12",
             type: "tableRow",
             cells: [
-              { id: "tc_abcdef12", type: "tableCell", content: [{ id: "pg_abcdef12", type: "paragraph", content: [{ text: "a", marks: [] }] }] },
-              { id: "tc_abcdef13", type: "tableCell", content: [{ id: "pg_abcdef13", type: "paragraph", content: [{ text: "b", marks: [] }] }] },
+              { id: "tc_abcdef12", type: "tableCell", content: [{ id: "pg_abcdef12", type: "paragraph", content: [{ text: "a", marks: [] }], style: null }] },
+              { id: "tc_abcdef13", type: "tableCell", content: [{ id: "pg_abcdef13", type: "paragraph", content: [{ text: "b", marks: [] }], style: null }] },
             ],
           },
         ],
@@ -110,8 +111,8 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
         id: "bl_abcdef12",
         type: "bulletList",
         items: [
-          { id: "pg_abcdef12", type: "paragraph", content: [{ text: "one", marks: [] }] },
-          { id: "pg_abcdef13", type: "paragraph", content: [{ text: "two", marks: [{ type: "bold" }] }] },
+          { id: "pg_abcdef12", type: "paragraph", content: [{ text: "one", marks: [] }], style: null },
+          { id: "pg_abcdef13", type: "paragraph", content: [{ text: "two", marks: [{ type: "bold" }] }], style: null },
         ],
       },
     ];
@@ -177,7 +178,7 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
     // Tiptap docs must contain at least one block: [] becomes one empty
     // paragraph in the editor, which maps back as one empty paragraph.
     expect(roundTrip([])).toEqual([
-      { id: expect.any(String), type: "paragraph", content: [] },
+      { id: expect.any(String), type: "paragraph", content: [], style: null },
     ]);
   });
 
@@ -237,10 +238,67 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
     expect(blocks[0]).toEqual({
       id: "pg_abcdef12",
       type: "paragraph",
+      style: null,
       content: [
         { text: "s", marks: [] },
         { text: "b", marks: [{ type: "bold" }] },
       ],
     });
+  });
+});
+
+describe("adapter — style references (V1-STYLE-002)", () => {
+  it("carries an explicit style reference through the round-trip", () => {
+    const blocks: Block[] = [
+      {
+        id: "pg_abcdef12",
+        type: "paragraph",
+        style: "note",
+        content: [{ text: "remember", marks: [] }],
+      },
+      {
+        id: "hd_abcdef12",
+        type: "heading",
+        level: 2,
+        style: "heading-2",
+        content: [{ text: "Scope", marks: [] }],
+      },
+    ];
+    expect(roundTrip(blocks)).toEqual(blocks);
+  });
+
+  it("writes the style reference into the Tiptap attrs", () => {
+    const blocks: Block[] = [
+      { id: "pg_abcdef12", type: "paragraph", style: "warning", content: [] },
+      { id: "hd_abcdef12", type: "heading", level: 1, style: "heading-1", content: [] },
+    ];
+    const doc = blocksToTiptapDoc(blocks);
+    expect(doc.content?.[0].attrs).toMatchObject({ id: "pg_abcdef12", style: "warning" });
+    expect(doc.content?.[1].attrs).toMatchObject({ id: "hd_abcdef12", level: 1, style: "heading-1" });
+  });
+
+  it("drops an invalid/foreign style id instead of failing the load", () => {
+    const doc: TiptapNode = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { id: "pg_abcdef12", style: "EVIL;color:red" },
+          content: [{ type: "text", text: "x" }],
+        },
+      ],
+    };
+    const blocks = tiptapDocToBlocks(doc);
+    const first = blocks[0];
+    expect(first.type === "paragraph" || first.type === "heading" ? first.style : null).toBeNull();
+  });
+
+  it("maps a missing style reference to null (derived built-in at resolve)", () => {
+    const doc: TiptapNode = {
+      type: "doc",
+      content: [{ type: "paragraph", attrs: { id: "pg_abcdef12" }, content: [] }],
+    };
+    const first = tiptapDocToBlocks(doc)[0];
+    expect(first.type === "paragraph" || first.type === "heading" ? first.style : null).toBeNull();
   });
 });

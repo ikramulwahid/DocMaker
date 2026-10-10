@@ -13,15 +13,24 @@ import {
   createTable,
   resolveDocument,
   text,
+  newStyleId,
+  isBuiltinStyleId,
   type Block,
   type Document,
   type MarginBox,
   type Metadata,
   type Section,
+  type StyleDefinition,
+  type StyleFormat,
   type Watermark,
 } from "@/core";
+import { styleFormatSchema } from "@/core/ir/schema";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "@/editor/adapter";
 import { parseMarginText } from "@/app/marginText";
+
+/** A style edit: rename and/or patch presentation tokens. */
+export type StyleDefinitionPatch = Partial<Pick<StyleDefinition, "name">> &
+  Partial<StyleFormat>;
 
 export interface DocState {
   document: Document;
@@ -45,6 +54,12 @@ export interface DocState {
   setHeaderText(index: number, tokenText: string): void;
   addSection(): void;
   removeSection(index: number): void;
+  /** Update a style definition (name and/or format tokens). */
+  setStyleDefinition(id: string, patch: StyleDefinitionPatch): void;
+  /** Create a new custom style copied from "normal". Returns its id. */
+  addCustomStyle(): string;
+  /** Remove a custom style; built-in styles cannot be removed. */
+  removeCustomStyle(id: string): void;
 }
 
 /** Starter document shown on first launch — exercises the Phase-0 pipeline. */
@@ -212,6 +227,75 @@ export const useDocStore = create<DocState>((set) => ({
         activeSection: Math.max(0, Math.min(state.activeSection, state.document.sections.length - 2)),
         dirty: true,
         status: "Section removed",
+      };
+    }),
+
+  // A style edit changes ONLY the definition (presentation). All blocks that
+  // reference the style re-render through the shared pipeline (V1-STYLE-003);
+  // content, ids, metadata and numbering are untouched by construction.
+  setStyleDefinition: (id, patch) =>
+    set((state) => {
+      const def: StyleDefinition | undefined = state.document.styles[id];
+      if (!def) return { status: `Unknown style "${id}"` };
+      const { name: _name, ...formatPatch } = patch;
+      // Validate the merged format before it enters the IR (the schema would
+      // reject it on save anyway; failing here gives an actionable message).
+      const mergedFormat = { ...def.format, ...formatPatch };
+      const parsed = styleFormatSchema.safeParse(mergedFormat);
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        const where = issue?.path.join(".") || "format";
+        return { status: `Style update rejected — ${where}: ${issue?.message ?? "invalid value"}` };
+      }
+      return {
+        document: mutate(state.document, (doc) => {
+          const target = doc.styles[id];
+          if (!target) return;
+          if (patch.name !== undefined && patch.name.trim() !== "") {
+            target.name = patch.name.trim();
+          }
+          target.format = parsed.data;
+        }),
+        dirty: true,
+        status: `Style updated`,
+      };
+    }),
+
+  addCustomStyle: () => {
+    // Cannot build the new style inside `set` if we need to return its id:
+    // compute deterministically first, then set state.
+    const state = useDocStore.getState();
+    const id = newStyleId();
+    const base = state.document.styles["normal"];
+    const source: StyleDefinition = base ?? { id: "normal", name: "Normal", kind: "paragraph", headingLevel: null, format: {} };
+    const custom: StyleDefinition = {
+      id,
+      name: "Custom style",
+      kind: "paragraph",
+      headingLevel: null,
+      format: { ...source.format },
+    };
+    useDocStore.setState({
+      document: mutate(state.document, (doc) => {
+        doc.styles[id] = custom;
+      }),
+      dirty: true,
+      status: `Custom style added`,
+    });
+    return id;
+  },
+
+  removeCustomStyle: (id) =>
+    set((state) => {
+      if (isBuiltinStyleId(id) || !state.document.styles[id]) {
+        return { status: `Style "${id}" cannot be removed` };
+      }
+      return {
+        document: mutate(state.document, (doc) => {
+          delete doc.styles[id];
+        }),
+        dirty: true,
+        status: `Style removed`,
       };
     }),
 }));

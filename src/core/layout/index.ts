@@ -15,7 +15,7 @@ import { buildBody, buildScripts, documentHasEquations } from "./html";
 import { katexCss } from "./katex-css";
 import type { ResolvedDocument } from "../resolve";
 
-export { buildCss, cssString, marginContent, pageSizeMm } from "./css";
+export { buildCss, buildStyleCss, cssString, marginContent, pageSizeMm } from "./css";
 export { buildBody, blockHtml, documentHasEquations, escapeHtml, inlineHtml } from "./html";
 export { katexCss } from "./katex-css";
 

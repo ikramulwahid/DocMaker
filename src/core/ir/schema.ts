@@ -10,6 +10,7 @@
  */
 import { z } from "zod";
 import { columnWidthProblem, imageSrcProblem } from "./sanitize";
+import { buildDefaultStyles } from "./styles";
 
 /* ------------------------------------------------------------------ ids */
 
@@ -38,6 +39,112 @@ export const nodeIdSchema = z
   .regex(/^[a-z]{2,3}_[a-z0-9]{6,24}$/, "invalid node id");
 
 export type NodeId = z.infer<typeof nodeIdSchema>;
+
+/* ---------------------------------------------------------------- styles */
+
+/**
+ * Reusable styles (V1-STYLE-001..004, V1-TXT-001, AGENTS.md §58).
+ *
+ * A style is a named, document-level, reusable presentation definition that
+ * text blocks REFERENCE by stable id instead of duplicating formatting
+ * properties (V1-STYLE-002). Styling lives in the document, never in the
+ * theme registry — switching themes changes only theme defaults, never style
+ * definitions or assignments. All style values are allow-listed/validated so
+ * a style definition can never inject arbitrary CSS or HTML (AGENTS.md §61).
+ */
+
+/** Stable canonical style id (independent of the display label). */
+export const styleIdSchema = z
+  .string()
+  .regex(/^[a-z][a-z0-9-]{0,31}$/, "invalid style id")
+  .max(32);
+export type StyleId = z.infer<typeof styleIdSchema>;
+
+/** Styles never hold raw CSS strings; font choice is semantic + validated. */
+export const styleFontFamilySchema = z.enum(["inherit", "serif", "sans", "mono"]);
+/** Alignment is a fixed enum; null/"inherit" means the theme default. */
+export const styleAlignmentSchema = z.enum([
+  "inherit",
+  "left",
+  "center",
+  "right",
+  "justify",
+]);
+export const styleTextTransformSchema = z.enum(["none", "uppercase"]);
+
+/**
+ * Presentation tokens for a style. Every field is a validated, allow-listed
+ * value: `null`/`inherit`/`false` mean "use the theme/build default for this
+ * aspect" so default styles stay theme-driven. No free-form CSS strings.
+ */
+export const styleFormatSchema = z.object({
+  fontSizePt: z.number().positive().nullable().default(null),
+  fontFamily: styleFontFamilySchema.default("inherit"),
+  bold: z.boolean().default(false),
+  italic: z.boolean().default(false),
+  /** Hex colour only (`#rgb`/`#rrggbb`/`#rrggbbaa`) — never arbitrary CSS. */
+  color: z
+    .string()
+    .regex(/^#[0-9a-fA-F]{3,8}$/, "style color must be a hex colour (#rgb, #rrggbb or #rrggbbaa)")
+    .nullable()
+    .default(null),
+  alignment: styleAlignmentSchema.default("inherit"),
+  lineHeight: z.number().positive().nullable().default(null),
+  textTransform: styleTextTransformSchema.default("none"),
+  marginTopMm: z.number().min(0).max(100).nullable().default(null),
+  marginBottomMm: z.number().min(0).max(100).nullable().default(null),
+  /** Left block indent in mm (paragraph-level indentation). */
+  indentMm: z.number().min(0).max(200).nullable().default(null),
+});
+export type StyleFormat = z.infer<typeof styleFormatSchema>;
+
+/**
+ * Semantic kinds. `heading` styles carry `headingLevel`; `paragraph` styles
+ * apply to body/text paragraphs; `tableText` targets table cell paragraphs.
+ */
+export const styleKindSchema = z.enum(["paragraph", "heading", "tableText"]);
+export type StyleKind = z.infer<typeof styleKindSchema>;
+
+export const styleDefinitionSchema = z
+  .object({
+    /** Stable canonical id — never the display label (AGENTS.md §11/§12). */
+    id: styleIdSchema,
+    /** Human label shown in the UI. */
+    name: z.string().min(1).max(64),
+    kind: styleKindSchema,
+    /** Semantic heading level (1..6) for heading styles; null otherwise. */
+    headingLevel: z.number().int().min(1).max(6).nullable().default(null),
+    /** Presentation tokens; all values validated (see styleFormatSchema). */
+    format: styleFormatSchema.default({}),
+  })
+  .superRefine((def, ctx) => {
+    // Kind/level must stay consistent: heading styles carry a semantic level,
+    // paragraph/tableText styles never do (they drive layout selectors).
+    if (def.kind === "heading" && def.headingLevel == null) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["headingLevel"],
+        message: "heading styles must declare a heading level (1..6)",
+      });
+    }
+    if (def.kind !== "heading" && def.headingLevel != null) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["headingLevel"],
+        message: "headingLevel is only valid for heading styles",
+      });
+    }
+  });
+export type StyleDefinition = z.infer<typeof styleDefinitionSchema>;
+
+/** Document-level style library keyed by stable style id. */
+export const stylesSchema = z.record(styleIdSchema, styleDefinitionSchema);
+export type Styles = z.infer<typeof stylesSchema>;
+
+/** True when `value` is a valid style id that may be referenced. */
+export function isStyleId(value: unknown): value is StyleId {
+  return typeof value === "string" && styleIdSchema.safeParse(value).success;
+}
 
 /* --------------------------------------------------------------- inline */
 
@@ -72,6 +179,13 @@ export const paragraphSchema = z.object({
   ...blockBase,
   type: z.literal("paragraph"),
   content: z.array(inlineSchema).default([]),
+  /**
+   * Reusable style reference (V1-STYLE-002). `null` = no explicit style;
+   * the resolver derives the built-in default (paragraph → "normal").
+   * Style ids are validated; rendering falls back deterministically when a
+   * reference is unknown (documented safe fallback, never silent data loss).
+   */
+  style: styleIdSchema.nullable().default(null),
 });
 export type Paragraph = z.infer<typeof paragraphSchema>;
 
@@ -80,6 +194,12 @@ export const headingSchema = z.object({
   type: z.literal("heading"),
   level: z.number().int().min(1).max(6),
   content: z.array(inlineSchema).default([]),
+  /**
+   * Reusable style reference (V1-STYLE-002); `null` derives the built-in
+   * heading style by level (`heading-<level>`). Headings remain SEMANTIC:
+   * the level drives structure/numbering, the style only presentation.
+   */
+  style: styleIdSchema.nullable().default(null),
 });
 export type Heading = z.infer<typeof headingSchema>;
 
@@ -286,6 +406,12 @@ export const documentSchema = z.object({
   type: z.literal("document"),
   metadata: metadataSchema.default({}),
   settings: settingsSchema.default({}),
+  /**
+   * Document-level reusable style library (V1-STYLE-001). Defaults to the
+   * full built-in set so legacy style-less documents load with a sensible
+   * default mapping that persists on next save (ADR-004 additive policy).
+   */
+  styles: stylesSchema.default(() => buildDefaultStyles()),
   sections: z.array(sectionSchema).min(1),
 });
 export type Document = z.infer<typeof documentSchema>;

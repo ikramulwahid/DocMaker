@@ -8,7 +8,7 @@
  *    (see extensions.ts), so mapping back never silently drops structure
  *    except the documented Phase-0 flattening of nested lists.
  */
-import type { Block, Inline, Mark, Paragraph, Table, TableRow, TableCell } from "@/core/ir/schema";
+import { isStyleId, type Block, type Inline, type Mark, type Paragraph, type Table, type TableRow, type TableCell } from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
 import { sanitizeHref } from "@/core/ir/sanitize";
 
@@ -106,10 +106,15 @@ function runsFromTiptap(nodes: TiptapNode[] | undefined): Inline[] {
 
 /* ------------------------------------------------------------ IR → tiptap */
 
+/** Style id from an IR block — `null` when the block has no explicit style. */
+function styleToTiptap(style: string | null | undefined): string | null {
+  return style ?? null;
+}
+
 function paragraphToTiptap(paragraph: Paragraph): TiptapNode {
   return {
     type: "paragraph",
-    attrs: { id: paragraph.id },
+    attrs: { id: paragraph.id, style: styleToTiptap(paragraph.style) },
     ...(paragraph.content.length ? { content: paragraph.content.map(runToTiptap) } : {}),
   };
 }
@@ -168,7 +173,7 @@ function blockToTiptap(block: Block): TiptapNode {
     case "heading":
       return {
         type: "heading",
-        attrs: { id: block.id, level: block.level },
+        attrs: { id: block.id, level: block.level, style: styleToTiptap(block.style) },
         ...(block.content.length ? { content: block.content.map(runToTiptap) } : {}),
       };
     case "bulletList":
@@ -220,8 +225,24 @@ export function blocksToTiptapDoc(blocks: Block[]): TiptapNode {
 
 /* ------------------------------------------------------- tiptap → IR */
 
+/**
+ * Style id from Tiptap attrs. Tiptap/foreign documents are untrusted data:
+ * only a valid style id is accepted; anything else resolves to `null` (the
+ * derived built-in default) rather than failing the load — the schema would
+ * reject an invalid id on save otherwise.
+ */
+function styleFromTiptap(value: unknown): string | null {
+  if (typeof value !== "string" || value === "") return null;
+  return isStyleId(value) ? value : null;
+}
+
 function paragraphFromTiptap(node: TiptapNode): Paragraph {
-  return { id: idFor(node), type: "paragraph", content: runsFromTiptap(node.content) };
+  return {
+    id: idFor(node),
+    type: "paragraph",
+    content: runsFromTiptap(node.content),
+    style: styleFromTiptap(node.attrs?.style),
+  };
 }
 
 /** Cells hold paragraphs in the IR: non-paragraph blocks collapse to text. */
@@ -235,11 +256,11 @@ function cellContentFromTiptap(nodes: TiptapNode[] | undefined): Paragraph[] {
       // Documented Phase-0 limitation: exotic cell content collapses.
       const textValue = textOf([node]).trim();
       if (textValue) {
-        out.push({ id: newId("pg"), type: "paragraph", content: [{ text: textValue, marks: [] }] });
+        out.push({ id: newId("pg"), type: "paragraph", content: [{ text: textValue, marks: [] }], style: null });
       }
     }
   }
-  return out.length ? out : [{ id: newId("pg"), type: "paragraph", content: [] }];
+  return out.length ? out : [{ id: newId("pg"), type: "paragraph", content: [], style: null }];
 }
 
 function tableFromTiptap(node: TiptapNode): Table {
@@ -291,7 +312,7 @@ function tableFromTiptap(node: TiptapNode): Table {
 }
 
 function emptyCell(): TableCell {
-  return { id: newId("tc"), type: "tableCell", content: [{ id: newId("pg"), type: "paragraph", content: [] }] };
+  return { id: newId("tc"), type: "tableCell", content: [{ id: newId("pg"), type: "paragraph", content: [], style: null }] };
 }
 
 /** Nested lists flatten (documented limitation): depth-first, paragraphs only. */
@@ -326,6 +347,7 @@ function blockFromTiptap(node: TiptapNode): Block | null {
         type: "heading",
         level: Math.min(6, Math.max(1, Math.round(raw))),
         content: runsFromTiptap(node.content),
+        style: styleFromTiptap(node.attrs?.style),
       };
     }
     case "bulletList":

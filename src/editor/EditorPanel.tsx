@@ -74,6 +74,7 @@ export function EditorPanel() {
 
 function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>> }) {
   const activeSection = useDocStore((s) => s.activeSection);
+  const stylesMap = useDocStore((s) => s.document.styles);
   const addImage = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -155,6 +156,28 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
     </button>
   );
 
+  // Reusable style assignment (V1-STYLE-002). The effective style is the
+  // block's explicit reference, else the derived built-in default
+  // (paragraph → normal, heading N → heading-N) — the same rule the
+  // resolver uses, so the toolbar and the preview always agree.
+  const isHeading = editor.isActive("heading");
+  const styleList = Object.values(stylesMap)
+    .filter((s) => (isHeading ? s.kind === "heading" : s.kind !== "heading"))
+    .sort((a, b) => a.name.localeCompare(b.name));
+  const activeStyleId = (() => {
+    if (isHeading) {
+      const explicit = editor.getAttributes("heading").style;
+      if (typeof explicit === "string" && explicit) return explicit;
+      return `heading-${String(editor.getAttributes("heading").level ?? 1)}`;
+    }
+    const explicit = editor.getAttributes("paragraph").style;
+    return typeof explicit === "string" && explicit ? explicit : "normal";
+  })();
+  const applyStyle = (id: string) => {
+    const target = isHeading ? "heading" : "paragraph";
+    editor.chain().focus().updateAttributes(target, { style: id }).run();
+  };
+
   return (
     <div className="toolbar" role="toolbar" aria-label="Formatting">
       <select
@@ -182,6 +205,18 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
         <option value="4">Heading 4</option>
         <option value="5">Heading 5</option>
         <option value="6">Heading 6</option>
+      </select>
+      <select
+        aria-label="Style"
+        data-testid="style-select"
+        value={styleList.some((s) => s.id === activeStyleId) ? activeStyleId : ""}
+        onChange={(e) => applyStyle(e.target.value)}
+      >
+        {styleList.map((s) => (
+          <option key={s.id} value={s.id}>
+            {s.name}
+          </option>
+        ))}
       </select>
       {button("B", () => editor.chain().focus().toggleBold().run(), editor.isActive("bold"), "Bold")}
       {button(

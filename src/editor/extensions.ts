@@ -123,8 +123,11 @@ export const Table = TableBase.extend({
 });
 
 /**
- * Adds the IR `id` attribute to every block-ish node type. `keepOnSplit`
- * keeps row/cell identity when tables split.
+ * Adds the IR `id` attribute to every block-ish node type and the IR `style`
+ * reference to text blocks. `keepOnSplit` keeps id/style identity when a
+ * block splits, and row/cell identity when tables split. The DOM attribute is
+ * `data-ir-style` (an attribute literally named `style` would be emitted as
+ * inline CSS by Tiptap); the editor JSON attribute is `style`.
  */
 export const NodeIds = Extension.create({
   name: "nodeIds",
@@ -152,6 +155,20 @@ export const NodeIds = Extension.create({
               element.getAttribute("data-ir-id") ?? "",
             renderHTML: (attributes: { id?: string }) =>
               attributes.id ? { "data-ir-id": attributes.id } : {},
+          },
+        },
+      },
+      {
+        // Reusable style reference (V1-STYLE-002) on text blocks only.
+        types: ["paragraph", "heading"],
+        attributes: {
+          style: {
+            default: null,
+            keepOnSplit: true,
+            parseHTML: (element: HTMLElement) =>
+              element.getAttribute("data-ir-style") ?? null,
+            renderHTML: (attributes: { style?: string | null }) =>
+              attributes.style ? { "data-ir-style": attributes.style } : {},
           },
         },
       },

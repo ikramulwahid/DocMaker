@@ -2,21 +2,21 @@
   "schema": "labdoc",
   "schema_version": "1.0",
   "document": {
-    "id": "doc_hrt8frpy",
+    "id": "doc_7v5wrtr9",
     "type": "document",
     "metadata": {
-      "title": "Test Method",
-      "docNumber": "TM-001",
-      "revision": "03",
-      "effectiveDate": "2026-10-08",
-      "author": "A. Tester",
-      "organization": "Lab",
-      "description": "Fixture"
+      "title": "Water Quality Monitoring Report",
+      "docNumber": "WQ-2026-014",
+      "revision": "01",
+      "effectiveDate": "2026-10-09",
+      "author": "N. Analyst",
+      "organization": "Analytical Laboratory",
+      "description": "Golden document: style system (V1-STYLE-001..004, V1-TXT-001)"
     },
     "settings": {
       "theme": "lab_default",
       "watermark": {
-        "enabled": true,
+        "enabled": false,
         "text": "DRAFT",
         "opacity": 0.12,
         "angle": -45,
@@ -403,11 +403,30 @@
           "marginBottomMm": null,
           "indentMm": null
         }
+      },
+      "custom-result": {
+        "id": "custom-result",
+        "name": "Result summary",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 12,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": "#1f3a5f",
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
       }
     },
     "sections": [
       {
-        "id": "sec_dsq4yk3c",
+        "id": "sec_ijk3vqst",
         "type": "section",
         "pageSetup": {
           "format": "A4",
@@ -444,298 +463,242 @@
         },
         "blocks": [
           {
-            "id": "hd_vvbmruon",
+            "id": "pg_jx6ydyaq",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Water Quality Monitoring Report",
+                "marks": []
+              }
+            ],
+            "style": "title"
+          },
+          {
+            "id": "pg_2iq6v4v7",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Quarterly compliance summary — Q3 2026",
+                "marks": []
+              }
+            ],
+            "style": "subtitle"
+          },
+          {
+            "id": "hd_dfpnh2td",
             "type": "heading",
             "level": 1,
             "content": [
               {
-                "text": "Purpose",
+                "text": "Scope",
                 "marks": []
               }
             ],
-            "style": null
+            "style": "heading-1"
           },
           {
-            "id": "pg_8noh4agh",
+            "id": "pg_o5mdgoxo",
             "type": "paragraph",
             "content": [
               {
-                "text": "Intro ",
+                "text": "This report summarises routine purified-water monitoring carried out during the quarter.",
                 "marks": []
-              },
-              {
-                "text": "bold",
-                "marks": [
-                  {
-                    "type": "bold"
-                  }
-                ]
               }
             ],
-            "style": null
+            "style": "body-text"
           },
           {
-            "id": "hd_dcfp4fk8",
+            "id": "hd_idar3flo",
             "type": "heading",
             "level": 2,
             "content": [
               {
-                "text": "Background",
+                "text": "Definitions",
                 "marks": []
               }
             ],
-            "style": null
+            "style": "heading-2"
           },
           {
-            "id": "pg_qtbw9m82",
+            "id": "pg_ey9yxzus",
             "type": "paragraph",
             "content": [
               {
-                "text": "Body text",
+                "text": "Purified water: water meeting the specification in SOP-042.",
                 "marks": []
               }
             ],
-            "style": null
+            "style": "definition"
           },
           {
-            "id": "im_yzoawifb",
-            "type": "image",
-            "src": "data:image/svg+xml;utf8,PHN2Zy8+",
-            "alt": "plot",
-            "widthMm": null,
-            "caption": "Calibration curve"
-          },
-          {
-            "id": "tb_4ibc8zbw",
-            "type": "table",
-            "caption": "Results",
-            "headerRow": true,
-            "columnWidths": [],
-            "rows": [
-              {
-                "id": "tr_1zi0dqtu",
-                "type": "tableRow",
-                "cells": [
-                  {
-                    "id": "tc_7k5y3fot",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_pt0ug3uu",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "A",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  },
-                  {
-                    "id": "tc_v2vrl4bk",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_js6uzme7",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "B",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "id": "tr_ram0eni3",
-                "type": "tableRow",
-                "cells": [
-                  {
-                    "id": "tc_tct6uivr",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_pkuw4kl3",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "1",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  },
-                  {
-                    "id": "tc_0x0yyki9",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_p5tertly",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "2",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": "sec_4pgsp8be",
-        "type": "section",
-        "pageSetup": {
-          "format": "A4",
-          "orientation": "landscape",
-          "margins": {
-            "top": 20,
-            "right": 18,
-            "bottom": 20,
-            "left": 18
-          },
-          "pageNumberStart": 1,
-          "showPageNumber": true
-        },
-        "header": null,
-        "footer": {
-          "parts": [
-            {
-              "kind": "text",
-              "value": "Page "
-            },
-            {
-              "kind": "field",
-              "field": "pageNumber"
-            },
-            {
-              "kind": "text",
-              "value": " of "
-            },
-            {
-              "kind": "field",
-              "field": "pageCount"
-            }
-          ]
-        },
-        "blocks": [
-          {
-            "id": "hd_e834o0zi",
+            "id": "hd_qdeq6czj",
             "type": "heading",
-            "level": 1,
+            "level": 3,
             "content": [
               {
-                "text": "Appendix A — Raw Data",
+                "text": "Procedure",
                 "marks": []
               }
             ],
-            "style": null
+            "style": "heading-3"
           },
           {
-            "id": "tb_3tlvxgiz",
+            "id": "pg_qyjtv64g",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Samples were collected at the six designated points and analysed daily.",
+                "marks": []
+              }
+            ],
+            "style": "body-text"
+          },
+          {
+            "id": "pg_um5tn1xu",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "All collection points met the acceptance criteria in Q3.",
+                "marks": []
+              }
+            ],
+            "style": "note"
+          },
+          {
+            "id": "pg_gyctm73r",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Do not use results outside the validated range for release decisions.",
+                "marks": []
+              }
+            ],
+            "style": "warning"
+          },
+          {
+            "id": "pg_phat8wc2",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Reviewed results are stated in the table below.",
+                "marks": []
+              }
+            ],
+            "style": "important-notice"
+          },
+          {
+            "id": "pg_zhjp36qi",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "“Quality is never an accident — it is always the result of intelligent effort.”",
+                "marks": []
+              }
+            ],
+            "style": "quote"
+          },
+          {
+            "id": "pg_v3pwik4g",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Table 1 — Monitoring results",
+                "marks": []
+              }
+            ],
+            "style": "caption"
+          },
+          {
+            "id": "tb_3ufyqmw8",
             "type": "table",
-            "caption": "Raw measurements",
+            "caption": "Monitoring results",
             "headerRow": true,
             "columnWidths": [],
             "rows": [
               {
-                "id": "tr_cgstj8c8",
+                "id": "tr_ugq1nj9t",
                 "type": "tableRow",
                 "cells": [
                   {
-                    "id": "tc_i2us5xd9",
+                    "id": "tc_yk91jwpb",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_1cmdrrlf",
+                        "id": "pg_njiycw6k",
                         "type": "paragraph",
                         "content": [
                           {
-                            "text": "Run",
+                            "text": "Parameter",
                             "marks": []
                           }
                         ],
-                        "style": null
+                        "style": "table-text"
                       }
                     ]
                   },
                   {
-                    "id": "tc_pyfr2jui",
+                    "id": "tc_5nm6vxtp",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_fcl72k7h",
+                        "id": "pg_lror35u9",
                         "type": "paragraph",
                         "content": [
                           {
-                            "text": "Value",
+                            "text": "Result",
                             "marks": []
                           }
                         ],
-                        "style": null
+                        "style": "normal"
                       }
                     ]
                   },
                   {
-                    "id": "tc_2hilnw05",
+                    "id": "tc_qwzcauvz",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_ydopvuok",
+                        "id": "pg_ad9ymiz8",
                         "type": "paragraph",
                         "content": [
                           {
-                            "text": "Unit",
+                            "text": "Limit",
                             "marks": []
                           }
                         ],
-                        "style": null
+                        "style": "normal"
                       }
                     ]
                   }
                 ]
               },
               {
-                "id": "tr_1bm69emp",
+                "id": "tr_cu56hkfa",
                 "type": "tableRow",
                 "cells": [
                   {
-                    "id": "tc_0ymhx7wg",
+                    "id": "tc_tfojx33l",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_n56et6f9",
+                        "id": "pg_fier0glp",
                         "type": "paragraph",
                         "content": [
                           {
-                            "text": "1",
+                            "text": "pH",
                             "marks": []
                           }
                         ],
-                        "style": null
+                        "style": "normal"
                       }
                     ]
                   },
                   {
-                    "id": "tc_bos5mfq2",
+                    "id": "tc_krj8sz8d",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_07f4se76",
+                        "id": "pg_se1ltezj",
                         "type": "paragraph",
                         "content": [
                           {
@@ -743,87 +706,75 @@
                             "marks": []
                           }
                         ],
-                        "style": null
+                        "style": "normal"
                       }
                     ]
                   },
                   {
-                    "id": "tc_8bpf8b8k",
+                    "id": "tc_fghoonga",
                     "type": "tableCell",
                     "content": [
                       {
-                        "id": "pg_d8ukdbsz",
+                        "id": "pg_jnaoacgt",
                         "type": "paragraph",
                         "content": [
                           {
-                            "text": "pH",
+                            "text": "6.5 – 8.5",
                             "marks": []
                           }
                         ],
-                        "style": null
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "id": "tr_kw5xscav",
-                "type": "tableRow",
-                "cells": [
-                  {
-                    "id": "tc_v10oydg9",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_yv358y4g",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "2",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  },
-                  {
-                    "id": "tc_h3eed329",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_k8azwijp",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "7.1",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
-                      }
-                    ]
-                  },
-                  {
-                    "id": "tc_qbli4ljn",
-                    "type": "tableCell",
-                    "content": [
-                      {
-                        "id": "pg_tho55v1k",
-                        "type": "paragraph",
-                        "content": [
-                          {
-                            "text": "pH",
-                            "marks": []
-                          }
-                        ],
-                        "style": null
+                        "style": "normal"
                       }
                     ]
                   }
                 ]
               }
             ]
+          },
+          {
+            "id": "pg_ataboyvy",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "WQ-2026-014 · Rev 01 · 2026-10-09",
+                "marks": []
+              }
+            ],
+            "style": "reference"
+          },
+          {
+            "id": "pg_crxcy1fx",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "All parameters within specification.",
+                "marks": []
+              }
+            ],
+            "style": "custom-result"
+          },
+          {
+            "id": "hd_g4qlr6ui",
+            "type": "heading",
+            "level": 4,
+            "content": [
+              {
+                "text": "Records",
+                "marks": []
+              }
+            ],
+            "style": "heading-4"
+          },
+          {
+            "id": "pg_cjdxezbi",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "Raw data registers are retained for five years.",
+                "marks": []
+              }
+            ],
+            "style": "normal"
           }
         ]
       }

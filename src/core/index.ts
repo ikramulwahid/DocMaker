@@ -1,6 +1,7 @@
 export * from "./ir/schema";
 export * from "./ir/ids";
 export * from "./ir/factory";
+export * from "./ir/styles";
 export * from "./ir/sanitize";
 export * from "./theme";
 export * from "./equation";
