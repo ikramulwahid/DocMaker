@@ -707,6 +707,66 @@
         ]
       },
       {
+        "id": "sec_a5land01",
+        "type": "section",
+        "pageSetup": {
+          "format": "A5",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_a5land01",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A5 landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
         "id": "sec_b7spmr0v",
         "type": "section",
         "pageSetup": {
@@ -887,6 +947,126 @@
         ]
       },
       {
+        "id": "sec_legland1",
+        "type": "section",
+        "pageSetup": {
+          "format": "Legal",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_legland1",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Legal landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_tabport1",
+        "type": "section",
+        "pageSetup": {
+          "format": "Tabloid",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_tabport1",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Tabloid portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
         "id": "sec_ehx7irmc",
         "type": "section",
         "pageSetup": {
@@ -992,6 +1172,66 @@
             "content": [
               {
                 "text": "Executive portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_execld01",
+        "type": "section",
+        "pageSetup": {
+          "format": "Executive",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_execld01",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Executive landscape",
                 "marks": []
               }
             ],

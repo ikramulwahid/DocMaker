@@ -101,37 +101,46 @@ test("merged PDF page sizes are stable across re-exports", async () => {
   expect(await pageSizes(first.pdf)).toEqual(first.boxes);
 });
 
-test("PDF MediaBox matches every M4 format/orientation (mm → pt)", async () => {
-  test.setTimeout(120_000);
+test("PDF MediaBox matches every M4 format/orientation + Custom (mm → pt)", async () => {
+  test.setTimeout(180_000);
   const result = await exportPaginatedPdf({ html: layoutHtml(GOLDEN_GEOMETRY) });
 
-  // Effective sheet sizes of golden-07-page-setup, in section order (mm).
-  // Standard formats apply orientation once; Custom (200×150) is never swapped.
+  // Effective sheet sizes of golden-07-page-setup, in documented section order
+  // (mm). Every standard format appears in BOTH orientations (14 cases): the
+  // geometry resolver applies orientation exactly once. Custom (200×150) is the
+  // 15th case and is never swapped — its width/height ARE the final sheet.
   const expectedMm: [number, number][] = [
     [210, 297], // A4 portrait
     [297, 210], // A4 landscape
     [297, 420], // A3 portrait
     [420, 297], // A3 landscape
     [148, 210], // A5 portrait
+    [210, 148], // A5 landscape
     [215.9, 279.4], // Letter portrait
     [279.4, 215.9], // Letter landscape
     [215.9, 355.6], // Legal portrait
+    [355.6, 215.9], // Legal landscape
+    [279.4, 431.8], // Tabloid portrait
     [431.8, 279.4], // Tabloid landscape
     [184.15, 266.7], // Executive portrait
-    [200, 150], // Custom portrait
+    [266.7, 184.15], // Executive landscape
+    [200, 150], // Custom portrait (authored pair, no swap)
   ];
 
   // One page per section (sections force a page break), in document order.
   expect(result.pages).toBe(expectedMm.length);
+  expect(result.pages).toBe(15);
 
-  // The exporter groups contiguous same-size pages: with 11 distinct adjacent
-  // sizes this is 11 single-page runs — never interleaved.
+  // The exporter groups contiguous same-size pages: all 15 adjacent sizes are
+  // distinct, so this is 15 single-page runs in order — never interleaved.
   expect(result.runs.map((r) => `${parseFloat(r.size.w)}x${parseFloat(r.size.h)}`)).toEqual(
     expectedMm.map(([w, h]) => `${w}x${h}`),
   );
+  expect(result.runs).toHaveLength(15);
+  expect(result.runs.every((r) => r.pages === 1)).toBe(true);
 
   // MediaBox in points, with the documented ±1pt tolerance covering Chromium's
-  // CSS→PDF rounding.
+  // CSS→PDF rounding. mm → pt is 72 / 25.4.
   result.boxes.forEach((box, i) => {
     const [w, h] = box.split("x").map(Number);
     const [ew, eh] = expectedMm[i];
@@ -139,6 +148,12 @@ test("PDF MediaBox matches every M4 format/orientation (mm → pt)", async () =>
     expect(Math.abs(h - eh * MM_TO_PT)).toBeLessThan(1);
   });
 
-  // A genuinely mixed document: the merged PDF keeps every distinct size.
-  expect(new Set(result.boxes).size).toBe(expectedMm.length);
+  // The Custom case stays exactly 200 × 150 mm in the emitted PDF (no swap).
+  const [customW, customH] = result.boxes[14].split("x").map(Number);
+  expect(customW).toBeGreaterThan(customH); // authored landscape-shaped pair
+  expect(Math.abs(customW - 200 * MM_TO_PT)).toBeLessThan(1);
+  expect(Math.abs(customH - 150 * MM_TO_PT)).toBeLessThan(1);
+
+  // A genuinely mixed document: the merged PDF keeps all 15 distinct sizes.
+  expect(new Set(result.boxes).size).toBe(15);
 });

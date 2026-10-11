@@ -1,4 +1,4 @@
-# Phase 1 — Plan & Approval Record R0.11 (M4 Delivery)
+# Phase 1 — Plan & Approval Record R0.12 (M4 Evidence Hardening)
 
 - **Status:** **APPROVED + M1, M2, M3 & M4 DELIVERED** — the Phase-1 scope and
   decisions listed in §0 remain explicitly approved by the human (approval
@@ -10,15 +10,20 @@
   **documentation-only reconciliation** of the M2 matrix rows; R0.9 recorded
   the **delivery of M3** (lists & multilevel numbering: V1-LIST-001/002/003
   PASS, V1-LIST-004 PASS as a documented structured subset); R0.10 recorded the
-  **M3 post-delivery hardening**; this revision (R0.11) records the **delivery
+  **M3 post-delivery hardening**; R0.11 recorded the **delivery
   of M4** (page setup, paper sizes & new-document defaults: V1-PAGE-001..004
   PASS, V1-SEC-002 PASS, V1-PAG-004 PASS, the V1-PDF-002 non-A4 leg PASS, and
   the V1-DOC-002 configurability leg PASS). It adds **no** new scope beyond the
   already-approved M4 (§8.2, D11) and does **not** alter the R0.4 approval,
   re-open approved decisions, change M1/M2/M3 acceptance, or authorize further
   milestones. **All Phase 0 PASS classifications and evidence are preserved
-  unchanged.**
-- **Revision:** R0.11 (2026-10-11) — M4 delivery record; supersedes R0.10 (M3
+  unchanged.** This revision (**R0.12**) records the **M4 evidence hardening**:
+  the `golden-07-page-setup` fixture and the PDF MediaBox e2e test were expanded
+  so the **real exported PDF** is checked for **all 14 standard format ×
+  orientation combinations plus Custom (15 cases)**. No feature scope, criterion
+  definition or acceptance classification changed.
+- **Revision:** R0.12 (2026-10-11) — M4 evidence hardening; supersedes R0.11
+  (M4 delivery record) which superseded R0.10 (M3
   post-delivery hardening) which superseded R0.9 (M3 delivery record) which
   superseded R0.8 (M2 status reconciliation) which superseded R0.7 (M2 delivery
   record) which superseded R0.6 (M1 hardening record) which superseded R0.5 (M1
@@ -31,8 +36,9 @@
   `c26f567`); M2 delivered at `85e2db3` (§0.7); the M2 matrix reconciliation
   at `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8); M3 delivered at
   `88578896ccd47f862d7fff20bf6d21fdbd97774b` (§0.9) and hardened at
-  `a18a91cdded03a85995ff0bd5455166d836cfca4` (§0.10, R0.10); M4 delivered on
-  top of `a18a91c` (§0.11, R0.11) — the base commit for this delivery.
+  `a18a91cdded03a85995ff0bd5455166d836cfca4` (§0.10, R0.10); M4 delivered at
+  `cd1b0d5034943bde77a5d22c8a2b9ff7822ba964` (§0.11, R0.11); the M4 evidence
+  hardening (R0.12) sits on top of `cd1b0d5` (§0.12) — the base commit for this delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -64,10 +70,13 @@
   (and R0.10 recorded the M3 hardening): M4 was executed end-to-end with
   `pnpm typecheck`, `pnpm test`, `pnpm test:e2e`, `pnpm build` and
   `git diff --check` run against the final tree (results recorded in §0.11).
+  **R0.12** is the sixth implementation checkpoint (M4 evidence hardening): the
+  expanded fixture and the strengthened PDF MediaBox test were run end-to-end
+  with the same five commands against the final tree (results recorded in §0.12).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.11)
+## 0. Approval record, change history & milestone delivery (R0.12)
 
 ### 0.1 Approval summary
 
@@ -201,6 +210,19 @@ This checkpoint is **documentation-only**:
   new nullable fields; their HTML is byte-identical). R0.4 approval record
   retained verbatim in its substance; M5–M11 not started. Published at the
   checkpoint recorded in §0.11.
+- **R0.12 (2026-10-11, this revision):** **M4 evidence hardening** (see §0.12) —
+  the R0.11 delivery record and the §3 V1-PAG-004 row described the new PDF
+  MediaBox e2e test as covering "all seven standard formats in both
+  orientations" on `golden-07-page-setup`, but the committed fixture held only
+  **11 sections**: A4, A3 and Letter were proved in both orientations while A5,
+  Legal, Tabloid and Executive were each proved in only one. R0.12 corrects the
+  description and closes the gap by expanding `golden-07-page-setup` to **15
+  geometry cases** (all seven standard formats × portrait + landscape, plus
+  Custom 200×150) and strengthening `tests/e2e/pdf-parity.spec.ts` to assert the
+  **real** MediaBox of every case. No criterion definition changed or weakened;
+  V1-PAGE-001..004, V1-SEC-002, V1-PAG-004, V1-PDF-002 and V1-DOC-002 keep their
+  R0.11 classifications (evidence strengthened). `schema_version` stays `1.0`
+  (ADR-004); M5–M11 not started. Published at the checkpoint recorded in §0.12.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -488,10 +510,14 @@ This checkpoint is **documentation-only**:
     section transitions apply the next section's geometry only.
   - **PDF export:** the exporter groups contiguous same-size runs from the
     effective geometry (no exporter code change was needed — the key was
-    already size-driven). A new e2e test asserts the MediaBox for all seven
-    standard formats in both orientations plus Custom, converting mm → pt via
-    `72/25.4` with a ±1 pt tolerance, on one 11-section mixed document
-    (golden-07).
+    already size-driven). A new e2e test asserted the MediaBox on one
+    **11-section** mixed document (`golden-07`) — A4/A3/Letter in **both**
+    orientations, A5/Legal/Tabloid/Executive in **one** orientation each, plus
+    Custom — converting mm → pt via `72/25.4` with a ±1 pt tolerance.
+    ▸**Corrected in R0.12** (§0.12): the fixture and test were later expanded to
+    all **14 standard format × orientation combinations + Custom (15 cases)**.
+    (The R0.11 text first claimed "all seven standard formats in both
+    orientations", which the 11-section fixture did not yet prove.)
   - **New-document defaults (D11):** `src/app/preferences.ts` — a versioned,
     validated `localStorage` snapshot (page setup, theme, metadata skeleton)
     that seeds a newly created document only; `normalizePreferences`/
@@ -519,7 +545,8 @@ This checkpoint is **documentation-only**:
   across reload, reset, open preserves the file's settings, and corrupt
   storage falls back without blocking startup); `pnpm build` PASS;
   `git diff --check` clean. Golden suite extended with `golden-07-page-setup`
-  (all formats × orientation + Custom); goldens-01..06 were regenerated with
+  (at R0.11 an 11-section subset; expanded to **all formats × orientation +
+  Custom = 15 cases** in ▸R0.12, §0.12); goldens-01..06 were regenerated with
   only the two new nullable fields (their expected HTML is byte-identical).
 - **Changed files:** `src/core/ir/pageGeometry.ts` (new),
   `src/core/ir/schema.ts`, `src/core/ir/factory.ts`, `src/core/index.ts`,
@@ -546,6 +573,85 @@ This checkpoint is **documentation-only**:
   started; no new dependencies; no schema-version bump (`schema_version` stays
   `1.0`, ADR-004); `tests/unit/input-security.test.ts` untouched (and still
   green); no tracked spike PDF/artifact changes.
+
+### 0.12 M4 evidence-hardening record (R0.12)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the
+  hardening sits on top of `cd1b0d5034943bde77a5d22c8a2b9ff7822ba964` (R0.11,
+  M4 delivery).
+- **Reason for the revision:** the R0.11 record (and the §3 V1-PAG-004 row)
+  described the new PDF MediaBox e2e test as covering "all seven standard
+  formats in both orientations plus Custom" on `golden-07-page-setup`. The
+  committed test and fixture did **not** back that claim: the fixture had **11
+  sections**, so A4, A3 and Letter were proved in both orientations while A5,
+  Legal, Tabloid and Executive were each proved in only **one** orientation.
+  The documented claim was therefore broader than the end-to-end evidence. This
+  revision closes that gap; it adds no feature scope, no criterion and no
+  dependency, and it does not begin M5.
+- **Fixture expansion (`tests/golden/golden-07-page-setup.json`):** the fixture
+  now holds **15 geometry cases** in a deterministic (format-by-format) section
+  order — the **14 standard** format/orientation combinations **plus** one
+  Custom case:
+
+  | Format | Portrait (mm) | Landscape (mm) |
+  |---|---|---|
+  | A4 | 210 × 297 | 297 × 210 |
+  | A3 | 297 × 420 | 420 × 297 |
+  | A5 | 148 × 210 | 210 × 148 |
+  | Letter | 215.9 × 279.4 | 279.4 × 215.9 |
+  | Legal | 215.9 × 355.6 | 355.6 × 215.9 |
+  | Tabloid | 279.4 × 431.8 | 431.8 × 279.4 |
+  | Executive | 184.15 × 266.7 | 266.7 × 184.15 |
+  | Custom | 200 × 150 (**literal, never swapped**) | — |
+
+  Each section forces a page break, so the fixture paginates to exactly one
+  page per case. The four added sections (A5 landscape, Legal landscape,
+  Tabloid portrait, Executive landscape) were inserted **preserving the 11
+  existing section/heading ids**, so identity does not churn (AGENTS.md §11);
+  `createPageSetupDocument()` in `tests/golden/generator.ts` was updated to the
+  same 15-case order, and the committed `.expected.html` was regenerated through
+  the normal `pnpm golden:update` procedure. Goldens-01..06 are **byte-identical**
+  (the JSON diff is purely additive and no other expected HTML changed).
+- **Strengthened e2e (`tests/e2e/pdf-parity.spec.ts`):** the MediaBox test now
+  drives the **real** export path (`exportPaginatedPdf`) over all 15 cases and
+  asserts, against the emitted PDF:
+  - exactly **15 pages**;
+  - the ordered contiguous **size runs** equal the 15 expected
+    `width × height` values (all 15 adjacent sizes are distinct, so the exporter
+    emits 15 single-page runs, never interleaved);
+  - each page's **actual MediaBox** matches its expected `mm × (72/25.4)` within
+    the documented **±1 pt** tolerance;
+  - the **Custom** page stays exactly 200 × 150 mm (its authored pair is not
+    swapped by its orientation setting);
+  - the merged PDF retains **15 distinct** effective sizes.
+  The pre-existing mixed-orientation and re-export-stability tests are kept and
+  no earlier assertion was weakened.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (17 files, **250 tests** — the unit count is unchanged because
+  `tests/unit/page-setup.test.ts` already pinned every format × orientation in
+  the geometry resolver); `pnpm test:e2e` PASS (**41 tests**, the strengthened
+  MediaBox test now asserting all 15 cases); `pnpm build` PASS;
+  `git diff --check` clean. No implementation defect was exposed by the expanded
+  fixture — the M4 geometry/export path handled all 15 cases correctly — so **no
+  production code changed**.
+- **Evidence model (unit vs end-to-end):** `tests/unit/page-setup.test.ts` pins
+  the geometry **resolver** (`effectivePageSizeMm`/`effectivePageSizeCssMm`,
+  orientation applied once, Custom never swapped) for every standard format ×
+  orientation; the strengthened `tests/e2e/pdf-parity.spec.ts` now proves the
+  **same 14 standard combinations plus Custom** in the **actual exported PDF**
+  — the geometry the resolver computes is what lands in the file.
+- **Changed files:** `tests/golden/generator.ts`,
+  `tests/golden/golden-07-page-setup.json`,
+  `tests/golden/golden-07-page-setup.expected.html`,
+  `tests/e2e/pdf-parity.spec.ts`, `docs/planning/PHASE-1-plan.md` (this plan).
+  No `src/**` change.
+- **Acceptance classification (unchanged, evidence strengthened):**
+  V1-PAGE-001..004, V1-SEC-002, V1-PAG-004, V1-PDF-002 and V1-DOC-002 keep
+  their R0.11 classifications. No criterion definition was changed or weakened.
+- **Out of scope (unchanged):** M5–M11 not started; Markdown import not started;
+  no new dependencies; no schema-version bump (`schema_version` stays `1.0`,
+  ADR-004); `tests/unit/input-security.test.ts` untouched (and still green); no
+  tracked spike PDF/artifact changes.
 
 ---
 
@@ -643,8 +749,11 @@ size/margin UI), V1-PAG-004 → PASS (mixed page sizes), the V1-PDF-002 non-A4
 leg → PASS (V1-PDF-002 → PASS), and the V1-DOC-002 configurability leg → PASS
 (V1-DOC-002 → PASS); the residuals (in-app single-geometry print, Custom
 orientation semantics, custom/margin bounds, defaults scope) are documented in
-`docs/limitations.md` §M4 and §0.11. **All Phase 0 PASS classifications and
-evidence are preserved unchanged.**
+`docs/limitations.md` §M4 and §0.11. **R0.12 (M4 evidence hardening)** changed
+**no** row's status: it expanded `golden-07-page-setup` and the PDF MediaBox
+e2e test to prove all 14 standard format/orientation combinations plus Custom
+(15 cases), correcting R0.11's broader-than-actual description (§0.12).
+**All Phase 0 PASS classifications and evidence are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -701,7 +810,7 @@ evidence are preserved unchanged.**
 ### §12 Page setup
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-PAGE-001 — Page sizes (MUST) | **PASS** ◂R0.11 | Eight `format` values — A4/A3/A5/Letter/Legal/Tabloid/Executive + `Custom` (explicit mm pair) — resolved by the shared `src/core/ir/pageGeometry.ts`; section format selector + Custom width/height inputs. Evidence: `tests/unit/page-setup.test.ts`, golden-07, `tests/e2e/page-setup.spec.ts` |
+| V1-PAGE-001 — Page sizes (MUST) | **PASS** ◂R0.11 ◂R0.12 | Eight `format` values — A4/A3/A5/Letter/Legal/Tabloid/Executive + `Custom` (explicit mm pair) — resolved by the shared `src/core/ir/pageGeometry.ts`; section format selector + Custom width/height inputs. golden-07 now covers all 14 standard format/orientation combinations + Custom (15 cases). Evidence: `tests/unit/page-setup.test.ts`, golden-07, `tests/e2e/page-setup.spec.ts` |
 | V1-PAGE-002 — Orientation (MUST) | **PASS** | portrait/landscape per section; mixed gate PASS (`pnpm pdf`) |
 | V1-PAGE-003 — Margins (MUST) | **PASS** ◂R0.11 | Top/right/bottom/left margin controls in the section editor; IR + renderer respect them; a degenerate usable area is rejected (`pageAreaProblem`). Evidence: `tests/unit/page-setup.test.ts`, `tests/e2e/page-setup.spec.ts` |
 | V1-PAGE-004 — Document-level page settings (MUST) | **PASS** ◂R0.11 | Per-section page-setup UI (size/orientation/margins) at document level; a new-document defaults panel seeds a validated snapshot. Evidence: `tests/e2e/page-setup.spec.ts`, `tests/e2e/document-defaults.spec.ts` |
@@ -811,7 +920,7 @@ evidence are preserved unchanged.**
 | V1-PAG-001 — A4 pagination | **PASS** | goldens + stress (93 pages) |
 | V1-PAG-002 — Header/footer interaction | **PASS** | no overlap (layout margin boxes; e2e) |
 | V1-PAG-003 — Page count | **PASS** | `counter(pages)` + materializer |
-| V1-PAG-004 — Mixed sections | **PASS** ◂R0.11 | Different section orientations **and page sizes** paginate; the 11-section golden-07 (all formats × orientation + Custom) previews and exports with per-page MediaBoxes matching each section. Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 test), golden-07 |
+| V1-PAG-004 — Mixed sections | **PASS** ◂R0.11 ◂R0.12 | Different section orientations **and page sizes** paginate; the **15-case** golden-07 (all 14 standard format/orientation combinations + Custom) previews and exports with per-page MediaBoxes matching each section (§0.12). Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 test), golden-07 |
 | V1-PAG-005 — Table pagination | **PASS** | multi-page tables, repeated headers |
 | V1-PAG-006 — Deterministic pagination | **PASS** | same IR+styles+theme → equivalent output |
 
@@ -819,7 +928,7 @@ evidence are preserved unchanged.**
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-PDF-001 — PDF generation | **PASS** | `pnpm pdf` + in-app print; MediaBox-verified |
-| V1-PDF-002 — PDF visual correctness | **PASS** ◂R0.3 ◂R0.11 | Text/headings/tables/images/sections/HF/page numbers/theme + **page dimensions for every format** — A4 (595×842) plus non-A4/Custom MediaBoxes asserted from mm→pt (`72/25.4`, ±1 pt). Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 MediaBox test over golden-07); gate + user 3-page PDF retained |
+| V1-PDF-002 — PDF visual correctness | **PASS** ◂R0.3 ◂R0.11 ◂R0.12 | Text/headings/tables/images/sections/HF/page numbers/theme + **page dimensions for every format** — A4 (595×842) plus the real non-A4/Custom MediaBoxes of all 15 golden-07 cases asserted from mm→pt (`72/25.4`, ±1 pt). Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 MediaBox test over golden-07, strengthened in R0.12 to all 14 standard format/orientation combinations + Custom); gate + user 3-page PDF retained |
 | V1-PDF-003 — PDF pagination parity | **PASS** | same pipeline as preview; parity by page count/order/MediaBox/text (ADRs 002/003) |
 
 ### §27 JSON save/load (MUST)
@@ -936,6 +1045,10 @@ evidence are preserved unchanged.**
   **RESOLVED (R0.11):** M4 delivered the eight-format geometry and the M4
   MediaBox test over golden-07 (all formats × orientation + Custom, mm→pt
   `72/25.4`, ±1 pt), so V1-PDF-002 is **PASS** (see §0.11, §3 matrix).
+  **EVIDENCE STRENGTHENED (R0.12):** the golden-07 fixture and the MediaBox test
+  were expanded so the **real** PDF is verified for all 14 standard
+  format/orientation combinations plus Custom (15 cases) — the R0.11 wording
+  above described an 11-section subset as if it were the full matrix (§0.12).
 
 ### 4.2 V1-DOC-002 orphaned work resolved
 
@@ -1218,7 +1331,7 @@ M2 Character/paragraph format ─┐
 M3 Lists (uses M2 marks, numbering principles)   ◂ promoted: multilevel
 M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
    executed sequentially per approved D2; also M4 closes V1-DOC-002
-   configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11
+   configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11 ◂ HARDENED R0.12
 M5 Metadata + lab profile + fields (uses M1 styles for field rendering)
 M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq
 M7 Themes (needs M1 + M5)
@@ -1325,6 +1438,12 @@ ADR-004 (`format` enum + nullable `widthMm`/`heightMm`, `schema_version` stays
 `tests/e2e/pdf-parity.spec.ts` (MediaBox mm→pt for every format/orientation),
 `tests/e2e/page-setup.spec.ts`, `tests/e2e/document-defaults.spec.ts` (5 tests).
 Residual limits recorded in §0.11 and `docs/limitations.md` §M4.
+**◂R0.12 — HARDENED (evidence):** the PDF MediaBox evidence was extended to the
+full matrix — golden-07 now has **15 geometry cases** (all seven standard
+formats × portrait + landscape, plus Custom 200×150) and `tests/e2e/pdf-parity`
+verifies the **real** exported PDF for all 15 (mm→pt `72/25.4`, ±1 pt). No
+acceptance status changed; the R0.11 description had overstated the 11-section
+test as "all formats × orientation". See §0.12.
 
 #### M5 — Metadata, laboratory profile, dynamic fields · V1-META-001/002/003 (MUST), V1-FIELD-001..004 (MUST), V1-HF-003 (MUST)
 IR: expanded `metadataSchema` (document type, department, review date, status,
@@ -1470,6 +1589,7 @@ and evidence are unchanged.
 > **not** authorized by this document. Phase-1 implementation begins in a
 > separate, explicitly authorized task after this checkpoint. **M1, M2, M3
 > and M4 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10 and R0.11
-> respectively) on the strength of separate, explicitly authorized tasks
-> following the AGENTS.md checkpoint workflow; **M5–M11 (and the Markdown
-> import) have not been started.**
+> respectively; the M4 PDF-geometry evidence was hardened in R0.12) on the
+> strength of separate, explicitly authorized tasks following the AGENTS.md
+> checkpoint workflow; **M5–M11 (and the Markdown import) have not been
+> started.**

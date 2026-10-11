@@ -572,10 +572,14 @@ export function createListDocument(): Document {
 /**
  * Golden 07 — paper sizes & orientation (M4).
  *
- * One section per standard format in portrait and landscape, plus a custom
- * size, pins the `@page` geometry (and the paged.js sheet-var overrides) for
- * every format/orientation combination byte-for-byte. Margins vary in one
- * section so the margin output is pinned independently of the paper size.
+ * One section per standard format in BOTH portrait and landscape (14 cases),
+ * plus one custom (non-swapped) size = 15 geometry cases. Each section pins
+ * the `@page` geometry (and the paged.js sheet-var overrides) for that
+ * format/orientation byte-for-byte, and the PDF e2e test asserts the real
+ * MediaBox of all 15. Sections force a page break, so the fixture paginates to
+ * exactly one page per case. Margins vary in one section so the margin output
+ * is pinned independently of the paper size. Deterministic (format-by-format)
+ * section order.
  */
 export function createPageSetupDocument(): Document {
   const doc = createEmptyDocument("Paper sizes and orientation");
@@ -593,9 +597,12 @@ export function createPageSetupDocument(): Document {
     { label: "A3 portrait", format: "A3", orientation: "portrait" },
     { label: "A3 landscape", format: "A3", orientation: "landscape" },
     { label: "A5 portrait", format: "A5", orientation: "portrait" },
+    { label: "A5 landscape", format: "A5", orientation: "landscape" },
     { label: "Letter portrait", format: "Letter", orientation: "portrait" },
     { label: "Letter landscape", format: "Letter", orientation: "landscape" },
     { label: "Legal portrait", format: "Legal", orientation: "portrait" },
+    { label: "Legal landscape", format: "Legal", orientation: "landscape" },
+    { label: "Tabloid portrait", format: "Tabloid", orientation: "portrait" },
     { label: "Tabloid landscape", format: "Tabloid", orientation: "landscape" },
     {
       label: "Executive portrait",
@@ -603,6 +610,7 @@ export function createPageSetupDocument(): Document {
       orientation: "portrait",
       margins: { top: 12.7, right: 12.7, bottom: 12.7, left: 12.7 },
     },
+    { label: "Executive landscape", format: "Executive", orientation: "landscape" },
   ];
 
   const sections = variants.map((variant) => {
