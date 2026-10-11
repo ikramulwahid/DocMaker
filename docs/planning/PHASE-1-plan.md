@@ -1,18 +1,21 @@
-# Phase 1 — Plan & Approval Record R0.7 (M2 Delivered — Character & Paragraph Formatting)
+# Phase 1 — Plan & Approval Record R0.8 (M2 Status Reconciliation)
 
 - **Status:** **APPROVED + M1 & M2 DELIVERED** — the Phase-1 scope and
   decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
-  base-style leg); R0.6 recorded the **M1 post-delivery hardening**; this
-  revision (R0.7) records the **delivery of M2** (character & paragraph
-  formatting: V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset).
-  It does **not** alter the R0.4 approval, does not re-open approved
-  decisions, does not change M1 acceptance, and does **not** authorize
-  further milestones. M1's plan status markers (§3, §4.2, §8.2) are
-  unchanged; **all Phase 0 PASS classifications and evidence are preserved
-  unchanged.**
-- **Revision:** R0.7 (2026-10-11) — M2 delivery record; supersedes R0.6 (M1
+  base-style leg); R0.6 recorded the **M1 post-delivery hardening**; R0.7
+  recorded the **delivery of M2** (character & paragraph formatting:
+  V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset); this revision
+  (R0.8) is a **documentation-only reconciliation** that corrects the §3
+  coverage-matrix rows for V1-FMT-001/002/003 to match the R0.7 delivery
+  record (§0.7), the §8.2 milestone status and `docs/limitations.md`. It does
+  **not** alter the R0.4 approval, does not re-open approved decisions, does
+  not change M1/M2 acceptance, and does **not** authorize further milestones.
+  M1's plan status markers (§3, §4.2, §8.2) are unchanged; **all Phase 0 PASS
+  classifications and evidence are preserved unchanged.**
+- **Revision:** R0.8 (2026-10-11) — M2 status reconciliation (documentation
+  only); supersedes R0.7 (M2 delivery record) which superseded R0.6 (M1
   hardening record) which superseded R0.5 (M1 delivery) which superseded R0.4
   (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
@@ -20,8 +23,8 @@
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
   `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3) and `fc9b00b` (R0.4);
   M1 delivered on top of `fc9b00b` (§0.5, checkpoint `4083c0c`, hardened at
-  `c26f567`); M2 delivered on top of `c26f567` (see §0.7 for the checkpoint
-  commit).
+  `c26f567`); M2 delivered at `85e2db3` (§0.7) — the base commit for this R0.8
+  reconciliation.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -43,11 +46,14 @@
   the final tree (results recorded in §0.5). **R0.7** is the second
   implementation checkpoint: M2 was likewise executed end-to-end with
   `pnpm typecheck`, `pnpm test`, `pnpm test:e2e` and `pnpm build` run against
-  the final tree (results recorded in §0.7).
+  the final tree (results recorded in §0.7). **R0.8 is documentation-only:** it
+  corrects the coverage-matrix status rows to match the R0.7 delivery record;
+  no executable verification was run or claimed for it, and M2's previously
+  recorded results (§0.7) are kept intact.
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.7)
+## 0. Approval record, change history & milestone delivery (R0.8)
 
 ### 0.1 Approval summary
 
@@ -120,14 +126,26 @@ This checkpoint is **documentation-only**:
   `artifacts/spike/e2e-sop.pdf` to the ignored `artifacts/e2e-sop.pdf` so E2E
   runs never dirty the working tree (tracked spike PDF restored to its pre-M1
   bytes). M1 acceptance unchanged; M2 not started. Published at `c26f567`.
-- **R0.7 (2026-10-11, this revision):** **M2 delivered** — character and
+- **R0.7 (2026-10-11):** **M2 delivered** — character and
   paragraph formatting implemented, tested and published (see §0.7). Plan
   status markers updated: V1-FMT-001 and V1-FMT-002 → PASS; V1-FMT-003 →
   PARTIAL (documented feasible subset — uppercase/lowercase only). A latent
   M1 defect was also corrected: the colour-token validator accepted only
   3/4/6/8-digit hex (the previous `{3,8}` range wrongly allowed 5/7 digits).
   ADR-004 additive policy holds — `schema_version` stays `1.0`. R0.4 approval
-  record retained verbatim in its substance; M3 not started.
+  record retained verbatim in its substance; M3 not started. Published at
+  `85e2db3`.
+- **R0.8 (2026-10-11, this revision):** **M2 status reconciliation
+  (documentation only).** The R0.7 revision updated the narrative status
+  markers (§0.7, §8.2, header) and `docs/limitations.md`, but the §3
+  coverage-matrix rows for V1-FMT-001/002/003 still carried their pre-M2
+  `PARTIAL` text. R0.8 aligns those three rows with the delivered state —
+  V1-FMT-001 → PASS, V1-FMT-002 → PASS, V1-FMT-003 → PARTIAL (uppercase/
+  lowercase delivered; remainder documented) — and adds the R0.7 transitions
+  note to the matrix legend. No application code, schema, test, fixture or
+  golden changed; `schema_version` stays `1.0`; no criterion definition
+  altered; M2's recorded test results (§0.7) are unchanged and were not
+  re-run. M3 not started.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -227,6 +245,28 @@ This checkpoint is **documentation-only**:
 - **Out of scope (unchanged):** M3–M11 not started; no new dependencies; no
   schema-version bump; `tests/unit/input-security.test.ts` untouched.
 
+### 0.8 M2 status reconciliation record (R0.8, documentation only)
+
+- **Base commit:** `85e2db3` (the R0.7 M2 delivery checkpoint).
+- **Reason:** the R0.7 revision updated the narrative status markers (§0.7,
+  §8.2, header) and `docs/limitations.md`, but the three §3 coverage-matrix
+  rows for V1-FMT-001/002/003 still showed their pre-M2 `PARTIAL` text
+  ("→ **M2**"), contradicting the delivered state. R0.8 corrects that
+  inconsistency only.
+- **Status corrections (matrix rows):** `V1-FMT-001` → **PASS** (structured
+  character marks), `V1-FMT-002` → **PASS** (validated per-block paragraph
+  overrides), `V1-FMT-003` → **PARTIAL** (uppercase/lowercase delivered;
+  small caps, character/letter spacing, paragraph borders/shading, hanging
+  indent and tab stops remain documented limitations). The R0.7 transitions
+  note was added to the matrix legend.
+- **Preserved verbatim:** the R0.4 approval record, the R0.5/R0.6/R0.7
+  records, the R0.5 transitions note, all Phase 0 PASS classifications and
+  evidence, all M2 test results, and every acceptance-criterion definition.
+- **Not done:** no application/schema/test/fixture/golden change; no
+  `schema_version` change; no criterion weakened; M2 tests were **not**
+  re-run (R0.7 results stand); M3–M11 not started.
+- **Verification:** `git diff --check` clean; only this plan file changed.
+
 ---
 
 ## 1. Objective
@@ -299,17 +339,20 @@ references in ADRs, `docs/limitations.md` and the smoke-check remain valid.
 
 ## 3. One-to-one coverage matrix (133 / 133)
 
-Status legend — **PASS**: implemented + evidenced in Phase 0 or in M1 (R0.5).
-**PARTIAL**: works in part, remainder named. **PLANNED — P1-M#**: Phase-1
-milestone. **PLANNED — remaining-V1**: approved remaining-V1 work (after
-M1–M11). **DEFERRED**: later phase, justified. **OPEN**: human decision (§9) —
-no rows remain open after the R0.4 approval.
+Status legend — **PASS**: implemented + evidenced in Phase 0, M1 (R0.5) or
+M2 (R0.7). **PARTIAL**: works in part, remainder named. **PLANNED — P1-M#**:
+Phase-1 milestone. **PLANNED — remaining-V1**: approved remaining-V1 work
+(after M1–M11). **DEFERRED**: later phase, justified. **OPEN**: human decision
+(§9) — no rows remain open after the R0.4 approval.
 Rows marked **◂R0.3** changed in the R0.3 audit (see §5 for the full
 rationale); the only R0.4 matrix change is V1-IMP-001 (status → PLANNED —
 remaining-V1, approved D3). **R0.5 (M1) transitions:**
 V1-STYLE-001..004 → PASS, V1-TXT-001 → PASS, V1-DOC-002 base-style leg
-delivered (still PARTIAL — configurability → M4). **All Phase 0 PASS
-classifications and evidence are preserved unchanged.**
+delivered (still PARTIAL — configurability → M4). **R0.7 (M2) transitions:**
+V1-FMT-001 → PASS, V1-FMT-002 → PASS, V1-FMT-003 → PARTIAL (uppercase/
+lowercase text case delivered; the remainder is documented — §0.7 and
+`docs/limitations.md` §M2). **All Phase 0 PASS classifications and evidence
+are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -343,9 +386,9 @@ classifications and evidence are preserved unchanged.**
 ### §9 Text formatting
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-FMT-001 — Character formatting (MUST) | **PARTIAL** | bold/italic/code/link only; font family/size, underline, strikethrough, superscript, subscript, color, highlight → **M2** |
-| V1-FMT-002 — Paragraph formatting (MUST) | **PARTIAL** | no IR alignment/spacing/indentation → **M2** |
-| V1-FMT-003 — Advanced formatting (SHOULD) | **PARTIAL** | absent; strikethrough/blockquote/code disabled by design (limitations item 16). M2 delivers feasible subset; remainder stays documented |
+| V1-FMT-001 — Character formatting (MUST) | **PASS** ◂R0.7 | Structured character marks: bold, italic, code, link, underline, strikethrough, superscript, subscript, font family (`serif / sans / mono`, resolved to a theme stack), font size (validated pt 6–72), text colour and highlight (validated hex). Allow-listed/validated values only, never raw CSS; contradictory runs impossible; the renderer re-validates at the boundary — `format.test.ts`, golden-05, `format.spec.ts` |
+| V1-FMT-002 — Paragraph formatting (MUST) | **PASS** ◂R0.7 | Validated per-block overrides of the assigned style: left/center/right/justify alignment, line spacing, paragraph spacing (before/after) and left indentation; `null` = inherit; additive (style/theme definitions never mutated) — `format.test.ts`, golden-05, `format.spec.ts` |
+| V1-FMT-003 — Advanced formatting (SHOULD) | **PARTIAL** ◂R0.7 | Uppercase/lowercase text case implemented (M2). **Not** implemented and explicitly documented rather than silently omitted: small caps, character spacing, letter spacing, paragraph borders, paragraph shading, hanging indentation, tab stops (`docs/limitations.md` §M2, item 28). The criterion as a whole is **not** claimed PASS |
 
 ### §10 Style system (MUST)
 | Criterion | Status | Evidence / gap → assignment |
