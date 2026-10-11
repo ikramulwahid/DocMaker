@@ -5,14 +5,21 @@
  * without a DOM. Invariants:
  *  - IR node ids survive the round-trip (they ride in Tiptap attrs.id);
  *  - anything the IR cannot represent cannot be produced by the editor
- *    (see extensions.ts), so mapping back never silently drops structure
- *    except the documented Phase-0 flattening of nested lists.
+ *    (see extensions.ts), so mapping back never silently drops structure.
+ *    The only normalization is the documented, lossless conversion of a legacy
+ *    flat `bulletList` to the canonical recursive `list` (M3).
  */
 import {
+  BULLET_MARKERS,
   EMPTY_PARAGRAPH_FORMAT,
+  LIST_TYPES,
   isStyleId,
   type Block,
+  type BulletMarker,
   type Inline,
+  type List,
+  type ListItem,
+  type ListType,
   type Mark,
   type Paragraph,
   type ParagraphFormatOverride,
@@ -21,6 +28,7 @@ import {
   type TableCell,
 } from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
+import { bulletListToCanonical } from "@/core/ir/normalize";
 import { fontSizePtProblem, isValidHexColor, sanitizeHref } from "@/core/ir/sanitize";
 import {
   INDENT_LEFT_MM_MAX,
@@ -48,6 +56,9 @@ const PREFIX_BY_TYPE: Record<string, string> = {
   paragraph: "pg",
   heading: "hd",
   bulletList: "bl",
+  orderedList: "bl",
+  list: "bl",
+  listItem: "li",
   table: "tb",
   tableRow: "tr",
   tableCell: "tc",
@@ -225,6 +236,69 @@ function paragraphToTiptap(paragraph: Paragraph): TiptapNode {
   };
 }
 
+/* ------------------------------------------------------------ lists (M3) */
+
+/** Tiptap requires a list item to hold at least one block; an IR item with no
+ * content paragraphs therefore maps to one empty paragraph (round-trips as
+ * one empty paragraph — the same convention as empty sections). */
+const EMPTY_LIST_PARAGRAPH: Paragraph = {
+  id: "",
+  type: "paragraph",
+  content: [],
+  style: null,
+  format: EMPTY_PARAGRAPH_FORMAT,
+};
+
+/** Canonical `list` → Tiptap. The whole tree shares ONE list type (the
+ * approved model), so nested levels reuse the parent's type/marker; only the
+ * top-level node carries the IR block id. */
+function listToTiptap(list: List): TiptapNode {
+  return listNodeToTiptap(
+    list.listType,
+    list.marker ?? "disc",
+    list.start,
+    list.items,
+    list.id,
+  );
+}
+
+function listNodeToTiptap(
+  listType: ListType,
+  marker: BulletMarker,
+  start: number,
+  items: ListItem[],
+  id?: string,
+): TiptapNode {
+  const isBullet = listType === "bullet";
+  const attrs: Record<string, unknown> = {};
+  if (id) attrs.id = id;
+  if (isBullet) {
+    attrs.marker = marker;
+  } else {
+    attrs.numbering = listType;
+    attrs.start = start;
+  }
+  return {
+    type: isBullet ? "bulletList" : "orderedList",
+    attrs,
+    content: items.map((item) => listItemToTiptap(item, listType, marker)),
+  };
+}
+
+function listItemToTiptap(
+  item: ListItem,
+  listType: ListType,
+  marker: BulletMarker,
+): TiptapNode {
+  const content = (item.content.length ? item.content : [EMPTY_LIST_PARAGRAPH]).map(
+    paragraphToTiptap,
+  );
+  if (item.children.length > 0) {
+    content.push(listNodeToTiptap(listType, marker, 1, item.children));
+  }
+  return { type: "listItem", attrs: { id: item.id }, content };
+}
+
 function cellToTiptap(
   cell: TableCell,
   colwidth: number | null,
@@ -283,14 +357,11 @@ function blockToTiptap(block: Block): TiptapNode {
         ...(block.content.length ? { content: block.content.map(runToTiptap) } : {}),
       };
     case "bulletList":
-      return {
-        type: "bulletList",
-        attrs: { id: block.id },
-        content: block.items.map((item) => ({
-          type: "listItem",
-          content: [paragraphToTiptap(item)],
-        })),
-      };
+      // Legacy flat list — normalized to the canonical `list` (deterministic
+      // item ids) before it becomes a Tiptap node, so an edit/save converges.
+      return listToTiptap(bulletListToCanonical(block));
+    case "list":
+      return listToTiptap(block);
     case "table":
       return tableToTiptap(block);
     case "image":
@@ -475,25 +546,57 @@ function emptyCell(): TableCell {
   return { id: newId("tc"), type: "tableCell", content: [{ id: newId("pg"), type: "paragraph", content: [], style: null, format: EMPTY_PARAGRAPH_FORMAT }] };
 }
 
-/** Nested lists flatten (documented limitation): depth-first, paragraphs only. */
-function listItemsFromTiptap(nodes: TiptapNode[] | undefined): Paragraph[] {
-  const items: Paragraph[] = [];
-  const walk = (listNodes: TiptapNode[] | undefined) => {
-    for (const node of listNodes ?? []) {
-      if (node.type === "paragraph") items.push(paragraphFromTiptap(node));
-      else if (
-        node.type === "listItem" ||
-        node.type === "bulletList" ||
-        node.type === "orderedList"
-      )
-        walk(node.content);
-      // anything else inside a list item: skipped (cannot be produced)
+/** One Tiptap listItem → a canonical recursive `ListItem` (paragraphs +
+ * nested child items). The whole tree is treated as ONE list type (the
+ * approved model); a foreign nested list of a different type is normalized to
+ * the outer list's type rather than dropped. */
+function listItemFromTiptap(node: TiptapNode): ListItem | null {
+  if (node.type !== "listItem") return null;
+  const content: Paragraph[] = [];
+  const children: ListItem[] = [];
+  for (const child of node.content ?? []) {
+    if (child.type === "paragraph") {
+      content.push(paragraphFromTiptap(child));
+    } else if (child.type === "bulletList" || child.type === "orderedList") {
+      for (const nested of child.content ?? []) {
+        const item = listItemFromTiptap(nested);
+        if (item) children.push(item);
+      }
     }
-  };
-  for (const node of nodes ?? []) {
-    if (node.type === "listItem") walk(node.content);
+    // anything else inside a list item cannot be produced by the editor → skip
   }
-  return items;
+  return { id: idFor(node), content, children };
+}
+
+/** A Tiptap bullet/ordered list → one canonical `list` block. The editor
+ * attrs select the list type, bullet marker and start; every value is
+ * re-validated here (the editor could carry a stale/foreign attribute). */
+function listFromTiptap(node: TiptapNode): List {
+  const isBullet = node.type === "bulletList";
+  const numbering = node.attrs?.numbering;
+  const listType: ListType =
+    !isBullet && (LIST_TYPES as readonly unknown[]).includes(numbering)
+      ? (numbering as ListType)
+      : isBullet
+        ? "bullet"
+        : "decimal";
+  const markerAttr = node.attrs?.marker;
+  const marker: BulletMarker | null = isBullet
+    ? (BULLET_MARKERS as readonly unknown[]).includes(markerAttr)
+      ? (markerAttr as BulletMarker)
+      : "disc"
+    : null;
+  const rawStart = node.attrs?.start;
+  const start =
+    typeof rawStart === "number" && Number.isInteger(rawStart) && rawStart >= 1
+      ? rawStart
+      : 1;
+  const items: ListItem[] = [];
+  for (const child of node.content ?? []) {
+    const item = listItemFromTiptap(child);
+    if (item) items.push(item);
+  }
+  return { id: idFor(node), type: "list", listType, marker, start, items };
 }
 
 function blockFromTiptap(node: TiptapNode): Block | null {
@@ -512,11 +615,8 @@ function blockFromTiptap(node: TiptapNode): Block | null {
       };
     }
     case "bulletList":
-      return {
-        id: idFor(node),
-        type: "bulletList",
-        items: listItemsFromTiptap(node.content),
-      };
+    case "orderedList":
+      return listFromTiptap(node);
     case "table":
       return tableFromTiptap(node);
     case "image": {

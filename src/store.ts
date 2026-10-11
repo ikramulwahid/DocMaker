@@ -8,6 +8,8 @@ import { create } from "zustand";
 import {
   createEmptyDocument,
   createHeading,
+  createList,
+  createListItem,
   createParagraph,
   createSection,
   createTable,
@@ -25,6 +27,7 @@ import {
   type Watermark,
 } from "@/core";
 import { styleFormatSchema } from "@/core/ir/schema";
+import { normalizeLegacyLists } from "@/core/ir/normalize";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "@/editor/adapter";
 import { parseMarginText } from "@/app/marginText";
 
@@ -82,14 +85,12 @@ export function createStarterDocument(): Document {
       text(", and the right pane is the paginated A4 preview."),
     ]),
     createHeading(2, [text("Scope")]),
-    {
-      id: "bl_starter01",
-      type: "bulletList",
+    createList({
       items: [
-        createParagraph([text("Live preview shares one pipeline with PDF export")]),
-        createParagraph([text("Headers, footers, and Page X of Y are derived")]),
+        createListItem([text("Live preview shares one pipeline with PDF export")]),
+        createListItem([text("Headers, footers, and Page X of Y are derived")]),
       ],
-    },
+    }),
     createTable(
       [
         ["Check", "Result"],
@@ -123,7 +124,10 @@ export const useDocStore = create<DocState>((set) => ({
 
   setDocument: (document, fileName) =>
     set((state) => ({
-      document,
+      // Opening an old document upgrades any legacy flat `bulletList` to the
+      // canonical recursive `list` in memory, so "open then save" converges on
+      // the canonical shape with no text edit (lossless; M3).
+      document: normalizeLegacyLists(document),
       fileName,
       dirty: false,
       revision: state.revision + 1,

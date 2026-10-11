@@ -363,14 +363,78 @@ export const headingSchema = z.object({
 });
 export type Heading = z.infer<typeof headingSchema>;
 
-/** Flat list: items are paragraphs (nested lists are a Phase-0 limitation —
- * the editor adapter flattens them; see docs/limitations.md). */
+/**
+ * Legacy flat list (Phase 0). Items are paragraphs; nesting is not
+ * representable. Kept **byte-compatible** so existing flat documents load
+ * unchanged; the editor adapter normalizes it to the canonical `list` block
+ * on the next edit/save (PHASE-1-plan §7, ADR-004 additive policy).
+ */
 export const bulletListSchema = z.object({
   ...blockBase,
   type: z.literal("bulletList"),
   items: z.array(paragraphSchema).default([]),
 });
 export type BulletList = z.infer<typeof bulletListSchema>;
+
+/* ------------------------------------------------------------- lists (M3)
+
+ * Canonical recursive list (M3, V1-LIST-001..004, PHASE-1-plan §7).
+ *
+ * A single `list` block carries ONE list type for its whole (possibly nested)
+ * tree — the plan's approved shape. `listType` selects bullets vs. one of the
+ * five numbering styles; `marker` selects the bullet glyph (bullet lists only).
+ * Nested levels are child `listItem`s, so a numbered tree renders hierarchical
+ * ordinals ("3.1", "4.1.1") **derived at resolve time** and never stored
+ * (AGENTS.md §11/§12). The legacy `bulletList` above stays loadable.
+ */
+
+export const LIST_TYPES = [
+  "bullet",
+  "decimal",
+  "lower-alpha",
+  "upper-alpha",
+  "lower-roman",
+  "upper-roman",
+] as const;
+export const listTypeSchema = z.enum(LIST_TYPES);
+export type ListType = z.infer<typeof listTypeSchema>;
+
+export const BULLET_MARKERS = ["disc", "circle", "square", "dash", "arrow", "check"] as const;
+export const bulletMarkerSchema = z.enum(BULLET_MARKERS);
+export type BulletMarker = z.infer<typeof bulletMarkerSchema>;
+
+/**
+ * One list item: a stable `li_` id, one or more content paragraphs, and any
+ * nested child items (recursive). Content is paragraphs only — a list item
+ * cannot contain a table/heading, which keeps list semantics bounded and makes
+ * the tree safe to walk.
+ */
+export interface ListItem {
+  id: NodeId;
+  content: Paragraph[];
+  children: ListItem[];
+}
+
+export const listItemSchema: z.ZodType<ListItem, z.ZodTypeDef, unknown> = z.lazy(() =>
+  z.object({
+    id: nodeIdSchema,
+    content: z.array(paragraphSchema).default([]),
+    children: z.array(listItemSchema).default([]),
+  }),
+);
+
+export const listSchema = z.object({
+  ...blockBase,
+  type: z.literal("list"),
+  /** One list type for the whole tree; ordinals are derived per level. */
+  listType: listTypeSchema.default("bullet"),
+  /** Bullet glyph — only meaningful for `listType: "bullet"` (else null). */
+  marker: bulletMarkerSchema.nullable().default(null),
+  /** First ordinal of a numbered list (configurable start). */
+  start: z.number().int().min(1).default(1),
+  items: z.array(listItemSchema).default([]),
+});
+export type List = z.infer<typeof listSchema>;
 
 export const tableCellSchema = z.object({
   ...blockBase,
@@ -461,16 +525,31 @@ export const horizontalRuleSchema = z.object({
 });
 export type HorizontalRule = z.infer<typeof horizontalRuleSchema>;
 
-export const blockSchema = z.discriminatedUnion("type", [
-  paragraphSchema,
-  headingSchema,
-  bulletListSchema,
-  tableSchema,
-  imageSchema,
-  equationSchema,
-  pageBreakSchema,
-  horizontalRuleSchema,
-]);
+export const blockSchema = z
+  .discriminatedUnion("type", [
+    paragraphSchema,
+    headingSchema,
+    bulletListSchema,
+    listSchema,
+    tableSchema,
+    imageSchema,
+    equationSchema,
+    pageBreakSchema,
+    horizontalRuleSchema,
+  ])
+  .superRefine((block, ctx) => {
+    // Cross-field invariant. A `.refine()`d object cannot be a discriminated-
+    // union member, so the check lives on the union: `marker` is a bullet-only
+    // field, and a numbered list carrying a bullet glyph is REJECTED rather
+    // than silently ignored — no contradictory stored state (AGENTS.md §46).
+    if (block.type === "list" && block.listType !== "bullet" && block.marker !== null) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["marker"],
+        message: "marker is only valid on a bullet list",
+      });
+    }
+  });
 
 export type Block = z.infer<typeof blockSchema>;
 

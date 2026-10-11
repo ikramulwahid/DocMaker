@@ -23,7 +23,7 @@ import {
   text,
 } from "@/core/ir/factory";
 import { buildDefaultStyles } from "@/core/ir/styles";
-import { documentSchema, type Block, type Document } from "@/core/ir/schema";
+import { documentSchema, type Block, type Document, type List, type ListItem } from "@/core/ir/schema";
 import { createDocumentFixture } from "../unit/fixtures";
 
 export const GOLDEN_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -472,6 +472,102 @@ export function createFormattingDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 06 — canonical lists (M3): the six bullet markers, the five numbering
+ * styles, a configurable start, nested (multilevel) items, and a
+ * multi-paragraph item. Deterministic ids keep the committed JSON stable even
+ * if regenerated.
+ */
+export function createListDocument(): Document {
+  const p = (id: string, value: string) => ({
+    id,
+    type: "paragraph" as const,
+    content: [{ text: value, marks: [] }],
+    style: null,
+    format: {
+      alignment: null,
+      lineSpacing: null,
+      spaceBeforeMm: null,
+      spaceAfterMm: null,
+      indentLeftMm: null,
+    },
+  });
+  const item = (id: string, value: string, children: ListItem[] = []): ListItem => ({
+    id,
+    content: [p(`pg_${id.slice(3)}`, value)],
+    children,
+  });
+
+  const doc = createEmptyDocument("Lists and multilevel numbering");
+  doc.metadata = {
+    title: "Lists and multilevel numbering",
+    docNumber: "DEMO-LIST",
+    revision: "01",
+    effectiveDate: "2026-10-11",
+    author: "",
+    organization: "",
+    description: "M3 golden: bullet markers, numbering styles, nesting, starts",
+  };
+
+  const bullets: List = {
+    id: "bl_listgold1",
+    type: "list",
+    listType: "bullet",
+    marker: "arrow",
+    start: 1,
+    items: [
+      item("li_listgold1", "Arrow bullet item"),
+      item("li_listgold2", "Nested bullet item", [item("li_listgold3", "Deeper bullet item")]),
+      item("li_listgold4", "Check bullet item"),
+    ],
+  };
+  // Second paragraph on an item (multi-paragraph content).
+  bullets.items[0].content.push(p("pg_listgold9", "A second paragraph in the same item."));
+
+  const decimal: List = {
+    id: "bl_listgold2",
+    type: "list",
+    listType: "decimal",
+    marker: null,
+    start: 1,
+    items: [
+      item("li_listgold5", "First numbered step"),
+      item("li_listgold6", "Second numbered step", [item("li_listgold7", "Sub-step 2.1")]),
+      item("li_listgold8", "Third numbered step"),
+    ],
+  };
+
+  const alpha: List = {
+    id: "bl_listgold3",
+    type: "list",
+    listType: "lower-alpha",
+    marker: null,
+    start: 2,
+    items: [item("li_listgolda", "Second lettered item"), item("li_listgoldb", "Third lettered item")],
+  };
+
+  const roman: List = {
+    id: "bl_listgold4",
+    type: "list",
+    listType: "upper-roman",
+    marker: null,
+    start: 4,
+    items: [item("li_listgoldc", "Fourth roman item"), item("li_listgoldd", "Fifth roman item")],
+  };
+
+  doc.sections = [
+    createSection([
+      createHeading(1, [text("Bullet markers")]),
+      bullets,
+      createHeading(1, [text("Numbering styles and multilevel lists")]),
+      decimal,
+      alpha,
+      roman,
+    ]),
+  ];
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
@@ -479,6 +575,7 @@ export function buildGoldens(): Golden[] {
     { name: "golden-03-phase0-gate", doc: createPhase0GateDocument() },
     { name: "golden-04-style-system", doc: createStyleSystemDocument() },
     { name: "golden-05-formatting", doc: createFormattingDocument() },
+    { name: "golden-06-lists", doc: createListDocument() },
   ];
 }
 

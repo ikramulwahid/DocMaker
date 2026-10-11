@@ -7,11 +7,15 @@ import { buildDefaultStyles } from "./styles";
 import {
   EMPTY_PARAGRAPH_FORMAT,
   type Block,
+  type BulletMarker,
   type Document,
   type Equation,
   type Heading,
   type Image,
   type Inline,
+  type List,
+  type ListItem,
+  type ListType,
   type MarginBox,
   type Paragraph,
   type Section,
@@ -47,6 +51,39 @@ export function createHeading(
   style: string | null = headingStyleId(level),
 ): Heading {
   return { id: newId("hd"), type: "heading", level, content, style, format: EMPTY_PARAGRAPH_FORMAT };
+}
+
+/**
+ * Canonical list item (M3): one inheritance paragraph plus empty children.
+ * Content is paragraphs only (schema invariant), and the paragraph carries the
+ * standard style/format defaults so it resolves exactly like body text.
+ */
+export function createListItem(content: Inline[] = []): ListItem {
+  return { id: newId("li"), content: [createParagraph(content)], children: [] };
+}
+
+/**
+ * Canonical recursive list (M3). Defaults to a disc bullet list; a numbered
+ * list carries `marker: null` (a stray bullet glyph on a numbered list is
+ * rejected by the schema). `start` is the first ordinal (numbered lists).
+ */
+export function createList(
+  opts: {
+    listType?: ListType;
+    marker?: BulletMarker | null;
+    start?: number;
+    items?: ListItem[];
+  } = {},
+): List {
+  const listType = opts.listType ?? "bullet";
+  return {
+    id: newId("bl"),
+    type: "list",
+    listType,
+    marker: listType === "bullet" ? (opts.marker ?? "disc") : null,
+    start: opts.start ?? 1,
+    items: opts.items ?? [],
+  };
 }
 
 export function createImage(

@@ -1,30 +1,32 @@
-# Phase 1 — Plan & Approval Record R0.8 (M2 Status Reconciliation)
+# Phase 1 — Plan & Approval Record R0.9 (M3 List Delivery)
 
-- **Status:** **APPROVED + M1 & M2 DELIVERED** — the Phase-1 scope and
+- **Status:** **APPROVED + M1, M2 & M3 DELIVERED** — the Phase-1 scope and
   decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
   base-style leg); R0.6 recorded the **M1 post-delivery hardening**; R0.7
   recorded the **delivery of M2** (character & paragraph formatting:
-  V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset); this revision
-  (R0.8) is a **documentation-only reconciliation** that corrects the §3
-  coverage-matrix rows for V1-FMT-001/002/003 to match the R0.7 delivery
-  record (§0.7), the §8.2 milestone status and `docs/limitations.md`. It does
-  **not** alter the R0.4 approval, does not re-open approved decisions, does
-  not change M1/M2 acceptance, and does **not** authorize further milestones.
-  M1's plan status markers (§3, §4.2, §8.2) are unchanged; **all Phase 0 PASS
+  V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset); R0.8 was a
+  **documentation-only reconciliation** of the M2 matrix rows; this revision
+  (R0.9) records the **delivery of M3** (lists & multilevel numbering:
+  V1-LIST-001/002/003 PASS, V1-LIST-004 PASS as a documented structured
+  subset). It updates the §3 coverage-matrix rows, the §8.2 milestone status,
+  §7 (now implemented) and `docs/limitations.md`. It does **not** alter the
+  R0.4 approval, does not re-open approved decisions, does not change M1/M2
+  acceptance, and does **not** authorize further milestones. **All Phase 0 PASS
   classifications and evidence are preserved unchanged.**
-- **Revision:** R0.8 (2026-10-11) — M2 status reconciliation (documentation
-  only); supersedes R0.7 (M2 delivery record) which superseded R0.6 (M1
-  hardening record) which superseded R0.5 (M1 delivery) which superseded R0.4
-  (approval record).
+- **Revision:** R0.9 (2026-10-11) — M3 delivery record; supersedes R0.8 (M2
+  status reconciliation) which superseded R0.7 (M2 delivery record) which
+  superseded R0.6 (M1 hardening record) which superseded R0.5 (M1 delivery)
+  which superseded R0.4 (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
   `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3) and `fc9b00b` (R0.4);
   M1 delivered on top of `fc9b00b` (§0.5, checkpoint `4083c0c`, hardened at
-  `c26f567`); M2 delivered at `85e2db3` (§0.7) — the base commit for this R0.8
-  reconciliation.
+  `c26f567`); M2 delivered at `85e2db3` (§0.7); the M2 matrix reconciliation
+  at `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8) — the base commit for
+  this R0.9 M3 delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -46,14 +48,17 @@
   the final tree (results recorded in §0.5). **R0.7** is the second
   implementation checkpoint: M2 was likewise executed end-to-end with
   `pnpm typecheck`, `pnpm test`, `pnpm test:e2e` and `pnpm build` run against
-  the final tree (results recorded in §0.7). **R0.8 is documentation-only:** it
-  corrects the coverage-matrix status rows to match the R0.7 delivery record;
+  the final tree (results recorded in §0.7). **R0.8 was documentation-only:** it
+  corrected the coverage-matrix status rows to match the R0.7 delivery record;
   no executable verification was run or claimed for it, and M2's previously
-  recorded results (§0.7) are kept intact.
+  recorded results (§0.7) are kept intact. **R0.9** is the third
+  implementation checkpoint: M3 was executed end-to-end with `pnpm typecheck`,
+  `pnpm test`, `pnpm test:e2e` and `pnpm build` run against the final tree
+  (results recorded in §0.9).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.8)
+## 0. Approval record, change history & milestone delivery (R0.9)
 
 ### 0.1 Approval summary
 
@@ -135,7 +140,7 @@ This checkpoint is **documentation-only**:
   ADR-004 additive policy holds — `schema_version` stays `1.0`. R0.4 approval
   record retained verbatim in its substance; M3 not started. Published at
   `85e2db3`.
-- **R0.8 (2026-10-11, this revision):** **M2 status reconciliation
+- **R0.8 (2026-10-11):** **M2 status reconciliation
   (documentation only).** The R0.7 revision updated the narrative status
   markers (§0.7, §8.2, header) and `docs/limitations.md`, but the §3
   coverage-matrix rows for V1-FMT-001/002/003 still carried their pre-M2
@@ -145,7 +150,19 @@ This checkpoint is **documentation-only**:
   note to the matrix legend. No application code, schema, test, fixture or
   golden changed; `schema_version` stays `1.0`; no criterion definition
   altered; M2's recorded test results (§0.7) are unchanged and were not
-  re-run. M3 not started.
+  re-run. M3 not started. Published at `409c505`.
+- **R0.9 (2026-10-11, this revision):** **M3 delivered** — lists and
+  multilevel numbering implemented, tested and published (see §0.9). Plan
+  status markers updated: V1-LIST-001/002/003 → PASS; V1-LIST-004 → PASS as a
+  documented structured subset (recursive nesting + hierarchical derived
+  numbering; the honest residuals — one uniform type/marker per tree, nested
+  levels restart at 1, native ordered markers suppressed in favour of derived
+  inline labels — are recorded in §0.9 and `docs/limitations.md` §M3). A new
+  canonical recursive `list` block kind was added to the IR union and legacy
+  flat `bulletList` blocks are normalised to it on the next edit/save. ADR-004
+  additive policy holds — `schema_version` stays `1.0`. R0.4 approval record
+  retained verbatim in its substance; M4–M11 not started. Published at the
+  checkpoint recorded in §0.9.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -267,6 +284,67 @@ This checkpoint is **documentation-only**:
   re-run (R0.7 results stand); M3–M11 not started.
 - **Verification:** `git diff --check` clean; only this plan file changed.
 
+### 0.9 M3 delivery record (R0.9)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; M3
+  sits on top of `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8).
+- **Scope delivered:** structured, derived **lists & multilevel numbering**
+  (V1-LIST-001..004).
+  - **IR:** a new canonical recursive `list` block kind added additively to
+    the `blockSchema` union per §7 — `listType` ∈
+    bullet|decimal|lower-alpha|upper-alpha|lower-roman|upper-roman; bullet
+    `marker` ∈ disc|circle|square|dash|arrow|check; configurable `start`;
+    recursive `items` each with a stable id, `content` paragraphs and nested
+    `children` (`listItem`). Stable ids only; **ordinals are never stored**.
+  - **Engine:** the numbering engine emits a derived per-item label map
+    (`Numbering.lists`), producing hierarchical paths ("3.1", "4.1.1") and the
+    five styles; the resolve + layout pipeline renders semantic `<ul>`/`<ol>`
+    (bullets) and explicit derived inline labels (numbered; native marker
+    suppressed). No arbitrary CSS/HTML is taken from document data.
+  - **Editor:** labelled controls — bullet/ordered toggles, six-marker picker,
+    five-style picker, a `start` input, and indent/outdent (nest/unnest) — all
+    routed through the explicit adapter (never Tiptap-as-truth); no
+    `window.prompt`/`alert`; conversion bullet↔ordered preserves text and
+    marks.
+  - **Compatibility:** legacy flat `bulletList` loads unchanged and is
+    normalised to the canonical `list` on the next edit/save (open → Save also
+    converges, even with no text edit). ADR-004 additive policy holds —
+    `schema_version` stays `1.0`.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (16 files, **209 tests** — incl. new `tests/unit/list.test.ts`, 21
+  tests: schema/IR, normalisation, five numbering styles, `start`, multilevel
+  hierarchy, renumbering on insert/delete/reorder/nest/unnest, determinism,
+  non-mutation, injection safety and JSON round-trip); `pnpm test:e2e` PASS
+  (**33 tests**, incl. new `tests/e2e/lists.spec.ts`, 5 tests: bullet markers,
+  numbered-label derivation + `start` + renumber-on-insert, indent/outdent
+  nesting, bullet↔ordered conversion, and a save→reopen round trip); `pnpm
+  build` PASS. Golden suite extended with `golden-06-lists`; goldens-01..05
+  were regenerated **only** to carry the new M3 list CSS block (their
+  pre-existing legacy `bulletList` markup is byte-identical — the change is the
+  shared stylesheet only).
+- **Changed files:** `src/core/ir/schema.ts`, `src/core/ir/factory.ts`,
+  `src/core/ir/normalize.ts` (new), `src/core/numbering/index.ts`,
+  `src/core/resolve/index.ts`, `src/core/layout/html.ts`,
+  `src/core/layout/css.ts`, `src/editor/adapter.ts`, `src/editor/extensions.ts`,
+  `src/editor/EditorPanel.tsx`, `src/store.ts` (load-path normalisation +
+  canonical starter document), `tests/unit/list.test.ts` (new),
+  `tests/unit/adapter.test.ts`, `tests/golden/generator.ts` + regenerated
+  goldens-01..05 + `golden-06-lists.{json,expected.html}` (new),
+  `tests/e2e/lists.spec.ts` (new), `docs/limitations.md`, this plan (R0.9).
+- **Acceptance classification:** **V1-LIST-001 PASS** (six bullet markers),
+  **V1-LIST-002 PASS** (five numbering styles + `start`), **V1-LIST-003 PASS**
+  (derived numbering renumbers automatically on insert/remove/reorder/nest/
+  unnest), **V1-LIST-004 PASS as a documented structured subset** (recursive
+  nesting + hierarchical derived numbering; the residuals — one uniform
+  type/marker per tree, nested levels restart at 1, native ordered markers
+  suppressed in favour of derived inline labels — are tracked in
+  `docs/limitations.md` §M3, **not** silently dropped). Evidence: unit
+  (`list.test.ts`, `adapter.test.ts`), golden-06, e2e (`lists.spec.ts`, incl.
+  round trip).
+- **Out of scope (unchanged):** M4–M11 not started; no new dependencies; no
+  schema-version bump; `tests/unit/input-security.test.ts` untouched (and still
+  green); no unrelated schema/migration changes.
+
 ---
 
 ## 1. Objective
@@ -339,11 +417,11 @@ references in ADRs, `docs/limitations.md` and the smoke-check remain valid.
 
 ## 3. One-to-one coverage matrix (133 / 133)
 
-Status legend — **PASS**: implemented + evidenced in Phase 0, M1 (R0.5) or
-M2 (R0.7). **PARTIAL**: works in part, remainder named. **PLANNED — P1-M#**:
-Phase-1 milestone. **PLANNED — remaining-V1**: approved remaining-V1 work
-(after M1–M11). **DEFERRED**: later phase, justified. **OPEN**: human decision
-(§9) — no rows remain open after the R0.4 approval.
+Status legend — **PASS**: implemented + evidenced in Phase 0, M1 (R0.5), M2
+(R0.7) or M3 (R0.9). **PARTIAL**: works in part, remainder named. **PLANNED —
+P1-M#**: Phase-1 milestone. **PLANNED — remaining-V1**: approved remaining-V1
+work (after M1–M11). **DEFERRED**: later phase, justified. **OPEN**: human
+decision (§9) — no rows remain open after the R0.4 approval.
 Rows marked **◂R0.3** changed in the R0.3 audit (see §5 for the full
 rationale); the only R0.4 matrix change is V1-IMP-001 (status → PLANNED —
 remaining-V1, approved D3). **R0.5 (M1) transitions:**
@@ -351,7 +429,10 @@ V1-STYLE-001..004 → PASS, V1-TXT-001 → PASS, V1-DOC-002 base-style leg
 delivered (still PARTIAL — configurability → M4). **R0.7 (M2) transitions:**
 V1-FMT-001 → PASS, V1-FMT-002 → PASS, V1-FMT-003 → PARTIAL (uppercase/
 lowercase text case delivered; the remainder is documented — §0.7 and
-`docs/limitations.md` §M2). **All Phase 0 PASS classifications and evidence
+`docs/limitations.md` §M2). **R0.9 (M3) transitions:** V1-LIST-001/002/003 →
+PASS; V1-LIST-004 → PASS as a documented structured subset (recursive
+nesting + hierarchical derived numbering; residuals in §0.9 and
+`docs/limitations.md` §M3). **All Phase 0 PASS classifications and evidence
 are preserved unchanged.**
 
 ### §5 Platform (MUST)
@@ -367,7 +448,7 @@ are preserved unchanged.**
 | V1-IR-001 — Canonical representation | **PASS** | `documentSchema` envelope `labdoc/1.0`; renderer consumes only resolved IR |
 | V1-IR-002 — Stable document identity | **PASS** | `doc_…` id survives JSON round-trip (`roundtrip.test.ts`) |
 | V1-IR-003 — Stable semantic object IDs | **PASS** | `sec/hd/pg/bl/tb/tr/tc/im/eq/hr/pb` prefixes, never numbering-derived |
-| V1-IR-004 — Semantic blocks | **PASS** | paragraph/heading/bulletList/table/image/pageBreak/equation/hr/section in `blockSchema` |
+| V1-IR-004 — Semantic blocks | **PASS** | paragraph/heading/bulletList/table/image/pageBreak/equation/hr/section in `blockSchema`; the canonical recursive `list` kind added in M3 (legacy `bulletList` kept byte-compatible) |
 
 ### §7 Document creation (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -401,10 +482,10 @@ are preserved unchanged.**
 ### §11 Lists
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-LIST-001 — Bullets (MUST) | **PARTIAL** | single default disc marker; circle/empty-circle/square/dash/arrow/check → **M3** |
-| V1-LIST-002 — Numbered lists (MUST) | **PLANNED — M3** | `orderedList: false` in extensions; flat `bulletList` only |
-| V1-LIST-003 — Basic automatic list numbering (MUST) | **PLANNED — M3** | derive-at-resolve per-level ordinals (§7) |
-| V1-LIST-004 — Multilevel lists (SHOULD) | **PLANNED — M3** ◂R0.3 | nested lists flattened (item 12); **promotes V1.1 multilevel numbering** — approved (D8) |
+| V1-LIST-001 — Bullets (MUST) | **PASS** ◂R0.9 | Six bullet markers delivered as an allow-listed `marker` enum on the canonical `list` block — **disc** (filled circle), **circle** (empty circle), **square**, **dash**, **arrow**, **check** (matching the six required forms) — selected from a labelled toolbar control and rendered as semantic `<ul data-marker="…">`. Evidence: `tests/unit/list.test.ts`, `tests/unit/adapter.test.ts`, golden-06, `tests/e2e/lists.spec.ts` |
+| V1-LIST-002 — Numbered lists (MUST) | **PASS** ◂R0.9 | Five numbering styles as an allow-listed `listType` enum — **decimal** (1,2,3), **upper-alpha** (A,B,C), **lower-alpha** (a,b,c), **upper-roman** (I,II,III), **lower-roman** (i,ii,iii) — with a configurable `start`. Evidence: `tests/unit/list.test.ts`, golden-06, `tests/e2e/lists.spec.ts` |
+| V1-LIST-003 — Basic automatic list numbering (MUST) | **PASS** ◂R0.9 | Ordinals are **derived at resolve/renumber time, never stored**; inserting, removing, reordering, nesting or unnesting items recomputes the visible labels automatically (deterministic, non-mutating). Editor is wired through the explicit adapter, not Tiptap-as-truth. Evidence: `tests/unit/list.test.ts` (renumber on insert/delete/reorder/nest/unnest), `tests/e2e/lists.spec.ts` (insert → labels renumber) |
+| V1-LIST-004 — Multilevel lists (SHOULD) | **PASS (structured subset)** ◂R0.9 ◂R0.3 | Hierarchical numbering (`1.`, `1.1.`, `4.1.1.`, …) via recursive canonical `list` items + a per-level derive-at-resolve label map; indent/outdent nest/unnest without flattening. **Documented residuals** (tracked, not dropped): one uniform `listType`/`marker` per tree (mixed-type nesting is normalised to the outer type), nested levels restart at 1, and native ordered markers are suppressed in favour of derived inline labels. Evidence: `tests/unit/list.test.ts`, golden-06, `tests/e2e/lists.spec.ts`; **approves the V1.1 multilevel promotion (D8)** |
 
 ### §12 Page setup
 | Criterion | Status | Evidence / gap → assignment |
@@ -849,12 +930,13 @@ main-interface criterion. M11 must demonstrate each requirement with tests:
 
 ---
 
-## 7. Nested-list schema proposal (approved — D4; not yet implemented)
+## 7. Nested-list schema (approved — D4; implemented in M3)
 
-Preserved verbatim in intent from R0.2 §4 (still **unimplemented** — approval
-D4 granted in R0.4; the schema change, migration code and tests are **not**
-part of this documentation-only checkpoint and begin only in authorized
-Phase-1 implementation, M3):
+Preserved verbatim in intent from R0.2 §4. Approval D4 was granted in R0.4
+and the schema, normalisation and tests were **implemented in M3** (R0.9,
+§0.9); the proposal below is the agreed contract and is now reflected in
+`src/core/ir/schema.ts` (`list`/`listItem`) and
+`src/core/ir/normalize.ts`:
 
 - **Legacy shape (unchanged on disk):**
   ```json
@@ -896,9 +978,12 @@ Phase-1 implementation, M3):
     structures keep `1.0` and accept that older builds cannot read them. When
     `1.0` ships, this becomes the released baseline; post-release incompatible
     changes then bump to `2.0`.
-- **Not implemented in this task** (nor in any documentation-only checkpoint).
-  Implementation of the `list` kind begins in M3 under separately authorized
-  Phase-1 work.
+- **Implemented in M3 (R0.9, §0.9).** The `list` kind is in the `blockSchema`
+  union; legacy `bulletList` loads unchanged and is normalised to the
+  canonical `list` on the next edit/save; the §7 test suite (adapter
+  round-trip, per-level ordinal resolution, legacy→canonical normalisation,
+  flat + nested + numbered + roman golden) is delivered in
+  `tests/unit/list.test.ts`, `tests/unit/adapter.test.ts` and golden-06.
 
 ---
 
@@ -974,6 +1059,20 @@ derived per-level ordinals (extend numbering engine); legacy `bulletList`
 normalization. Dep: M2. Tests: §7 suite + e2e (insert/remove/reorder
 renumbers — V1-LIST-003). Acceptance: all six bullet markers and five
 numbering styles work; any multilevel remainder tracked honestly, not dropped.
+**◂R0.9 — DELIVERED:** V1-LIST-001/002/003 PASS; V1-LIST-004 PASS as a
+documented structured subset. Canonical recursive `list` block
+(`listType` ∈ bullet|decimal|lower-alpha|upper-alpha|lower-roman|upper-roman;
+bullet `marker` ∈ disc|circle|square|dash|arrow|check; configurable `start`;
+recursive `items` with `content` paragraphs + nested `children`); derived
+per-level hierarchical labels ("3.1", "4.1.1") computed in the numbering
+engine and never stored; `orderedList` enabled with `marker`/`numbering`
+global attrs; toolbar exposes labelled bullet/ordered toggles, six-marker and
+five-style pickers, a start input and indent/outdent (nest/unnest) — no
+`window.prompt`/`alert`. Legacy flat `bulletList` → canonical `list`
+normalisation on the next edit/save; `schema_version` stays `1.0` (ADR-004).
+Evidence: `tests/unit/list.test.ts` (21 tests), `tests/unit/adapter.test.ts`,
+golden-06, `tests/e2e/lists.spec.ts` (5 tests incl. save→reopen round trip).
+Residual limits recorded in §0.9 and `docs/limitations.md` §M3.
 
 #### M4 — Page setup, paper sizes & document defaults · V1-PAGE-001/002/003/004 (MUST), V1-PAG-004 (MUST), V1-PDF-002 (MUST, non-A4 leg), V1-DOC-002 (configurable defaults)
 IR: `format` enum expansion + custom width/height pair; layout geometry table;
@@ -1129,7 +1228,7 @@ and evidence are unchanged.
 > This document is the **approved** Phase-1 scope and decision record (§0,
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
-> separate, explicitly authorized task after this checkpoint. **M1 and M2
-> have been delivered** (R0.5/R0.6 and R0.7 respectively) on the strength of
-> separate, explicitly authorized tasks following the AGENTS.md checkpoint
-> workflow; **M3 has not been started.**
+> separate, explicitly authorized task after this checkpoint. **M1, M2 and M3
+> have been delivered** (R0.5/R0.6, R0.7 and R0.9 respectively) on the strength
+> of separate, explicitly authorized tasks following the AGENTS.md checkpoint
+> workflow; **M4–M11 have not been started.**

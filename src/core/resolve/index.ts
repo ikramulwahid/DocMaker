@@ -15,7 +15,9 @@ import {
   documentSchema,
   type Block,
   type Document,
+  type ListItem,
   type NodeId,
+  type Paragraph,
   type StyleDefinition,
   type Styles,
 } from "../ir/schema";
@@ -85,6 +87,14 @@ export function effectiveStyleOf(
   return { id, definition, derived: block.style == null };
 }
 
+/** Every content paragraph of a canonical list tree, depth-first. */
+function* listItemParagraphs(items: ListItem[]): Generator<Paragraph> {
+  for (const item of items) {
+    for (const paragraph of item.content) yield paragraph;
+    yield* listItemParagraphs(item.children);
+  }
+}
+
 /**
  * The complete set of definitions the layout engine must emit CSS for:
  * every style stored in the document plus every effective style id referenced
@@ -104,6 +114,14 @@ export function resolveStyles(document: Document): Styles {
       if (block.type === "bulletList") {
         for (const item of block.items) {
           const itemStyle = effectiveStyleOf(document, item);
+          if (itemStyle && !Object.prototype.hasOwnProperty.call(out, itemStyle.id)) {
+            out[itemStyle.id] = itemStyle.definition;
+          }
+        }
+      }
+      if (block.type === "list") {
+        for (const paragraph of listItemParagraphs(block.items)) {
+          const itemStyle = effectiveStyleOf(document, paragraph);
           if (itemStyle && !Object.prototype.hasOwnProperty.call(out, itemStyle.id)) {
             out[itemStyle.id] = itemStyle.definition;
           }

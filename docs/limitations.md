@@ -151,9 +151,14 @@ see `src/core/ir/sanitize.ts`):
 
 ## Editor ⇄ IR adapter
 
-12. **Nested lists are flattened.** Tiptap allows arbitrary nesting; the IR
-    stores flat bullet lists. Nested lists are flattened depth-first on
-    conversion (structure lost, content kept).
+12. **Mixed-type nesting is normalised to the outer list type.** Canonical
+    lists are recursive (M3): a list item may hold nested child items to
+    arbitrary depth. The model is *uniform* — the whole tree shares one
+    `listType` and bullet `marker` — so a foreign nested list of a **different**
+    type is normalised to the outer list's type rather than dropped (structure
+    and content are preserved). Legacy flat `bulletList` blocks load unchanged
+    and are upgraded to the canonical recursive `list` on the next edit/save
+    (see the lists section below).
 13. **Merged cells are dropped.** IR table cells carry no colspan/rowspan;
     Tiptap cells with spans are converted to plain cells.
 14. **Column widths are px-only in the editor.** Tiptap's `colwidth` attr is
@@ -165,10 +170,12 @@ see `src/core/ir/sanitize.ts`):
     editable** in the Phase-0 UI (no caption input). They render from the IR
     and survive round-trips (adapter tests cover this).
 16. **Disabled by design** (IR cannot represent them → editor must not create
-    them): ordered lists, blockquote, code blocks, hard breaks. Content
+    them): blockquote, code blocks, hard breaks. Content
     containing them from elsewhere is dropped rather than faked. Strikethrough
-    was in this list through M1; M2 now models it as a character mark (see the
-    character/paragraph-formatting section below).
+    was in this list through M1 — M2 now models it as a character mark (see the
+    character/paragraph-formatting section below). Ordered lists were in this
+    list through M2 — M3 now models them as canonical `list` blocks (see the
+    lists section below).
 17. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
     requires a non-empty doc), so `[] → [empty paragraph]` on round-trip.
 
@@ -273,3 +280,39 @@ documents load unchanged (a missing `format` defaults to pure-inherit, a
 missing `marks` array defaults to `[]`), and every mark/override round-trips
 through save → reload (ADR-004; golden-05 plus the adapter/format unit tests
 and the M2 round-trip e2e test).
+
+## Lists & multilevel numbering (M3, delivered 2026-10-11)
+
+V1-LIST-001..004 are delivered as *structured, derived* lists. The IR gains a
+recursive canonical `list` block (bullets, five numbering styles, configurable
+`start`, nested child items); visible ordinals are **derived** at resolve/render
+time and never stored. The honest residual limits are:
+
+33. **A list tree has one type and one bullet marker.** Bullet and numbered
+    lists are separate canonical blocks; nesting shares the parent's
+    `listType`/`marker` (item 12). The editor exposes a marker picker only for
+    bullets and a numbering picker only for numbered lists.
+34. **Numbered lists render explicit derived labels; the browser's native list
+    marker is suppressed.** Each numbered item's hierarchical label (`3.1.`,
+    `4.1.1.`, `IV.`, …) is emitted inline as allow-listed text and the native
+    `<ol>` marker is turned off (`list-style: none`), so the visible numbering
+    comes from the IR, not from the browser. Bullets keep the native marker,
+    selected by an allow-listed `data-marker` value (disc, circle, square,
+    dash, arrow, check).
+35. **Nested levels restart at 1.** Only the outermost level honours the
+    configurable `start`; each nested level begins at 1 (the common
+    laboratory-document convention). Per-level custom starts are not modelled.
+36. **Forward compatibility (ADR-004).** A document saved by an M3+ build that
+    contains a canonical `list` block cannot be opened by an older build that
+    predates the kind: the envelope still reports `1.0`, but the older build's
+    schema union rejects the unknown block type with an actionable load error.
+    This is the documented ADR-004 "additive pre-release" asymmetry — loading
+    *older* documents stays guaranteed (backward compatible), while
+    forward loading is not.
+
+M3 is **additive**: `schema_version` stays `1.0`. Legacy flat `bulletList`
+blocks and M1/M2 documents load unchanged; legacy lists are normalised to the
+canonical recursive `list` on the next edit/save (open → Save also converges,
+even with no text edit). Every list structure round-trips through save → reload
+(ADR-004; golden-06 plus the `list`/adapter unit tests and the M3 round-trip
+e2e test).

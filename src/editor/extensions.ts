@@ -3,11 +3,12 @@
  *
  * The IR is the source of truth (AGENTS.md): extensions here are configured
  * so the editor CANNOT produce constructs the IR cannot represent (no
- * blockquote, no code blocks, no ordered lists, no hard breaks) and every
- * block node carries the IR `id` through a global attribute, so identity
- * survives editing sessions. M2 adds the IR character marks (underline,
- * strike, superscript, subscript, textCase, fontFamily, fontSize, color,
- * highlight) and the per-block `format` override attribute.
+ * blockquote, no code blocks, no hard breaks) and every block node carries the
+ * IR `id` through a global attribute, so identity survives editing sessions.
+ * M2 adds the IR character marks (underline, strike, superscript, subscript,
+ * textCase, fontFamily, fontSize, color, highlight) and the per-block `format`
+ * override attribute. M3 adds the canonical bullet/ordered list attributes
+ * (bullet `marker`, ordered `numbering` + native `start`).
  */
 import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
 import type { Extensions } from "@tiptap/core";
@@ -312,6 +313,7 @@ export const NodeIds = Extension.create({
           "paragraph",
           "heading",
           "bulletList",
+          "orderedList",
           "listItem",
           "image",
           "table",
@@ -371,6 +373,35 @@ export const NodeIds = Extension.create({
           },
         },
       },
+      {
+        // List presentation attributes (M3, V1-LIST-001/002). The bullet glyph
+        // and the numbering style travel in the node attrs (editor.getJSON())
+        // as validated enum values only; `start` is Tiptap's native
+        // ordered-list attribute. The adapter re-validates every value on the
+        // way back, so a stale/foreign attr can never reach the IR unchecked.
+        types: ["bulletList"],
+        attributes: {
+          marker: {
+            default: "disc",
+            parseHTML: (element: HTMLElement) =>
+              element.getAttribute("data-marker") ?? "disc",
+            renderHTML: (attributes: { marker?: string }) =>
+              attributes.marker ? { "data-marker": attributes.marker } : {},
+          },
+        },
+      },
+      {
+        types: ["orderedList"],
+        attributes: {
+          numbering: {
+            default: "decimal",
+            parseHTML: (element: HTMLElement) =>
+              element.getAttribute("data-numbering") ?? "decimal",
+            renderHTML: (attributes: { numbering?: string }) =>
+              attributes.numbering ? { "data-numbering": attributes.numbering } : {},
+          },
+        },
+      },
     ];
   },
 });
@@ -383,7 +414,8 @@ export function createExtensions(): Extensions {
       blockquote: false,
       codeBlock: false,
       hardBreak: false,
-      orderedList: false,
+      // Lists (bullet + ordered + listItem) ARE representable (M3) and now
+      // enabled; configured via the global attributes above.
       heading: { levels: [1, 2, 3, 4, 5, 6] },
     }),
     Link.configure({ openOnClick: false, autolink: false }),

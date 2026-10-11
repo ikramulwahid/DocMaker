@@ -150,11 +150,13 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
     onClick: () => void,
     active = false,
     title = label,
+    disabled = false,
   ) => (
     <button
       type="button"
       className={active ? "tool active" : "tool"}
       title={title}
+      disabled={disabled}
       onMouseDown={(e) => e.preventDefault()}
       onClick={onClick}
     >
@@ -186,18 +188,21 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
 
   /* ---------------------------------------------- M2 formatting controls */
 
-  // Re-render the toolbar when the caret moves so mark active states and the
-  // current paragraph-format values stay truthful (M1 read attrs at render;
-  // selection changes otherwise would not refresh them).
+  // Re-render the toolbar when the caret moves OR the document changes so mark
+  // active states, the current paragraph-format values, and the derived list
+  // state stay truthful (a list toggle can leave the selection unchanged, so
+  // selectionUpdate alone is not enough).
   const [, bump] = useReducer((x: number) => x + 1, 0);
   useEffect(() => {
     if (!editor) return;
-    const onSelect = () => bump();
-    editor.on("selectionUpdate", onSelect);
-    editor.on("focus", onSelect);
+    const onSync = () => bump();
+    editor.on("selectionUpdate", onSync);
+    editor.on("focus", onSync);
+    editor.on("update", onSync);
     return () => {
-      editor.off("selectionUpdate", onSelect);
-      editor.off("focus", onSelect);
+      editor.off("selectionUpdate", onSync);
+      editor.off("focus", onSync);
+      editor.off("update", onSync);
     };
   }, [editor]);
 
@@ -236,6 +241,54 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
   /** Character-side select helpers (marks apply to the selection). */
   const markValue = <T,>(name: string, attr: string): T | undefined =>
     editor.getAttributes(name)[attr] as T | undefined;
+
+  /* ---------------------------------------------- M3 list controls */
+
+  // The IR list model is uniform: one `listType`/`marker` owns the whole tree,
+  // and the canonical block is the OUTERMOST list. Resolve it from the whole
+  // selection range (not just the caret) so it is correct for collapsed
+  // selections, text selections, and whole-document (AllSelection) ranges — a
+  // list toggle straight after Ctrl+A leaves an AllSelection whose `$from`
+  // sits at the document boundary.
+  const outerLists: { pos: number; attrs: Record<string, unknown>; name: string }[] = [];
+  editor.state.doc.nodesBetween(editor.state.selection.from, editor.state.selection.to, (node, pos) => {
+    if (outerLists.length) return false;
+    if (node.type.name === "bulletList" || node.type.name === "orderedList") {
+      outerLists.push({ pos, attrs: node.attrs, name: node.type.name });
+      return false; // do not descend into the list
+    }
+    return true;
+  });
+  const outerList = outerLists[0] ?? null;
+  const inBullet = outerList?.name === "bulletList";
+  const inOrdered = outerList?.name === "orderedList";
+  const inList = inBullet || inOrdered;
+  const bulletMarker = (outerList?.attrs.marker as string | undefined) ?? "disc";
+  const numbering = (outerList?.attrs.numbering as string | undefined) ?? "decimal";
+  const listStart =
+    typeof outerList?.attrs.start === "number" ? (outerList.attrs.start as number) : 1;
+
+  /** Re-mark the outermost list with new presentation attributes. Values are
+   * enum options from the same allow-lists as the IR, so the UI can never emit
+   * an invalid value; the adapter and schema still re-validate downstream. */
+  const setListAttrs = (attrs: Record<string, unknown>) => {
+    const targets: { pos: number; attrs: Record<string, unknown> }[] = [];
+    editor.state.doc.nodesBetween(editor.state.selection.from, editor.state.selection.to, (node, pos) => {
+      if (targets.length) return false;
+      if (node.type.name === "bulletList" || node.type.name === "orderedList") {
+        targets.push({ pos, attrs: node.attrs });
+        return false;
+      }
+      return true;
+    });
+    const target = targets[0];
+    if (!target) return;
+    editor.view.dispatch(
+      editor.state.tr.setNodeMarkup(target.pos, undefined, { ...target.attrs, ...attrs }),
+    );
+    editor.view.focus();
+    bump();
+  };
 
   return (
     <div className="toolbar" role="toolbar" aria-label="Formatting">
@@ -465,12 +518,78 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
         "Clear paragraph overrides (inherit the assigned style)",
       )}
       <span className="toolbar-sep" aria-hidden="true" />
+      {/* Lists & multilevel numbering (V1-LIST-001/002 — M3) */}
       {button(
         "• list",
         () => editor.chain().focus().toggleBulletList().run(),
-        editor.isActive("bulletList"),
+        inBullet,
         "Bullet list",
       )}
+      {button(
+        "1. list",
+        () => editor.chain().focus().toggleOrderedList().run(),
+        inOrdered,
+        "Numbered list",
+      )}
+      {button(
+        "→|",
+        () => editor.chain().focus().sinkListItem("listItem").run(),
+        false,
+        "Indent (nest) list item",
+        !inList,
+      )}
+      {button(
+        "|←",
+        () => editor.chain().focus().liftListItem("listItem").run(),
+        false,
+        "Outdent (unnest) list item",
+        !inList,
+      )}
+      <label className="toolbar-field">
+        <span className="toolbar-label">Bullet</span>
+        <select
+          data-testid="fmt-bullet-marker"
+          aria-label="Bullet marker"
+          disabled={!inBullet}
+          value={bulletMarker}
+          onChange={(e) => setListAttrs({ marker: e.target.value })}
+        >
+          <option value="disc">• Disc</option>
+          <option value="circle">◦ Circle</option>
+          <option value="square">▪ Square</option>
+          <option value="dash">– Dash</option>
+          <option value="arrow">→ Arrow</option>
+          <option value="check">✓ Check</option>
+        </select>
+      </label>
+      <label className="toolbar-field">
+        <span className="toolbar-label">Number</span>
+        <select
+          data-testid="fmt-ordered-numbering"
+          aria-label="Numbering style"
+          disabled={!inOrdered}
+          value={numbering}
+          onChange={(e) => setListAttrs({ numbering: e.target.value })}
+        >
+          <option value="decimal">1, 2, 3</option>
+          <option value="lower-alpha">a, b, c</option>
+          <option value="upper-alpha">A, B, C</option>
+          <option value="lower-roman">i, ii, iii</option>
+          <option value="upper-roman">I, II, III</option>
+        </select>
+      </label>
+      <OverrideNumberInput
+        testId="fmt-list-start"
+        label="Start"
+        hint="List start (1–9999)"
+        min={1}
+        max={9999}
+        step={1}
+        placeholder="1"
+        disabled={!inOrdered}
+        value={inOrdered ? listStart : null}
+        onCommit={(n) => setListAttrs({ start: n })}
+      />
       {button(
         "table",
         () =>
@@ -535,6 +654,7 @@ function OverrideNumberInput({
   placeholder,
   value,
   onCommit,
+  disabled = false,
 }: {
   testId: string;
   label: string;
@@ -545,6 +665,7 @@ function OverrideNumberInput({
   placeholder: string;
   value: number | null;
   onCommit: (value: number) => void;
+  disabled?: boolean;
 }) {
   const [draft, setDraft] = useState<string | null>(null);
   const commit = () => {
@@ -575,6 +696,7 @@ function OverrideNumberInput({
         aria-label={hint}
         placeholder={placeholder}
         value={draft ?? value ?? ""}
+        disabled={disabled}
         onChange={(e) => setDraft(e.target.value)}
         onBlur={commit}
         onKeyDown={(e) => {

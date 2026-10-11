@@ -2,7 +2,17 @@
  * Layout HTML — blocks → semantic markup for the pagination engine.
  * Pure string building; no DOM, no editor state (node-testable).
  */
-import type { Block, Inline, ParagraphFormatOverride, Section } from "../ir/schema";
+import {
+  BULLET_MARKERS,
+  LIST_TYPES,
+  type Block,
+  type BulletMarker,
+  type Inline,
+  type ListItem,
+  type ListType,
+  type ParagraphFormatOverride,
+  type Section,
+} from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
 import { effectiveStyleOf } from "../resolve";
 import type { Numbering } from "../numbering";
@@ -160,6 +170,77 @@ function captionLabel(
   return label ?? null;
 }
 
+/* ------------------------------------------------------------ lists (M3) */
+
+/**
+ * Render-boundary re-validation (defense in depth, AGENTS.md §61): even a
+ * document that bypasses IR validation can only ever emit one of the
+ * allow-listed enum values — never arbitrary CSS/markup.
+ */
+function safeListType(value: unknown): ListType {
+  return (LIST_TYPES as readonly unknown[]).includes(value) ? (value as ListType) : "bullet";
+}
+
+function safeMarker(value: unknown): BulletMarker {
+  return (BULLET_MARKERS as readonly unknown[]).includes(value)
+    ? (value as BulletMarker)
+    : "disc";
+}
+
+/**
+ * One canonical list item → `<li>`. A numbered item's derived hierarchical
+ * label ("3.1") is emitted inline at the start of its first paragraph; a
+ * bullet item relies on the list's CSS marker. Nested items recurse with the
+ * SAME list type (the approved one-type-per-tree model).
+ */
+function listItemHtml(
+  item: ListItem,
+  listType: ListType,
+  marker: BulletMarker,
+  resolved: ResolvedDocument,
+): string {
+  const label = resolved.numbering.lists[item.id];
+  const numbered = listType !== "bullet" && label !== undefined;
+  const lead = numbered
+    ? `<span class="doc-list-marker">${escapeHtml(label)}.</span> `
+    : "";
+  const paragraphs = item.content
+    .map((paragraph, index) => {
+      const fmt = paragraphFormatStyle(paragraph.format);
+      const styleAttr = fmt ? ` style="${fmt}"` : "";
+      const prefix = index === 0 ? lead : "";
+      return `<p id="${escapeAttr(paragraph.id)}" class="doc-list-para doc-paragraph${styleClassName(resolved, paragraph)}"${styleAttr}>${prefix}${inlineHtml(paragraph.content)}</p>`;
+    })
+    .join("");
+  const children = item.children.length
+    ? listHtml(listType, marker, 1, item.children, resolved)
+    : "";
+  return `<li id="${escapeAttr(item.id)}" class="doc-list-item">${paragraphs}${children}</li>`;
+}
+
+/** A canonical list (or a nested level) → semantic `<ol>`/`<ul>`. */
+function listHtml(
+  listType: ListType,
+  marker: BulletMarker,
+  start: number,
+  items: ListItem[],
+  resolved: ResolvedDocument,
+  id?: string,
+): string {
+  if (items.length === 0) return "";
+  const isBullet = listType === "bullet";
+  const tag = isBullet ? "ul" : "ol";
+  const classes = isBullet ? "doc-list doc-list-bullet" : "doc-list doc-list-ordered";
+  const idAttr = id ? ` id="${escapeAttr(id)}"` : "";
+  const attrs = isBullet
+    ? ` data-marker="${marker}"`
+    : ` data-numbering="${listType}"${start !== 1 ? ` start="${start}"` : ""}`;
+  const body = items
+    .map((item) => listItemHtml(item, listType, marker, resolved))
+    .join("");
+  return `<${tag}${idAttr} class="${classes}"${attrs}>${body}</${tag}>`;
+}
+
 /**
  * One block → semantic markup. Exported for the renderer-boundary regression
  * tests (AGENTS.md §54: business/render safety must be testable without a DOM).
@@ -190,6 +271,15 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
           return `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}"${styleAttr}>${inlineHtml(item.content)}</li>`;
         })
         .join("")}</ul>`;
+    case "list":
+      return listHtml(
+        safeListType(block.listType),
+        safeMarker(block.marker),
+        Number.isInteger(block.start) && block.start >= 1 ? block.start : 1,
+        block.items,
+        resolved,
+        block.id,
+      );
     case "table": {
       const headerRow = block.headerRow;
       const rows = block.rows;

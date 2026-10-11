@@ -1,0 +1,832 @@
+{
+  "schema": "labdoc",
+  "schema_version": "1.0",
+  "document": {
+    "id": "doc_m6c9ug5b",
+    "type": "document",
+    "metadata": {
+      "title": "Lists and multilevel numbering",
+      "docNumber": "DEMO-LIST",
+      "revision": "01",
+      "effectiveDate": "2026-10-11",
+      "author": "",
+      "organization": "",
+      "description": "M3 golden: bullet markers, numbering styles, nesting, starts"
+    },
+    "settings": {
+      "theme": "lab_default",
+      "watermark": {
+        "enabled": true,
+        "text": "DRAFT",
+        "opacity": 0.12,
+        "angle": -45,
+        "fontSizePt": 64
+      }
+    },
+    "styles": {
+      "normal": {
+        "id": "normal",
+        "name": "Normal",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "body-text": {
+        "id": "body-text",
+        "name": "Body Text",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "title": {
+        "id": "title",
+        "name": "Title",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 22,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 6,
+          "indentMm": null
+        }
+      },
+      "subtitle": {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 14,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 4,
+          "indentMm": null
+        }
+      },
+      "heading-1": {
+        "id": "heading-1",
+        "name": "Heading 1",
+        "kind": "heading",
+        "headingLevel": 1,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-2": {
+        "id": "heading-2",
+        "name": "Heading 2",
+        "kind": "heading",
+        "headingLevel": 2,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-3": {
+        "id": "heading-3",
+        "name": "Heading 3",
+        "kind": "heading",
+        "headingLevel": 3,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-4": {
+        "id": "heading-4",
+        "name": "Heading 4",
+        "kind": "heading",
+        "headingLevel": 4,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-5": {
+        "id": "heading-5",
+        "name": "Heading 5",
+        "kind": "heading",
+        "headingLevel": 5,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-6": {
+        "id": "heading-6",
+        "name": "Heading 6",
+        "kind": "heading",
+        "headingLevel": 6,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "caption": {
+        "id": "caption",
+        "name": "Caption",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "table-text": {
+        "id": "table-text",
+        "name": "Table Text",
+        "kind": "tableText",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "quote": {
+        "id": "quote",
+        "name": "Quote",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": 8
+        }
+      },
+      "note": {
+        "id": "note",
+        "name": "Note",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "warning": {
+        "id": "warning",
+        "name": "Warning",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "important-notice": {
+        "id": "important-notice",
+        "name": "Important Notice",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "definition": {
+        "id": "definition",
+        "name": "Definition",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "reference": {
+        "id": "reference",
+        "name": "Reference",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 10.5,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "header": {
+        "id": "header",
+        "name": "Header",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "footer": {
+        "id": "footer",
+        "name": "Footer",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_5cle7wbl",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_ygg22rzg",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Bullet markers",
+                "marks": []
+              }
+            ],
+            "style": "heading-1",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "bl_listgold1",
+            "type": "list",
+            "listType": "bullet",
+            "marker": "arrow",
+            "start": 1,
+            "items": [
+              {
+                "id": "li_listgold1",
+                "content": [
+                  {
+                    "id": "pg_listgold1",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Arrow bullet item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  },
+                  {
+                    "id": "pg_listgold9",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "A second paragraph in the same item.",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              },
+              {
+                "id": "li_listgold2",
+                "content": [
+                  {
+                    "id": "pg_listgold2",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Nested bullet item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": [
+                  {
+                    "id": "li_listgold3",
+                    "content": [
+                      {
+                        "id": "pg_listgold3",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Deeper bullet item",
+                            "marks": []
+                          }
+                        ],
+                        "style": null,
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "li_listgold4",
+                "content": [
+                  {
+                    "id": "pg_listgold4",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Check bullet item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "hd_bk3qi79o",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Numbering styles and multilevel lists",
+                "marks": []
+              }
+            ],
+            "style": "heading-1",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "bl_listgold2",
+            "type": "list",
+            "listType": "decimal",
+            "marker": null,
+            "start": 1,
+            "items": [
+              {
+                "id": "li_listgold5",
+                "content": [
+                  {
+                    "id": "pg_listgold5",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "First numbered step",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              },
+              {
+                "id": "li_listgold6",
+                "content": [
+                  {
+                    "id": "pg_listgold6",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Second numbered step",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": [
+                  {
+                    "id": "li_listgold7",
+                    "content": [
+                      {
+                        "id": "pg_listgold7",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Sub-step 2.1",
+                            "marks": []
+                          }
+                        ],
+                        "style": null,
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ],
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "li_listgold8",
+                "content": [
+                  {
+                    "id": "pg_listgold8",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Third numbered step",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "bl_listgold3",
+            "type": "list",
+            "listType": "lower-alpha",
+            "marker": null,
+            "start": 2,
+            "items": [
+              {
+                "id": "li_listgolda",
+                "content": [
+                  {
+                    "id": "pg_listgolda",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Second lettered item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              },
+              {
+                "id": "li_listgoldb",
+                "content": [
+                  {
+                    "id": "pg_listgoldb",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Third lettered item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              }
+            ]
+          },
+          {
+            "id": "bl_listgold4",
+            "type": "list",
+            "listType": "upper-roman",
+            "marker": null,
+            "start": 4,
+            "items": [
+              {
+                "id": "li_listgoldc",
+                "content": [
+                  {
+                    "id": "pg_listgoldc",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Fourth roman item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              },
+              {
+                "id": "li_listgoldd",
+                "content": [
+                  {
+                    "id": "pg_listgoldd",
+                    "type": "paragraph",
+                    "content": [
+                      {
+                        "text": "Fifth roman item",
+                        "marks": []
+                      }
+                    ],
+                    "style": null,
+                    "format": {
+                      "alignment": null,
+                      "lineSpacing": null,
+                      "spaceBeforeMm": null,
+                      "spaceAfterMm": null,
+                      "indentLeftMm": null
+                    }
+                  }
+                ],
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

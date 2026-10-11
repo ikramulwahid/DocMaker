@@ -57,6 +57,21 @@ p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-section:first-child { break-before: auto; }
 .doc-list { margin: 0 0 3mm; padding-left: 6mm; }
 .doc-list li { margin-bottom: 1.5mm; line-height: 1.45; }
+/* Canonical lists (M3). Bullets use native markers selected by the
+   allow-listed data-marker value; numbered lists suppress the native
+   marker because the derived (never stored) hierarchical label is emitted
+   inline. Only allow-listed enum values reach these selectors. */
+ul.doc-list-bullet[data-marker="disc"] { list-style-type: disc; }
+ul.doc-list-bullet[data-marker="circle"] { list-style-type: circle; }
+ul.doc-list-bullet[data-marker="square"] { list-style-type: square; }
+ul.doc-list-bullet[data-marker="dash"] { list-style-type: "–  "; }
+ul.doc-list-bullet[data-marker="arrow"] { list-style-type: "→  "; }
+ul.doc-list-bullet[data-marker="check"] { list-style-type: "✓  "; }
+ol.doc-list-ordered { list-style: none; padding-left: 8mm; }
+ol.doc-list-ordered > li > p.doc-list-para:first-child { text-indent: -8mm; }
+.doc-list-marker { font-variant-numeric: tabular-nums; }
+p.doc-list-para { margin: 0; line-height: 1.45; }
+p.doc-list-para + p.doc-list-para { margin-top: 1.5mm; }
 .doc-page-break { break-before: page; height: 0; }
 hr.doc-hr { border: none; border-top: 0.5pt solid #444444; margin: 4mm 0; }
 a { color: #1f3a5f; text-decoration: underline; }
