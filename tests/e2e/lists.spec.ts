@@ -6,6 +6,15 @@
  * unnests items, labels are DERIVED (renumber on insert), and the whole
  * structure survives save → reopen. Preview assertions use auto-retrying
  * locators (the preview iframe re-navigates on every srcdoc update).
+ *
+ * Renumbering is demonstrated through real editor operations: insert (Enter)
+ * and delete (clear the item's text, then Backspace the empty item away).
+ * REORDERING has no dedicated toolbar control — the M3 controls deliberately
+ * offer only indent/outdent (nest/unnest), not move-up/down — so sibling
+ * reorder cannot be exercised through the UI today; it is covered instead by
+ * the stable-id behavioural unit test in `tests/unit/list.test.ts`
+ * ("reorders the same items without changing their ids"). This limitation is
+ * recorded honestly rather than faked by rebuilding the document in the test.
  */
 import { expect, test, type Frame, type Page } from "@playwright/test";
 import { mkdtempSync, readFileSync } from "node:fs";
@@ -108,6 +117,37 @@ test("numbered list derives labels, honours start and renumbers on insert (V1-LI
   await expect(ol.locator("span.doc-list-marker")).toHaveText(["d.", "e.", "f."], {
     timeout: 20_000,
   });
+});
+
+test("deleting a list item renumbers the survivors (V1-LIST-003)", async ({ page }) => {
+  await page.goto("/");
+  const frame = await previewFrame(page);
+
+  await typeParagraphs(page, ["One", "Two", "Three"]);
+  await page.getByTitle("Numbered list").click();
+
+  const ol = firstOl(frame);
+  await expect(ol.locator("span.doc-list-marker")).toHaveText(["1.", "2.", "3."], {
+    timeout: 20_000,
+  });
+
+  // Delete the middle item with a real editor operation: select the item's text
+  // (Home → Shift+End), clear it, then Backspace the now-empty item away. The
+  // surviving items are not rebuilt or reassigned — only the derived labels
+  // change.
+  await focusEditorParagraph(page, "Two");
+  await page.keyboard.press("Home");
+  await page.keyboard.press("Shift+End");
+  await page.keyboard.press("Delete");
+  await page.keyboard.press("Backspace");
+
+  await expect(ol.locator("span.doc-list-marker")).toHaveText(["1.", "2."], {
+    timeout: 20_000,
+  });
+  await expect(ol.locator("li.doc-list-item")).toHaveCount(2);
+  await expect(ol).not.toContainText("Two");
+  await expect(ol).toContainText("One");
+  await expect(ol).toContainText("Three");
 });
 
 test("indent nests and outdent unnests a list item (V1-LIST-004)", async ({ page }) => {

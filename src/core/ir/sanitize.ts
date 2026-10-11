@@ -277,3 +277,34 @@ export function inRange(value: unknown, min: number, max: number): value is numb
     typeof value === "number" && Number.isFinite(value) && value >= min && value <= max
   );
 }
+
+/* ------------------------------------------------- numbered-list start (M3 hardening) */
+
+/**
+ * Documented bounds for a numbered list's configurable `start`. The editor has
+ * always offered 1–9999; M3 hardening makes that the single authoritative bound
+ * shared by the schema (zod range), the Tiptap adapter and the render/numbering
+ * boundary — a UI `max` attribute is NOT input validation (AGENTS.md §61).
+ *
+ * The bound matters for safety, not just tidiness: the derived alpha label is
+ * logarithmic in its counter, but the Roman label is a subtraction loop whose
+ * iteration count follows the input's MAGNITUDE, so an unbounded `start` (e.g.
+ * `1e100` in a hand-edited `.labdoc.json`) would hang `toRoman`.
+ */
+export const LIST_START_MIN = 1;
+export const LIST_START_MAX = 9999;
+
+/** True when `value` is a finite integer inside the accepted start range. */
+export function isListStart(value: unknown): value is number {
+  return inRange(value, LIST_START_MIN, LIST_START_MAX) && Number.isInteger(value);
+}
+
+/**
+ * Clamp an untrusted list `start` into the accepted range, falling back to the
+ * minimum. Used wherever a value may have bypassed schema validation (the
+ * adapter, the render/numbering boundary) so the label formatters only ever see
+ * a bounded finite integer.
+ */
+export function safeListStart(value: unknown): number {
+  return isListStart(value) ? value : LIST_START_MIN;
+}

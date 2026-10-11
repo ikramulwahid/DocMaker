@@ -16,6 +16,7 @@ import type {
   NodeId,
   Section,
 } from "../ir/schema";
+import { LIST_START_MAX, safeListStart } from "../ir/sanitize";
 
 export interface Numbering {
   /** Hierarchical heading numbers, e.g. `"1.2.3"`. */
@@ -36,8 +37,11 @@ const ALPHA = "abcdefghijklmnopqrstuvwxyz";
 
 /** 1 → `a`, 26 → `z`, 27 → `aa` (spreadsheet-style lettering). */
 function toAlpha(n: number): string {
+  // Guard the loop: a non-finite counter would never advance toward 0. The
+  // loop itself is logarithmic, so a large finite value is already bounded.
+  if (!Number.isFinite(n)) return "";
   let out = "";
-  let value = n;
+  let value = Math.floor(n);
   while (value > 0) {
     value -= 1;
     out = ALPHA[value % 26] + out;
@@ -63,8 +67,15 @@ const ROMAN: ReadonlyArray<readonly [number, string]> = [
 ];
 
 function toRoman(n: number): string {
+  // M3 hardening: `n` is validated ≤ LIST_START_MAX upstream (schema, adapter,
+  // numbering boundary), but this subtraction loop repeats by MAGNITUDE, so a
+  // malformed value that bypassed validation (huge, non-finite) must never reach
+  // it unbounded. Cap to a finite integer at the documented maximum — the
+  // largest value the accepted range can produce — which keeps the loop tiny and
+  // the label reasonable.
+  if (!Number.isFinite(n)) return "";
+  let value = Math.min(Math.floor(n), LIST_START_MAX);
   let out = "";
-  let value = n;
   for (const [amount, symbol] of ROMAN) {
     while (value >= amount) {
       out += symbol;
@@ -101,7 +112,7 @@ function numberList(list: List, out: Record<NodeId, string>): void {
   if (list.listType === "bullet") return;
   const counters: number[] = [];
   const walk = (items: ListItem[], depth: number) => {
-    const start = depth === 0 ? list.start : 1;
+    const start = depth === 0 ? safeListStart(list.start) : 1;
     let index = 0;
     for (const item of items) {
       index += 1;

@@ -20,6 +20,7 @@ import {
   isValidColumnWidth,
   sanitizeHref,
   sanitizeImageSrc,
+  safeListStart,
   fontSizePtProblem,
   isValidHexColor,
   INDENT_LEFT_MM_MAX,
@@ -275,7 +276,7 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
       return listHtml(
         safeListType(block.listType),
         safeMarker(block.marker),
-        Number.isInteger(block.start) && block.start >= 1 ? block.start : 1,
+        safeListStart(block.start),
         block.items,
         resolved,
         block.id,

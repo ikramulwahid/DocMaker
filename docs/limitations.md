@@ -309,10 +309,20 @@ time and never stored. The honest residual limits are:
     This is the documented ADR-004 "additive pre-release" asymmetry — loading
     *older* documents stays guaranteed (backward compatible), while
     forward loading is not.
+37. **An ordered list's `start` is bounded to 1–9999.** The configurable start
+    of a numbered list is limited to **1–9999**, enforced identically by the IR
+    schema (a load outside the range is rejected), the Tiptap adapter and the
+    render/numbering boundary (an out-of-range in-memory value is normalised to
+    1). The Roman-numeral formatter additionally caps its input at the maximum
+    and guards non-finite input, so a malformed value that bypasses validation
+    (e.g. `1e100` in a hand-edited `.labdoc.json`) yields a short, deterministic
+    label instead of an unbounded subtraction loop. All five numbering styles
+    remain correct across the accepted range.
 
 M3 is **additive**: `schema_version` stays `1.0`. Legacy flat `bulletList`
 blocks and M1/M2 documents load unchanged; legacy lists are normalised to the
 canonical recursive `list` on the next edit/save (open → Save also converges,
 even with no text edit). Every list structure round-trips through save → reload
 (ADR-004; golden-06 plus the `list`/adapter unit tests and the M3 round-trip
-e2e test).
+e2e test). The R0.10 hardening added the bounded `start` (item 37) and stable-id
+renumbering tests; no list semantics changed.

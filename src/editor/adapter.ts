@@ -29,7 +29,7 @@ import {
 } from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
 import { bulletListToCanonical } from "@/core/ir/normalize";
-import { fontSizePtProblem, isValidHexColor, sanitizeHref } from "@/core/ir/sanitize";
+import { fontSizePtProblem, isValidHexColor, safeListStart, sanitizeHref } from "@/core/ir/sanitize";
 import {
   INDENT_LEFT_MM_MAX,
   LINE_SPACING_MAX,
@@ -587,10 +587,10 @@ function listFromTiptap(node: TiptapNode): List {
       : "disc"
     : null;
   const rawStart = node.attrs?.start;
-  const start =
-    typeof rawStart === "number" && Number.isInteger(rawStart) && rawStart >= 1
-      ? rawStart
-      : 1;
+  // Re-bound `start` through the same 1–9999 policy as the schema (M3
+  // hardening) so a stale/foreign/editor attribute can never smuggle an
+  // out-of-range value into the IR or the label formatters.
+  const start = safeListStart(rawStart);
   const items: ListItem[] = [];
   for (const child of node.content ?? []) {
     const item = listItemFromTiptap(child);

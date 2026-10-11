@@ -1,4 +1,4 @@
-# Phase 1 — Plan & Approval Record R0.9 (M3 List Delivery)
+# Phase 1 — Plan & Approval Record R0.10 (M3 Post-Delivery Hardening)
 
 - **Status:** **APPROVED + M1, M2 & M3 DELIVERED** — the Phase-1 scope and
   decisions listed in §0 remain explicitly approved by the human (approval
@@ -7,26 +7,32 @@
   base-style leg); R0.6 recorded the **M1 post-delivery hardening**; R0.7
   recorded the **delivery of M2** (character & paragraph formatting:
   V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset); R0.8 was a
-  **documentation-only reconciliation** of the M2 matrix rows; this revision
-  (R0.9) records the **delivery of M3** (lists & multilevel numbering:
-  V1-LIST-001/002/003 PASS, V1-LIST-004 PASS as a documented structured
-  subset). It updates the §3 coverage-matrix rows, the §8.2 milestone status,
-  §7 (now implemented) and `docs/limitations.md`. It does **not** alter the
-  R0.4 approval, does not re-open approved decisions, does not change M1/M2
-  acceptance, and does **not** authorize further milestones. **All Phase 0 PASS
-  classifications and evidence are preserved unchanged.**
-- **Revision:** R0.9 (2026-10-11) — M3 delivery record; supersedes R0.8 (M2
-  status reconciliation) which superseded R0.7 (M2 delivery record) which
-  superseded R0.6 (M1 hardening record) which superseded R0.5 (M1 delivery)
-  which superseded R0.4 (approval record).
+  **documentation-only reconciliation** of the M2 matrix rows; R0.9 recorded
+  the **delivery of M3** (lists & multilevel numbering: V1-LIST-001/002/003
+  PASS, V1-LIST-004 PASS as a documented structured subset); this revision
+  (R0.10) records the **M3 post-delivery hardening** — a single authoritative
+  ordered-list `start` bound (1–9999) shared by the schema, the Tiptap adapter
+  and the render/numbering boundary, a defensive Roman-numeral cap so a
+  malformed `.labdoc.json` cannot hang rendering, and stronger stable-id
+  renumbering evidence. It updates §0.10, the §3 legend and
+  `docs/limitations.md`; it adds **no** new scope and does **not** alter the
+  R0.4 approval, re-open approved decisions, change M1/M2/M3 acceptance, or
+  authorize further milestones. **All Phase 0 PASS classifications and
+  evidence are preserved unchanged.**
+- **Revision:** R0.10 (2026-10-11) — M3 post-delivery hardening record;
+  supersedes R0.9 (M3 delivery record) which superseded R0.8 (M2 status
+  reconciliation) which superseded R0.7 (M2 delivery record) which superseded
+  R0.6 (M1 hardening record) which superseded R0.5 (M1 delivery) which
+  superseded R0.4 (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
   `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3) and `fc9b00b` (R0.4);
   M1 delivered on top of `fc9b00b` (§0.5, checkpoint `4083c0c`, hardened at
   `c26f567`); M2 delivered at `85e2db3` (§0.7); the M2 matrix reconciliation
-  at `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8) — the base commit for
-  this R0.9 M3 delivery.
+  at `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8); M3 delivered at
+  `88578896ccd47f862d7fff20bf6d21fdbd97774b` (§0.9) — the base commit for this
+  R0.10 M3 hardening.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -151,7 +157,7 @@ This checkpoint is **documentation-only**:
   golden changed; `schema_version` stays `1.0`; no criterion definition
   altered; M2's recorded test results (§0.7) are unchanged and were not
   re-run. M3 not started. Published at `409c505`.
-- **R0.9 (2026-10-11, this revision):** **M3 delivered** — lists and
+- **R0.9 (2026-10-11):** **M3 delivered** — lists and
   multilevel numbering implemented, tested and published (see §0.9). Plan
   status markers updated: V1-LIST-001/002/003 → PASS; V1-LIST-004 → PASS as a
   documented structured subset (recursive nesting + hierarchical derived
@@ -161,8 +167,23 @@ This checkpoint is **documentation-only**:
   canonical recursive `list` block kind was added to the IR union and legacy
   flat `bulletList` blocks are normalised to it on the next edit/save. ADR-004
   additive policy holds — `schema_version` stays `1.0`. R0.4 approval record
-  retained verbatim in its substance; M4–M11 not started. Published at the
-  checkpoint recorded in §0.9.
+  retained verbatim in its substance; M4–M11 not started. Published at `8857889`.
+- **R0.10 (2026-10-11, this revision):** **M3 post-delivery hardening** (see
+  §0.10) — review followed the M3 delivery and found two narrow issues, both
+  closed without new scope: (1) an ordered list's configurable `start` was
+  bounded only in the UI (1–9999) but not at the schema/adapter/render
+  boundaries, so a hand-edited `.labdoc.json` with a huge `start` (e.g. `1e100`)
+  could drive the Roman-numeral formatter's subtraction loop unboundedly; (2)
+  the automatic-renumbering unit test rebuilt every list with position-derived
+  ids, so delete/reorder were not proved with stable item identities. The
+  hardening introduces one shared `LIST_START_MIN`/`LIST_START_MAX` (1–9999)
+  policy used by the schema (zod range), the Tiptap adapter and the
+  render/numbering boundary, a defensive finiteness/magnitude cap inside
+  `toRoman`, and stable-id delete/reorder/insert/nest/unnest numbering tests
+  plus a real-editor deletion e2e. No criterion definition changed; V1-LIST-001/
+  002/003 remain PASS and V1-LIST-004 remains PASS as a documented structured
+  subset (evidence strengthened). `schema_version` stays `1.0` (ADR-004);
+  M4–M11 not started. Published at the checkpoint recorded in §0.10.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -345,6 +366,80 @@ This checkpoint is **documentation-only**:
   schema-version bump; `tests/unit/input-security.test.ts` untouched (and still
   green); no unrelated schema/migration changes.
 
+### 0.10 M3 post-delivery hardening record (R0.10)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the
+  hardening sits on top of `88578896ccd47f862d7fff20bf6d21fdbd97774b` (R0.9, M3
+  delivery).
+- **Reason for the revision:** an M3 review identified two narrow issues, both
+  closed here without new scope. No approval was re-opened and no criterion
+  definition was altered.
+  1. **Unbounded ordered-list `start`.** The editor limited the configurable
+     start to 1–9999, but the IR schema and the other trust boundaries did not.
+     A hand-edited/imported `.labdoc.json` could carry a huge `start` (e.g.
+     `1e100`); the schema accepted it and the derived Roman label is produced by
+     a subtraction loop whose iteration count follows the value's magnitude, so
+     the malformed value could hang rendering. The list-start bound is now
+     enforced consistently (see below).
+  2. **Weak renumbering tests.** The automatic-renumbering unit test rebuilt
+     every list with position-derived ids (`li_0000000N`), so "delete" and
+     "reorder" were not proved with **stable item identities** — the ids changed
+     with position, which is exactly the property the test was meant to check.
+- **Bound enforced at each layer (single source: `src/core/ir/sanitize.ts`):**
+  `LIST_START_MIN = 1`, `LIST_START_MAX = 9999`.
+  - **Schema** (`src/core/ir/schema.ts`): `list.start` is
+    `z.number().int().min(LIST_START_MIN).max(LIST_START_MAX).default(1)` — a
+    value outside 1–9999 fails `documentSchema.parse` (so load rejects it).
+  - **Adapter** (`src/editor/adapter.ts`): Tiptap → IR `start` is passed through
+    the shared `safeListStart`, so a stale/foreign/out-of-range editor attribute
+    is safely normalised to 1 rather than entering the IR raw.
+  - **Render/numbering boundary** (`src/core/layout/html.ts`,
+    `src/core/numbering/index.ts`): both call `safeListStart`, so a malformed
+    in-memory value that bypasses schema validation cannot reach the formatters.
+  - **UI** (`src/editor/EditorPanel.tsx`): the `start` input's `max` and hint
+    read the same `LIST_START_MAX`; the input's own range message remains
+    actionable. The UI `max` is **not** treated as input validation.
+  - **`toRoman` defense in depth** (`src/core/numbering/index.ts`): the formatter
+    guards non-finite input and caps its (floored) argument at `LIST_START_MAX`,
+    so even a value that somehow bypassed every other boundary yields a short,
+    deterministic label instead of an unbounded loop. `toAlpha` likewise guards
+    non-finite input (its loop is already logarithmic and bounded).
+  - All five numbering styles remain correct across the accepted range,
+    including a non-default Roman start.
+- **Stronger renumbering evidence:** `tests/unit/list.test.ts` now builds one
+  canonical list with fixed item ids (`li_aaaaaaaa`…) and reuses those exact
+  objects through **delete-first**, **reorder**, **insert-between**, **nest** and
+  **unnest** edits, asserting the derived labels follow position while the ids
+  do not change, and asserting the canonical IR never gains a stored ordinal.
+  `tests/e2e/lists.spec.ts` adds a real-editor **deletion** case (clear the
+  middle item's text, then Backspace the empty item away) that proves the
+  survivors renumber. Sibling **reorder has no dedicated toolbar control** (the
+  M3 controls deliberately offer only nest/unnest), so reordering is covered by
+  the stable-id unit test and this limitation is recorded honestly in the e2e
+  file rather than faked by rebuilding the document.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (16 files, **222 tests** — 13 new hardening tests: start bounds at the
+  schema, a shared clamp/validate helper, out-of-range values rejected, a
+  malformed value that bypasses validation still yielding bounded labels, the
+  Roman formatter capped, all five styles across the range, and the render
+  boundary re-validating `start`; plus adapter normalisation and the stable-id
+  renumbering suite); `pnpm test:e2e` PASS (**34 tests**, incl. the new deletion
+  case); `pnpm build` PASS; `git diff --check` clean. Goldens are unchanged (no
+  rendering change for valid documents).
+- **Changed files:** `src/core/ir/sanitize.ts` (new list-start bounds +
+  `isListStart`/`safeListStart`), `src/core/ir/schema.ts`,
+  `src/core/numbering/index.ts`, `src/core/layout/html.ts`,
+  `src/editor/adapter.ts`, `src/editor/EditorPanel.tsx`,
+  `tests/unit/list.test.ts`, `tests/unit/adapter.test.ts`,
+  `tests/e2e/lists.spec.ts`, `docs/limitations.md`, this plan (R0.10).
+- **Acceptance classification (unchanged, evidence strengthened):**
+  V1-LIST-001/002/003 remain **PASS**; V1-LIST-004 remains **PASS as a
+  documented structured subset**. No criterion definition was changed.
+- **Out of scope (unchanged):** M4–M11 not started; no new dependencies; no
+  schema-version bump (`schema_version` stays `1.0`, ADR-004);
+  `tests/unit/input-security.test.ts` untouched (and still green); no unrelated
+  numbering for headings/tables/figures.
+
 ---
 
 ## 1. Objective
@@ -432,8 +527,11 @@ lowercase text case delivered; the remainder is documented — §0.7 and
 `docs/limitations.md` §M2). **R0.9 (M3) transitions:** V1-LIST-001/002/003 →
 PASS; V1-LIST-004 → PASS as a documented structured subset (recursive
 nesting + hierarchical derived numbering; residuals in §0.9 and
-`docs/limitations.md` §M3). **All Phase 0 PASS classifications and evidence
-are preserved unchanged.**
+`docs/limitations.md` §M3). **R0.10 (M3 hardening)** changed **no** row's
+status: it enforces a single ordered-list `start` bound (1–9999) across the
+schema/adapter/render/numbering layers, caps the Roman formatter defensively,
+and strengthens the renumbering evidence with stable-id tests (§0.10). **All
+Phase 0 PASS classifications and evidence are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -1073,6 +1171,12 @@ normalisation on the next edit/save; `schema_version` stays `1.0` (ADR-004).
 Evidence: `tests/unit/list.test.ts` (21 tests), `tests/unit/adapter.test.ts`,
 golden-06, `tests/e2e/lists.spec.ts` (5 tests incl. save→reopen round trip).
 Residual limits recorded in §0.9 and `docs/limitations.md` §M3.
+**◂R0.10 — HARDENED:** ordered-list `start` bounded to 1–9999 at every layer
+(schema zod range + adapter + render/numbering via one shared
+`LIST_START_MIN`/`LIST_START_MAX`), `toRoman` capped defensively so a malformed
+value cannot hang rendering, and stable-id renumbering tests (delete/reorder/
+insert/nest/unnest) plus a real-editor deletion e2e. No acceptance status
+changed; see §0.10 and `docs/limitations.md` §M3.
 
 #### M4 — Page setup, paper sizes & document defaults · V1-PAGE-001/002/003/004 (MUST), V1-PAG-004 (MUST), V1-PDF-002 (MUST, non-A4 leg), V1-DOC-002 (configurable defaults)
 IR: `format` enum expansion + custom width/height pair; layout geometry table;

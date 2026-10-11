@@ -17,6 +17,8 @@ import {
   INDENT_LEFT_MM_MAX,
   LINE_SPACING_MAX,
   LINE_SPACING_MIN,
+  LIST_START_MAX,
+  LIST_START_MIN,
   SPACE_MM_MAX,
   SPACE_MM_MIN,
 } from "./sanitize";
@@ -430,8 +432,8 @@ export const listSchema = z.object({
   listType: listTypeSchema.default("bullet"),
   /** Bullet glyph — only meaningful for `listType: "bullet"` (else null). */
   marker: bulletMarkerSchema.nullable().default(null),
-  /** First ordinal of a numbered list (configurable start). */
-  start: z.number().int().min(1).default(1),
+  /** First ordinal of a numbered list (configurable start, 1–9999). */
+  start: z.number().int().min(LIST_START_MIN).max(LIST_START_MAX).default(1),
   items: z.array(listItemSchema).default([]),
 });
 export type List = z.infer<typeof listSchema>;

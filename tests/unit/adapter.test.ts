@@ -444,3 +444,39 @@ describe("adapter — style references (V1-STYLE-002)", () => {
     expect(first.type === "paragraph" || first.type === "heading" ? first.style : null).toBeNull();
   });
 });
+
+describe("adapter — ordered-list start bounds (M3 hardening)", () => {
+  const orderedTiptap = (start: unknown): TiptapNode => ({
+    type: "doc",
+    content: [
+      {
+        type: "orderedList",
+        attrs: { id: "bl_abcdef12", numbering: "decimal", start },
+        content: [
+          {
+            type: "listItem",
+            attrs: { id: "li_abcdef12" },
+            content: [{ type: "paragraph", attrs: { id: "pg_abcdef12" }, content: [{ type: "text", text: "x" }] }],
+          },
+        ],
+      },
+    ],
+  });
+
+  it("preserves accepted start values through IR → Tiptap → IR", () => {
+    for (const start of [1, 42, 9999]) {
+      const blocks: Block[] = [
+        { id: "bl_abcdef12", type: "list", listType: "decimal", marker: null, start, items: [] },
+      ];
+      expect(roundTrip(blocks)).toEqual(blocks);
+    }
+  });
+
+  it("clamps invalid foreign/editor start values to 1 (never reaches the IR raw)", () => {
+    for (const invalid of [0, -3, 1.5, 10000, 1e100, Infinity, NaN, "4", null, undefined]) {
+      const block = tiptapDocToBlocks(orderedTiptap(invalid))[0];
+      expect(block.type).toBe("list");
+      if (block.type === "list") expect(block.start).toBe(1);
+    }
+  });
+});

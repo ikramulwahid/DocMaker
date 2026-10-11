@@ -29,6 +29,12 @@ import { deriveNumbering } from "@/core/numbering";
 import { resolveDocument } from "@/core/resolve";
 import { blockHtml } from "@/core/layout";
 import { hasLegacyLists, normalizeLegacyLists } from "@/core/ir/normalize";
+import {
+  isListStart,
+  LIST_START_MAX,
+  LIST_START_MIN,
+  safeListStart,
+} from "@/core/ir/sanitize";
 import { serializeDocument, deserializeDocument } from "@/core/json/envelope";
 
 /* --------------------------------------------------------------- helpers */
@@ -223,29 +229,77 @@ describe("derived list numbering (V1-LIST-002/004)", () => {
     expect(numbering.lists["li_00000002"]).toBe("6");
   });
 
-  it("renumbers when items are inserted, deleted, or reordered (no stored value)", () => {
-    const build = (labels: string[]) =>
-      resolveDocument(
-        (() => {
-          const doc = createEmptyDocument();
-          doc.sections = [
-            createSection([
-              ordered(
-                "decimal",
-                labels.map((v, i) => li(`li_0000000${i + 1}`, v)),
-              ),
-            ]),
-          ];
-          return doc;
-        })(),
-      ).numbering.lists;
+  /**
+   * One canonical list, one set of item objects, reused through every edit.
+   * Each item keeps its STABLE id when its position changes — the point is
+   * that visible labels follow position while identity does not.
+   */
+  const A = li("li_aaaaaaaa", "A");
+  const B = li("li_bbbbbbbb", "B");
+  const C = li("li_cccccccc", "C");
+  const D = li("li_dddddddd", "D");
 
-    expect(build(["a", "b"]).li_00000001).toBe("1");
-    expect(build(["a", "b"]).li_00000002).toBe("2");
-    expect(build(["b"]).li_00000001).toBe("1"); // delete front → renumber
-    expect(build(["b"]).li_00000002).toBeUndefined();
-    const reordered = build(["z", "y", "x"]);
-    expect([reordered.li_00000001, reordered.li_00000002, reordered.li_00000003]).toEqual(["1", "2", "3"]);
+  const labelsFor = (items: ListItem[]): Record<string, string> => {
+    const doc = createEmptyDocument();
+    doc.sections = [createSection([ordered("decimal", items, 1)])];
+    return resolveDocument(doc).numbering.lists;
+  };
+
+  it("deletes the first item while the surviving items keep their ids", () => {
+    const before = labelsFor([A, B, C, D]);
+    expect([before.li_aaaaaaaa, before.li_bbbbbbbb, before.li_cccccccc, before.li_dddddddd]).toEqual(["1", "2", "3", "4"]);
+
+    // Drop only `A`; the B/C/D objects are untouched, so their ids are stable.
+    const after = labelsFor([B, C, D]);
+    expect(after.li_aaaaaaaa).toBeUndefined();
+    expect([after.li_bbbbbbbb, after.li_cccccccc, after.li_dddddddd]).toEqual(["1", "2", "3"]);
+    expect(B.id).toBe("li_bbbbbbbb");
+  });
+
+  it("reorders the same items without changing their ids", () => {
+    const order = labelsFor([C, A, D, B]);
+    expect(order.li_cccccccc).toBe("1");
+    expect(order.li_aaaaaaaa).toBe("2");
+    expect(order.li_dddddddd).toBe("3");
+    expect(order.li_bbbbbbbb).toBe("4");
+  });
+
+  it("inserts a new item between existing ones and recalculates the followers", () => {
+    const E = li("li_eeeeeeee", "E");
+    const after = labelsFor([C, E, A, D, B]);
+    expect(after.li_cccccccc).toBe("1");
+    expect(after.li_eeeeeeee).toBe("2");
+    expect(after.li_aaaaaaaa).toBe("3");
+    expect(after.li_dddddddd).toBe("4");
+    expect(after.li_bbbbbbbb).toBe("5");
+  });
+
+  it("nests and unnests an existing item without changing its identity", () => {
+    const flat = labelsFor([A, B, C]);
+    expect([flat.li_aaaaaaaa, flat.li_bbbbbbbb, flat.li_cccccccc]).toEqual(["1", "2", "3"]);
+
+    // Nest B under A — B keeps its id and gains a parent.
+    const nested = labelsFor([{ ...A, children: [B] }, C]);
+    expect(nested.li_aaaaaaaa).toBe("1");
+    expect(nested.li_bbbbbbbb).toBe("1.1");
+    expect(nested.li_cccccccc).toBe("2");
+    expect(B.id).toBe("li_bbbbbbbb");
+
+    // Unnest B again — same id, back at the top level.
+    const unnested = labelsFor([A, B, C]);
+    expect([unnested.li_aaaaaaaa, unnested.li_bbbbbbbb, unnested.li_cccccccc]).toEqual(["1", "2", "3"]);
+  });
+
+  it("never writes the derived labels back into the canonical IR", () => {
+    const list = ordered("decimal", [C, A, D, B], 1);
+    const labels = labelsFor([C, A, D, B]);
+    expect(labels.li_cccccccc).toBe("1");
+    for (const item of [C, A, D, B]) {
+      // Exactly the structural keys — no stored ordinal on any item.
+      expect(Object.keys(item).sort()).toEqual(["children", "content", "id"]);
+      expect(Object.prototype.hasOwnProperty.call(item, "number")).toBe(false);
+    }
+    expect(JSON.stringify(list)).not.toMatch(/"(number|ordinal|label)"/);
   });
 
   it("is deterministic and never mutates the document", () => {
@@ -361,5 +415,117 @@ describe("list JSON round-trip", () => {
     const back = deserializeDocument(serializeDocument(doc));
     expect(back).toEqual(doc);
     expect(() => documentSchema.parse(doc)).not.toThrow();
+  });
+});
+
+/* ---------------------------------------------- list start bounds (hardening) */
+
+describe("list start bounds (M3 hardening)", () => {
+  const withStart = (start: unknown) => ({ ...ordered("decimal", []), start });
+
+  it("accepts 1, an ordinary middle value, and the maximum 9999", () => {
+    expect(LIST_START_MIN).toBe(1);
+    expect(LIST_START_MAX).toBe(9999);
+    for (const start of [1, 42, 9999]) {
+      const result = blockSchema.safeParse(withStart(start));
+      expect(result.success).toBe(true);
+      if (result.success) expect((result.data as List).start).toBe(start);
+    }
+  });
+
+  it("rejects zero, negatives, fractions, one past the maximum, and huge/hostile values", () => {
+    for (const start of [
+      0,
+      -1,
+      -9999,
+      1.5,
+      10000,
+      1e100,
+      Number.MAX_SAFE_INTEGER,
+      Infinity,
+      -Infinity,
+      NaN,
+    ]) {
+      expect(blockSchema.safeParse(withStart(start)).success).toBe(false);
+    }
+  });
+
+  it("exposes one shared clamp/validate helper for every boundary", () => {
+    expect(safeListStart(1)).toBe(1);
+    expect(safeListStart(9999)).toBe(9999);
+    expect(isListStart(42)).toBe(true);
+    for (const bad of [0, -1, 1.5, 10000, 1e100, Infinity, NaN, "4", null, undefined, {}]) {
+      expect(safeListStart(bad)).toBe(1);
+      expect(isListStart(bad)).toBe(false);
+    }
+  });
+
+  it("derives bounded labels even when a malformed start bypasses validation entirely", () => {
+    // No schema parse here: this mimics an in-memory value that slipped past
+    // the load edge. The numbering boundary must not hang and must fall back
+    // to the minimum start.
+    for (const start of [1e100, 10000, 0, -5, 2.5, NaN, Infinity]) {
+      const doc = createEmptyDocument();
+      doc.sections = [
+        createSection([
+          ordered("upper-roman", [li("li_00000001", "x"), li("li_00000002", "y")], start as number),
+        ]),
+      ];
+      const numbering = deriveNumbering(doc); // must return, not hang
+      expect(numbering.lists["li_00000001"]).toBe("I");
+      expect(numbering.lists["li_00000002"]).toBe("II");
+    }
+  });
+
+  it("keeps the Roman formatter tiny and deterministic above the maximum counter (no hang)", () => {
+    const doc = createEmptyDocument();
+    doc.sections = [
+      createSection([
+        ordered(
+          "upper-roman",
+          [
+            li("li_00000001", "x"), // counter 9999
+            li("li_00000002", "y"), // counter 10000 → capped, must not hang
+            li("li_00000003", "z"), // counter 10001 → capped
+          ],
+          9999,
+        ),
+      ]),
+    ];
+    const numbering = deriveNumbering(doc);
+    expect(numbering.lists["li_00000001"]).toBe("MMMMMMMMMCMXCIX");
+    // Beyond the canonical maximum the formatter clamps rather than emitting an
+    // unbounded string: deterministic, short, and safe.
+    expect(numbering.lists["li_00000002"]).toBe("MMMMMMMMMCMXCIX");
+    expect(numbering.lists["li_00000002"].length).toBeLessThan(20);
+  });
+
+  it("keeps all five numbering styles correct across the accepted range", () => {
+    const cases: Array<[List["listType"], number, string]> = [
+      ["decimal", 1, "1"],
+      ["decimal", 9999, "9999"],
+      ["lower-alpha", 1, "a"],
+      ["upper-alpha", 27, "AA"],
+      ["lower-roman", 4, "iv"],
+      ["upper-roman", 4, "IV"],
+      ["upper-roman", 3999, "MMMCMXCIX"],
+      ["lower-roman", 9999, "mmmmmmmmmcmxcix"],
+    ];
+    for (const [listType, start, expected] of cases) {
+      const doc = createEmptyDocument();
+      doc.sections = [createSection([ordered(listType, [li("li_00000001", "x")], start)])];
+      const { numbering } = resolveDocument(doc);
+      expect(numbering.lists["li_00000001"]).toBe(expected);
+    }
+  });
+
+  it("re-validates start at the render boundary (hostile value never emitted)", () => {
+    const { resolved } = resolvedWith([]);
+    const huge = { ...ordered("decimal", [li("li_00000001", "x")], 3), start: 1e100 } as unknown as List;
+    expect(blockHtml(huge, resolved)).not.toContain("start="); // clamped to 1
+    const over = { ...ordered("decimal", [li("li_00000001", "x")], 1), start: 10000 } as unknown as List;
+    expect(blockHtml(over, resolved)).not.toContain("start=");
+    const valid = ordered("decimal", [li("li_00000001", "x")], 3);
+    expect(blockHtml(valid, resolvedWith([valid]).resolved)).toContain('start="3"');
   });
 });

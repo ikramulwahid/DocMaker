@@ -8,7 +8,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor } from "@tiptap/react";
 import { createExtensions } from "./extensions";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "./adapter";
-import { sanitizeHref, sanitizeImageSrc } from "@/core/ir/sanitize";
+import { sanitizeHref, sanitizeImageSrc, LIST_START_MAX } from "@/core/ir/sanitize";
 import {
   EMPTY_PARAGRAPH_FORMAT,
   paragraphFormatOverrideSchema,
@@ -581,9 +581,9 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
       <OverrideNumberInput
         testId="fmt-list-start"
         label="Start"
-        hint="List start (1–9999)"
+        hint={`List start (1–${LIST_START_MAX})`}
         min={1}
-        max={9999}
+        max={LIST_START_MAX}
         step={1}
         placeholder="1"
         disabled={!inOrdered}
