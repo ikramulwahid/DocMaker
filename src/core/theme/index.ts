@@ -37,6 +37,30 @@ export interface ThemeTokens {
 
 export const DEFAULT_THEME_ID = "lab_default";
 
+/** Fixed serif/sans stacks for the semantic `fontFamily` character mark
+ * (M2). The mark stores an enum (`serif`/`sans`/`mono`), never a CSS string;
+ * the renderer maps the enum to a stack here — theme-driven for `mono`
+ * (per-theme `monoFont`), fixed cross-theme for serif/sans so an author's
+ * explicit font choice looks the same in every theme while the document
+ * itself stays theme-independent. */
+export const SERIF_FONT_STACK = 'Georgia, "Times New Roman", serif';
+export const SANS_FONT_STACK = 'Arial, Helvetica, "Segoe UI", sans-serif';
+
+/** Map a semantic font-family enum to a CSS font stack for a theme. */
+export function fontFamilyStack(
+  family: "serif" | "sans" | "mono",
+  theme: ThemeTokens,
+): string {
+  switch (family) {
+    case "serif":
+      return SERIF_FONT_STACK;
+    case "sans":
+      return SANS_FONT_STACK;
+    case "mono":
+      return theme.monoFont;
+  }
+}
+
 export const THEMES: readonly ThemeTokens[] = [
   {
     id: "lab_default",

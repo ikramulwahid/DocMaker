@@ -2,11 +2,22 @@
  * Layout HTML — blocks → semantic markup for the pagination engine.
  * Pure string building; no DOM, no editor state (node-testable).
  */
-import type { Block, Inline, Section } from "../ir/schema";
+import type { Block, Inline, ParagraphFormatOverride, Section } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
 import { effectiveStyleOf } from "../resolve";
 import type { Numbering } from "../numbering";
-import { isValidColumnWidth, sanitizeHref, sanitizeImageSrc } from "../ir/sanitize";
+import {
+  isValidColumnWidth,
+  sanitizeHref,
+  sanitizeImageSrc,
+  fontSizePtProblem,
+  isValidHexColor,
+  INDENT_LEFT_MM_MAX,
+  LINE_SPACING_MAX,
+  LINE_SPACING_MIN,
+  SPACE_MM_MAX,
+  SPACE_MM_MIN,
+} from "../ir/sanitize";
 import { renderMath } from "../equation";
 
 /**
@@ -55,11 +66,89 @@ export function inlineHtml(inlines: Inline[]): string {
             }
             break;
           }
+          case "underline":
+            html = `<u>${html}</u>`;
+            break;
+          case "strike":
+            html = `<s>${html}</s>`;
+            break;
+          case "superscript":
+            html = `<sup>${html}</sup>`;
+            break;
+          case "subscript":
+            html = `<sub>${html}</sub>`;
+            break;
+          case "textCase":
+            html = `<span data-text-case="${escapeAttr(mark.transform)}">${html}</span>`;
+            break;
+          case "fontFamily":
+            html = `<span data-font-family="${escapeAttr(mark.fontFamily)}">${html}</span>`;
+            break;
+          case "fontSize": {
+            // Re-validate at the render boundary (defense in depth): a
+            // bypassed schema value renders PLAIN, never as CSS injection.
+            if (fontSizePtProblem(mark.fontSizePt) === null) {
+              html = `<span style="font-size:${mark.fontSizePt}pt">${html}</span>`;
+            }
+            break;
+          }
+          case "color": {
+            if (isValidHexColor(mark.color)) {
+              html = `<span style="color:${escapeAttr(mark.color)}">${html}</span>`;
+            }
+            break;
+          }
+          case "highlight": {
+            if (isValidHexColor(mark.color)) {
+              html = `<span style="background-color:${escapeAttr(mark.color)}">${html}</span>`;
+            }
+            break;
+          }
         }
       }
       return html;
     })
     .join("");
+}
+
+/**
+ * Inline style declarations for a block's per-block paragraph overrides
+ * (V1-FMT-002). Only overrides that survive re-validation at the render
+ * boundary are emitted; anything invalid is treated as inherit (deterministic,
+ * never silent CSS injection). Field order is fixed so output is stable.
+ * Emitted after a class-derived margin when both exist, the override wins
+ * (inline style precedence) — the documented override model.
+ */
+export function paragraphFormatStyle(format: ParagraphFormatOverride | undefined): string {
+  if (!format) return "";
+  const declarations: string[] = [];
+  const { alignment, lineSpacing, spaceBeforeMm, spaceAfterMm, indentLeftMm } = format;
+  if (
+    alignment === "left" ||
+    alignment === "center" ||
+    alignment === "right" ||
+    alignment === "justify"
+  ) {
+    declarations.push(`text-align:${alignment}`);
+  }
+  if (
+    typeof lineSpacing === "number" &&
+    Number.isFinite(lineSpacing) &&
+    lineSpacing >= LINE_SPACING_MIN &&
+    lineSpacing <= LINE_SPACING_MAX
+  ) {
+    declarations.push(`line-height:${lineSpacing}`);
+  }
+  if (typeof spaceBeforeMm === "number" && Number.isFinite(spaceBeforeMm) && spaceBeforeMm >= SPACE_MM_MIN && spaceBeforeMm <= SPACE_MM_MAX) {
+    declarations.push(`margin-top:${spaceBeforeMm}mm`);
+  }
+  if (typeof spaceAfterMm === "number" && Number.isFinite(spaceAfterMm) && spaceAfterMm >= SPACE_MM_MIN && spaceAfterMm <= SPACE_MM_MAX) {
+    declarations.push(`margin-bottom:${spaceAfterMm}mm`);
+  }
+  if (typeof indentLeftMm === "number" && Number.isFinite(indentLeftMm) && indentLeftMm >= SPACE_MM_MIN && indentLeftMm <= INDENT_LEFT_MM_MAX) {
+    declarations.push(`margin-left:${indentLeftMm}mm`);
+  }
+  return declarations.join("; ");
 }
 
 function captionLabel(
@@ -83,14 +172,23 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
     case "heading": {
       const num = numbering.headings[block.id];
       const numHtml = num ? `<span class="doc-num">${escapeHtml(num)}</span> ` : "";
-      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading${styleClassName(resolved, block)}">${numHtml}${inlineHtml(block.content)}</h${block.level}>`;
+      const fmt = paragraphFormatStyle(block.format);
+      const styleAttr = fmt ? ` style="${fmt}"` : "";
+      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading${styleClassName(resolved, block)}"${styleAttr}>${numHtml}${inlineHtml(block.content)}</h${block.level}>`;
     }
-    case "paragraph":
-      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph${styleClassName(resolved, block)}">${inlineHtml(block.content)}</p>`;
+    case "paragraph": {
+      const fmt = paragraphFormatStyle(block.format);
+      const styleAttr = fmt ? ` style="${fmt}"` : "";
+      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph${styleClassName(resolved, block)}"${styleAttr}>${inlineHtml(block.content)}</p>`;
+    }
     case "bulletList":
       if (block.items.length === 0) return "";
       return `<ul id="${escapeAttr(block.id)}" class="doc-list">${block.items
-        .map((item) => `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}">${inlineHtml(item.content)}</li>`)
+        .map((item) => {
+          const fmt = paragraphFormatStyle(item.format);
+          const styleAttr = fmt ? ` style="${fmt}"` : "";
+          return `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}"${styleAttr}>${inlineHtml(item.content)}</li>`;
+        })
         .join("")}</ul>`;
     case "table": {
       const headerRow = block.headerRow;
@@ -124,7 +222,14 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
           .map(
             (cell) =>
               `<${tag} id="${escapeAttr(cell.id)}">${cell.content
-                .map((p) => `<p class="doc-paragraph${styleClassName(resolved, p)}" style="margin:0">${inlineHtml(p.content)}</p>`)
+                .map((p) => {
+                  const fmt = paragraphFormatStyle(p.format);
+                  // `margin:0` keeps cell paragraphs tight; override
+                  // declarations (alignment/space/indent) come after so the
+                  // per-block override still wins for that aspect.
+                  const margin = fmt ? `margin:0; ${fmt}` : "margin:0";
+                  return `<p class="doc-paragraph${styleClassName(resolved, p)}" style="${margin}">${inlineHtml(p.content)}</p>`;
+                })
                 .join("")}</${tag}>`,
           )
           .join("")}</tr>`;

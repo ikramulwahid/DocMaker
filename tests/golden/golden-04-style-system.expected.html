@@ -46,6 +46,15 @@ p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-page-break { break-before: page; height: 0; }
 hr.doc-hr { border: none; border-top: 0.5pt solid #444444; margin: 4mm 0; }
 a { color: #1f3a5f; text-decoration: underline; }
+/* Character marks (M2, V1-FMT-001): the IR stores semantic enums — the
+   stacks/transforms are mapped here by the renderer, never taken from the
+   document (no user CSS). Underline/strike/sup/sub render with native
+   element defaults. */
+span[data-font-family="serif"] { font-family: Georgia, "Times New Roman", serif; }
+span[data-font-family="sans"] { font-family: Arial, Helvetica, "Segoe UI", sans-serif; }
+span[data-font-family="mono"] { font-family: "Consolas", "Courier New", monospace; }
+span[data-text-case="uppercase"] { text-transform: uppercase; }
+span[data-text-case="lowercase"] { text-transform: lowercase; }
 figure.doc-figure {
   margin: 4mm 0;
   break-inside: avoid;

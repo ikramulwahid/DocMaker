@@ -2,12 +2,14 @@
  * Tiptap extension set for DocMaker.
  *
  * The IR is the source of truth (AGENTS.md): extensions here are configured
- * so the editor CANNOT produce constructs the IR cannot represent (no strike,
- * no blockquote, no code blocks, no ordered lists, no hard breaks) and every
+ * so the editor CANNOT produce constructs the IR cannot represent (no
+ * blockquote, no code blocks, no ordered lists, no hard breaks) and every
  * block node carries the IR `id` through a global attribute, so identity
- * survives editing sessions.
+ * survives editing sessions. M2 adds the IR character marks (underline,
+ * strike, superscript, subscript, textCase, fontFamily, fontSize, color,
+ * highlight) and the per-block `format` override attribute.
  */
-import { Extension, Node, mergeAttributes } from "@tiptap/core";
+import { Extension, Mark, Node, mergeAttributes } from "@tiptap/core";
 import type { Extensions } from "@tiptap/core";
 import StarterKit from "@tiptap/starter-kit";
 import Link from "@tiptap/extension-link";
@@ -17,6 +19,178 @@ import TableRow from "@tiptap/extension-table-row";
 import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import { renderMath } from "@/core/equation";
+import { isValidHexColor } from "@/core/ir/sanitize";
+
+/* ------------------------------------------------------------ marks (M2) */
+
+/**
+ * M2 character marks (V1-FMT-001). Each stores a STRUCTURED value in the IR
+ * (see schema.ts markSchema) and renders it in the editor. Values are
+ * re-validated at the adapter boundary and again at the render boundary
+ * (defense in depth): anything invalid renders plain.
+ */
+
+/** Underline — richer than StarterKit's bare strikethrough family. */
+export const Underline = Mark.create({
+  name: "underline",
+  parseHTML() {
+    return [{ tag: "u" }, { tag: "ins" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["u", mergeAttributes(HTMLAttributes), 0];
+  },
+  addKeyboardShortcuts() {
+    return { "Mod-u": () => this.editor.commands.toggleMark("underline") };
+  },
+});
+
+/** Superscript; excludes subscript so a run can never hold both. */
+export const Superscript = Mark.create({
+  name: "superscript",
+  excludes: "subscript",
+  parseHTML() {
+    return [{ tag: "sup" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["sup", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Subscript; excludes superscript so a run can never hold both. */
+export const Subscript = Mark.create({
+  name: "subscript",
+  excludes: "superscript",
+  parseHTML() {
+    return [{ tag: "sub" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["sub", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Character-level uppercase/lowercase (V1-FMT-003 feasible subset). */
+export const TextCase = Mark.create({
+  name: "textCase",
+  addAttributes() {
+    return {
+      transform: {
+        default: "uppercase",
+        parseHTML: (element: HTMLElement) =>
+          element.getAttribute("data-text-case") ?? "uppercase",
+        renderHTML: (attributes: { transform?: string | null }) =>
+          attributes.transform ? { "data-text-case": attributes.transform } : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-text-case]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Semantic font-family choice — editor visuals come from CSS class rules. */
+export const FontFamilyMark = Mark.create({
+  name: "fontFamily",
+  addAttributes() {
+    return {
+      fontFamily: {
+        default: "serif",
+        parseHTML: (element: HTMLElement) =>
+          element.getAttribute("data-font-family") ?? "serif",
+        renderHTML: (attributes: { fontFamily?: string | null }) =>
+          attributes.fontFamily ? { "data-font-family": attributes.fontFamily } : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-font-family]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Font size in pt — a validated bounded number emitted as `font-size:Npt`. */
+export const FontSizeMark = Mark.create({
+  name: "fontSize",
+  addAttributes() {
+    return {
+      fontSizePt: {
+        default: null,
+        parseHTML: (element: HTMLElement) => {
+          const raw = element.getAttribute("data-font-size-pt");
+          if (raw === null) return null;
+          const n = Number(raw);
+          return Number.isFinite(n) && n > 0 ? n : null;
+        },
+        renderHTML: (attributes: { fontSizePt?: number | null }) =>
+          attributes.fontSizePt != null
+            ? { "data-font-size-pt": String(attributes.fontSizePt), style: `font-size:${attributes.fontSizePt}pt` }
+            : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-font-size-pt]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Text colour — validated hex, emitted as inline `color`. */
+export const ColorMark = Mark.create({
+  name: "color",
+  addAttributes() {
+    return {
+      color: {
+        default: null,
+        parseHTML: (element: HTMLElement) => {
+          const raw = element.getAttribute("data-color");
+          return raw !== null && isValidHexColor(raw) ? raw : null;
+        },
+        renderHTML: (attributes: { color?: string | null }) =>
+          attributes.color && isValidHexColor(attributes.color)
+            ? { "data-color": attributes.color, style: `color:${attributes.color}` }
+            : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-color]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+/** Highlight — validated hex, emitted as inline `background-color`. */
+export const HighlightMark = Mark.create({
+  name: "highlight",
+  addAttributes() {
+    return {
+      color: {
+        default: null,
+        parseHTML: (element: HTMLElement) => {
+          const raw = element.getAttribute("data-highlight");
+          return raw !== null && isValidHexColor(raw) ? raw : null;
+        },
+        renderHTML: (attributes: { color?: string | null }) =>
+          attributes.color && isValidHexColor(attributes.color)
+            ? { "data-highlight": attributes.color, style: `background-color:${attributes.color}` }
+            : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-highlight]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ["span", mergeAttributes(HTMLAttributes), 0];
+  },
+});
 
 /** Atom block: explicit page break between sections of content. */
 export const PageBreak = Node.create({
@@ -172,6 +346,31 @@ export const NodeIds = Extension.create({
           },
         },
       },
+      {
+        // Per-block paragraph overrides (V1-FMT-002, M2) on text blocks only.
+        // The value travels in the ProseMirror node attrs (editor.getJSON()),
+        // never in the emitted DOM: renderHTML suppresses it to keep the page
+        // markup clean (the IR `style` attr uses the same approach; `format`
+        // would also be an invalid plain-HTML attribute value as an object).
+        types: ["paragraph", "heading"],
+        attributes: {
+          format: {
+            default: null,
+            keepOnSplit: true,
+            parseHTML: (element: HTMLElement) => {
+              const raw = element.getAttribute("data-ir-format");
+              if (!raw) return null;
+              try {
+                const parsed: unknown = JSON.parse(raw);
+                return typeof parsed === "object" && parsed !== null ? parsed : null;
+              } catch {
+                return null;
+              }
+            },
+            renderHTML: () => ({}),
+          },
+        },
+      },
     ];
   },
 });
@@ -181,7 +380,6 @@ export function createExtensions(): Extensions {
     NodeIds,
     StarterKit.configure({
       // Not representable in the IR — disabled so they cannot be created:
-      strike: false,
       blockquote: false,
       codeBlock: false,
       hardBreak: false,
@@ -189,6 +387,14 @@ export function createExtensions(): Extensions {
       heading: { levels: [1, 2, 3, 4, 5, 6] },
     }),
     Link.configure({ openOnClick: false, autolink: false }),
+    Underline,
+    Superscript,
+    Subscript,
+    TextCase,
+    FontFamilyMark,
+    FontSizeMark,
+    ColorMark,
+    HighlightMark,
     Image,
     Table.configure({ resizable: false, allowTableNodeSelection: true }),
     TableRow,

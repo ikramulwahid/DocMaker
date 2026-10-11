@@ -210,3 +210,70 @@ export function columnWidthProblem(value: string): string | null {
 export function isValidColumnWidth(value: string): boolean {
   return columnWidthProblem(value) === null;
 }
+
+/* ------------------------------------------------------------ hex colours */
+
+/**
+ * M2 — shared hex-colour validator (styles AND marks).
+ *
+ * Only CSS lengths are accepted: `#rgb`, `#rgba`, `#rrggbb`, `#rrggbbaa`
+ * (3, 4, 6 or 8 hex digits). A loose `{3,8}` quantifier would also accept
+ * 5- and 7-digit strings, which are NOT valid CSS lengths — such values must
+ * be rejected, not silently mangled. Values emitted from a validated hex are
+ * safe to place in `style="color:…"`/`background-color:…` (no CSS injection:
+ * hex digits only).
+ */
+const HEX_COLOR_RE = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+
+/** Why a hex colour value is rejected, or `null` when it may be emitted. */
+export function hexColorProblem(value: string): string | null {
+  if (typeof value !== "string") return "color must be a string";
+  if (CONTROL_CHARS_RE.test(value)) return "color contains control characters";
+  if (!HEX_COLOR_RE.test(value)) {
+    return `invalid hex colour "${value}": expected #rgb, #rgba, #rrggbb or #rrggbbaa (3, 4, 6 or 8 hex digits)`;
+  }
+  return null;
+}
+
+/** True when `value` may be emitted as a CSS colour (hex, allow-listed). */
+export function isValidHexColor(value: string): boolean {
+  return hexColorProblem(value) === null;
+}
+
+/* ------------------------------------------------- character-mark numbers */
+
+/** Documented font-size bounds for character marks (pt). */
+export const FONT_SIZE_PT_MIN = 6;
+export const FONT_SIZE_PT_MAX = 72;
+
+/** Why a font-size mark value is rejected, or `null` when it may be emitted. */
+export function fontSizePtProblem(value: number): string | null {
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    return "font size must be a finite number (pt)";
+  }
+  if (value < FONT_SIZE_PT_MIN || value > FONT_SIZE_PT_MAX) {
+    return `font size must be between ${FONT_SIZE_PT_MIN} and ${FONT_SIZE_PT_MAX} pt`;
+  }
+  return null;
+}
+
+/* ------------------------------------------------- paragraph overrides (M2) */
+
+/**
+ * Documented paragraph-format override bounds (additive per-block overrides
+ * of the assigned style; `null` = inherit). Shared by the schema (zod ranges)
+ * and the render boundary (defense in depth — a value that bypasses schema
+ * validation still cannot be emitted outside these bounds).
+ */
+export const LINE_SPACING_MIN = 0.8;
+export const LINE_SPACING_MAX = 4;
+export const SPACE_MM_MIN = 0;
+export const SPACE_MM_MAX = 50;
+export const INDENT_LEFT_MM_MAX = 80;
+
+/** True when `value` is a finite number inside the inclusive bounds. */
+export function inRange(value: unknown, min: number, max: number): value is number {
+  return (
+    typeof value === "number" && Number.isFinite(value) && value >= min && value <= max
+  );
+}

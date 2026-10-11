@@ -1,24 +1,27 @@
-# Phase 1 — Plan & Approval Record R0.6 (M1 Delivered — Style System)
+# Phase 1 — Plan & Approval Record R0.7 (M2 Delivered — Character & Paragraph Formatting)
 
-- **Status:** **APPROVED + M1 DELIVERED** — the Phase-1 scope and decisions
-  listed in §0 remain explicitly approved by the human (approval record
-  R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1** (reusable
-  style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002 base-style leg)
-  as an implementation checkpoint with executed verification; this revision
-  (R0.6) records the **post-delivery hardening of M1** (own-property style
-  lookups for prototype-name ids; e2e parity PDF moved to an ignored output
-  path). It does **not** alter the R0.4 approval, does not re-open approved
+- **Status:** **APPROVED + M1 & M2 DELIVERED** — the Phase-1 scope and
+  decisions listed in §0 remain explicitly approved by the human (approval
+  record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
+  (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
+  base-style leg); R0.6 recorded the **M1 post-delivery hardening**; this
+  revision (R0.7) records the **delivery of M2** (character & paragraph
+  formatting: V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset).
+  It does **not** alter the R0.4 approval, does not re-open approved
   decisions, does not change M1 acceptance, and does **not** authorize
   further milestones. M1's plan status markers (§3, §4.2, §8.2) are
   unchanged; **all Phase 0 PASS classifications and evidence are preserved
   unchanged.**
-- **Revision:** R0.6 (2026-10-10) — M1 post-delivery hardening record;
-  supersedes R0.5 (delivery record) which superseded R0.4 (approval record).
+- **Revision:** R0.7 (2026-10-11) — M2 delivery record; supersedes R0.6 (M1
+  hardening record) which superseded R0.5 (M1 delivery) which superseded R0.4
+  (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
   `b381ab3c3417eb95f5392397cbf222c449c97829` (R0.3) and `fc9b00b` (R0.4);
-  M1 delivered on top of `fc9b00b` (see §0.5 for the checkpoint commit).
+  M1 delivered on top of `fc9b00b` (§0.5, checkpoint `4083c0c`, hardened at
+  `c26f567`); M2 delivered on top of `c26f567` (see §0.7 for the checkpoint
+  commit).
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -37,11 +40,14 @@
   documentation-only: no executable verification was run or claimed. **R0.5**
   is the first implementation checkpoint: M1 was executed end-to-end with
   `pnpm typecheck`, `pnpm test`, `pnpm test:e2e` and `pnpm build` run against
-  the final tree (results recorded in §0.5).
+  the final tree (results recorded in §0.5). **R0.7** is the second
+  implementation checkpoint: M2 was likewise executed end-to-end with
+  `pnpm typecheck`, `pnpm test`, `pnpm test:e2e` and `pnpm build` run against
+  the final tree (results recorded in §0.7).
 
 ---
 
-## 0. Approval record, change history & M1 delivery (R0.5)
+## 0. Approval record, change history & milestone delivery (R0.7)
 
 ### 0.1 Approval summary
 
@@ -106,14 +112,22 @@ This checkpoint is **documentation-only**:
   delivered (stays PARTIAL — configurability remains in M4). ADR-005 records
   the style-system architecture. R0.4 approval record retained verbatim in
   its substance.
-- **R0.6 (2026-10-10, this revision):** M1 post-delivery hardening (see
-  §0.6) — style fallback lookups hardened against JavaScript object
-  prototype property names (own-property checks in `resolveStyleDefinition`,
-  `resolveStyles` and the store; regression tests for `constructor`,
-  `toString`, `hasOwnProperty`); the e2e parity PDF was relocated from the
-  tracked `artifacts/spike/e2e-sop.pdf` to the ignored `artifacts/e2e-sop.pdf`
-  so E2E runs never dirty the working tree (tracked spike PDF restored to its
-  pre-M1 bytes). M1 acceptance unchanged; M2 not started.
+- **R0.6 (2026-10-10):** M1 post-delivery hardening (see §0.6) — style
+  fallback lookups hardened against JavaScript object prototype property names
+  (own-property checks in `resolveStyleDefinition`, `resolveStyles` and the
+  store; regression tests for `constructor`, `toString`, `hasOwnProperty`);
+  the e2e parity PDF was relocated from the tracked
+  `artifacts/spike/e2e-sop.pdf` to the ignored `artifacts/e2e-sop.pdf` so E2E
+  runs never dirty the working tree (tracked spike PDF restored to its pre-M1
+  bytes). M1 acceptance unchanged; M2 not started. Published at `c26f567`.
+- **R0.7 (2026-10-11, this revision):** **M2 delivered** — character and
+  paragraph formatting implemented, tested and published (see §0.7). Plan
+  status markers updated: V1-FMT-001 and V1-FMT-002 → PASS; V1-FMT-003 →
+  PARTIAL (documented feasible subset — uppercase/lowercase only). A latent
+  M1 defect was also corrected: the colour-token validator accepted only
+  3/4/6/8-digit hex (the previous `{3,8}` range wrongly allowed 5/7 digits).
+  ADR-004 additive policy holds — `schema_version` stays `1.0`. R0.4 approval
+  record retained verbatim in its substance; M3 not started.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -170,6 +184,48 @@ This checkpoint is **documentation-only**:
 - **M1 acceptance:** unchanged — V1-STYLE-001..004, V1-TXT-001 and the
   V1-DOC-002 base-style leg keep their R0.5 classifications; no criterion
   re-opened. M2 not started.
+
+### 0.7 M2 delivery record (R0.7)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; M2
+  sits on top of `c26f567` (M1 hardening).
+- **Scope delivered:** structured **character marks** (V1-FMT-001) — font
+  family (`serif | sans | mono`, resolved to a theme font stack), font size
+  (bounded pt, 6–72), bold, italic, underline, strikethrough, superscript,
+  subscript, text colour and highlight (validated hex only); **paragraph
+  overrides** (V1-FMT-002) — alignment, line spacing, space before/after and
+  left indent, stored as **additive nullable overrides** of the assigned
+  style (never replacing it; `null` = inherit); and a documented **partial**
+  V1-FMT-003 subset — uppercase/lowercase text case (small caps, character/
+  letter spacing, paragraph borders/shading, hanging indent and tab stops are
+  intentionally unsupported and listed in `docs/limitations.md` §M2). The
+  editor toolbar exposes labelled controls with no `window.prompt`/`alert`
+  (AGENTS.md §31/§32). Architecture: ADR-004 additive policy; no new
+  dependencies. A latent M1 colour-validator defect was fixed and covered by
+  regression tests.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (15 files, 182 tests — incl. new `tests/unit/format.test.ts`, 30
+  tests); `pnpm test:e2e` PASS (28 tests, incl. new
+  `tests/e2e/format.spec.ts`, 6 tests covering marks, sup/sub exclusivity,
+  font/size/colour/highlight, text case, paragraph overrides, and a
+  save→reopen round trip); `pnpm build` PASS. Golden suite extended with
+  `golden-05-formatting` (all marks + overrides) and the existing
+  goldens-01..04 regenerated only to carry the new `format` field and the
+  new M2 preview CSS (semantic diff verified: no content/rendering change to
+  the pre-M2 documents).
+- **Changed files:** `src/core/ir/sanitize.ts`, `schema.ts`, `factory.ts`,
+  `src/core/theme/index.ts`, `src/core/layout/html.ts`, `css.ts`, `index.ts`,
+  `src/editor/extensions.ts`, `adapter.ts`, `EditorPanel.tsx`, `src/styles.css`,
+  `tests/unit/format.test.ts` (new), `tests/unit/adapter.test.ts`,
+  `tests/golden/generator.ts` + regenerated goldens-01..04 +
+  `golden-05-formatting.{json,expected.html}` (new),
+  `tests/e2e/format.spec.ts` (new), `docs/limitations.md`, this plan (R0.7).
+- **Acceptance classification:** **V1-FMT-001 PASS**, **V1-FMT-002 PASS**,
+  **V1-FMT-003 PARTIAL** (documented subset; the criterion as a whole is
+  **not** declared PASS). Evidence: unit (`format.test.ts`), golden-05,
+  e2e (`format.spec.ts`, incl. round trip).
+- **Out of scope (unchanged):** M3–M11 not started; no new dependencies; no
+  schema-version bump; `tests/unit/input-security.test.ts` untouched.
 
 ---
 
@@ -858,7 +914,16 @@ color, highlight, font family/size within allow-list); paragraph attrs
 styles, never replacing them. Editor: toolbar; real dialogs replace
 `prompt()`. Dep: M1. Tests: adapter both directions, layout CSS, round-trip,
 e2e; limitations item 16 updated. Acceptance: V1-FMT-001/002 in a golden;
-V1-FMT-003 documented subset.
+V1-FMT-003 documented subset. **◂R0.7 — DELIVERED:** V1-FMT-001 and
+V1-FMT-002 PASS; V1-FMT-003 **PARTIAL** (uppercase/lowercase text case only —
+small caps, character/letter spacing, paragraph borders/shading, hanging
+indent and tab stops are documented unsupported, not silently dropped).
+Evidence: `tests/unit/format.test.ts` (30 tests), golden-05,
+`tests/e2e/format.spec.ts` (6 tests incl. save→reopen round trip). Character
+values are allow-listed enums / validated primitives (never raw CSS); the
+renderer re-validates at the boundary; contradictory runs are impossible by
+construction. A latent M1 colour-validator defect (`{3,8}` hex range) was
+fixed with regression tests. See §0.7; `docs/limitations.md` §M2.
 
 #### M3 — Lists · V1-LIST-001 (MUST), 002 (MUST), 003 (MUST), 004 (SHOULD) ◂ promotes V1.1 multilevel (approved — D8)
 IR: new `list` block kind per §7; bullet markers; numbered types with `start`;
@@ -1021,6 +1086,7 @@ and evidence are unchanged.
 > This document is the **approved** Phase-1 scope and decision record (§0,
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
-> separate, explicitly authorized task after this checkpoint, starting from M1
-> (AGENTS.md checkpoint workflow). **No Phase 1 implementation has been
-> started.**
+> separate, explicitly authorized task after this checkpoint. **M1 and M2
+> have been delivered** (R0.5/R0.6 and R0.7 respectively) on the strength of
+> separate, explicitly authorized tasks following the AGENTS.md checkpoint
+> workflow; **M3 has not been started.**

@@ -8,9 +8,27 @@
  *    (see extensions.ts), so mapping back never silently drops structure
  *    except the documented Phase-0 flattening of nested lists.
  */
-import { isStyleId, type Block, type Inline, type Mark, type Paragraph, type Table, type TableRow, type TableCell } from "@/core/ir/schema";
+import {
+  EMPTY_PARAGRAPH_FORMAT,
+  isStyleId,
+  type Block,
+  type Inline,
+  type Mark,
+  type Paragraph,
+  type ParagraphFormatOverride,
+  type Table,
+  type TableRow,
+  type TableCell,
+} from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
-import { sanitizeHref } from "@/core/ir/sanitize";
+import { fontSizePtProblem, isValidHexColor, sanitizeHref } from "@/core/ir/sanitize";
+import {
+  INDENT_LEFT_MM_MAX,
+  LINE_SPACING_MAX,
+  LINE_SPACING_MIN,
+  SPACE_MM_MAX,
+  SPACE_MM_MIN,
+} from "@/core/ir/sanitize";
 
 export interface TiptapMark {
   type: string;
@@ -72,11 +90,80 @@ function markToIr(mark: TiptapMark): Mark | null {
       }
       return null;
     }
+    case "underline":
+      return { type: "underline" };
+    case "strike":
+      return { type: "strike" };
+    case "superscript":
+      return { type: "superscript" };
+    case "subscript":
+      return { type: "subscript" };
+    case "textCase": {
+      const transform = mark.attrs?.transform;
+      if (transform === "uppercase" || transform === "lowercase") {
+        return { type: "textCase", transform };
+      }
+      return null;
+    }
+    case "fontFamily": {
+      const fontFamily = mark.attrs?.fontFamily;
+      if (fontFamily === "serif" || fontFamily === "sans" || fontFamily === "mono") {
+        return { type: "fontFamily", fontFamily };
+      }
+      return null;
+    }
+    case "fontSize": {
+      const value = mark.attrs?.fontSizePt;
+      if (typeof value === "number" && fontSizePtProblem(value) === null) {
+        return { type: "fontSize", fontSizePt: value };
+      }
+      return null;
+    }
+    case "color": {
+      const color = mark.attrs?.color;
+      if (typeof color === "string" && isValidHexColor(color)) {
+        return { type: "color", color };
+      }
+      return null;
+    }
+    case "highlight": {
+      const color = mark.attrs?.color;
+      if (typeof color === "string" && isValidHexColor(color)) {
+        return { type: "highlight", color };
+      }
+      return null;
+    }
     default:
-      // Strike and friends cannot be created (extensions.ts); ignore if a
-      // foreign document smuggles one in rather than failing the load.
+      // Unknown marks (blink, …) cannot be created by the editor; ignore if
+      // a foreign document smuggles one in rather than failing the load.
       return null;
   }
+}
+
+/**
+ * Run-level exclusivity normalization (sup↔sub, uppercase↔lowercase):
+ * a foreign/toolbar document could theoretically carry both in one run —
+ * the editor extension `excludes` already prevents it, and the schema
+ * REJECTS it; this keep-first rule guarantees the editor pipeline never
+ * hands an invalid run to the store in the first place (deterministic).
+ */
+function normalizeRunMarks(marks: Mark[]): Mark[] {
+  const out: Mark[] = [];
+  const kept = new Set<string>();
+  for (const mark of marks) {
+    const family =
+      mark.type === "superscript" || mark.type === "subscript"
+        ? "vertical-align"
+        : mark.type === "textCase"
+          ? "textCase"
+          : null;
+    if (family !== null) {
+      if (kept.has(family)) continue; // conflicting second mark in the run
+      kept.add(family);
+    }
+    out.push(mark);
+  }
+  return out;
 }
 
 function runToTiptap(run: Inline): TiptapNode {
@@ -84,7 +171,26 @@ function runToTiptap(run: Inline): TiptapNode {
     type: "text",
     text: run.text,
     ...(run.marks.length
-      ? { marks: run.marks.map((m) => (m.type === "link" ? { type: "link", attrs: { href: m.href } } : { type: m.type })) }
+      ? {
+          marks: run.marks.map((m) => {
+            switch (m.type) {
+              case "link":
+                return { type: "link", attrs: { href: m.href } };
+              case "textCase":
+                return { type: "textCase", attrs: { transform: m.transform } };
+              case "fontFamily":
+                return { type: "fontFamily", attrs: { fontFamily: m.fontFamily } };
+              case "fontSize":
+                return { type: "fontSize", attrs: { fontSizePt: m.fontSizePt } };
+              case "color":
+                return { type: "color", attrs: { color: m.color } };
+              case "highlight":
+                return { type: "highlight", attrs: { color: m.color } };
+              default:
+                return { type: m.type };
+            }
+          }),
+        }
       : {}),
   };
 }
@@ -99,7 +205,7 @@ function runsFromTiptap(nodes: TiptapNode[] | undefined): Inline[] {
       const ir = markToIr(mark);
       if (ir) marks.push(ir);
     }
-    runs.push({ text: node.text ?? "", marks });
+    runs.push({ text: node.text ?? "", marks: normalizeRunMarks(marks) });
   }
   return runs;
 }
@@ -114,7 +220,7 @@ function styleToTiptap(style: string | null | undefined): string | null {
 function paragraphToTiptap(paragraph: Paragraph): TiptapNode {
   return {
     type: "paragraph",
-    attrs: { id: paragraph.id, style: styleToTiptap(paragraph.style) },
+    attrs: { id: paragraph.id, style: styleToTiptap(paragraph.style), format: paragraph.format },
     ...(paragraph.content.length ? { content: paragraph.content.map(runToTiptap) } : {}),
   };
 }
@@ -173,7 +279,7 @@ function blockToTiptap(block: Block): TiptapNode {
     case "heading":
       return {
         type: "heading",
-        attrs: { id: block.id, level: block.level, style: styleToTiptap(block.style) },
+        attrs: { id: block.id, level: block.level, style: styleToTiptap(block.style), format: block.format },
         ...(block.content.length ? { content: block.content.map(runToTiptap) } : {}),
       };
     case "bulletList":
@@ -236,12 +342,66 @@ function styleFromTiptap(value: unknown): string | null {
   return isStyleId(value) ? value : null;
 }
 
+/**
+ * Paragraph-format override from untrusted Tiptap/foreign attributes.
+ * Each known field is re-validated against the documented bounds; invalid
+ * values normalize to `null` (= inherit), so nothing invalid ever reaches
+ * the IR and the editor pipeline is deterministic. Unknown fields are
+ * dropped (they are not part of the IR).
+ */
+function formatFromTiptap(value: unknown): ParagraphFormatOverride {
+  const raw =
+    typeof value === "object" && value !== null
+      ? (value as Record<string, unknown>)
+      : {};
+  const out: ParagraphFormatOverride = {
+    alignment: null,
+    lineSpacing: null,
+    spaceBeforeMm: null,
+    spaceAfterMm: null,
+    indentLeftMm: null,
+  };
+  if (
+    raw.alignment === "left" ||
+    raw.alignment === "center" ||
+    raw.alignment === "right" ||
+    raw.alignment === "justify"
+  ) {
+    out.alignment = raw.alignment;
+  }
+  {
+    const v = raw.lineSpacing;
+    if (
+      typeof v === "number" &&
+      Number.isFinite(v) &&
+      v >= LINE_SPACING_MIN &&
+      v <= LINE_SPACING_MAX
+    ) {
+      out.lineSpacing = v;
+    }
+  }
+  for (const key of ["spaceBeforeMm", "spaceAfterMm"] as const) {
+    const v = raw[key];
+    if (typeof v === "number" && Number.isFinite(v) && v >= SPACE_MM_MIN && v <= SPACE_MM_MAX) {
+      out[key] = v;
+    }
+  }
+  {
+    const v = raw.indentLeftMm;
+    if (typeof v === "number" && Number.isFinite(v) && v >= SPACE_MM_MIN && v <= INDENT_LEFT_MM_MAX) {
+      out.indentLeftMm = v;
+    }
+  }
+  return out;
+}
+
 function paragraphFromTiptap(node: TiptapNode): Paragraph {
   return {
     id: idFor(node),
     type: "paragraph",
     content: runsFromTiptap(node.content),
     style: styleFromTiptap(node.attrs?.style),
+    format: formatFromTiptap(node.attrs?.format),
   };
 }
 
@@ -256,11 +416,11 @@ function cellContentFromTiptap(nodes: TiptapNode[] | undefined): Paragraph[] {
       // Documented Phase-0 limitation: exotic cell content collapses.
       const textValue = textOf([node]).trim();
       if (textValue) {
-        out.push({ id: newId("pg"), type: "paragraph", content: [{ text: textValue, marks: [] }], style: null });
+        out.push({ id: newId("pg"), type: "paragraph", content: [{ text: textValue, marks: [] }], style: null, format: EMPTY_PARAGRAPH_FORMAT });
       }
     }
   }
-  return out.length ? out : [{ id: newId("pg"), type: "paragraph", content: [], style: null }];
+  return out.length ? out : [{ id: newId("pg"), type: "paragraph", content: [], style: null, format: EMPTY_PARAGRAPH_FORMAT }];
 }
 
 function tableFromTiptap(node: TiptapNode): Table {
@@ -312,7 +472,7 @@ function tableFromTiptap(node: TiptapNode): Table {
 }
 
 function emptyCell(): TableCell {
-  return { id: newId("tc"), type: "tableCell", content: [{ id: newId("pg"), type: "paragraph", content: [], style: null }] };
+  return { id: newId("tc"), type: "tableCell", content: [{ id: newId("pg"), type: "paragraph", content: [], style: null, format: EMPTY_PARAGRAPH_FORMAT }] };
 }
 
 /** Nested lists flatten (documented limitation): depth-first, paragraphs only. */
@@ -348,6 +508,7 @@ function blockFromTiptap(node: TiptapNode): Block | null {
         level: Math.min(6, Math.max(1, Math.round(raw))),
         content: runsFromTiptap(node.content),
         style: styleFromTiptap(node.attrs?.style),
+        format: formatFromTiptap(node.attrs?.format),
       };
     }
     case "bulletList":

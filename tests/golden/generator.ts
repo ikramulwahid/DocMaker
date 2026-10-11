@@ -350,12 +350,135 @@ export function createStyleSystemDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 05 — character marks & paragraph overrides (V1-FMT-001/002, M2;
+ * V1-FMT-003 feasible subset: text case).
+ *
+ * Exercises every M2 character mark as a STRUCTURED value (bold, italic,
+ * code, link, underline, strike, superscript, subscript, font family
+ * serif/sans/mono, font size, colour, highlight, uppercase/lowercase) —
+ * including combined marks on one run — plus per-block paragraph overrides
+ * (alignment, line spacing, space before/after, left indent) on a body
+ * paragraph, a heading, a list item and a table cell. The goldens prove the
+ * whole stack holds: theme → assigned style → paragraph overrides → marks,
+ * over preview AND export (same shared pipeline).
+ */
+export function createFormattingDocument(): Document {
+  const doc = createEmptyDocument("Character and Paragraph Formatting");
+  doc.metadata = {
+    title: "Character and Paragraph Formatting",
+    docNumber: "FMT-2026-015",
+    revision: "01",
+    effectiveDate: "2026-10-10",
+    author: "Q. Officer",
+    organization: "Analytical Laboratory",
+    description: "Golden document: M2 character marks and paragraph overrides (V1-FMT-001/002)",
+  };
+  doc.settings.watermark.enabled = false;
+
+  // Every mark family on its own run, plus combined marks and a link.
+  const marks1 = createParagraph([
+    text("Marks: "),
+    text("bold", [{ type: "bold" }]),
+    text(" "),
+    text("italic", [{ type: "italic" }]),
+    text(" "),
+    text("underline", [{ type: "underline" }]),
+    text(" "),
+    text("strike", [{ type: "strike" }]),
+    text(" "),
+    text("sup", [{ type: "superscript" }]),
+    text("/"),
+    text("sub", [{ type: "subscript" }]),
+    text(" "),
+    text("code", [{ type: "code" }]),
+    text(" "),
+    text("bold+underline", [{ type: "bold" }, { type: "underline" }]),
+    text(" "),
+    text("linked", [{ type: "link", href: "https://example.org/sop-042" }]),
+    text("."),
+  ]);
+
+  // Structured font/colour marks and the V1-FMT-003 text-case subset.
+  const marks2 = createParagraph([
+    text("Fonts: "),
+    text("serif", [{ type: "fontFamily", fontFamily: "serif" }]),
+    text(" / "),
+    text("mono", [{ type: "fontFamily", fontFamily: "mono" }]),
+    text(" / size "),
+    text("fourteen", [{ type: "fontSize", fontSizePt: 14 }]),
+    text(" / colour "),
+    text("ink", [{ type: "color", color: "#1f3a5f" }]),
+    text(" / "),
+    text("highlighted", [{ type: "highlight", color: "#fff3b0" }]),
+    text(" / "),
+    text("SHOUT", [{ type: "textCase", transform: "uppercase" }]),
+    text(" and "),
+    text("hush", [{ type: "textCase", transform: "lowercase" }]),
+    text("."),
+  ]);
+
+  // Paragraph overrides on a style-assigned block: the override wins for that
+  // aspect (alignment) while the style still drives the rest — precedence.
+  const overriddenStyle = createParagraph(
+    [text("Centered warning: the alignment override wins over the assigned style.")],
+    "warning",
+  );
+  overriddenStyle.format = { alignment: "center", lineSpacing: null, spaceBeforeMm: null, spaceAfterMm: null, indentLeftMm: null };
+
+  // Every paragraph override set at once on a plain block.
+  const overriddenBlock = createParagraph([
+    text("Justified with 1.5 line spacing, 6 mm space before, 4 mm after and a 12 mm left indent."),
+  ]);
+  overriddenBlock.format = { alignment: "justify", lineSpacing: 1.5, spaceBeforeMm: 6, spaceAfterMm: 4, indentLeftMm: 12 };
+
+  // Heading with overrides (alignment + spacing apply to headings too).
+  const overriddenHeading = createHeading(2, [text("Overridden heading")]);
+  overriddenHeading.format = { alignment: "right", lineSpacing: null, spaceBeforeMm: null, spaceAfterMm: 3, indentLeftMm: null };
+
+  // List item with an override.
+  const list = {
+    id: "bl_fmt0001",
+    type: "bulletList" as const,
+    items: [
+      createParagraph([text("First item")]),
+      createParagraph([text("Indented item")]),
+    ],
+  };
+  list.items[1].format = { alignment: null, lineSpacing: null, spaceBeforeMm: null, spaceAfterMm: null, indentLeftMm: 10 };
+
+  // Table cell paragraph with an override.
+  const table = createTable(
+    [
+      ["Parameter", "Result", "Limit"],
+      ["pH", "7.2", "6.5 – 8.5"],
+    ],
+    { caption: "Monitoring results" },
+  );
+  table.rows[0].cells[0].content[0].format = { alignment: "center", lineSpacing: null, spaceBeforeMm: null, spaceAfterMm: null, indentLeftMm: null };
+
+  doc.sections = [
+    createSection([
+      createHeading(1, [text("Formatting demonstration")]),
+      marks1,
+      marks2,
+      overriddenStyle,
+      overriddenBlock,
+      overriddenHeading,
+      list,
+      table,
+    ]),
+  ];
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
     { name: "golden-02-sop-long-table", doc: createSopDocument() },
     { name: "golden-03-phase0-gate", doc: createPhase0GateDocument() },
     { name: "golden-04-style-system", doc: createStyleSystemDocument() },
+    { name: "golden-05-formatting", doc: createFormattingDocument() },
   ];
 }
 

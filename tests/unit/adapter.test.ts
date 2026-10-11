@@ -9,7 +9,7 @@ import {
   type TiptapNode,
 } from "@/editor/adapter";
 import { createDocumentFixture } from "./fixtures";
-import type { Block, Paragraph } from "@/core/ir/schema";
+import { EMPTY_PARAGRAPH_FORMAT, type Block, type Paragraph } from "@/core/ir/schema";
 import { isNodeId } from "@/core/ir/ids";
 
 function roundTrip(blocks: Block[]): Block[] {
@@ -35,7 +35,7 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
 
   it("preserves heading levels, image attrs, and page breaks", () => {
     const blocks: Block[] = [
-      { id: "hd_abcdef12", type: "heading", level: 3, content: [{ text: "Deep", marks: [] }], style: null },
+      { id: "hd_abcdef12", type: "heading", level: 3, content: [{ text: "Deep", marks: [] }], style: null, format: EMPTY_PARAGRAPH_FORMAT },
       {
         id: "im_abcdef12",
         type: "image",
@@ -56,6 +56,7 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
         id: "pg_abcdef12",
         type: "paragraph",
         style: null,
+        format: EMPTY_PARAGRAPH_FORMAT,
         content: [
           { text: "see ", marks: [] },
           { text: "manual", marks: [{ type: "link", href: "https://example.org/m" }] },
@@ -90,8 +91,8 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
             id: "tr_abcdef12",
             type: "tableRow",
             cells: [
-              { id: "tc_abcdef12", type: "tableCell", content: [{ id: "pg_abcdef12", type: "paragraph", content: [{ text: "a", marks: [] }], style: null }] },
-              { id: "tc_abcdef13", type: "tableCell", content: [{ id: "pg_abcdef13", type: "paragraph", content: [{ text: "b", marks: [] }], style: null }] },
+              { id: "tc_abcdef12", type: "tableCell", content: [{ id: "pg_abcdef12", type: "paragraph", content: [{ text: "a", marks: [] }], style: null, format: EMPTY_PARAGRAPH_FORMAT }] },
+              { id: "tc_abcdef13", type: "tableCell", content: [{ id: "pg_abcdef13", type: "paragraph", content: [{ text: "b", marks: [] }], style: null, format: EMPTY_PARAGRAPH_FORMAT }] },
             ],
           },
         ],
@@ -111,8 +112,8 @@ describe("adapter — IR → Tiptap → IR round-trip", () => {
         id: "bl_abcdef12",
         type: "bulletList",
         items: [
-          { id: "pg_abcdef12", type: "paragraph", content: [{ text: "one", marks: [] }], style: null },
-          { id: "pg_abcdef13", type: "paragraph", content: [{ text: "two", marks: [{ type: "bold" }] }], style: null },
+          { id: "pg_abcdef12", type: "paragraph", content: [{ text: "one", marks: [] }], style: null, format: EMPTY_PARAGRAPH_FORMAT },
+          { id: "pg_abcdef13", type: "paragraph", content: [{ text: "two", marks: [{ type: "bold" }] }], style: null, format: EMPTY_PARAGRAPH_FORMAT },
         ],
       },
     ];
@@ -178,7 +179,7 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
     // Tiptap docs must contain at least one block: [] becomes one empty
     // paragraph in the editor, which maps back as one empty paragraph.
     expect(roundTrip([])).toEqual([
-      { id: expect.any(String), type: "paragraph", content: [], style: null },
+      { id: expect.any(String), type: "paragraph", content: [], style: null, format: EMPTY_PARAGRAPH_FORMAT },
     ]);
   });
 
@@ -228,7 +229,8 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
           type: "paragraph",
           attrs: { id: "pg_abcdef12" },
           content: [
-            { type: "text", text: "s", marks: [{ type: "strike" }] },
+            // `blink` is genuinely unknown — strike IS supported since M2.
+            { type: "text", text: "s", marks: [{ type: "blink" }] },
             { type: "text", text: "b", marks: [{ type: "bold" }] },
           ],
         },
@@ -239,6 +241,7 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
       id: "pg_abcdef12",
       type: "paragraph",
       style: null,
+      format: EMPTY_PARAGRAPH_FORMAT,
       content: [
         { text: "s", marks: [] },
         { text: "b", marks: [{ type: "bold" }] },
@@ -254,6 +257,7 @@ describe("adapter — style references (V1-STYLE-002)", () => {
         id: "pg_abcdef12",
         type: "paragraph",
         style: "note",
+        format: EMPTY_PARAGRAPH_FORMAT,
         content: [{ text: "remember", marks: [] }],
       },
       {
@@ -261,6 +265,7 @@ describe("adapter — style references (V1-STYLE-002)", () => {
         type: "heading",
         level: 2,
         style: "heading-2",
+        format: EMPTY_PARAGRAPH_FORMAT,
         content: [{ text: "Scope", marks: [] }],
       },
     ];
@@ -269,8 +274,8 @@ describe("adapter — style references (V1-STYLE-002)", () => {
 
   it("writes the style reference into the Tiptap attrs", () => {
     const blocks: Block[] = [
-      { id: "pg_abcdef12", type: "paragraph", style: "warning", content: [] },
-      { id: "hd_abcdef12", type: "heading", level: 1, style: "heading-1", content: [] },
+      { id: "pg_abcdef12", type: "paragraph", style: "warning", content: [], format: EMPTY_PARAGRAPH_FORMAT },
+      { id: "hd_abcdef12", type: "heading", level: 1, style: "heading-1", content: [], format: EMPTY_PARAGRAPH_FORMAT },
     ];
     const doc = blocksToTiptapDoc(blocks);
     expect(doc.content?.[0].attrs).toMatchObject({ id: "pg_abcdef12", style: "warning" });

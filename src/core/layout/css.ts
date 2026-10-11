@@ -8,7 +8,7 @@
  */
 import type { MarginBox, MarginField, StyleDefinition } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
-import { resolveTheme, type ThemeTokens } from "../theme";
+import { resolveTheme, SANS_FONT_STACK, SERIF_FONT_STACK, type ThemeTokens } from "../theme";
 
 export function cssString(value: string): string {
   // JSON string syntax is a safe subset for CSS `content` strings once
@@ -175,6 +175,15 @@ p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
 .doc-page-break { break-before: page; height: 0; }
 hr.doc-hr { border: none; border-top: 0.5pt solid ${theme.rule}; margin: 4mm 0; }
 a { color: ${theme.accent}; text-decoration: underline; }
+/* Character marks (M2, V1-FMT-001): the IR stores semantic enums — the
+   stacks/transforms are mapped here by the renderer, never taken from the
+   document (no user CSS). Underline/strike/sup/sub render with native
+   element defaults. */
+span[data-font-family="serif"] { font-family: ${SERIF_FONT_STACK}; }
+span[data-font-family="sans"] { font-family: ${SANS_FONT_STACK}; }
+span[data-font-family="mono"] { font-family: ${theme.monoFont}; }
+span[data-text-case="uppercase"] { text-transform: uppercase; }
+span[data-text-case="lowercase"] { text-transform: lowercase; }
 figure.doc-figure {
   margin: 4mm 0;
   break-inside: avoid;
@@ -252,9 +261,6 @@ table.doc-table thead { display: table-header-group; }
 
   return lines.join("\n");
 }
-
-/** System sans stack used when a style requests a sans family. */
-const SANS_FONT_STACK = 'Arial, Helvetica, "Segoe UI", sans-serif';
 
 /** A style id is a validated lowercase+digit+hyphen token — safe in CSS. */
 function styleSelectors(id: string, headingLevel: number | null): string[] {

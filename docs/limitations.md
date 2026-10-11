@@ -165,8 +165,10 @@ see `src/core/ir/sanitize.ts`):
     editable** in the Phase-0 UI (no caption input). They render from the IR
     and survive round-trips (adapter tests cover this).
 16. **Disabled by design** (IR cannot represent them → editor must not create
-    them): ordered lists, strikethrough, blockquote, code blocks, hard breaks.
-    Content containing them from elsewhere is dropped rather than faked.
+    them): ordered lists, blockquote, code blocks, hard breaks. Content
+    containing them from elsewhere is dropped rather than faked. Strikethrough
+    was in this list through M1; M2 now models it as a character mark (see the
+    character/paragraph-formatting section below).
 17. **Empty sections**: an empty editor maps to one empty paragraph (Tiptap
     requires a non-empty doc), so `[] → [empty paragraph]` on round-trip.
 
@@ -214,7 +216,9 @@ V1-STYLE-001..004, V1-TXT-001 and the V1-DOC-002 base-style leg are delivered
     italic, colour (`#rrggbb`), capitalization, indent, space before/after.
     Underline, strikethrough, superscript/subscript, font-size-on-marks and
     other advanced formatting are character/paragraph formatting →
-    **M2** (V1-FMT-001/002), not style tokens, and are intentionally absent.
+    **M2** (V1-FMT-001/002), delivered 2026-10-11 as *character marks and
+    per-block paragraph overrides*, not style tokens — the style editor still
+    exposes only the allow-listed token set above.
 26. **No template authoring, no style library import/export, no renumbering
     of style definitions.** Styles are document-scoped; creating a reusable
     cross-document template is a planned future capability (out of M1 scope).
@@ -224,3 +228,48 @@ V1-STYLE-001..004, V1-TXT-001 and the V1-DOC-002 base-style leg are delivered
     document-level override that survives round-trips and wins over the theme
     for that document — themes only supply defaults where the style has no
     explicit token (separation of concerns, AGENTS.md §30; tested).
+
+## Character & paragraph formatting (M2, delivered 2026-10-11)
+
+V1-FMT-001 and V1-FMT-002 are delivered as *structured* character marks and
+*additive* per-block paragraph overrides (ADR-004); V1-FMT-003 (text case) is
+delivered as a **partial, opinionated subset**. The honest residual limits are:
+
+28. **V1-FMT-003 is a partial subset, not the whole criterion.** Uppercase and
+    lowercase text case are modelled (a `textCase` mark with a
+    `transform` enum) and render via `text-transform`. The remaining
+    V1-FMT-003 formatting features are **not** implemented and are
+    intentionally absent from the toolbar: small caps, character/letter
+    spacing, paragraph borders, paragraph shading, hanging indent, and tab
+    stops. They are not silently dropped — there is no control that pretends
+    to offer them (AGENTS.md §64).
+29. **Character values are allow-listed enums / validated primitives, never
+    raw CSS.** Font family is `serif | sans | mono`, resolved to a theme font
+    stack at render time; font size is a bounded number in pt (6–72); text
+    colour and highlight are validated hex only
+    (`#rgb`/`#rgba`/`#rrggbb`/`#rrggbbaa`). The renderer re-validates every
+    value at the boundary (defense in depth): a value that does not survive
+    re-validation renders **plain** rather than emitting arbitrary CSS
+    (AGENTS.md §61).
+30. **Contradictory runs are impossible by construction.** Superscript and
+    subscript are mutually exclusive, as are uppercase and lowercase: the
+    editor marks declare `excludes`, the adapter normalises foreign input
+    keep-first, and the schema **rejects** a run that still carries both. The
+    IR never stores a contradictory state.
+31. **Paragraph overrides are additive and inherit-first.** Each override
+    field (alignment, line spacing, space before/after, left indent) is
+    nullable; `null` = "inherit the assigned style". An override touches only
+    the aspect the author set — the style/theme definitions are never mutated.
+    Precedence is theme → assigned style → paragraph overrides → character
+    marks.
+32. **Overrides apply to text blocks only** (paragraph, heading, list item,
+    and table-cell paragraphs; a cell paragraph renders the override after a
+    tight `margin:0` so the override still wins for that aspect). They are
+    stored inline on the block, so they are not reusable named styles — that
+    remains the M1 style system.
+
+M2 is **additive**: `schema_version` stays `1.0`. M1 and legacy style-less
+documents load unchanged (a missing `format` defaults to pure-inherit, a
+missing `marks` array defaults to `[]`), and every mark/override round-trips
+through save → reload (ADR-004; golden-05 plus the adapter/format unit tests
+and the M2 round-trip e2e test).

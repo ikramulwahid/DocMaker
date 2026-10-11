@@ -4,17 +4,18 @@
  */
 import { newId } from "./ids";
 import { buildDefaultStyles } from "./styles";
-import type {
-  Block,
-  Document,
-  Equation,
-  Heading,
-  Image,
-  Inline,
-  MarginBox,
-  Paragraph,
-  Section,
-  Table,
+import {
+  EMPTY_PARAGRAPH_FORMAT,
+  type Block,
+  type Document,
+  type Equation,
+  type Heading,
+  type Image,
+  type Inline,
+  type MarginBox,
+  type Paragraph,
+  type Section,
+  type Table,
 } from "./schema";
 
 export function text(value: string, marks: Inline["marks"] = []): Inline {
@@ -37,7 +38,7 @@ export function createParagraph(
   content: Inline[] = [],
   style: string | null = BASE_PARAGRAPH_STYLE,
 ): Paragraph {
-  return { id: newId("pg"), type: "paragraph", content, style };
+  return { id: newId("pg"), type: "paragraph", content, style, format: EMPTY_PARAGRAPH_FORMAT };
 }
 
 export function createHeading(
@@ -45,7 +46,7 @@ export function createHeading(
   content: Inline[] = [],
   style: string | null = headingStyleId(level),
 ): Heading {
-  return { id: newId("hd"), type: "heading", level, content, style };
+  return { id: newId("hd"), type: "heading", level, content, style, format: EMPTY_PARAGRAPH_FORMAT };
 }
 
 export function createImage(

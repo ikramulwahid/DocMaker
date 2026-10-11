@@ -16,7 +16,7 @@ import { katexCss } from "./katex-css";
 import type { ResolvedDocument } from "../resolve";
 
 export { buildCss, buildStyleCss, cssString, marginContent, pageSizeMm } from "./css";
-export { buildBody, blockHtml, documentHasEquations, escapeHtml, inlineHtml } from "./html";
+export { buildBody, blockHtml, documentHasEquations, escapeHtml, inlineHtml, paragraphFormatStyle } from "./html";
 export { katexCss } from "./katex-css";
 
 export interface LayoutOptions {

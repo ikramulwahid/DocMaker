@@ -3,11 +3,17 @@
  * pushed through the explicit adapter into the store's IR, and section
  * switches / document loads flow back in through setContent.
  */
-import { useEffect, useRef } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
+import type { Editor } from "@tiptap/react";
 import { createExtensions } from "./extensions";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "./adapter";
 import { sanitizeHref, sanitizeImageSrc } from "@/core/ir/sanitize";
+import {
+  EMPTY_PARAGRAPH_FORMAT,
+  paragraphFormatOverrideSchema,
+  type ParagraphFormatOverride,
+} from "@/core/ir/schema";
 import { useDocStore } from "@/store";
 
 export function EditorPanel() {
@@ -178,6 +184,59 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
     editor.chain().focus().updateAttributes(target, { style: id }).run();
   };
 
+  /* ---------------------------------------------- M2 formatting controls */
+
+  // Re-render the toolbar when the caret moves so mark active states and the
+  // current paragraph-format values stay truthful (M1 read attrs at render;
+  // selection changes otherwise would not refresh them).
+  const [, bump] = useReducer((x: number) => x + 1, 0);
+  useEffect(() => {
+    if (!editor) return;
+    const onSelect = () => bump();
+    editor.on("selectionUpdate", onSelect);
+    editor.on("focus", onSelect);
+    return () => {
+      editor.off("selectionUpdate", onSelect);
+      editor.off("focus", onSelect);
+    };
+  }, [editor]);
+
+  /** The block the caret is in ("heading" | "paragraph" = the override target). */
+  const blockTarget = () =>
+    editor.isActive("heading") ? ("heading" as const) : ("paragraph" as const);
+
+  /** Current paragraph-format overrides of the caret block (empty = inherit). */
+  const blockFormat = (): ParagraphFormatOverride => {
+    const raw = editor.getAttributes(blockTarget()).format as
+      | ParagraphFormatOverride
+      | undefined;
+    return raw ?? EMPTY_PARAGRAPH_FORMAT;
+  };
+
+  /**
+   * Patch the caret block's paragraph overrides. The merged value is validated
+   * against the IR schema BEFORE it enters the store; invalid input fails with
+   * an explicit status message and is never applied (AGENTS.md §33).
+   * `null` clears an override back to inherit.
+   */
+  const patchParagraphFormat = (patch: Partial<ParagraphFormatOverride>) => {
+    const merged = { ...blockFormat(), ...patch };
+    const parsed = paragraphFormatOverrideSchema.safeParse(merged);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      const where = issue?.path.join(".") || "format";
+      useDocStore
+        .getState()
+        .setStatus(`Paragraph format rejected — ${where}: ${issue?.message ?? "invalid value"}`);
+      return;
+    }
+    editor.chain().focus().updateAttributes(blockTarget(), { format: parsed.data }).run();
+  };
+
+  /** Character-side select helpers (marks apply to the selection). */
+  const markValue = <T,>(name: string, attr: string): T | undefined =>
+    editor.getAttributes(name)[attr] as T | undefined;
+
   return (
     <div className="toolbar" role="toolbar" aria-label="Formatting">
       <select
@@ -232,6 +291,180 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
         "Inline code",
       )}
       {button("🔗", link, editor.isActive("link"), "Link")}
+      <span className="toolbar-sep" aria-hidden="true" />
+      {/* Character formatting (V1-FMT-001 — M2) */}
+      {button(
+        "U",
+        () => editor.chain().focus().toggleMark("underline").run(),
+        editor.isActive("underline"),
+        "Underline",
+      )}
+      {button(
+        "S",
+        () => editor.chain().focus().toggleMark("strike").run(),
+        editor.isActive("strike"),
+        "Strikethrough",
+      )}
+      {button(
+        "x²",
+        () => editor.chain().focus().toggleMark("superscript").run(),
+        editor.isActive("superscript"),
+        "Superscript",
+      )}
+      {button(
+        "x₂",
+        () => editor.chain().focus().toggleMark("subscript").run(),
+        editor.isActive("subscript"),
+        "Subscript",
+      )}
+      <label className="toolbar-field">
+        <span className="toolbar-label">Font</span>
+        <select
+          data-testid="fmt-font-family"
+          aria-label="Font family"
+          value={markValue<string>("fontFamily", "fontFamily") ?? ""}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === "") editor.chain().focus().unsetMark("fontFamily").run();
+            else editor.chain().focus().setMark("fontFamily", { fontFamily: v }).run();
+          }}
+        >
+          <option value="">Default</option>
+          <option value="serif">Serif</option>
+          <option value="sans">Sans</option>
+          <option value="mono">Mono</option>
+        </select>
+      </label>
+      <label className="toolbar-field">
+        <span className="toolbar-label">Size</span>
+        <input
+          data-testid="fmt-font-size"
+          type="number"
+          min="6"
+          max="72"
+          step="0.5"
+          aria-label="Font size (pt, 6–72)"
+          placeholder="inherit"
+          defaultValue={markValue<number>("fontSize", "fontSizePt") ?? ""}
+          onBlur={(e) => commitFontSize(editor, e.currentTarget)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") commitFontSize(editor, e.currentTarget);
+          }}
+        />
+      </label>
+      <label className="toolbar-field" data-testid="fmt-color-field">
+        <span className="toolbar-label">Colour</span>
+        <input
+          data-testid="fmt-color"
+          type="color"
+          aria-label="Text colour"
+          value={markValue<string>("color", "color") ?? "#000000"}
+          onChange={(e) => editor.chain().focus().setMark("color", { color: e.target.value }).run()}
+        />
+      </label>
+      <label className="toolbar-field" data-testid="fmt-highlight-field">
+        <span className="toolbar-label">Highlight</span>
+        <input
+          data-testid="fmt-highlight"
+          type="color"
+          aria-label="Highlight colour"
+          value={markValue<string>("highlight", "color") ?? "#ffff00"}
+          onChange={(e) => editor.chain().focus().setMark("highlight", { color: e.target.value }).run()}
+        />
+      </label>
+      <label className="toolbar-field">
+        <span className="toolbar-label">Case</span>
+        <select
+          data-testid="fmt-text-case"
+          aria-label="Text case"
+          value={markValue<string>("textCase", "transform") ?? ""}
+          onChange={(e) => {
+            const v = e.target.value;
+            if (v === "") editor.chain().focus().unsetMark("textCase").run();
+            else editor.chain().focus().setMark("textCase", { transform: v }).run();
+          }}
+        >
+          <option value="">Default</option>
+          <option value="uppercase">UPPERCASE</option>
+          <option value="lowercase">lowercase</option>
+        </select>
+      </label>
+      <span className="toolbar-sep" aria-hidden="true" />
+      {/* Paragraph formatting overrides (V1-FMT-002 — M2) */}
+      <label className="toolbar-field">
+        <span className="toolbar-label">Align</span>
+        <select
+          data-testid="fmt-align"
+          aria-label="Paragraph alignment"
+          value={blockFormat().alignment ?? ""}
+          onChange={(e) => {
+            const v = e.target.value;
+            patchParagraphFormat({ alignment: v === "" ? null : (v as ParagraphFormatOverride["alignment"]) });
+          }}
+        >
+          <option value="">Inherit</option>
+          <option value="left">Left</option>
+          <option value="center">Center</option>
+          <option value="right">Right</option>
+          <option value="justify">Justify</option>
+        </select>
+      </label>
+      <OverrideNumberInput
+        testId="fmt-line-spacing"
+        label="Line spacing"
+        hint="Line spacing (0.8–4)"
+        min={0.8}
+        max={4}
+        step={0.05}
+        placeholder="inherit"
+        value={blockFormat().lineSpacing ?? null}
+        onCommit={(n) => patchParagraphFormat({ lineSpacing: n })}
+      />
+      <OverrideNumberInput
+        testId="fmt-space-before"
+        label="Space before"
+        hint="Space before (mm, 0–50)"
+        min={0}
+        max={50}
+        step={0.5}
+        placeholder="inherit"
+        value={blockFormat().spaceBeforeMm ?? null}
+        onCommit={(n) => patchParagraphFormat({ spaceBeforeMm: n })}
+      />
+      <OverrideNumberInput
+        testId="fmt-space-after"
+        label="Space after"
+        hint="Space after (mm, 0–50)"
+        min={0}
+        max={50}
+        step={0.5}
+        placeholder="inherit"
+        value={blockFormat().spaceAfterMm ?? null}
+        onCommit={(n) => patchParagraphFormat({ spaceAfterMm: n })}
+      />
+      <OverrideNumberInput
+        testId="fmt-indent-left"
+        label="Indent"
+        hint="Left indent (mm, 0–80)"
+        min={0}
+        max={80}
+        step={1}
+        placeholder="inherit"
+        value={blockFormat().indentLeftMm ?? null}
+        onCommit={(n) => patchParagraphFormat({ indentLeftMm: n })}
+      />
+      {button(
+        "Clear ¶",
+        () =>
+          editor
+            .chain()
+            .focus()
+            .updateAttributes(blockTarget(), { format: { alignment: null, lineSpacing: null, spaceBeforeMm: null, spaceAfterMm: null, indentLeftMm: null } })
+            .run(),
+        false,
+        "Clear paragraph overrides (inherit the assigned style)",
+      )}
+      <span className="toolbar-sep" aria-hidden="true" />
       {button(
         "• list",
         () => editor.chain().focus().toggleBulletList().run(),
@@ -259,5 +492,95 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
       )}
       <span className="toolbar-section">Section {activeSection + 1}</span>
     </div>
+  );
+}
+
+/**
+ * Apply a font-size mark from the toolbar number input. Bounded allow-list
+ * (6–72 pt, shared with the schema and the render boundary): an out-of-range
+ * value is reported through the status bar and never applied. An EMPTY field
+ * means inherit → the mark is removed.
+ */
+function commitFontSize(editor: Editor, input: HTMLInputElement) {
+  const text = input.value.trim();
+  if (text === "") {
+    editor.chain().focus().unsetMark("fontSize").run();
+    return;
+  }
+  const value = Number(text);
+  if (typeof value !== "number" || !Number.isFinite(value)) {
+    useDocStore.getState().setStatus("Font size must be a number between 6 and 72 pt");
+    return;
+  }
+  if (value < 6 || value > 72) {
+    useDocStore.getState().setStatus("Font size must be between 6 and 72 pt");
+    return;
+  }
+  editor.chain().focus().setMark("fontSize", { fontSizePt: value }).run();
+}
+
+/**
+ * Number input for one paragraph-format override (V1-FMT-002). Shows the
+ * current override (placeholder "inherit" when null), commits on blur/Enter
+ * and never stores an invalid value: out-of-range input surfaces an
+ * actionable status message instead (the schema re-checks at the store edge).
+ */
+function OverrideNumberInput({
+  testId,
+  label,
+  hint,
+  min,
+  max,
+  step,
+  placeholder,
+  value,
+  onCommit,
+}: {
+  testId: string;
+  label: string;
+  hint: string;
+  min: number;
+  max: number;
+  step: number;
+  placeholder: string;
+  value: number | null;
+  onCommit: (value: number) => void;
+}) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const commit = () => {
+    const text = draft;
+    setDraft(null);
+    if (text === null) return; // nothing typed since last render
+    if (text.trim() === "") {
+      return; // empty = inherit; the schema value stays null
+    }
+    const n = Number(text);
+    if (typeof n !== "number" || !Number.isFinite(n) || n < min || n > max) {
+      useDocStore
+        .getState()
+        .setStatus(`${hint} — value must be a number between ${min} and ${max}`);
+      return;
+    }
+    onCommit(n);
+  };
+  return (
+    <label className="toolbar-field">
+      <span className="toolbar-label">{label}</span>
+      <input
+        data-testid={testId}
+        type="number"
+        min={min}
+        max={max}
+        step={step}
+        aria-label={hint}
+        placeholder={placeholder}
+        value={draft ?? value ?? ""}
+        onChange={(e) => setDraft(e.target.value)}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") commit();
+        }}
+      />
+    </label>
   );
 }

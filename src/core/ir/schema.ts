@@ -9,7 +9,17 @@
  *  - Zod is the single schema: all TS types are inferred from it.
  */
 import { z } from "zod";
-import { columnWidthProblem, imageSrcProblem } from "./sanitize";
+import {
+  columnWidthProblem,
+  fontSizePtProblem,
+  hexColorProblem,
+  imageSrcProblem,
+  INDENT_LEFT_MM_MAX,
+  LINE_SPACING_MAX,
+  LINE_SPACING_MIN,
+  SPACE_MM_MAX,
+  SPACE_MM_MIN,
+} from "./sanitize";
 import { buildDefaultStyles } from "./styles";
 
 /* ------------------------------------------------------------------ ids */
@@ -78,23 +88,32 @@ export const styleTextTransformSchema = z.enum(["none", "uppercase"]);
  * aspect" so default styles stay theme-driven. No free-form CSS strings.
  */
 export const styleFormatSchema = z.object({
-  fontSizePt: z.number().positive().nullable().default(null),
+  fontSizePt: z.number().finite().positive().nullable().default(null),
   fontFamily: styleFontFamilySchema.default("inherit"),
   bold: z.boolean().default(false),
   italic: z.boolean().default(false),
-  /** Hex colour only (`#rgb`/`#rrggbb`/`#rrggbbaa`) — never arbitrary CSS. */
+  /**
+   * Hex colour only (`#rgb`/`#rgba`/`#rrggbb`/`#rrggbbaa`) — never arbitrary
+   * CSS. The shared validator rejects any other length (a loose `{3,8}`
+   * quantifier would wrongly accept 5/7-digit strings that are not CSS
+   * lengths — regression-tested in format.test.ts).
+   */
   color: z
     .string()
-    .regex(/^#[0-9a-fA-F]{3,8}$/, "style color must be a hex colour (#rgb, #rrggbb or #rrggbbaa)")
     .nullable()
-    .default(null),
+    .default(null)
+    .superRefine((value, ctx) => {
+      if (value === null) return;
+      const problem = hexColorProblem(value);
+      if (problem) ctx.addIssue({ code: "custom", message: problem });
+    }),
   alignment: styleAlignmentSchema.default("inherit"),
-  lineHeight: z.number().positive().nullable().default(null),
+  lineHeight: z.number().finite().positive().nullable().default(null),
   textTransform: styleTextTransformSchema.default("none"),
-  marginTopMm: z.number().min(0).max(100).nullable().default(null),
-  marginBottomMm: z.number().min(0).max(100).nullable().default(null),
+  marginTopMm: z.number().finite().min(0).max(100).nullable().default(null),
+  marginBottomMm: z.number().finite().min(0).max(100).nullable().default(null),
   /** Left block indent in mm (paragraph-level indentation). */
-  indentMm: z.number().min(0).max(200).nullable().default(null),
+  indentMm: z.number().finite().min(0).max(200).nullable().default(null),
 });
 export type StyleFormat = z.infer<typeof styleFormatSchema>;
 
@@ -155,21 +174,152 @@ export const linkMarkSchema = z.object({
   type: z.literal("link"),
   href: z.string().min(1),
 });
+export const underlineMarkSchema = z.object({ type: z.literal("underline") });
+export const strikeMarkSchema = z.object({ type: z.literal("strike") });
+export const superscriptMarkSchema = z.object({ type: z.literal("superscript") });
+export const subscriptMarkSchema = z.object({ type: z.literal("subscript") });
+
+/** Character-level text transform (V1-FMT-003 feasible subset — M2). */
+export const markTextTransformSchema = z.enum(["uppercase", "lowercase"]);
+export const textCaseMarkSchema = z.object({
+  type: z.literal("textCase"),
+  transform: markTextTransformSchema,
+});
+
+/** Font choice on a run: a semantic enum, resolved to a font stack at render
+ * time (theme-driven, AGENTS.md §22 / §58 — never a raw CSS font string). */
+export const markFontFamilySchema = z.enum(["serif", "sans", "mono"]);
+export const fontFamilyMarkSchema = z.object({
+  type: z.literal("fontFamily"),
+  fontFamily: markFontFamilySchema,
+});
+
+/** Font size on a run, in pt, allow-listed to the documented bounds. */
+export const fontSizeMarkSchema = z.object({
+  type: z.literal("fontSize"),
+  fontSizePt: z
+    .number()
+    .superRefine((value, ctx) => {
+      const problem = fontSizePtProblem(value);
+      if (problem) ctx.addIssue({ code: "custom", message: problem });
+    }),
+});
+
+/** Text colour on a run — validated hex only (shared validator). */
+export const colorMarkSchema = z.object({
+  type: z.literal("color"),
+  color: z.string().superRefine((value, ctx) => {
+    const problem = hexColorProblem(value);
+    if (problem) ctx.addIssue({ code: "custom", message: problem });
+  }),
+});
+
+/** Highlight (background) colour on a run — validated hex only. */
+export const highlightMarkSchema = z.object({
+  type: z.literal("highlight"),
+  color: z.string().superRefine((value, ctx) => {
+    const problem = hexColorProblem(value);
+    if (problem) ctx.addIssue({ code: "custom", message: problem });
+  }),
+});
 
 export const markSchema = z.discriminatedUnion("type", [
   boldMarkSchema,
   italicMarkSchema,
   codeMarkSchema,
   linkMarkSchema,
+  underlineMarkSchema,
+  strikeMarkSchema,
+  superscriptMarkSchema,
+  subscriptMarkSchema,
+  textCaseMarkSchema,
+  fontFamilyMarkSchema,
+  fontSizeMarkSchema,
+  colorMarkSchema,
+  highlightMarkSchema,
 ]);
 export type Mark = z.infer<typeof markSchema>;
 
-/** A run of text with uniform marks (Tiptap-compatible inline model). */
+/**
+ * A run of text with uniform marks (Tiptap-compatible inline model).
+ *
+ * Runs must never hold contradictory states: superscript and subscript are
+ * mutually exclusive, and uppercase/lowercase are mutually exclusive. The
+ * editor toggles them (so it cannot produce both); the adapter additionally
+ * normalizes foreign input keep-first; the schema rejects a run where both
+ * exist (AGENTS.md §46: failure cases are tested, not papered over).
+ */
 export const inlineSchema = z.object({
   text: z.string(),
-  marks: z.array(markSchema).default([]),
+  marks: z
+    .array(markSchema)
+    .superRefine((marks, ctx) => {
+      const families = new Set<string>();
+      for (const mark of marks) {
+        const family =
+          mark.type === "superscript" || mark.type === "subscript"
+            ? "vertical-align"
+            : mark.type === "textCase"
+              ? "textCase"
+              : null;
+        if (family === null) continue;
+        if (families.has(family)) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["marks"],
+            message: `contradictory marks in one run: a run cannot mix ${family === "vertical-align" ? "superscript and subscript" : "uppercase and lowercase"}`,
+          });
+        }
+        families.add(family);
+      }
+    })
+    .default([]),
 });
 export type Inline = z.infer<typeof inlineSchema>;
+
+/* ------------------------------------------------- paragraph overrides (M2) */
+
+/** Alignment choices a per-block override may set (`null` = inherit style). */
+export const paragraphAlignmentSchema = z.enum(["left", "center", "right", "justify"]);
+
+/**
+ * Explicit per-block paragraph overrides (V1-FMT-002). Additive and
+ * validated (ADR-004): `null` means "inherit the assigned style's token",
+ * so an override touches ONLY the aspect the author set — the style
+ * definition is never mutated and the override is always a refinement of the
+ * style/theme stack (precedence: theme → assigned style → paragraph
+ * overrides → character marks). Bounds mirror the shared sanitize
+ * constants so the render boundary applies exactly the same rules.
+ */
+export const paragraphFormatOverrideSchema = z.object({
+  alignment: paragraphAlignmentSchema.nullable().default(null),
+  /** Line spacing as a multiplier of the normal line height. */
+  lineSpacing: z
+    .number()
+    .min(LINE_SPACING_MIN)
+    .max(LINE_SPACING_MAX)
+    .nullable()
+    .default(null),
+  spaceBeforeMm: z.number().min(SPACE_MM_MIN).max(SPACE_MM_MAX).nullable().default(null),
+  spaceAfterMm: z.number().min(SPACE_MM_MIN).max(SPACE_MM_MAX).nullable().default(null),
+  indentLeftMm: z.number().min(SPACE_MM_MIN).max(INDENT_LEFT_MM_MAX).nullable().default(null),
+});
+export type ParagraphFormatOverride = z.infer<typeof paragraphFormatOverrideSchema>;
+
+/**
+ * The canonical "pure inherit" shape (`null` on every aspect). Factory and
+ * adapter emit THIS (not `{}`) because the schema's per-field defaults mean a
+ * parsed/serialized block always carries the five null fields — emitting the
+ * same shape keeps the JSON round-trip byte-stable (M1 `style: null`
+ * precedent) and makes every literal comparison unambiguous.
+ */
+export const EMPTY_PARAGRAPH_FORMAT: ParagraphFormatOverride = {
+  alignment: null,
+  lineSpacing: null,
+  spaceBeforeMm: null,
+  spaceAfterMm: null,
+  indentLeftMm: null,
+};
 
 /* ---------------------------------------------------------------- blocks */
 
@@ -186,6 +336,14 @@ export const paragraphSchema = z.object({
    * reference is unknown (documented safe fallback, never silent data loss).
    */
   style: styleIdSchema.nullable().default(null),
+  /**
+   * Per-block paragraph overrides (V1-FMT-002, M2). Additive: every field
+   * is nullable, `null` = inherit the assigned style (theme → style →
+   * override → marks precedence). Always present on parsed/serialized
+   * blocks (`{}` = pure inherit) — the factory and adapter emit it so the
+   * JSON round-trip is byte-stable (M1 `style` precedent).
+   */
+  format: paragraphFormatOverrideSchema.default({}),
 });
 export type Paragraph = z.infer<typeof paragraphSchema>;
 
@@ -200,6 +358,8 @@ export const headingSchema = z.object({
    * the level drives structure/numbering, the style only presentation.
    */
   style: styleIdSchema.nullable().default(null),
+  /** Per-block paragraph overrides — see paragraphSchema.format. */
+  format: paragraphFormatOverrideSchema.default({}),
 });
 export type Heading = z.infer<typeof headingSchema>;
 

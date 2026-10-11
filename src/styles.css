@@ -344,11 +344,43 @@ body {
   border-bottom: 1px solid var(--line);
 }
 
-.toolbar select {
+.toolbar select,
+.toolbar input[type="number"],
+.toolbar input[type="color"] {
   font: inherit;
   padding: 4px 6px;
   border: 1px solid var(--line);
   border-radius: 6px;
+}
+
+.toolbar input[type="number"] {
+  width: 74px;
+}
+
+.toolbar input[type="color"] {
+  width: 34px;
+  height: 28px;
+  padding: 1px;
+  cursor: pointer;
+}
+
+.toolbar-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolbar-label {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.toolbar-sep {
+  align-self: stretch;
+  width: 1px;
+  background: var(--line);
+  margin: 2px 4px;
 }
 
 .tool {
@@ -414,6 +446,28 @@ body {
 
 .editor-content img {
   max-width: 100%;
+}
+
+/* M2 character marks — the editor mirrors the preview visuals so what you
+   edit is what paginates (both resolve the same semantic enums). */
+.editor-content span[data-font-family="serif"] {
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.editor-content span[data-font-family="sans"] {
+  font-family: Arial, Helvetica, "Segoe UI", sans-serif;
+}
+
+.editor-content span[data-font-family="mono"] {
+  font-family: "Consolas", "Courier New", monospace;
+}
+
+.editor-content span[data-text-case="uppercase"] {
+  text-transform: uppercase;
+}
+
+.editor-content span[data-text-case="lowercase"] {
+  text-transform: lowercase;
 }
 
 .editor-content img.ProseMirror-selectednode {
