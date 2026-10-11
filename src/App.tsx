@@ -5,7 +5,7 @@
 import { Preview } from "@/components/Preview";
 import { Sidebar } from "@/components/Sidebar";
 import { EditorPanel } from "@/editor/EditorPanel";
-import { serializeDocument, tryDeserializeDocument } from "@/core";
+import { effectivePageSizeMm, serializeDocument, tryDeserializeDocument } from "@/core";
 import { openJson, saveJson } from "@/app/files";
 import { useDocStore } from "@/store";
 
@@ -44,12 +44,15 @@ export default function App() {
 
   const onExportPdf = () => {
     const state = useDocStore.getState();
-    const mixed = state.document.sections.some(
-      (s) => s.pageSetup.orientation === "landscape",
+    // The browser print dialog is a single paper size, so a faithful in-app
+    // print is only possible when every sheet has the same geometry.
+    const sizes = state.document.sections.map((s) => effectivePageSizeMm(s.pageSetup));
+    const mixed = sizes.some(
+      (s) => s.widthMm !== sizes[0].widthMm || s.heightMm !== sizes[0].heightMm,
     );
     state.setStatus(
       mixed
-        ? "Mixed orientation: use `pnpm pdf <file>` for the verified PDF path; printing keeps portrait paper (see docs/limitations.md)"
+        ? "Mixed page sizes/orientations: use `pnpm pdf <file>` for the verified PDF path; the browser print dialog keeps one paper size (see docs/limitations.md)"
         : "Print dialog: choose “Save as PDF”",
     );
     try {
@@ -70,7 +73,7 @@ export default function App() {
           {dirty ? " •" : ""}
         </span>
         <div className="toolbar-actions">
-          <button type="button" onClick={onNew}>
+          <button type="button" onClick={onNew} data-testid="new">
             New
           </button>
           <button type="button" onClick={() => void onOpen()} data-testid="open">

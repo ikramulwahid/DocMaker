@@ -51,7 +51,7 @@ test("metadata edits drive the page header fields", async ({ page }) => {
   await page.goto("/");
   const frame = await previewFrame(page);
 
-  await page.getByLabel("Doc number").fill("ETU-999");
+  await page.getByLabel("Doc number", { exact: true }).fill("ETU-999");
   // Paged.js materialises margin boxes as CSS ::after content (documented in
   // docs/limitations.md), so assert the computed content string.
   const headerContent = async () =>

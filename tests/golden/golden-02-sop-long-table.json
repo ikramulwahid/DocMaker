@@ -418,6 +418,8 @@
             "bottom": 20,
             "left": 18
           },
+          "widthMm": null,
+          "heightMm": null,
           "pageNumberStart": 1,
           "showPageNumber": true
         },
@@ -7444,6 +7446,8 @@
             "bottom": 15,
             "left": 15
           },
+          "widthMm": null,
+          "heightMm": null,
           "pageNumberStart": 1,
           "showPageNumber": true
         },
@@ -10082,6 +10086,8 @@
             "bottom": 20,
             "left": 18
           },
+          "widthMm": null,
+          "heightMm": null,
           "pageNumberStart": 1,
           "showPageNumber": true
         },

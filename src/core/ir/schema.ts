@@ -23,6 +23,13 @@ import {
   SPACE_MM_MIN,
 } from "./sanitize";
 import { buildDefaultStyles } from "./styles";
+import {
+  PAGE_FORMATS,
+  PAGE_SIZE_MM_MAX,
+  PAGE_SIZE_MM_MIN,
+  customSizeProblem,
+  pageAreaProblem,
+} from "./pageGeometry";
 
 /* ------------------------------------------------------------------ ids */
 
@@ -588,14 +595,45 @@ export const pageMarginsSchema = z.object({
 });
 export type PageMargins = z.infer<typeof pageMarginsSchema>;
 
-export const pageSetupSchema = z.object({
-  format: z.enum(["A4"]).default("A4"),
-  orientation: z.enum(["portrait", "landscape"]).default("portrait"),
-  margins: pageMarginsSchema.default({ top: 20, right: 18, bottom: 20, left: 18 }),
-  /** First page number of this section (continuous across sections by default). */
-  pageNumberStart: z.number().int().min(1).default(1),
-  showPageNumber: z.boolean().default(true),
-});
+/** Accepted paper formats (standard + custom); see `pageGeometry.ts`. */
+export const pageFormatSchema = z.enum(PAGE_FORMATS);
+
+/**
+ * A custom page dimension (mm). Retained even when the format is standard so a
+ * user can switch formats without losing their custom size; only validated as
+ * active geometry when `format === "Custom"` (see the schema refinement).
+ * Bounds are the documented `PAGE_SIZE_MM_MIN..MAX`.
+ */
+export const pageWidthMmSchema = z
+  .number()
+  .finite()
+  .min(PAGE_SIZE_MM_MIN)
+  .max(PAGE_SIZE_MM_MAX)
+  .nullable()
+  .default(null);
+
+export const pageSetupSchema = z
+  .object({
+    format: pageFormatSchema.default("A4"),
+    orientation: z.enum(["portrait", "landscape"]).default("portrait"),
+    margins: pageMarginsSchema.default({ top: 20, right: 18, bottom: 20, left: 18 }),
+    /**
+     * Custom page dimensions in millimetres (intrinsic/portrait pair; the
+     * orientation swap is applied once by `effectivePageSizeMm`). `null` unless
+     * the author has defined a custom size; retained across standard formats.
+     */
+    widthMm: pageWidthMmSchema,
+    heightMm: pageWidthMmSchema,
+    /** First page number of this section (continuous across sections by default). */
+    pageNumberStart: z.number().int().min(1).default(1),
+    showPageNumber: z.boolean().default(true),
+  })
+  .superRefine((setup, ctx) => {
+    const custom = customSizeProblem(setup);
+    if (custom) ctx.addIssue({ code: z.ZodIssueCode.custom, message: custom, path: ["widthMm"] });
+    const area = pageAreaProblem(setup);
+    if (area) ctx.addIssue({ code: z.ZodIssueCode.custom, message: area, path: ["margins"] });
+  });
 export type PageSetup = z.infer<typeof pageSetupSchema>;
 
 export const sectionSchema = z.object({

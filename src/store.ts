@@ -21,15 +21,25 @@ import {
   type Document,
   type MarginBox,
   type Metadata,
+  type PageSetup,
   type Section,
   type StyleDefinition,
   type StyleFormat,
   type Watermark,
 } from "@/core";
-import { styleFormatSchema } from "@/core/ir/schema";
+import { pageSetupSchema, styleFormatSchema } from "@/core/ir/schema";
 import { normalizeLegacyLists } from "@/core/ir/normalize";
 import { blocksToTiptapDoc, tiptapDocToBlocks } from "@/editor/adapter";
 import { parseMarginText } from "@/app/marginText";
+import {
+  applyNewDocumentDefaults,
+  loadPreferences,
+  resetStoredPreferences,
+  safeThemeId,
+  savePreferences,
+  type MetadataDefaults,
+  type NewDocumentDefaults,
+} from "@/app/preferences";
 
 /** A style edit: rename and/or patch presentation tokens. */
 export type StyleDefinitionPatch = Partial<Pick<StyleDefinition, "name">> &
@@ -43,6 +53,11 @@ export interface DocState {
   revision: number;
   activeSection: number;
   status: string;
+  /**
+   * New-document defaults (local preferences — NOT document content). Changing
+   * these never mutates the open document; they only seed `newDocument()`.
+   */
+  preferences: NewDocumentDefaults;
 
   setStatus(status: string): void;
   setDocument(document: Document, fileName: string): void;
@@ -63,6 +78,14 @@ export interface DocState {
   addCustomStyle(): string;
   /** Remove a custom style; built-in styles cannot be removed. */
   removeCustomStyle(id: string): void;
+  /** Edit the new-document page-setup defaults (validated, persisted). */
+  setDefaultPageSetup(patch: Partial<PageSetup>): void;
+  /** Edit the new-document default theme (unknown ids fall back safely). */
+  setDefaultTheme(theme: string): void;
+  /** Edit the new-document metadata skeleton (existing fields only). */
+  setDefaultMetadata(patch: Partial<MetadataDefaults>): void;
+  /** Restore the built-in new-document defaults (and clear storage). */
+  resetPreferences(): void;
 }
 
 /** Starter document shown on first launch — exercises the Phase-0 pipeline. */
@@ -119,6 +142,7 @@ export const useDocStore = create<DocState>((set) => ({
   revision: 0,
   activeSection: 0,
   status: "Ready",
+  preferences: loadPreferences(),
 
   setStatus: (status) => set({ status }),
 
@@ -136,14 +160,19 @@ export const useDocStore = create<DocState>((set) => ({
     })),
 
   newDocument: () =>
-    set((state) => ({
-      document: createEmptyDocument("Untitled document"),
-      fileName: "untitled.labdoc.json",
-      dirty: false,
-      revision: state.revision + 1,
-      activeSection: 0,
-      status: "New document",
-    })),
+    set((state) => {
+      const document = createEmptyDocument("Untitled document");
+      // Apply a validated snapshot of the configured new-document defaults.
+      applyNewDocumentDefaults(document, state.preferences);
+      return {
+        document,
+        fileName: "untitled.labdoc.json",
+        dirty: false,
+        revision: state.revision + 1,
+        activeSection: 0,
+        status: "New document",
+      };
+    }),
 
   markSaved: (fileName) =>
     set((state) => ({
@@ -193,11 +222,68 @@ export const useDocStore = create<DocState>((set) => ({
     })),
 
   setPageSetup: (index, patch) =>
-    set((state) => ({
-      document: mutate(state.document, (doc) => {
-        if (doc.sections[index]) Object.assign(doc.sections[index].pageSetup, patch);
-      }),
-      dirty: true,
+    set((state) => {
+      const section = state.document.sections[index];
+      if (!section) return { status: "No such section" };
+      // Validate the merged setup before it enters the IR: the schema rejects
+      // it on save anyway; failing here keeps invalid geometry out of the
+      // renderer and gives an actionable message (AGENTS.md §31/§33).
+      const parsed = pageSetupSchema.safeParse({ ...section.pageSetup, ...patch });
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        const where = issue?.path.join(".") || "page setup";
+        return {
+          status: `Page setup rejected — ${where}: ${issue?.message ?? "invalid value"}`,
+        };
+      }
+      return {
+        document: mutate(state.document, (doc) => {
+          if (doc.sections[index]) doc.sections[index].pageSetup = parsed.data;
+        }),
+        dirty: true,
+        status: "Page setup updated",
+      };
+    }),
+
+  setDefaultPageSetup: (patch) =>
+    set((state) => {
+      const parsed = pageSetupSchema.safeParse({
+        ...state.preferences.pageSetup,
+        ...patch,
+      });
+      if (!parsed.success) {
+        const issue = parsed.error.issues[0];
+        const where = issue?.path.join(".") || "page setup";
+        return {
+          status: `Default page setup rejected — ${where}: ${issue?.message ?? "invalid value"}`,
+        };
+      }
+      const preferences = { ...state.preferences, pageSetup: parsed.data };
+      savePreferences(preferences);
+      return { preferences, status: "New-document defaults updated" };
+    }),
+
+  setDefaultTheme: (theme) =>
+    set((state) => {
+      const preferences = { ...state.preferences, theme: safeThemeId(theme) };
+      savePreferences(preferences);
+      return { preferences, status: "New-document defaults updated" };
+    }),
+
+  setDefaultMetadata: (patch) =>
+    set((state) => {
+      const preferences = {
+        ...state.preferences,
+        metadata: { ...state.preferences.metadata, ...patch },
+      };
+      savePreferences(preferences);
+      return { preferences, status: "New-document defaults updated" };
+    }),
+
+  resetPreferences: () =>
+    set(() => ({
+      preferences: resetStoredPreferences(),
+      status: "New-document defaults reset",
     })),
 
   setHeaderText: (index, tokenText) =>

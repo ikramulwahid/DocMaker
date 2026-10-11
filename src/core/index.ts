@@ -3,6 +3,7 @@ export * from "./ir/ids";
 export * from "./ir/factory";
 export * from "./ir/styles";
 export * from "./ir/sanitize";
+export * from "./ir/pageGeometry";
 export * from "./theme";
 export * from "./equation";
 export * from "./numbering";

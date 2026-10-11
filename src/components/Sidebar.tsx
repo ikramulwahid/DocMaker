@@ -8,25 +8,9 @@ import { serializeMarginText } from "@/app/marginText";
 import { listThemes } from "@/core/theme";
 import { isBuiltinStyleId, type StyleFormat } from "@/core";
 import { useDocStore, type StyleDefinitionPatch } from "@/store";
-
-function Field(props: {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  type?: string;
-  wide?: boolean;
-}) {
-  return (
-    <label className={props.wide ? "field wide" : "field"}>
-      <span>{props.label}</span>
-      <input
-        type={props.type ?? "text"}
-        value={props.value}
-        onChange={(e) => props.onChange(e.target.value)}
-      />
-    </label>
-  );
-}
+import { Field } from "./Field";
+import { NewDocumentDefaults } from "./NewDocumentDefaults";
+import { PageSetupEditor } from "./PageSetupEditor";
 
 export function Sidebar() {
   const document_ = useDocStore((s) => s.document);
@@ -128,43 +112,16 @@ export function Sidebar() {
                 </button>
               )}
             </div>
-            <label className="field">
-              <span>Orientation</span>
-              <select
-                value={section.pageSetup.orientation}
-                data-testid={`orientation-${index}`}
-                onChange={(e) =>
-                  setPageSetup(index, {
-                    orientation: e.target.value as "portrait" | "landscape",
-                  })
-                }
-              >
-                <option value="portrait">Portrait</option>
-                <option value="landscape">Landscape</option>
-              </select>
-            </label>
+            <PageSetupEditor
+              value={section.pageSetup}
+              onChange={(patch) => setPageSetup(index, patch)}
+              idPrefix={`section-${index}`}
+              orientationTestId={`orientation-${index}`}
+            />
             <Field
               label="Header ([title], [page]…)"
               value={serializeMarginText(section.header)}
               onChange={(v) => setHeaderText(index, v)}
-            />
-            <label className="field check">
-              <input
-                type="checkbox"
-                checked={section.pageSetup.showPageNumber}
-                onChange={(e) => setPageSetup(index, { showPageNumber: e.target.checked })}
-              />
-              <span>Show page number</span>
-            </label>
-            <Field
-              label="Page starts at"
-              type="number"
-              value={String(section.pageSetup.pageNumberStart)}
-              onChange={(v) =>
-                setPageSetup(index, {
-                  pageNumberStart: Math.max(1, Math.round(Number(v) || 1)),
-                })
-              }
             />
           </div>
         ))}
@@ -235,6 +192,8 @@ export function Sidebar() {
           + New style
         </button>
       </section>
+
+      <NewDocumentDefaults />
     </aside>
   );
 }

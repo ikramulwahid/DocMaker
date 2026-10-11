@@ -1,6 +1,6 @@
-# Phase 1 — Plan & Approval Record R0.10 (M3 Post-Delivery Hardening)
+# Phase 1 — Plan & Approval Record R0.11 (M4 Delivery)
 
-- **Status:** **APPROVED + M1, M2 & M3 DELIVERED** — the Phase-1 scope and
+- **Status:** **APPROVED + M1, M2, M3 & M4 DELIVERED** — the Phase-1 scope and
   decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
@@ -9,21 +9,20 @@
   V1-FMT-001/002 PASS, V1-FMT-003 a documented partial subset); R0.8 was a
   **documentation-only reconciliation** of the M2 matrix rows; R0.9 recorded
   the **delivery of M3** (lists & multilevel numbering: V1-LIST-001/002/003
-  PASS, V1-LIST-004 PASS as a documented structured subset); this revision
-  (R0.10) records the **M3 post-delivery hardening** — a single authoritative
-  ordered-list `start` bound (1–9999) shared by the schema, the Tiptap adapter
-  and the render/numbering boundary, a defensive Roman-numeral cap so a
-  malformed `.labdoc.json` cannot hang rendering, and stronger stable-id
-  renumbering evidence. It updates §0.10, the §3 legend and
-  `docs/limitations.md`; it adds **no** new scope and does **not** alter the
-  R0.4 approval, re-open approved decisions, change M1/M2/M3 acceptance, or
-  authorize further milestones. **All Phase 0 PASS classifications and
-  evidence are preserved unchanged.**
-- **Revision:** R0.10 (2026-10-11) — M3 post-delivery hardening record;
-  supersedes R0.9 (M3 delivery record) which superseded R0.8 (M2 status
-  reconciliation) which superseded R0.7 (M2 delivery record) which superseded
-  R0.6 (M1 hardening record) which superseded R0.5 (M1 delivery) which
-  superseded R0.4 (approval record).
+  PASS, V1-LIST-004 PASS as a documented structured subset); R0.10 recorded the
+  **M3 post-delivery hardening**; this revision (R0.11) records the **delivery
+  of M4** (page setup, paper sizes & new-document defaults: V1-PAGE-001..004
+  PASS, V1-SEC-002 PASS, V1-PAG-004 PASS, the V1-PDF-002 non-A4 leg PASS, and
+  the V1-DOC-002 configurability leg PASS). It adds **no** new scope beyond the
+  already-approved M4 (§8.2, D11) and does **not** alter the R0.4 approval,
+  re-open approved decisions, change M1/M2/M3 acceptance, or authorize further
+  milestones. **All Phase 0 PASS classifications and evidence are preserved
+  unchanged.**
+- **Revision:** R0.11 (2026-10-11) — M4 delivery record; supersedes R0.10 (M3
+  post-delivery hardening) which superseded R0.9 (M3 delivery record) which
+  superseded R0.8 (M2 status reconciliation) which superseded R0.7 (M2 delivery
+  record) which superseded R0.6 (M1 hardening record) which superseded R0.5 (M1
+  delivery) which superseded R0.4 (approval record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
@@ -31,8 +30,9 @@
   M1 delivered on top of `fc9b00b` (§0.5, checkpoint `4083c0c`, hardened at
   `c26f567`); M2 delivered at `85e2db3` (§0.7); the M2 matrix reconciliation
   at `409c5051809f5a01ca72f9dd0c00c058e49af07f` (R0.8); M3 delivered at
-  `88578896ccd47f862d7fff20bf6d21fdbd97774b` (§0.9) — the base commit for this
-  R0.10 M3 hardening.
+  `88578896ccd47f862d7fff20bf6d21fdbd97774b` (§0.9) and hardened at
+  `a18a91cdded03a85995ff0bd5455166d836cfca4` (§0.10, R0.10); M4 delivered on
+  top of `a18a91c` (§0.11, R0.11) — the base commit for this delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -60,11 +60,14 @@
   recorded results (§0.7) are kept intact. **R0.9** is the third
   implementation checkpoint: M3 was executed end-to-end with `pnpm typecheck`,
   `pnpm test`, `pnpm test:e2e` and `pnpm build` run against the final tree
-  (results recorded in §0.9).
+  (results recorded in §0.9). **R0.11** is the fifth implementation checkpoint
+  (and R0.10 recorded the M3 hardening): M4 was executed end-to-end with
+  `pnpm typecheck`, `pnpm test`, `pnpm test:e2e`, `pnpm build` and
+  `git diff --check` run against the final tree (results recorded in §0.11).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.9)
+## 0. Approval record, change history & milestone delivery (R0.11)
 
 ### 0.1 Approval summary
 
@@ -184,6 +187,20 @@ This checkpoint is **documentation-only**:
   002/003 remain PASS and V1-LIST-004 remains PASS as a documented structured
   subset (evidence strengthened). `schema_version` stays `1.0` (ADR-004);
   M4–M11 not started. Published at the checkpoint recorded in §0.10.
+- **R0.11 (2026-10-11, this revision):** **M4 delivered** — page setup, paper
+  sizes & new-document defaults implemented, tested and published (see §0.11).
+  Plan status markers updated: V1-PAGE-001 → PASS, V1-PAGE-003 → PASS,
+  V1-PAGE-004 → PASS, V1-SEC-002 → PASS, V1-PAG-004 → PASS, the V1-PDF-002
+  non-A4 leg → PASS (V1-PDF-002 → PASS), and the V1-DOC-002 configurability
+  leg → PASS (V1-DOC-002 → PASS). One authoritative geometry module
+  (`src/core/ir/pageGeometry.ts`) is shared by the schema, the layout CSS, the
+  PDF exporter's size-run grouping and the UI; `pageSetup.format` gains the
+  standard formats (A3/A5/Letter/Legal/Tabloid/Executive) and a `Custom`
+  sentinel with a nullable `widthMm`/`heightMm` pair. ADR-004 additive policy
+  holds — `schema_version` stays `1.0` (goldens-01..06 regenerate with only the
+  new nullable fields; their HTML is byte-identical). R0.4 approval record
+  retained verbatim in its substance; M5–M11 not started. Published at the
+  checkpoint recorded in §0.11.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -440,6 +457,96 @@ This checkpoint is **documentation-only**:
   `tests/unit/input-security.test.ts` untouched (and still green); no unrelated
   numbering for headings/tables/figures.
 
+### 0.11 M4 delivery record (R0.11)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; M4
+  sits on top of `a18a91cdded03a85995ff0bd5455166d836cfca4` (R0.10).
+- **Scope delivered:** page setup, paper sizes and configurable new-document
+  defaults (§8.2 M4; V1-PAGE-001..004, V1-SEC-002, V1-PAG-004, the V1-PDF-002
+  non-A4 leg and the V1-DOC-002 configurability leg).
+  - **Geometry (single source of truth):** `src/core/ir/pageGeometry.ts` holds
+    the paper table (`PAPER_SIZES_MM`: A4/A3/A5/Letter/Legal/Tabloid/Executive
+    in portrait mm), the `Custom` sentinel, the bounds (`PAGE_SIZE_MM_MIN`/
+    `PAGE_SIZE_MM_MAX` = 10–2000 mm, `MIN_USABLE_MM` = 1 mm) and the resolver
+    functions (`basePageSizeMm`, `effectivePageSizeMm`,
+    `effectivePageSizeCssMm`, `customSizeProblem`, `pageAreaProblem`,
+    `pageFormatPatch`, `formatMm`). **Orientation is applied exactly once**,
+    inside `effectivePageSizeMm`, and only to standard formats; a **Custom**
+    pair is the literal final size and is never swapped (impossible to
+    double-swap), and the A4 fallback for invalid/unknown input also honours
+    orientation. Every consumer — schema, layout CSS, PDF exporter's size-run
+    grouping, UI — reads this module; no paper dimension is duplicated.
+  - **IR (additive, ADR-004):** `pageSetup.format` becomes the eight-value
+    `PageFormat` enum (seven standards + `Custom`); `widthMm`/`heightMm` are
+    new **nullable** fields (`null` default). `pageSetupSchema.superRefine`
+    rejects a Custom format without a valid pair and a setup whose margins
+    leave a degenerate usable area. `createSection` defaults the new fields to
+    `null`. `schema_version` stays `1.0`.
+  - **Layout:** `pageSizeMm` (`src/core/layout/css.ts`) delegates to
+    `effectivePageSizeCssMm`, so `@page`/named-page geometry and the paged.js
+    sheet vars use the correct effective size for every format/orientation;
+    section transitions apply the next section's geometry only.
+  - **PDF export:** the exporter groups contiguous same-size runs from the
+    effective geometry (no exporter code change was needed — the key was
+    already size-driven). A new e2e test asserts the MediaBox for all seven
+    standard formats in both orientations plus Custom, converting mm → pt via
+    `72/25.4` with a ±1 pt tolerance, on one 11-section mixed document
+    (golden-07).
+  - **New-document defaults (D11):** `src/app/preferences.ts` — a versioned,
+    validated `localStorage` snapshot (page setup, theme, metadata skeleton)
+    that seeds a newly created document only; `normalizePreferences`/
+    `loadPreferences` fall back to built-in defaults on missing/corrupt data
+    without throwing; `safeThemeId` maps an unknown theme to the default. The
+    store exposes `setDefaultPageSetup`/`setDefaultTheme`/`setDefaultMetadata`/
+    `resetPreferences` and `newDocument()` applies the snapshot; `setPageSetup`
+    validates the merged setup before mutating.
+  - **UI:** a shared `PageSetupEditor` (format select; orientation select —
+    disabled for Custom with an accessible note; four margin inputs; Custom
+    width/height inputs shown only when Custom; an effective-size readout and
+    validated `NumberField`s that reject out-of-range input inline without
+    reaching the model) is used for each section in the sidebar; a distinct
+    `NewDocumentDefaults` panel covers the configurable defaults. The in-app
+    export warning now fires for any two sections with a different effective
+    size.
+- **Verification executed (final tree):** `pnpm typecheck` PASS; `pnpm test`
+  PASS (17 files, **250 tests** — incl. new `tests/unit/page-setup.test.ts`,
+  26 tests: geometry for all formats × orientation, custom no-swap, the A4
+  fallback, bounds, `pageFormatPatch`, schema rejection, and the preference
+  load/save/reset/corrupt-input fallbacks); `pnpm test:e2e` PASS (**41 tests**,
+  incl. the new M4 PDF MediaBox test, the section size/orientation render test
+  in `page-setup.spec.ts`, and the new `tests/e2e/document-defaults.spec.ts`,
+  5 tests: defaults apply on New without touching the open document, persist
+  across reload, reset, open preserves the file's settings, and corrupt
+  storage falls back without blocking startup); `pnpm build` PASS;
+  `git diff --check` clean. Golden suite extended with `golden-07-page-setup`
+  (all formats × orientation + Custom); goldens-01..06 were regenerated with
+  only the two new nullable fields (their expected HTML is byte-identical).
+- **Changed files:** `src/core/ir/pageGeometry.ts` (new),
+  `src/core/ir/schema.ts`, `src/core/ir/factory.ts`, `src/core/index.ts`,
+  `src/core/layout/css.ts`, `src/app/preferences.ts` (new), `src/store.ts`,
+  `src/components/Field.tsx` (new), `src/components/PageSetupEditor.tsx` (new),
+  `src/components/NewDocumentDefaults.tsx` (new), `src/components/Sidebar.tsx`,
+  `src/components/Preview.tsx`, `src/App.tsx`, `src/styles.css`,
+  `tests/unit/page-setup.test.ts` (new),
+  `tests/golden/generator.ts` + regenerated goldens-01..06 +
+  `golden-07-page-setup.{json,expected.html}` (new),
+  `tests/e2e/pdf-parity.spec.ts`, `tests/e2e/page-setup.spec.ts`,
+  `tests/e2e/app.spec.ts`, `tests/e2e/document-defaults.spec.ts` (new),
+  `docs/limitations.md`, this plan (R0.11).
+- **Acceptance classification:** **V1-PAGE-001 PASS** (seven standard formats +
+  Custom), **V1-PAGE-002 PASS** (retained), **V1-PAGE-003 PASS** (margins UI),
+  **V1-PAGE-004 PASS** (document-level page settings UI), **V1-SEC-002 PASS**
+  (section size/margins UI added; orientation/header/footer already editable),
+  **V1-PAG-004 PASS** (mixed page sizes now paginate), **V1-PDF-002 PASS**
+  (non-A4/Custom MediaBoxes verified), **V1-DOC-002 PASS** (configurability leg
+  delivered). Evidence: `tests/unit/page-setup.test.ts`, golden-07,
+  `tests/e2e/pdf-parity.spec.ts`, `tests/e2e/page-setup.spec.ts`,
+  `tests/e2e/document-defaults.spec.ts`.
+- **Out of scope (unchanged):** M5–M11 not started; Markdown import not
+  started; no new dependencies; no schema-version bump (`schema_version` stays
+  `1.0`, ADR-004); `tests/unit/input-security.test.ts` untouched (and still
+  green); no tracked spike PDF/artifact changes.
+
 ---
 
 ## 1. Objective
@@ -530,8 +637,14 @@ nesting + hierarchical derived numbering; residuals in §0.9 and
 `docs/limitations.md` §M3). **R0.10 (M3 hardening)** changed **no** row's
 status: it enforces a single ordered-list `start` bound (1–9999) across the
 schema/adapter/render/numbering layers, caps the Roman formatter defensively,
-and strengthens the renumbering evidence with stable-id tests (§0.10). **All
-Phase 0 PASS classifications and evidence are preserved unchanged.**
+and strengthens the renumbering evidence with stable-id tests (§0.10). **R0.11
+(M4) transitions:** V1-PAGE-001/003/004 → PASS, V1-SEC-002 → PASS (section
+size/margin UI), V1-PAG-004 → PASS (mixed page sizes), the V1-PDF-002 non-A4
+leg → PASS (V1-PDF-002 → PASS), and the V1-DOC-002 configurability leg → PASS
+(V1-DOC-002 → PASS); the residuals (in-app single-geometry print, Custom
+orientation semantics, custom/margin bounds, defaults scope) are documented in
+`docs/limitations.md` §M4 and §0.11. **All Phase 0 PASS classifications and
+evidence are preserved unchanged.**
 
 ### §5 Platform (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -552,7 +665,7 @@ Phase 0 PASS classifications and evidence are preserved unchanged.**
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-DOC-001 — New document | **PASS** | `newDocument()` + New button |
-| V1-DOC-002 — New document defaults | **PARTIAL** ◂R0.5 | A4/portrait/margins/theme/metadata defaults exist (`factory.ts`). **Base style leg delivered (M1, R0.5)** — new documents start from the built-in style library with `normal`/`heading-N` defaults. Remaining: **defaults configurable where appropriate → M4** (§4.2). Not PASS until M4 lands |
+| V1-DOC-002 — New document defaults | **PASS** ◂R0.5 ◂R0.11 | A4/portrait/margins/theme/metadata defaults exist (`factory.ts`); base-style leg delivered M1 (R0.5); **configurability leg delivered M4 (R0.11)** — a new-document defaults panel (page setup incl. all formats/Custom, default theme from the available themes, metadata skeleton over existing fields) seeds a newly created document from a validated local snapshot, distinct from the open/saved document (`docs/limitations.md` §M4 items 41–42). Evidence: `tests/e2e/document-defaults.spec.ts`, `tests/unit/page-setup.test.ts` |
 | V1-DOC-003 — Document editing | **PASS** | Tiptap typing/edit/undo/redo/copy/paste via adapter (`adapter.test.ts`) |
 
 ### §8 Text and structure (MUST)
@@ -588,16 +701,16 @@ Phase 0 PASS classifications and evidence are preserved unchanged.**
 ### §12 Page setup
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-PAGE-001 — Page sizes (MUST) | **PLANNED — M4** | `pageSetup.format` is `z.enum(["A4"])`; A3/A5/Letter/Legal/Tabloid/Executive/Custom missing |
+| V1-PAGE-001 — Page sizes (MUST) | **PASS** ◂R0.11 | Eight `format` values — A4/A3/A5/Letter/Legal/Tabloid/Executive + `Custom` (explicit mm pair) — resolved by the shared `src/core/ir/pageGeometry.ts`; section format selector + Custom width/height inputs. Evidence: `tests/unit/page-setup.test.ts`, golden-07, `tests/e2e/page-setup.spec.ts` |
 | V1-PAGE-002 — Orientation (MUST) | **PASS** | portrait/landscape per section; mixed gate PASS (`pnpm pdf`) |
-| V1-PAGE-003 — Margins (MUST) | **PARTIAL** | IR + renderer respect margins; no sidebar controls → **M4** |
-| V1-PAGE-004 — Document-level page settings (MUST) | **PARTIAL** | factory defaults only; no UI → **M4** |
+| V1-PAGE-003 — Margins (MUST) | **PASS** ◂R0.11 | Top/right/bottom/left margin controls in the section editor; IR + renderer respect them; a degenerate usable area is rejected (`pageAreaProblem`). Evidence: `tests/unit/page-setup.test.ts`, `tests/e2e/page-setup.spec.ts` |
+| V1-PAGE-004 — Document-level page settings (MUST) | **PASS** ◂R0.11 | Per-section page-setup UI (size/orientation/margins) at document level; a new-document defaults panel seeds a validated snapshot. Evidence: `tests/e2e/page-setup.spec.ts`, `tests/e2e/document-defaults.spec.ts` |
 
 ### §13 Sections (MUST) — IDs retained
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-SEC-001 — First-class sections | **PASS** | `sectionSchema`; per-section editing |
-| V1-SEC-002 — Section-level layout | **PARTIAL** | size/orientation/margins/header/footer in IR; size + margin UI → **M4** |
+| V1-SEC-002 — Section-level layout | **PASS** ◂R0.11 | A section defines page size, orientation, margins, header and footer, all editable (size/margins added in M4; orientation/header/footer already). Evidence: `tests/e2e/page-setup.spec.ts` |
 | V1-SEC-003 — Mixed orientation | **PASS** | gate P/P/L/L/P; `pnpm pdf` verified; in-app single-size caveat documented (items 1–3) |
 
 ### §14 Page flow
@@ -698,7 +811,7 @@ Phase 0 PASS classifications and evidence are preserved unchanged.**
 | V1-PAG-001 — A4 pagination | **PASS** | goldens + stress (93 pages) |
 | V1-PAG-002 — Header/footer interaction | **PASS** | no overlap (layout margin boxes; e2e) |
 | V1-PAG-003 — Page count | **PASS** | `counter(pages)` + materializer |
-| V1-PAG-004 — Mixed sections | **PARTIAL** | orientation PASS; **mixed page sizes impossible until M4** (A4-only) |
+| V1-PAG-004 — Mixed sections | **PASS** ◂R0.11 | Different section orientations **and page sizes** paginate; the 11-section golden-07 (all formats × orientation + Custom) previews and exports with per-page MediaBoxes matching each section. Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 test), golden-07 |
 | V1-PAG-005 — Table pagination | **PASS** | multi-page tables, repeated headers |
 | V1-PAG-006 — Deterministic pagination | **PASS** | same IR+styles+theme → equivalent output |
 
@@ -706,7 +819,7 @@ Phase 0 PASS classifications and evidence are preserved unchanged.**
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-PDF-001 — PDF generation | **PASS** | `pnpm pdf` + in-app print; MediaBox-verified |
-| V1-PDF-002 — PDF visual correctness | **PARTIAL** ◂R0.3 | A4 path PASS (text/headings/tables/images/sections/HF/page numbers/theme; MediaBox 595×842 asserted). **`page dimensions` for non-A4 are unimplemented until M4** — evidence for A4 retained (pdf-parity + gate + user 3-page PDF) |
+| V1-PDF-002 — PDF visual correctness | **PASS** ◂R0.3 ◂R0.11 | Text/headings/tables/images/sections/HF/page numbers/theme + **page dimensions for every format** — A4 (595×842) plus non-A4/Custom MediaBoxes asserted from mm→pt (`72/25.4`, ±1 pt). Evidence: `tests/e2e/pdf-parity.spec.ts` (M4 MediaBox test over golden-07); gate + user 3-page PDF retained |
 | V1-PDF-003 — PDF pagination parity | **PASS** | same pipeline as preview; parity by page count/order/MediaBox/text (ADRs 002/003) |
 
 ### §27 JSON save/load (MUST)
@@ -820,6 +933,9 @@ Phase 0 PASS classifications and evidence are preserved unchanged.**
   assertions (595.28×841.89, ±1pt), gate + user PDFs, run-grouping per size in
   `pnpm pdf`. Non-A4 leg completes with **M4** (verified per-size MediaBox
   goldens). Status becomes PASS only after M4 + its PDF-size tests.
+  **RESOLVED (R0.11):** M4 delivered the eight-format geometry and the M4
+  MediaBox test over golden-07 (all formats × orientation + Custom, mm→pt
+  `72/25.4`, ±1 pt), so V1-PDF-002 is **PASS** (see §0.11, §3 matrix).
 
 ### 4.2 V1-DOC-002 orphaned work resolved
 
@@ -862,6 +978,13 @@ Re-checked every PASS row against its criterion text and implementation:
   absence, re-asserted at release).
 - The R0.2 claim "configurable defaults deferred to settings milestone" has
   been replaced (§4.2). No other PASS row names planned work as if complete.
+- **R0.11 (M4) update:** the following rows move to **PASS** per §0.11 —
+  `PAGE-001`/`PAGE-003`/`PAGE-004` (sizes/margins/document settings UI),
+  `SEC-002` (section size/margin UI; orientation/header/footer already),
+  `PAG-004` (mixed page **sizes**, not just orientations), `PDF-002` (non-A4/
+  Custom page dimensions) and `DOC-002` (configurability leg). No other row's
+  status changed; the remaining named gaps (M5–M11, the §6 gates and
+  remaining-V1 import) are unchanged.
 
 ---
 
@@ -1095,7 +1218,7 @@ M2 Character/paragraph format ─┐
 M3 Lists (uses M2 marks, numbering principles)   ◂ promoted: multilevel
 M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
    executed sequentially per approved D2; also M4 closes V1-DOC-002
-   configurable defaults + V1-PAGE-004 settings UI)
+   configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11
 M5 Metadata + lab profile + fields (uses M1 styles for field rendering)
 M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq
 M7 Themes (needs M1 + M5)
@@ -1189,6 +1312,19 @@ executed sequentially — D2). Tests:
 unit geometry, goldens per size×orientation, e2e PDF media sizes, settings
 round-trip. Acceptance: every listed size paginates and exports correctly;
 V1-PDF-002 and V1-PAG-004 complete.
+**◂R0.11 — DELIVERED:** V1-PAGE-001/002/003/004 PASS, V1-SEC-002 PASS (section
+size/margin UI), V1-PAG-004 PASS (mixed **page sizes**), V1-PDF-002 PASS
+(non-A4/Custom MediaBoxes), V1-DOC-002 PASS (configurability leg). One
+authoritative geometry module (`src/core/ir/pageGeometry.ts`: A4/A3/A5/Letter/
+Legal/Tabloid/Executive + `Custom`, orientation applied exactly once, Custom
+never swapped, 10–2000 mm bounds, usable-area validation); additive IR under
+ADR-004 (`format` enum + nullable `widthMm`/`heightMm`, `schema_version` stays
+`1.0`); a section `PageSetupEditor` and a distinct `NewDocumentDefaults` panel
+(local, versioned, safe-fallback preferences). Evidence:
+`tests/unit/page-setup.test.ts` (26 tests), golden-07,
+`tests/e2e/pdf-parity.spec.ts` (MediaBox mm→pt for every format/orientation),
+`tests/e2e/page-setup.spec.ts`, `tests/e2e/document-defaults.spec.ts` (5 tests).
+Residual limits recorded in §0.11 and `docs/limitations.md` §M4.
 
 #### M5 — Metadata, laboratory profile, dynamic fields · V1-META-001/002/003 (MUST), V1-FIELD-001..004 (MUST), V1-HF-003 (MUST)
 IR: expanded `metadataSchema` (document type, department, review date, status,
@@ -1332,7 +1468,8 @@ and evidence are unchanged.
 > This document is the **approved** Phase-1 scope and decision record (§0,
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
-> separate, explicitly authorized task after this checkpoint. **M1, M2 and M3
-> have been delivered** (R0.5/R0.6, R0.7 and R0.9 respectively) on the strength
-> of separate, explicitly authorized tasks following the AGENTS.md checkpoint
-> workflow; **M4–M11 have not been started.**
+> separate, explicitly authorized task after this checkpoint. **M1, M2, M3
+> and M4 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10 and R0.11
+> respectively) on the strength of separate, explicitly authorized tasks
+> following the AGENTS.md checkpoint workflow; **M5–M11 (and the Markdown
+> import) have not been started.**

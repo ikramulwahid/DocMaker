@@ -1,0 +1,1071 @@
+{
+  "schema": "labdoc",
+  "schema_version": "1.0",
+  "document": {
+    "id": "doc_lxr26l6n",
+    "type": "document",
+    "metadata": {
+      "title": "Paper sizes and orientation",
+      "docNumber": "GEOM-07",
+      "revision": "01",
+      "effectiveDate": "",
+      "author": "",
+      "organization": "",
+      "description": ""
+    },
+    "settings": {
+      "theme": "lab_default",
+      "watermark": {
+        "enabled": true,
+        "text": "DRAFT",
+        "opacity": 0.12,
+        "angle": -45,
+        "fontSizePt": 64
+      }
+    },
+    "styles": {
+      "normal": {
+        "id": "normal",
+        "name": "Normal",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "body-text": {
+        "id": "body-text",
+        "name": "Body Text",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "title": {
+        "id": "title",
+        "name": "Title",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 22,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 6,
+          "indentMm": null
+        }
+      },
+      "subtitle": {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 14,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 4,
+          "indentMm": null
+        }
+      },
+      "heading-1": {
+        "id": "heading-1",
+        "name": "Heading 1",
+        "kind": "heading",
+        "headingLevel": 1,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-2": {
+        "id": "heading-2",
+        "name": "Heading 2",
+        "kind": "heading",
+        "headingLevel": 2,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-3": {
+        "id": "heading-3",
+        "name": "Heading 3",
+        "kind": "heading",
+        "headingLevel": 3,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-4": {
+        "id": "heading-4",
+        "name": "Heading 4",
+        "kind": "heading",
+        "headingLevel": 4,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-5": {
+        "id": "heading-5",
+        "name": "Heading 5",
+        "kind": "heading",
+        "headingLevel": 5,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-6": {
+        "id": "heading-6",
+        "name": "Heading 6",
+        "kind": "heading",
+        "headingLevel": 6,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "caption": {
+        "id": "caption",
+        "name": "Caption",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "table-text": {
+        "id": "table-text",
+        "name": "Table Text",
+        "kind": "tableText",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "quote": {
+        "id": "quote",
+        "name": "Quote",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": 8
+        }
+      },
+      "note": {
+        "id": "note",
+        "name": "Note",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "warning": {
+        "id": "warning",
+        "name": "Warning",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "important-notice": {
+        "id": "important-notice",
+        "name": "Important Notice",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "definition": {
+        "id": "definition",
+        "name": "Definition",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "reference": {
+        "id": "reference",
+        "name": "Reference",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 10.5,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "header": {
+        "id": "header",
+        "name": "Header",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "footer": {
+        "id": "footer",
+        "name": "Footer",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_52v6om4x",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_fvenv29b",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A4 portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_gi95walk",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_1al0076r",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A4 landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_4od6nb5p",
+        "type": "section",
+        "pageSetup": {
+          "format": "A3",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_4x4v7cua",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A3 portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_2gtk38ju",
+        "type": "section",
+        "pageSetup": {
+          "format": "A3",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_ve220vsx",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A3 landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_cck00jxg",
+        "type": "section",
+        "pageSetup": {
+          "format": "A5",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_m28hnfni",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "A5 portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_b7spmr0v",
+        "type": "section",
+        "pageSetup": {
+          "format": "Letter",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_j4oeb3ms",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Letter portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_bcp6wrdp",
+        "type": "section",
+        "pageSetup": {
+          "format": "Letter",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_gj0bmb1i",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Letter landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_minjxpaz",
+        "type": "section",
+        "pageSetup": {
+          "format": "Legal",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_k5nay1ux",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Legal portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_ehx7irmc",
+        "type": "section",
+        "pageSetup": {
+          "format": "Tabloid",
+          "orientation": "landscape",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_cqqjwpu8",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Tabloid landscape",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_pr8h06ta",
+        "type": "section",
+        "pageSetup": {
+          "format": "Executive",
+          "orientation": "portrait",
+          "margins": {
+            "top": 12.7,
+            "right": 12.7,
+            "bottom": 12.7,
+            "left": 12.7
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_ufyo4di9",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Executive portrait",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      },
+      {
+        "id": "sec_37ic0212",
+        "type": "section",
+        "pageSetup": {
+          "format": "Custom",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": 200,
+          "heightMm": 150,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_zre0v9yb",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Custom 200 × 150",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

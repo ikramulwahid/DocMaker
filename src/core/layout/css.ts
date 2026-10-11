@@ -6,8 +6,9 @@
  * orientation/margins/margin-boxes, the paged.js 0.4.3 named-page sheet-var
  * workaround, the repeated-thead handler, watermark pseudo-element.
  */
-import type { MarginBox, MarginField, StyleDefinition } from "../ir/schema";
+import type { MarginBox, MarginField, PageSetup, StyleDefinition } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
+import { effectivePageSizeCssMm } from "../ir/pageGeometry";
 import { resolveTheme, SANS_FONT_STACK, SERIF_FONT_STACK, type ThemeTokens } from "../theme";
 
 export function cssString(value: string): string {
@@ -81,14 +82,13 @@ export function marginContent(
   return parts.length ? parts.join(" ") : '""';
 }
 
-/** mm geometry for a section's page (orientation-aware). */
-export function pageSizeMm(orientation: "portrait" | "landscape"): {
-  width: string;
-  height: string;
-} {
-  return orientation === "landscape"
-    ? { width: "297mm", height: "210mm" }
-    : { width: "210mm", height: "297mm" };
+/**
+ * mm geometry for a section's page. Delegates to the authoritative page
+ * geometry (M4): the format's intrinsic size with orientation applied exactly
+ * once. Never re-derives dimensions here.
+ */
+export function pageSizeMm(setup: PageSetup): { width: string; height: string } {
+  return effectivePageSizeCssMm(setup);
 }
 
 export function buildCss(resolved: ResolvedDocument): string {
@@ -103,13 +103,13 @@ export function buildCss(resolved: ResolvedDocument): string {
   };
 
   const first = doc.sections[0].pageSetup;
-  const rootSize = pageSizeMm(first.orientation);
+  const rootSize = pageSizeMm(first);
   lines.push(`@page { size: ${rootSize.width} ${rootSize.height}; margin: 0; }`);
 
   for (const section of doc.sections) {
     const setup = section.pageSetup;
     const name = section.id; // valid CSS ident, e.g. sec_ab12cd34
-    const size = pageSizeMm(setup.orientation);
+    const size = pageSizeMm(setup);
     const m = setup.margins;
     lines.push(`@page ${name} {`);
     lines.push(`  size: ${size.width} ${size.height};`);

@@ -14,11 +14,17 @@ are disabled rather than silently dropped — see §"Disabled by design".
    path** is `pnpm pdf <file>` (also used by the e2e parity suite): pages are
    grouped into contiguous size runs, each run is printed with a trailing
    `@page { size }` override + `preferCSSPageSize: true`, and the run PDFs are
-   merged with pdf-lib. See ADR-002.
+   merged with pdf-lib. See ADR-002. **M4:** the run grouping is keyed on the
+   shared effective page geometry (`src/core/ir/pageGeometry.ts`), so every
+   listed format — A4/A3/A5/Letter/Legal/Tabloid/Executive portrait &
+   landscape plus Custom — exports with the correct MediaBox in millimetres →
+   points (`72/25.4`); the e2e parity suite asserts every format/orientation
+   (golden-07) with a ±1 pt tolerance.
 2. **In-app "Export PDF" button** calls `window.print()` on the preview
-   iframe. For portrait-only documents this produces a faithful PDF. For
-   mixed-orientation documents the browser print dialog keeps a single paper
-   size and landscape pages are clipped/scaled — the app warns and points at
+   iframe. When every sheet shares one effective geometry this produces a
+   faithful PDF. For **mixed-geometry** documents (differing page size or
+   orientation) the browser print dialog keeps a single paper size and the
+   non-matching pages are clipped/scaled — the app warns and points at
    `pnpm pdf`. A native in-app run-merge exporter is post-Phase-0 work.
 3. **WebView2 print path — validated in a desktop session (2026-10-09,**
    **Phase 0.6).** Exercised via the in-app Export PDF button in the native
@@ -326,3 +332,63 @@ even with no text edit). Every list structure round-trips through save → reloa
 (ADR-004; golden-06 plus the `list`/adapter unit tests and the M3 round-trip
 e2e test). The R0.10 hardening added the bounded `start` (item 37) and stable-id
 renumbering tests; no list semantics changed.
+
+## Page setup & new-document defaults (M4, delivered 2026-10-11)
+
+V1-PAGE-001..004, V1-SEC-002 (section size/margin UI), V1-PAG-004 (mixed page
+sizes), the V1-PDF-002 non-A4 leg and the V1-DOC-002 configurability leg are
+delivered. One authoritative geometry table/function
+(`src/core/ir/pageGeometry.ts`) is shared by the schema, the layout CSS, the PDF
+exporter's size-run grouping and the UI; orientation is applied **exactly once**.
+The honest residual limits are:
+
+38. **In-app "Export PDF" is faithful for one sheet geometry only.** The
+    browser print dialog has a single paper size per job, so a document whose
+    sections mix **page sizes or orientations** is clipped/scaled by the
+    in-app button; the app detects the mismatch (any two sections with a
+    different **effective** size) and points at `pnpm pdf`. This generalises
+    the Phase-0 orientation caveat (items 1–3) from orientation to
+    size-or-orientation. The verified mixed-geometry path is `pnpm pdf` / the
+    e2e exporter.
+39. **A Custom page size ignores orientation by design.** `widthMm`/`heightMm`
+    ARE the final effective sheet dimensions, so the Orientation control is
+    disabled while Custom is selected (an accessible note explains why): the
+    author sets the exact numbers and there is no double-swap possible. The
+    standard formats apply orientation once in
+    `effectivePageSizeMm` (landscape swaps the intrinsic pair); switching a
+    section back to a standard format retains the (inactive) custom pair so it
+    can be restored, and switching to Custom seeds the pair from the current
+    effective size so the rendered sheet does not jump.
+40. **Custom dimensions and margins are bounded.** A custom width/height must
+    be 10–2000 mm (`PAGE_SIZE_MM_MIN`/`PAGE_SIZE_MM_MAX`): the schema rejects
+    values outside that range on load/save, and the render boundary clamps a
+    value that bypassed validation so a malformed `.labdoc.json` can never emit
+    `NaN`/zero/negative CSS. Margins must leave a strictly positive usable area
+    of at least 1 mm in both directions (`pageAreaProblem`), otherwise the
+    setup is rejected. Margins remain whole millimetres.
+41. **New-document defaults cover page setup, theme and a metadata skeleton
+    only.** The metadata skeleton is limited to the fields that exist in the
+    model today — `docNumber`, `revision`, `author`, `organization`,
+    `description` (the rest of the metadata schema is M5). The default theme is
+    chosen from the themes currently available (the 20-theme library is M7);
+    an unknown stored theme id falls back to the default. Preferences are
+    **local to the machine** (`localStorage`, key
+    `docmaker.new-document-defaults.v1`) — no backend, login or cloud sync
+    (V1-PLAT-002/003). A corrupt/absent stored snapshot falls back to the
+    built-in defaults without blocking startup; storage read/write failures are
+    swallowed.
+42. **Defaults are a creation-time snapshot, never applied retroactively.**
+    Editing a default does not touch the open document; creating a document
+    applies a validated snapshot of the defaults; opening a file keeps that
+    file's own settings (preferences never override a document); and a reset
+    restores the built-in A4/portrait/no-metadata defaults. The defaults editor
+    is a distinct panel (its labels are prefixed "Default …") so it cannot be
+    confused with the active section's page-setup or the document metadata.
+
+M4 is **additive**: `schema_version` stays `1.0`. `pageSetup.format` gains the
+standard formats (A3/A5/Letter/Legal/Tabloid/Executive) and the `Custom`
+sentinel; `widthMm`/`heightMm` are new **nullable** fields defaulting to `null`
+(so every pre-M4 document loads unchanged — proven by the regenerated
+goldens-01..06, whose HTML is byte-identical). Every page setup round-trips
+through save → reload (ADR-004; golden-07 plus `tests/unit/page-setup.test.ts`
+and `tests/e2e/page-setup.spec.ts` / `tests/e2e/document-defaults.spec.ts`).

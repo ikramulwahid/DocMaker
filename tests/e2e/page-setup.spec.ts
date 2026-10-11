@@ -97,3 +97,47 @@ test("showPageNumber hides the footer counter and nothing else", async ({ page }
     expect(await footerContent()).toContain("counter(page)");
   }).toPass({ timeout: 30_000 });
 });
+
+/**
+ * M4 (V1-PAGE-001..004): the section paper-size / orientation controls must
+ * drive the rendered sheet through the shared page-geometry table — orientation
+ * applied exactly once, and a custom size never double-swapped.
+ */
+test("section paper size + orientation drive the rendered sheet", async ({ page }) => {
+  await page.goto("/");
+  const frame = await previewFrame(page);
+
+  const sheet = (name: string) =>
+    frame
+      .locator(".pagedjs_page")
+      .nth(0)
+      .evaluate((el, n) => getComputedStyle(el).getPropertyValue(n).trim(), name);
+
+  // A4 portrait baseline.
+  expect(await sheet("--pagedjs-width")).toBe("210mm");
+  expect(await sheet("--pagedjs-height")).toBe("297mm");
+
+  // A3 landscape: the intrinsic size is swapped exactly once → 420 × 297 mm.
+  await page.getByTestId("section-0-format").selectOption("A3");
+  await page.getByTestId("orientation-0").selectOption("landscape");
+  await expect.poll(() => sheet("--pagedjs-width"), { timeout: 20_000 }).toBe("420mm");
+  expect(await sheet("--pagedjs-height")).toBe("297mm");
+
+  // Switching to Custom seeds the CURRENT effective size (continuity) …
+  await page.getByTestId("section-0-format").selectOption("Custom");
+  await expect(page.getByTestId("section-0-width")).toHaveValue("420");
+  await expect(page.getByTestId("section-0-height")).toHaveValue("297");
+  // … orientation is a deliberate no-op for a custom size (both dims fixed).
+  await expect(page.getByTestId("orientation-0")).toBeDisabled();
+
+  await page.getByTestId("section-0-width").fill("200");
+  await page.getByTestId("section-0-height").fill("150");
+  await expect.poll(() => sheet("--pagedjs-width"), { timeout: 20_000 }).toBe("200mm");
+  expect(await sheet("--pagedjs-height")).toBe("150mm");
+  await expect(page.getByTestId("section-0-effective-size")).toContainText("200 × 150 mm");
+
+  // Out-of-range input is rejected inline and never reaches the model.
+  await page.getByTestId("section-0-width").fill("5");
+  await expect(page.getByTestId("section-0-width")).toHaveAttribute("aria-invalid", "true");
+  await expect(page.getByTestId("section-0-effective-size")).toContainText("200 × 150 mm");
+});

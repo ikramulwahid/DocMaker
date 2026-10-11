@@ -23,7 +23,8 @@ import {
   text,
 } from "@/core/ir/factory";
 import { buildDefaultStyles } from "@/core/ir/styles";
-import { documentSchema, type Block, type Document, type List, type ListItem } from "@/core/ir/schema";
+import { documentSchema, type Block, type Document, type List, type ListItem, type PageMargins } from "@/core/ir/schema";
+import type { PageFormat } from "@/core/ir/pageGeometry";
 import { createDocumentFixture } from "../unit/fixtures";
 
 export const GOLDEN_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -568,6 +569,62 @@ export function createListDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 07 — paper sizes & orientation (M4).
+ *
+ * One section per standard format in portrait and landscape, plus a custom
+ * size, pins the `@page` geometry (and the paged.js sheet-var overrides) for
+ * every format/orientation combination byte-for-byte. Margins vary in one
+ * section so the margin output is pinned independently of the paper size.
+ */
+export function createPageSetupDocument(): Document {
+  const doc = createEmptyDocument("Paper sizes and orientation");
+  doc.metadata.docNumber = "GEOM-07";
+  doc.metadata.revision = "01";
+
+  const variants: {
+    label: string;
+    format: PageFormat;
+    orientation: "portrait" | "landscape";
+    margins?: PageMargins;
+  }[] = [
+    { label: "A4 portrait", format: "A4", orientation: "portrait" },
+    { label: "A4 landscape", format: "A4", orientation: "landscape" },
+    { label: "A3 portrait", format: "A3", orientation: "portrait" },
+    { label: "A3 landscape", format: "A3", orientation: "landscape" },
+    { label: "A5 portrait", format: "A5", orientation: "portrait" },
+    { label: "Letter portrait", format: "Letter", orientation: "portrait" },
+    { label: "Letter landscape", format: "Letter", orientation: "landscape" },
+    { label: "Legal portrait", format: "Legal", orientation: "portrait" },
+    { label: "Tabloid landscape", format: "Tabloid", orientation: "landscape" },
+    {
+      label: "Executive portrait",
+      format: "Executive",
+      orientation: "portrait",
+      margins: { top: 12.7, right: 12.7, bottom: 12.7, left: 12.7 },
+    },
+  ];
+
+  const sections = variants.map((variant) => {
+    const section = createSection([createHeading(2, [text(variant.label)])]);
+    section.pageSetup.format = variant.format;
+    section.pageSetup.orientation = variant.orientation;
+    if (variant.margins) section.pageSetup.margins = variant.margins;
+    return section;
+  });
+
+  // Custom size: orientation is intentionally not applied (both dimensions are
+  // explicit), so this pins the no-swap behaviour too.
+  const custom = createSection([createHeading(2, [text("Custom 200 × 150")])]);
+  custom.pageSetup.format = "Custom";
+  custom.pageSetup.widthMm = 200;
+  custom.pageSetup.heightMm = 150;
+  sections.push(custom);
+
+  doc.sections = sections;
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
@@ -576,6 +633,7 @@ export function buildGoldens(): Golden[] {
     { name: "golden-04-style-system", doc: createStyleSystemDocument() },
     { name: "golden-05-formatting", doc: createFormattingDocument() },
     { name: "golden-06-lists", doc: createListDocument() },
+    { name: "golden-07-page-setup", doc: createPageSetupDocument() },
   ];
 }
 

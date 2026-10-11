@@ -76,7 +76,7 @@ export function Preview() {
   return (
     <div className="preview-pane">
       <div className="preview-bar">
-        <span>Preview (A4)</span>
+        <span>Preview</span>
         <span
           className={rendering ? "badge busy" : "badge"}
           data-testid="render-status"

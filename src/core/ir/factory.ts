@@ -147,6 +147,8 @@ export function createSection(blocks: Block[] = []): Section {
       format: "A4",
       orientation: "portrait",
       margins: { top: 20, right: 18, bottom: 20, left: 18 },
+      widthMm: null,
+      heightMm: null,
       pageNumberStart: 1,
       showPageNumber: true,
     },

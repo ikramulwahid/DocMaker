@@ -9,9 +9,13 @@ import { exportPaginatedPdf, pageSizes } from "../../scripts/lib/pdf-export.mjs"
 
 const GOLDEN_MIXED = path.resolve("tests/golden/golden-01-mixed-orientation.json");
 const GOLDEN_SOP = path.resolve("tests/golden/golden-02-sop-long-table.json");
+const GOLDEN_GEOMETRY = path.resolve("tests/golden/golden-07-page-setup.json");
 const PAGED_JS = pathToFileURL(
   path.resolve("node_modules/pagedjs/dist/paged.polyfill.js"),
 ).href;
+
+/** Millimetres → PDF points (1 in = 25.4 mm = 72 pt). */
+const MM_TO_PT = 72 / 25.4;
 
 function layoutHtml(jsonPath: string): string {
   const resolved = resolveDocument(
@@ -95,4 +99,46 @@ test("merged PDF page sizes are stable across re-exports", async () => {
   const second = await exportPaginatedPdf({ html: layoutHtml(GOLDEN_MIXED) });
   expect(second.boxes).toEqual(first.boxes);
   expect(await pageSizes(first.pdf)).toEqual(first.boxes);
+});
+
+test("PDF MediaBox matches every M4 format/orientation (mm → pt)", async () => {
+  test.setTimeout(120_000);
+  const result = await exportPaginatedPdf({ html: layoutHtml(GOLDEN_GEOMETRY) });
+
+  // Effective sheet sizes of golden-07-page-setup, in section order (mm).
+  // Standard formats apply orientation once; Custom (200×150) is never swapped.
+  const expectedMm: [number, number][] = [
+    [210, 297], // A4 portrait
+    [297, 210], // A4 landscape
+    [297, 420], // A3 portrait
+    [420, 297], // A3 landscape
+    [148, 210], // A5 portrait
+    [215.9, 279.4], // Letter portrait
+    [279.4, 215.9], // Letter landscape
+    [215.9, 355.6], // Legal portrait
+    [431.8, 279.4], // Tabloid landscape
+    [184.15, 266.7], // Executive portrait
+    [200, 150], // Custom portrait
+  ];
+
+  // One page per section (sections force a page break), in document order.
+  expect(result.pages).toBe(expectedMm.length);
+
+  // The exporter groups contiguous same-size pages: with 11 distinct adjacent
+  // sizes this is 11 single-page runs — never interleaved.
+  expect(result.runs.map((r) => `${parseFloat(r.size.w)}x${parseFloat(r.size.h)}`)).toEqual(
+    expectedMm.map(([w, h]) => `${w}x${h}`),
+  );
+
+  // MediaBox in points, with the documented ±1pt tolerance covering Chromium's
+  // CSS→PDF rounding.
+  result.boxes.forEach((box, i) => {
+    const [w, h] = box.split("x").map(Number);
+    const [ew, eh] = expectedMm[i];
+    expect(Math.abs(w - ew * MM_TO_PT)).toBeLessThan(1);
+    expect(Math.abs(h - eh * MM_TO_PT)).toBeLessThan(1);
+  });
+
+  // A genuinely mixed document: the merged PDF keeps every distinct size.
+  expect(new Set(result.boxes).size).toBe(expectedMm.length);
 });
