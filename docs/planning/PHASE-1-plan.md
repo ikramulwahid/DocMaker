@@ -1,6 +1,6 @@
-# Phase 1 — Plan & Approval Record R0.14 (M6 Delivery)
+# Phase 1 — Plan & Approval Record R0.15 (M7 Delivery)
 
-- **Status:** **APPROVED + M1, M2, M3, M4, M5 & M6 DELIVERED** — the Phase-1 scope
+- **Status:** **APPROVED + M1, M2, M3, M4, M5, M6 & M7 DELIVERED** — the Phase-1 scope
   and decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
@@ -19,16 +19,19 @@
   format × orientation combinations plus Custom (15 cases)**). R0.13 recorded the
   **delivery of M5** (metadata, laboratory profile &
   dynamic fields: V1-META-001/002/003 PASS, V1-FIELD-001..004 PASS, V1-HF-003
-  PASS). This revision (**R0.14**) records the **delivery of M6**
-  (numbering & cross-references: V1-REF-002 and V1-REF-003 PASS, and the
-  numbering/cross-reference leg of V1-EQ-001 — **equation numbering** — PASS).
-  It adds **no** new scope beyond the already-approved M6 (§8.2) and does
-  **not** alter the R0.4 approval, re-open approved decisions, change M1–M5
+  PASS). This revision (**R0.15**) records the **delivery of M7**
+  (theme library & theme-regression: **V1-THEME-001** ≥20 themes and
+  **V1-THEME-002** ≥5 B&W themes move to PASS; V1-THEME-003/004 retained and
+  strengthened; and the M7 leg of **V1-VIS-002** — the semantic
+  theme-switching series — delivered while the screenshot-baseline release gate
+  stays open, §6.2).
+  It adds **no** new scope beyond the already-approved M7 (§8.2) and does
+  **not** alter the R0.4 approval, re-open approved decisions, change M1–M6
   acceptance, or authorize further milestones. **All Phase 0 PASS
   classifications and evidence are preserved unchanged.** No feature scope or
   criterion definition changed.
-- **Revision:** R0.14 (2026-10-12) — M6 delivery; supersedes R0.13
-  (M5 delivery) which superseded R0.12
+- **Revision:** R0.15 (2026-10-12) — M7 delivery; supersedes R0.14
+  (M6 delivery) which superseded R0.13 (M5 delivery) which superseded R0.12
   (M4 evidence hardening) which superseded R0.11 (M4 delivery record) which
   superseded R0.10 (M3 post-delivery hardening) which superseded R0.9 (M3
   delivery record) which superseded R0.8 (M2 status reconciliation) which
@@ -48,7 +51,9 @@
   hardening (R0.12) at `30867718756a83f3bfe60c24409b2d0a06493374` (§0.12); the
   M5 delivery (R0.13) at
   `cbcb708e42946b79c248e54eb3ead00a361774f2` (§0.13); the
-  **M6 delivery (R0.14) sits on top of `cbcb708`** — the base commit for this
+  M6 delivery (R0.14) at
+  `7b802682ffd3f9464f58539a31764dbfcca0afa9` (§0.14); the
+  **M7 delivery (R0.15) sits on top of `7b80268`** — the base commit for this
   delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
@@ -91,10 +96,14 @@
   and derived equation numbering were executed end-to-end with the same five
   commands, plus real-document PDF/export checks (reference renumbering and
   broken-target behaviour), against the final tree (results recorded in §0.14).
+  **R0.15** is the ninth implementation checkpoint (M7 delivery): the theme
+  library and the theme-regression series were executed end-to-end with the same
+  five commands, plus the corpus theme-switching series
+  (`tests/e2e/theme.spec.ts`) against the final tree (results recorded in §0.15).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.14)
+## 0. Approval record, change history & milestone delivery (R0.15)
 
 ### 0.1 Approval summary
 
@@ -277,6 +286,23 @@ This checkpoint is **documentation-only**:
   its equations now carry derived numbers; new golden-09 added). R0.4 approval
   record retained verbatim in its substance; M7–M11 not started. Published at
   the checkpoint recorded in §0.14.
+- **R0.15 (2026-10-12, this revision):** **M7 delivered** — the theme library and
+  theme-regression verification implemented, tested and published (see §0.15).
+  Plan status markers updated: V1-THEME-001 → PASS (24 themes), V1-THEME-002 →
+  PASS (6 monochrome B&W themes); V1-THEME-003/004 retained PASS; V1-VIS-002
+  stays **PARTIAL** (the semantic switching series is delivered; the
+  screenshot-baseline release gate is not activated). The typed `ThemeTokens`
+  registry (`src/core/theme/index.ts`) grows to 24 themes built on the existing
+  contract and the shared `buildCss` mapper — no second styling system, no
+  user-authored CSS, no new dependency; the `bw` flag is a checked monochrome
+  contract. Themes remain presentation-only (all-theme invariants over a rich
+  fixture and the V1-PERF document prove semantics are untouched and only
+  `settings.theme` differs in the serialized document). `lab_default`/
+  `bw_standard` keep their exact token values, so **no golden was regenerated**.
+  The §6.2 corpus switching series (Default → B&W → colour → Default) covers
+  golden-01/02/03/09 and the V1-PERF document. R0.4 approval record retained
+  verbatim in its substance; M8–M11 and the Markdown import not started.
+  Published at the checkpoint recorded in §0.15.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -962,6 +988,100 @@ This checkpoint is **documentation-only**:
   no new dependencies; no schema-version bump (`schema_version` stays `1.0`,
   ADR-004).
 
+### 0.15 M7 delivery record (R0.15)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the M7
+  work sits on top of `7b802682ffd3f9464f58539a31764dbfcca0afa9` (R0.14, M6
+  delivery) — the base commit for this delivery.
+- **Scope delivered:** V1-THEME-001 (**theme count** — 24 distinct themes,
+  exceeding the ≥20 requirement), V1-THEME-002 (**B&W themes** — 6 genuinely
+  monochrome themes, exceeding the ≥5 requirement), with V1-THEME-003 (live
+  switching) and V1-THEME-004 (semantic preservation) retained and strengthened.
+  The M7 leg of V1-VIS-002 (**theme regression** — a repeatable semantic
+  theme-switching series over the §6.2 corpus) is delivered; the
+  screenshot-baseline release gate (§6.2, D10) remains open (see below).
+- **Architecture (how the pieces fit):**
+  - **One styling system, reused:** the library is a fixed, typed registry of
+    `ThemeTokens` records appended to `THEMES` in `src/core/theme/index.ts`
+    (24 total = 6 `bw` + 18 colour). No second styling system and no
+    user-authored CSS were introduced; the existing `resolveTheme` lookup and the
+    shared `buildCss` token→CSS mapper in `src/core/layout/css.ts` consume every
+    token (body/heading/mono font stacks, body size, six-level heading scale,
+    body/heading/muted/accent colours, rules, and table border + header
+    background/text), so preview and PDF stay on one interpretation.
+  - **Presentation-only by construction:** a theme is referenced by
+    `settings.theme` (a string id); the renderer derives CSS from it and never
+    mutates the document. Switching a theme changes only the generated CSS: the
+    body HTML is theme-independent, so content, node ids, metadata, numbering,
+    references (including the broken-target report), equation labels, resolved
+    dynamic field values and section structure are byte-identical, and the
+    serialized document differs in `settings.theme` alone.
+  - **`bw` is a contract:** every colour token of a `bw` theme is a pure neutral
+    grey (r === g === b), verified exhaustively by the unit suite, so a "B&W"
+    theme cannot smuggle in a chromatic accent; B&W themes stay print-safe
+    without relying on colour to convey meaning.
+  - **Compatibility:** `lab_default` and `bw_standard` keep their exact token
+    values, so every committed golden (which uses `lab_default`) is
+    byte-identical and **no golden regeneration** was required. Unknown/absent
+    stored theme ids still fall back deterministically to `lab_default`.
+- **Tests added / extended:**
+  - `tests/unit/theme.test.ts` (**rewritten, 8 tests**): whole-registry
+    invariants — ≥20 unique themes including the default; ≥5 `bw` themes with an
+    explicit monochrome check (`r === g === b` for every colour token); valid
+    stable ids and usable token values (fonts, body size, monotonic six-level
+    heading scale, `isValidHexColor` on every colour token); every theme resolves
+    and produces valid, theme-specific layout CSS (all 24 CSS strings distinct);
+    a complete document renders for every theme with a byte-identical body; and a
+    semantic-invariance sweep across **all 24 themes** asserting identical
+    numbering, reference targets/labels, broken-reference diagnostics, resolved
+    field values and section structure, plus a serialized document that differs
+    in `settings.theme` alone — run over both the rich fixture and the
+    extracted V1-PERF representative document. Legacy ids and the
+    unknown/blank/missing fallback are covered.
+  - `tests/support/stressDocument.ts` (**new**): the V1-PERF representative
+    document builder (`buildStressDocument`, `stressParagraphs`,
+    `stressSvgImage`) extracted from `tests/e2e/stress.spec.ts` so both the
+    stress spec and the theme suite share one fixture without importing a
+    `*.spec.ts`. `tests/e2e/stress.spec.ts` now imports it (its local copies
+    removed) — no behavioural change to the stress test.
+  - `tests/e2e/theme.spec.ts` (**extended, 6 tests**): the original
+    single-switch test is retained; a repeatable corpus series drives the real
+    sidebar control through `Default → B&W (`bw_standard`) → colour (`teal_sop`)
+    → Default` over **golden-01-mixed-orientation**, **golden-02-sop-long-table**,
+    **golden-03-phase0-gate**, **golden-09-references** and the V1-PERF stress
+    document. Per transition it waits for the re-pagination to finish (never
+    asserting against a stale preview), verifies the canonical settings value,
+    compares a pagination-normalised structural signature (content, headings,
+    generated numbers, list markers, captions, cross-reference labels incl. the
+    broken marker, equation labels, resolved fields, table cells and
+    header/footer field templates — Paged.js split/thead clones are rejoined by
+    `data-ref` so a different page break is not mistaken for a semantic
+    difference), asserts the expected computed presentation (body/heading font,
+    body colour, table header background + border), and proves returning to the
+    default restores the baseline.
+- **Golden / fixture changes:** **none** — `lab_default`/`bw_standard` token
+  values are unchanged, so goldens-01..09 are byte-identical and were **not**
+  regenerated; no fixture content changed.
+- **Verification executed (final tree):** `pnpm typecheck` **PASS**; `pnpm test`
+  **PASS** (19 files, 323 tests — was 19/319); `pnpm test:e2e` **PASS** (57 tests
+  — was 52; the 5 new corpus-series tests pass, chromium); `pnpm build`
+  **PASS**; `git diff --check` **clean**. The corpus theme-switching series ran
+  end-to-end against the real preview pipeline for every corpus document,
+  including the 93-page V1-PERF document.
+- **Acceptance classification (evidence):** V1-THEME-001, V1-THEME-002 →
+  **PASS** (§3 matrix); V1-THEME-003/004 stay **PASS**; V1-VIS-002 stays
+  **PARTIAL** — the M7 theme-regression switching series is delivered and green,
+  but the release hardening (committed Playwright screenshot baselines, a
+  documented pinned browser/runtime and a pixel-difference tolerance policy,
+  §6.2 / D10) has **not** been captured or committed, so the full V1-VIS-001/002
+  release gate is **not** claimed. No criterion definition was changed or
+  weakened. Residual limits are documented in `docs/limitations.md` §M7.
+- **Out of scope (unchanged):** M8–M11 not started (advanced tables, image
+  editing, autosave, a11y audit); Markdown import not started; no
+  lifecycle/approval/revision-history/signature workflow; no backend/login/cloud;
+  no new dependencies; no schema-version bump (`schema_version` stays `1.0`,
+  ADR-004).
+
 ---
 
 ## 1. Objective
@@ -1214,10 +1334,10 @@ storage) are documented in `docs/limitations.md` §M5 and §0.13.
 ### §23 Themes (MUST)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-THEME-001 — Theme count | **PLANNED — M7** | 2 of 20 |
-| V1-THEME-002 — B&W themes | **PLANNED — M7** | 1 of ≥5 (`bw_standard`) |
-| V1-THEME-003 — Live switching | **PASS** | sidebar `theme-select`; live re-render |
-| V1-THEME-004 — Semantic preservation | **PASS** | unit invariants + theme-regression spec |
+| V1-THEME-001 — Theme count | **PASS** ◂R0.15 | **24** distinct themes (≥20) in the typed registry `src/core/theme/index.ts`, each with a stable id and usable tokens; every theme resolves and emits distinct layout CSS. Evidence: `tests/unit/theme.test.ts`, `tests/e2e/theme.spec.ts` |
+| V1-THEME-002 — B&W themes | **PASS** ◂R0.15 | **6** genuinely monochrome themes (≥5): every colour token is a neutral grey (`r === g === b`), checked exhaustively — not merely named B&W. Evidence: `tests/unit/theme.test.ts` |
+| V1-THEME-003 — Live switching | **PASS** ◂R0.15 | sidebar `theme-select`; live re-render through the shared pipeline; verified across the §6.2 corpus switching series (Default → B&W → colour → Default) |
+| V1-THEME-004 — Semantic preservation | **PASS** ◂R0.15 | all-theme invariants (content, ids, metadata, numbering, references, equation labels, resolved fields, sections) over a rich fixture **and** the V1-PERF document; the serialized document differs in `settings.theme` alone. Evidence: `tests/unit/theme.test.ts`, `tests/e2e/theme.spec.ts` |
 
 ### §24 Live preview (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -1323,7 +1443,7 @@ storage) are documented in `docs/limitations.md` §M5 and §0.13.
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-VIS-001 — Visual regression (MUST) | **PARTIAL** ◂R0.3 | structural assertions + footer/page-number pixel-difference checks + PDF media/text parity pass; **no committed screenshot corpus** — release gate in §6.2 |
-| V1-VIS-002 — Theme regression | **PARTIAL** | mechanism + invariants for 2 themes; complete with M7 (20); gate in §6.2 |
+| V1-VIS-002 — Theme regression | **PARTIAL** ◂R0.15 | mechanism + all-theme invariants (24 themes) **plus (M7) the §6.2 corpus switching series** (Default → B&W → colour → Default) verifying semantic equivalence and expected computed presentation; the full release gate (committed screenshot baselines + pinned runtime + pixel tolerance, §6.2) is **not** activated |
 | V1-A11Y-001 (SHOULD) | **PLANNED — M11** ◂R0.3 | demonstrable per-requirement scope (§6.3); documented margin-box AT limitation is **not** a waiver |
 
 ### §44–§51 Documentation, technology, gates (identifiers added in R0.3)
@@ -1392,13 +1512,13 @@ Re-checked every PASS row against its criterion text and implementation:
 - PASS rows confirmed with no open work: PLAT-001..003, IR-001..004,
   DOC-001/003, TXT-002/003, PAGE-002, SEC-001/002/003, FLOW-001/002,
   TABLE-001/006/007, IMG-001/005, HF-001/002/004, NUM-001..005, REF-001,
-  EQ-002/003, THEME-003/004, PREV-001..004, PAG-001/002/003/005/006,
+  EQ-002/003, THEME-001..004, PREV-001..004, PAG-001/002/003/005/006,
   PDF-001/003, JSON-001..006, REN-001..003, DATA-001..003, ERR-001/003,
   SECU-001/002/003, TEST-001..006, DOCU-001, TECH-001, GATE-001, GATE-002.
 - PARTIAL rows carry explicit remaining work: TXT-001 (M1), FMT-001/002/003
   (M2), LIST-001 (M3), PAGE-003/004 + SEC-002 + PAG-004 + PDF-002 (M4),
   TABLE-002/009 (M8), IMG-002/004 (M9), HF-003 + META-002/003 + FIELD-003
-  (M5), EQ-001 (M6), THEME-001/002 (M7), PERF-001 + VIS-001/002 (gates §6).
+  (M5), EQ-001 (M6), PERF-001 + VIS-001/002 (gates §6).
 - Vacuity is stated, not hidden: SECU-002 (no calc engine yet),
   ERR-002 (no import yet), GATE-001 (closed gate), GATE-002 (asserted current
   absence, re-asserted at release).
@@ -1419,6 +1539,12 @@ Re-checked every PASS row against its criterion text and implementation:
   §0.14 (cross-references + derived equation numbering); `REF-001`, `NUM-001..005`
   keep their PASS status. No other row's status changed, and the remaining named
   gaps are M7–M11, the §6 gates and the remaining-V1 import.
+- **R0.15 (M7) update:** `THEME-001` and `THEME-002` move to **PASS** per §0.15
+  (24-theme library incl. 6 monochrome B&W themes); `THEME-003`/`THEME-004` keep
+  their PASS status. `VIS-002` stays **PARTIAL**: the M7 corpus switching series
+  is delivered, but the committed screenshot-baseline release gate (§6.2) is not
+  activated. No other row's status changed, and the remaining named gaps are
+  M8–M11, the §6 gates and the remaining-V1 import.
 
 ---
 
@@ -1534,10 +1660,19 @@ pixel-difference *checks* (footer changes between pages —
 + PDF text/media parity. There is **no committed screenshot corpus** — the
 "no screenshots captured" note in the smoke check is accurate.
 
+**M7 update (R0.15):** the *semantic* leg of V1-VIS-002 is delivered —
+`tests/e2e/theme.spec.ts` runs the `default → bw → color → default` series over
+the corpus (golden-01/02/03/09 plus the V1-PERF representative document),
+asserting structural/text/derived-data equivalence and the expected computed
+presentation while allowing visual difference. The **screenshot** leg is
+unchanged: no baselines are captured or committed, so the release gate below is
+**not** activated and V1-VIS-001/002 remain **PARTIAL**.
+
 **Remaining corpus work (release-hardening):**
 
 1. Corpus = { `golden-01-mixed-orientation`, `golden-02-sop-long-table`,
-   `golden-03-phase0-gate`, V1-PERF representative document }.
+   `golden-03-phase0-gate`, V1-PERF representative document } (the M7 semantic
+   switching series additionally covers `golden-09-references`).
 2. Baselines: committed Playwright screenshots of representative pages — first
    page, a table-split page, a section-transition page, last page — per
    document, in the default theme plus one B&W and one color theme (the
@@ -1560,7 +1695,8 @@ the corpus and baselines land in release hardening, and only then do the
 
 **Release-gate condition:** the corpus e2e suite is green on CI with committed
 baselines and the documented, pinned tolerance; V1-VIS-001/002 are PASS on
-that gate (V1-VIS-002 additionally requires the 20-theme library from M7).
+that gate (V1-VIS-002 additionally requires the theme library, delivered in M7:
+24 themes incl. 6 B&W).
 This gate is independent of the configurable-defaults decision (approved
 separately — D11).
 
@@ -1655,7 +1791,7 @@ M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
    configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11 ◂ HARDENED R0.12
 M5 Metadata + lab profile + fields (uses M1 styles for field rendering)   ◂ DELIVERED R0.13
 M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq   ◂ DELIVERED R0.14
-M7 Themes (needs M1 + M5)
+M7 Themes (needs M1 + M5)   ◂ DELIVERED R0.15
 M8 Table depth (needs M4 geometry, M2 cell formatting) ◂ promoted: merged×pages
 M9 Images depth (needs M2 alignment, M8 caption UI)
 M10 Autosave (independent app-shell)
@@ -1836,6 +1972,24 @@ Ship 18 more presentation-only themes (≥20), extend B&W to ≥5; all pass the
 semantic-invariant suite and theme-regression e2e. Dep: M1, M5. Tests:
 invariants ×20, VIS-002 series over the corpus (§6.2). Acceptance: 20 themes,
 5 B&W, invariants green, VIS-002 corpus green.
+**◂R0.15 — DELIVERED:** V1-THEME-001 PASS, V1-THEME-002 PASS, V1-THEME-003/004
+retained PASS. The typed registry now holds **24 themes** (6 monochrome B&W + 18
+colour) built entirely on the existing `ThemeTokens` contract and the shared
+`buildCss` mapper — no second styling system, no user-authored CSS, no new
+dependency. Themes vary typography (body/heading/mono font stacks, body size, a
+six-level heading scale), colours, rules and table treatment; the `bw` flag is a
+checked contract (every colour token neutral). Themes are presentation-only: the
+all-theme sweep proves content, ids, metadata, numbering, references (incl.
+broken-target diagnostics), equation labels, resolved dynamic fields and section
+structure are identical and the serialized document differs in `settings.theme`
+alone — over a rich fixture and the extracted V1-PERF representative document.
+`lab_default`/`bw_standard` keep their exact token values, so **no golden was
+regenerated**. The §6.2 corpus switching series (Default → B&W → colour →
+Default) runs over golden-01/02/03/09 and the V1-PERF document. Evidence:
+`tests/unit/theme.test.ts` (8 tests), `tests/e2e/theme.spec.ts` (6 tests),
+`tests/support/stressDocument.ts`. Residual limits recorded in §0.15 and
+`docs/limitations.md` §M7. **V1-VIS-002 stays PARTIAL** — the screenshot leg of
+the release gate is not activated (no committed baselines / pinned tolerance).
 
 #### M8 — Table depth · V1-TABLE-002 (MUST UI), 003 (MUST), 004 (MUST), 005 (MUST), 008 (MUST), 009 caption-editing (MUST) ◂ promotes advanced table pagination (approved — D8)
 IR: colspan/rowspan on `tableCell`; cell h/v alignment; table/cell borders,
@@ -1954,8 +2108,8 @@ and evidence are unchanged.
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
 > separate, explicitly authorized task after this checkpoint. **M1, M2, M3, M4,
-> M5 and M6 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10, R0.11, R0.13 and
-> R0.14 respectively; the M4 PDF-geometry evidence was hardened in R0.12) on the
-> strength of separate, explicitly authorized tasks following the AGENTS.md
-> checkpoint workflow; **M7–M11 (and the Markdown import) have not been
+> M5, M6 and M7 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10, R0.11, R0.13,
+> R0.14 and R0.15 respectively; the M4 PDF-geometry evidence was hardened in
+> R0.12) on the strength of separate, explicitly authorized tasks following the
+> AGENTS.md checkpoint workflow; **M8–M11 (and the Markdown import) have not been
 > started.**

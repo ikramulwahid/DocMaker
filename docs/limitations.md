@@ -203,10 +203,12 @@ see `src/core/ir/sanitize.ts`):
     HF limitation (M5 section below); `[laboratoryName]` works in HF.
 21. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
     IR/CSS pipeline but have no Phase-0 controls).
-22. **Theme selection is a minimal POC**: two themes (Lab Default /
-    B&W Standard — ids `lab_default` / `bw_standard`) selectable in the
-    sidebar; presentation-only, semantic data is unchanged (tests prove it).
-    The full theme library (20 themes) is post-Phase-0.
+22. **Theme selection is presentation-only and document-level.** A document
+    selects one theme in the sidebar (`theme-select`); switching re-renders the
+    preview immediately and persists `settings.theme`. Content, ids, metadata,
+    numbering, references and resolved field values are unchanged — proven by
+    `tests/unit/theme.test.ts` and `tests/e2e/theme.spec.ts`. M7 (delivered
+    2026-10-12) replaced the two-theme POC with the full library — see item 58.
 23. **Web "Save" downloads a file** (browser fallback); the Tauri shell has
     native open/save dialogs wired and desktop-validated (2026-10-09 — see
     item 4 and `docs/phase0-manual-smoke-check.md`).
@@ -375,7 +377,7 @@ The honest residual limits are:
     only.** The metadata skeleton is limited to the fields that exist in the
     model today — `docNumber`, `revision`, `author`, `organization`,
     `description` (the rest of the metadata schema is M5). The default theme is
-    chosen from the themes currently available (the 20-theme library is M7);
+    chosen from the available theme library (24 themes as of M7);
     an unknown stored theme id falls back to the default. Preferences are
     **local to the machine** (`localStorage`, key
     `docmaker.new-document-defaults.v1`) — no backend, login or cloud sync
@@ -550,3 +552,52 @@ equations. The new `golden-09-references` exercises heading/table/figure/
 equation references plus one deliberately broken reference. References
 round-trip through save → reload (ADR-004; `tests/unit/adapter.test.ts`,
 `tests/unit/references.test.ts`, and the M6 e2e tests).
+
+## Theme library (M7, delivered 2026-10-12)
+
+V1-THEME-001 (≥20 themes) and V1-THEME-002 (≥5 B&W themes) are delivered;
+V1-THEME-003 (live switching) and V1-THEME-004 (semantic preservation) are
+retained and strengthened. The library is a typed registry of **24 themes**
+(6 monochrome/B&W + 18 colour) in `src/core/theme/index.ts`, all consumed by
+the existing `ThemeTokens` contract and the shared `buildCss` token→CSS mapper —
+no second styling system and no user-authored CSS. The honest residual limits
+are:
+
+58. **A theme is presentation-only — it names no content and stores no CSS.**
+    The registry swaps typography (body + heading + monospace font stacks, body
+    size and a six-level heading scale), colours (body/heading/muted/accent),
+    rules and the table treatment (border + header background/text). Switching
+    a theme changes **only** the generated CSS: content, node ids, metadata,
+    numbering, cross-references (including the broken-target report), equation
+    labels, resolved dynamic field values and section structure are identical,
+    and the serialized document differs in `settings.theme` alone. Proven across
+    the whole registry and over both a rich document and the V1-PERF
+    representative document in `tests/unit/theme.test.ts`, plus the real
+    sidebar → preview switching series in `tests/e2e/theme.spec.ts`.
+59. **The `bw` flag is a contract, not a label.** Every colour token of a theme
+    flagged `bw` must be a pure neutral grey (r === g === b), checked exhaustively
+    in `tests/unit/theme.test.ts`; a "B&W" theme therefore cannot smuggle in a
+    chromatic accent. B&W themes remain legible and print-safe without relying on
+    colour to convey meaning.
+60. **Themes are a fixed, typed registry.** V1 has no user-authored CSS, no
+    theme-file import and no theme editor; an unknown/absent stored theme id
+    falls back deterministically to `lab_default`. New themes are added in code
+    against the validated `ThemeTokens` shape (the renderer emits only
+    allow-listed values), which keeps AGENTS.md §61 renderer-security intact.
+61. **One theme is active per document.** The active theme is a document
+    setting (`settings.theme`), not a per-section or per-block property; the
+    whole document shares one presentation.
+62. **V1-VIS-002 is PARTIAL — the theme-regression series is delivered, the
+    screenshot-baseline gate is not.** M7 adds a repeatable, semantic
+    theme-switching series (Default → B&W → colour → Default) over the §6.2
+    corpus that verifies structural/text/derived-data equivalence and the
+    expected computed-style changes; it does **not** capture or commit pixel
+    baselines. The full V1-VIS-001/V1-VIS-002 release gate still requires the
+    committed Playwright screenshot corpus, a documented pinned browser/runtime
+    and a pixel-difference tolerance policy (plan §6.2, decision D10) — see the
+    "screenshots not captured" note in `docs/phase0-manual-smoke-check.md`.
+
+M7 is **additive**: `schema_version` stays `1.0`, `lab_default` / `bw_standard`
+keep their exact token values (so goldens-01..09 are byte-identical and require
+no regeneration), and an older document that names only a pre-M7 theme id loads
+unchanged.
