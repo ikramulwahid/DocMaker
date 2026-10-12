@@ -9,6 +9,7 @@
  *  - Zod is the single schema: all TS types are inferred from it.
  */
 import { z } from "zod";
+import { isFieldKey, type FieldKey } from "../fields/keys";
 import {
   columnWidthProblem,
   fontSizePtProblem,
@@ -257,34 +258,70 @@ export type Mark = z.infer<typeof markSchema>;
  * editor toggles them (so it cannot produce both); the adapter additionally
  * normalizes foreign input keep-first; the schema rejects a run where both
  * exist (AGENTS.md §46: failure cases are tested, not papered over).
+ *
+ * `.strict()` keeps the run shape EXACTLY `{ text, marks }` (the pre-M5 wire
+ * shape, ADR-004 additive policy) and — together with the strict field node
+ * below — makes a contradictory `{ text, field }` object invalid rather than
+ * one branch silently discarding the other's data.
  */
-export const inlineSchema = z.object({
-  text: z.string(),
-  marks: z
-    .array(markSchema)
-    .superRefine((marks, ctx) => {
-      const families = new Set<string>();
-      for (const mark of marks) {
-        const family =
-          mark.type === "superscript" || mark.type === "subscript"
-            ? "vertical-align"
-            : mark.type === "textCase"
-              ? "textCase"
-              : null;
-        if (family === null) continue;
-        if (families.has(family)) {
-          ctx.addIssue({
-            code: "custom",
-            path: ["marks"],
-            message: `contradictory marks in one run: a run cannot mix ${family === "vertical-align" ? "superscript and subscript" : "uppercase and lowercase"}`,
-          });
+export const textRunSchema = z
+  .object({
+    text: z.string(),
+    marks: z
+      .array(markSchema)
+      .superRefine((marks, ctx) => {
+        const families = new Set<string>();
+        for (const mark of marks) {
+          const family =
+            mark.type === "superscript" || mark.type === "subscript"
+              ? "vertical-align"
+              : mark.type === "textCase"
+                ? "textCase"
+                : null;
+          if (family === null) continue;
+          if (families.has(family)) {
+            ctx.addIssue({
+              code: "custom",
+              path: ["marks"],
+              message: `contradictory marks in one run: a run cannot mix ${family === "vertical-align" ? "superscript and subscript" : "uppercase and lowercase"}`,
+            });
+          }
+          families.add(family);
         }
-        families.add(family);
-      }
-    })
-    .default([]),
-});
+      })
+      .default([]),
+  })
+  .strict();
+export type TextRun = z.infer<typeof textRunSchema>;
+
+/**
+ * A canonical inline dynamic field reference (M5 — V1-FIELD-001/002).
+ *
+ * The IR stores the allow-listed KEY (e.g. `"document.number"`), never a
+ * copied value, so V1-META-003 holds by construction: editing the metadata
+ * changes every occurrence. An unknown key is REJECTED here with an actionable
+ * message rather than silently erased.
+ */
+export const fieldNodeSchema = z
+  .object({ field: z.custom<FieldKey>((value) => isFieldKey(value), { message: "unknown dynamic field key" }) })
+  .strict();
+export type FieldNode = z.infer<typeof fieldNodeSchema>;
+
+/**
+ * Inline content is a discriminated union of text runs and field references.
+ * The union members are structurally exclusive (`text` vs `field`), so the
+ * existing text-run JSON/marks shape is preserved byte-for-byte.
+ */
+export const inlineSchema = z.union([textRunSchema, fieldNodeSchema]);
 export type Inline = z.infer<typeof inlineSchema>;
+
+export function isTextRun(run: Inline): run is TextRun {
+  return (run as TextRun).text !== undefined;
+}
+
+export function isFieldNode(run: Inline): run is FieldNode {
+  return (run as FieldNode).field !== undefined;
+}
 
 /* ------------------------------------------------- paragraph overrides (M2) */
 
@@ -571,6 +608,9 @@ export const marginFieldSchema = z.enum([
   "docNumber",
   "revision",
   "effectiveDate",
+  "reviewDate",
+  "status",
+  "laboratoryName",
 ]);
 export type MarginField = z.infer<typeof marginFieldSchema>;
 
@@ -657,8 +697,46 @@ export const metadataSchema = z.object({
   author: z.string().default(""),
   organization: z.string().default(""),
   description: z.string().default(""),
+  /**
+   * M5 additive metadata (V1-META-001). Every field defaults to "" so a
+   * pre-M5 document loads unchanged (ADR-004). `status` is DOCUMENT DATA, not
+   * a lifecycle state machine (D6) — no transitions/events/signatures.
+   */
+  documentType: z.string().default(""),
+  department: z.string().default(""),
+  /** ISO date, `YYYY-MM-DD`. */
+  reviewDate: z.string().default(""),
+  status: z.string().default(""),
+  preparedBy: z.string().default(""),
+  reviewedBy: z.string().default(""),
+  approvedBy: z.string().default(""),
+  classification: z.string().default(""),
 });
 export type Metadata = z.infer<typeof metadataSchema>;
+
+/**
+ * Document-scoped laboratory profile (M5 — V1-FIELD-002).
+ *
+ * The logo is an embedded image (same allow-list and size limits as any other
+ * image — `imageSrcProblem`), nullable, and `null`/`""` means "no logo yet".
+ * A remote URL or non-image data URI is REJECTED at the schema boundary.
+ */
+export const laboratoryProfileSchema = z
+  .object({
+    name: z.string().default(""),
+    address: z.string().default(""),
+    logo: z.string().nullable().default(null),
+  })
+  .superRefine((profile, ctx) => {
+    // "" is treated as "no logo" (resolved as unresolved when referenced).
+    if (profile.logo !== null && profile.logo !== "") {
+      const problem = imageSrcProblem(profile.logo);
+      if (problem) {
+        ctx.addIssue({ code: z.ZodIssueCode.custom, message: problem, path: ["logo"] });
+      }
+    }
+  });
+export type LaboratoryProfile = z.infer<typeof laboratoryProfileSchema>;
 
 export const watermarkSchema = z.object({
   enabled: z.boolean().default(true),
@@ -684,6 +762,11 @@ export const documentSchema = z.object({
   id: nodeIdSchema,
   type: z.literal("document"),
   metadata: metadataSchema.default({}),
+  /**
+   * Document-scoped laboratory identity (M5). Additive default so pre-M5
+   * documents load with an empty profile that persists on next save.
+   */
+  laboratoryProfile: laboratoryProfileSchema.default({}),
   settings: settingsSchema.default({}),
   /**
    * Document-level reusable style library (V1-STYLE-001). Defaults to the

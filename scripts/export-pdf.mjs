@@ -33,7 +33,13 @@ try {
   console.error(`dist-core/core.js missing — run \`pnpm build:core\` first (${err.message})`);
   process.exit(1);
 }
-const { deserializeDocument, resolveDocument, renderLayout } = core;
+const {
+  deserializeDocument,
+  resolveDocument,
+  renderLayout,
+  collectUnresolvedFields,
+  unresolvedFieldMessages,
+} = core;
 
 const inputPath = path.resolve(input);
 const json = readFileSync(inputPath, "utf8");
@@ -43,6 +49,21 @@ try {
   document = deserializeDocument(json);
 } catch (err) {
   console.error(`Invalid document: ${err.message}`);
+  process.exit(1);
+}
+
+// V1-FIELD-004: the same shared validation the app uses gates the CLI path.
+// A final PDF is refused while a USED field has no value; page fields are
+// deferred to pagination and are never reported here.
+const unresolved = collectUnresolvedFields(document);
+if (unresolved.occurrences.length > 0) {
+  console.error(
+    `PDF export blocked — ${unresolved.occurrences.length} unresolved field(s):`,
+  );
+  for (const message of unresolvedFieldMessages(unresolved)) {
+    console.error(`  - ${message}`);
+  }
+  console.error("Resolve the fields in the document, or keep editing the draft.");
   process.exit(1);
 }
 

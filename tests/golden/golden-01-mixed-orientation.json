@@ -11,7 +11,20 @@
       "effectiveDate": "2026-10-08",
       "author": "A. Tester",
       "organization": "Lab",
-      "description": "Fixture"
+      "description": "Fixture",
+      "documentType": "",
+      "department": "",
+      "reviewDate": "",
+      "status": "",
+      "preparedBy": "",
+      "reviewedBy": "",
+      "approvedBy": "",
+      "classification": ""
+    },
+    "laboratoryProfile": {
+      "name": "",
+      "address": "",
+      "logo": null
     },
     "settings": {
       "theme": "lab_default",

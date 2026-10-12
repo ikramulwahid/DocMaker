@@ -6,6 +6,7 @@ import { Preview } from "@/components/Preview";
 import { Sidebar } from "@/components/Sidebar";
 import { EditorPanel } from "@/editor/EditorPanel";
 import { effectivePageSizeMm, serializeDocument, tryDeserializeDocument } from "@/core";
+import { collectUnresolvedFields, unresolvedFieldMessages } from "@/core/fields";
 import { openJson, saveJson } from "@/app/files";
 import { useDocStore } from "@/store";
 
@@ -44,6 +45,16 @@ export default function App() {
 
   const onExportPdf = () => {
     const state = useDocStore.getState();
+    // V1-FIELD-004: final PDF export is refused while a USED field has no
+    // value. Saving the `.labdoc.json` draft stays possible; only the final
+    // output is gated. The list is actionable so the user knows what to fix.
+    const report = collectUnresolvedFields(state.document);
+    if (report.occurrences.length > 0) {
+      state.setStatus(
+        `PDF export blocked — ${report.occurrences.length} unresolved field(s): ${unresolvedFieldMessages(report).join("; ")}`,
+      );
+      return;
+    }
     // The browser print dialog is a single paper size, so a faithful in-app
     // print is only possible when every sheet has the same geometry.
     const sizes = state.document.sections.map((s) => effectivePageSizeMm(s.pageSetup));

@@ -28,6 +28,7 @@ export function createDocumentFixture(): Document {
 
   const doc = createEmptyDocument("Test Method");
   doc.metadata = {
+    ...doc.metadata,
     title: "Test Method",
     docNumber: "TM-001",
     revision: "03",

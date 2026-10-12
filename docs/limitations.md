@@ -189,13 +189,18 @@ see `src/core/ir/sanitize.ts`):
 
 18. **One section is edited at a time** via the section selector; no
     cross-section search/replace.
-19. **Metadata is basic** (title, doc number, revision, effective date,
-    author, organization, description). Document lifecycle states
-    (draft/review/approved) are V1 scope.
-20. **Header editing supports plain text + `[field]` tokens**
-    (`[title]`, `[docNumber]`, `[revision]`, `[effectiveDate]`, `[page]`,
-    `[count]`). Structured multi-run headers are representable in the IR but
-    not editable as separate runs in the sidebar.
+19. **Metadata** carries title, doc number, revision, effective date, author,
+    organization, description **and (M5) document type, department, review
+    date, status, prepared/reviewed/approved by, classification** — see the M5
+    section below. Document lifecycle states (draft/review/approved as a
+    workflow) are V1 scope; `status` is a plain data field, not a lifecycle.
+20. **Header/footer editing supports plain text + `[field]` tokens**
+    (`[title]`, `[docNumber]`, `[revision]`, `[effectiveDate]`, `[reviewDate]`,
+    `[status]`, `[laboratoryName]`, `[pageNumber]`, `[pageCount]`; `[page]` and
+    `[count]` are accepted **parse aliases** for the two page tokens).
+    Structured multi-run headers are representable in the IR but not editable as
+    separate runs in the sidebar. The **laboratory logo** field is a documented
+    HF limitation (M5 section below); `[laboratoryName]` works in HF.
 21. **Watermark UI exposes text + enabled only** (angle/opacity exist in the
     IR/CSS pipeline but have no Phase-0 controls).
 22. **Theme selection is a minimal POC**: two themes (Lab Default /
@@ -392,3 +397,88 @@ sentinel; `widthMm`/`heightMm` are new **nullable** fields defaulting to `null`
 goldens-01..06, whose HTML is byte-identical). Every page setup round-trips
 through save → reload (ADR-004; golden-07 plus `tests/unit/page-setup.test.ts`
 and `tests/e2e/page-setup.spec.ts` / `tests/e2e/document-defaults.spec.ts`).
+
+## Metadata, laboratory profile & dynamic fields (M5, delivered 2026-10-12)
+
+V1-META-001/002/003, V1-FIELD-001..004 and V1-HF-003 are delivered. One typed,
+allow-listed field registry (`src/core/fields/keys.ts`) is the single source of
+field names, read by the editor picker, the body resolver, the header/footer
+renderer and the pre-export validator, so a field name cannot drift between
+consumers. The honest residual limits are:
+
+43. **The dynamic-field set is a fixed allow-list, not an expression
+    language.** The supported keys are document metadata (`document.number`,
+    `title`, `revision`, `effective_date`, `review_date`, `status`, `type`,
+    `department`, `prepared_by`, `reviewed_by`, `approved_by`, `classification`,
+    `author`, `organization`), the laboratory profile (`laboratory.name`,
+    `laboratory.address`, `laboratory.logo`) and two page fields
+    (`page.number`, `page.total`). An unknown key is **rejected** at the
+    schema/load boundary and skipped defensively by the adapter — it is never
+    resolved to empty text and never silently erased (AGENTS.md §64). There is
+    no arithmetic, formatting or conditional syntax in a field key; that is not
+    V1 scope.
+44. **The IR stores the field KEY, never a copied value.** A body field is a
+    first-class inline node (`{ field: "document.number" }`) rendered at
+    resolve time from the canonical metadata/laboratory profile, so a metadata
+    edit updates **every** occurrence (V1-META-003) and the preview and PDF stay
+    in agreement. The editor shows a distinguishable, non-editable chip that
+    carries only the key; the rendered value lives exclusively in the preview
+    and export.
+45. **An *unused* empty metadata property is not an error; a *used* field with
+    an empty/missing source is unresolved (never blank).** A single shared
+    walker (`src/core/fields/unresolved.ts`) reports each occurrence with its
+    key and location (body block / header / footer), so repeated occurrences are
+    all traced. The sidebar "Dynamic fields" panel, the preview (a visible
+    unresolved chip) and both export paths all consume this one report — there
+    is no scattered string check. HTML-sensitive values are escaped as text; a
+    field value can never become markup or script (AGENTS.md §61).
+46. **Final PDF export is refused while unresolved fields remain.** The in-app
+    "Export PDF" button and the `pnpm pdf` CLI both call the same shared
+    collector and, when it is non-empty, refuse with the list of unresolved
+    fields (the app writes it to the status line; the CLI prints it to stderr
+    and exits non-zero). Saving the `.labdoc.json` **draft is unaffected** —
+    only the final PDF is gated. Page fields are exempt: they are resolved
+    after pagination, so an empty `page.total`/`page.number` never blocks.
+47. **Page fields resolve only after pagination.** `page.number` and
+    `page.total` are emitted as placeholder elements and materialised by the
+    shared Paged.js script once the document has paginated (total = document
+    page count; number = the running counter, honouring section restarts). They
+    are therefore **never reported unresolved pre-pagination**, and they update
+    after edits/repagination in both preview and PDF.
+48. **The laboratory logo field renders in the document body only, not in a
+    header/footer margin box.** A body `{{laboratory.logo}}` renders a
+    constrained, allow-listed `<img>` (max 45 mm × 20 mm) exactly like any other
+    embedded image. Paged.js margin boxes are CSS `content` strings and cannot
+    carry an `<img>`, so a **logo field placed in a header/footer cannot be
+    rendered** — this is a documented limitation of the HF engine, not a silent
+    failure (the textual `[laboratoryName]` token DOES work in HF). The
+    laboratory logo is an embedded data-URI subject to the same
+    image allow-list as any other image (item 10): an unsupported type, a remote
+    URL or an oversized payload is refused before it enters the IR.
+49. **The laboratory profile is document-scoped.** `name`, `address` and
+    `logo` are serialised inside the `.labdoc.json` (no separate
+    laboratory-profile store, no backend/login/cloud — V1-PLAT-002/003). An
+    unset logo used as a field is unresolved; an unset logo that is not used is
+    not an error. Per-document isolation is tested.
+50. **`status` is document data, not a lifecycle workflow.** Setting a status
+    value does not create draft/review/approval transitions, signatures or audit
+    events; those remain V1.2 scope (approved D6; V1-LIFE-001 unchanged).
+51. **Fields are inserted through the picker; user-typed `{{…}}` text is left
+    untouched.** There is no implicit conversion of typed braces into a field —
+    the semantic field is created only by the labelled picker (an explicit
+    editor command) so the IR is never silently rewritten from prose. The
+    legacy `[title]`-style header/footer tokens are preserved unchanged;
+    `[page]`/`[count]` remain accepted **parse aliases** that normalise to the
+    canonical `[pageNumber]`/`[pageCount]` on parse and serialise back
+    canonically.
+
+M5 is **additive**: `schema_version` stays `1.0`. The new metadata properties
+default to `""` and `laboratoryProfile` defaults to `{ name: "", address: "",
+logo: null }`, so every pre-M5 document loads unchanged with safe defaults
+(proven by the regenerated goldens-01..07, whose HTML is byte-identical). The
+new `golden-08-fields` exercises body fields, laboratory fields and page fields
+in both the body and header/footer. Every field reference round-trips through
+save → reload (ADR-004; `tests/unit/fields.test.ts`, plus the M5 e2e tests and
+the adapter/round-trip unit tests). Field CSS and the page-field materialiser
+are emitted only when the document actually contains fields, so legacy goldens
+stay byte-identical.

@@ -11,12 +11,21 @@
  * MediaBox sizes and extracted text (ADR-002/003), not assumed.
  */
 import { buildCss } from "./css";
-import { buildBody, buildScripts, documentHasEquations } from "./html";
+import { buildBody, buildScripts, documentHasEquations, documentHasPageFields } from "./html";
 import { katexCss } from "./katex-css";
 import type { ResolvedDocument } from "../resolve";
 
 export { buildCss, buildStyleCss, cssString, marginContent, pageSizeMm } from "./css";
-export { buildBody, blockHtml, documentHasEquations, escapeHtml, inlineHtml, paragraphFormatStyle } from "./html";
+export {
+  buildBody,
+  blockHtml,
+  documentHasBodyFields,
+  documentHasEquations,
+  documentHasPageFields,
+  escapeHtml,
+  inlineHtml,
+  paragraphFormatStyle,
+} from "./html";
 export { katexCss } from "./katex-css";
 
 export interface LayoutOptions {
@@ -44,7 +53,9 @@ export function renderLayout(
     ? `\n/* KaTeX (bundled offline) */\n${katexCss(options.katexFontsBaseUrl)}`
     : "";
   const body = buildBody(resolved);
-  const scripts = buildScripts(options.pagedJsSrc);
+  const scripts = buildScripts(options.pagedJsSrc, {
+    pageFields: documentHasPageFields(resolved),
+  });
   return `<!doctype html>
 <html lang="${options.lang ?? "en"}">
   <head>

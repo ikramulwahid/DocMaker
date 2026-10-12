@@ -6,10 +6,17 @@
  * orientation/margins/margin-boxes, the paged.js 0.4.3 named-page sheet-var
  * workaround, the repeated-thead handler, watermark pseudo-element.
  */
-import type { MarginBox, MarginField, PageSetup, StyleDefinition } from "../ir/schema";
+import type { Document, MarginBox, MarginField, PageSetup, StyleDefinition } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
 import { effectivePageSizeCssMm } from "../ir/pageGeometry";
 import { resolveTheme, SANS_FONT_STACK, SERIF_FONT_STACK, type ThemeTokens } from "../theme";
+import {
+  isPageFieldKey,
+  marginFieldKey,
+  resolveField,
+  unresolvedFieldMarker,
+} from "../fields";
+import { documentHasBodyFields } from "./html";
 
 export function cssString(value: string): string {
   // JSON string syntax is a safe subset for CSS `content` strings once
@@ -36,6 +43,12 @@ function fieldExpression(field: MarginField, strings: Record<string, string>): s
       return cssString(strings.revision ?? "");
     case "effectiveDate":
       return cssString(strings.effectiveDate ?? "");
+    case "reviewDate":
+      return cssString(strings.reviewDate ?? "");
+    case "status":
+      return cssString(strings.status ?? "");
+    case "laboratoryName":
+      return cssString(strings.laboratoryName ?? "");
     default:
       return cssString("");
   }
@@ -91,16 +104,41 @@ export function pageSizeMm(setup: PageSetup): { width: string; height: string } 
   return effectivePageSizeCssMm(setup);
 }
 
+/**
+ * Margin-box text values for a document (V1-HF-003). Every non-page margin
+ * field resolves through the SHARED field resolver; an empty source yields the
+ * visible unresolved marker rather than a silently blank header/footer. This
+ * keeps preview and PDF headers/footers identical and lets the unresolved-field
+ * report (which walks the same margin boxes) agree with what is rendered.
+ */
+function marginStrings(document: Document): Record<string, string> {
+  const values: Record<string, string> = {};
+  const fields: MarginField[] = [
+    "title",
+    "docNumber",
+    "revision",
+    "effectiveDate",
+    "reviewDate",
+    "status",
+    "laboratoryName",
+  ];
+  for (const field of fields) {
+    const key = marginFieldKey(field);
+    if (isPageFieldKey(key)) continue;
+    const resolution = resolveField(document, key);
+    values[field] =
+      resolution.status === "resolved" && resolution.kind === "text"
+        ? resolution.text
+        : unresolvedFieldMarker(key);
+  }
+  return values;
+}
+
 export function buildCss(resolved: ResolvedDocument): string {
   const { document: doc } = resolved;
   const lines: string[] = [];
 
-  const metadataStrings = {
-    title: doc.metadata.title,
-    docNumber: doc.metadata.docNumber,
-    revision: doc.metadata.revision,
-    effectiveDate: doc.metadata.effectiveDate,
-  };
+  const metadataStrings = marginStrings(doc);
 
   const first = doc.sections[0].pageSetup;
   const rootSize = pageSizeMm(first);
@@ -252,6 +290,22 @@ table.doc-table thead { display: table-header-group; }
   // the base typography; style tokens override/add presentation per style.
   const styleCss = buildStyleCss(resolved.styles, theme);
   if (styleCss) lines.push(styleCss);
+
+  /* ------------------------------------------------------------- fields */
+  // Emitted ONLY when the document actually contains body field nodes, so
+  // field-free documents keep byte-identical CSS (golden stability).
+  if (documentHasBodyFields(resolved)) {
+    lines.push(`
+.doc-field-unresolved {
+  color: #b00020;
+  background: #ffe8e8;
+  border: 0.3pt dashed #b00020;
+  padding: 0 1mm;
+}
+.doc-field-logo { display: block; max-height: 20mm; max-width: 45mm; margin: 2mm 0; }
+.doc-field-page { display: inline-block; min-width: 4mm; }
+`);
+  }
 
   /* ------------------------------------------------------------ watermark */
   const wm = doc.settings.watermark;

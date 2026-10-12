@@ -13,6 +13,7 @@ import {
   BULLET_MARKERS,
   EMPTY_PARAGRAPH_FORMAT,
   LIST_TYPES,
+  isFieldNode,
   isStyleId,
   type Block,
   type BulletMarker,
@@ -28,6 +29,7 @@ import {
   type TableCell,
 } from "@/core/ir/schema";
 import { isNodeId, newId } from "@/core/ir/ids";
+import { isFieldKey } from "@/core/fields";
 import { bulletListToCanonical } from "@/core/ir/normalize";
 import { fontSizePtProblem, isValidHexColor, safeListStart, sanitizeHref } from "@/core/ir/sanitize";
 import {
@@ -178,6 +180,9 @@ function normalizeRunMarks(marks: Mark[]): Mark[] {
 }
 
 function runToTiptap(run: Inline): TiptapNode {
+  if (isFieldNode(run)) {
+    return { type: "fieldRef", attrs: { field: run.field } };
+  }
   return {
     type: "text",
     text: run.text,
@@ -210,6 +215,14 @@ function runsFromTiptap(nodes: TiptapNode[] | undefined): Inline[] {
   if (!nodes) return [];
   const runs: Inline[] = [];
   for (const node of nodes) {
+    // A field chip round-trips to the canonical IR field reference. Only
+    // allow-listed keys can enter the IR (the editor can only produce valid
+    // chips); anything else is skipped rather than smuggled in.
+    if (node.type === "fieldRef") {
+      const field = node.attrs?.field;
+      if (isFieldKey(field)) runs.push({ field });
+      continue;
+    }
     if (node.type !== "text") continue; // hardBreak etc. cannot exist
     const marks: Mark[] = [];
     for (const mark of node.marks ?? []) {

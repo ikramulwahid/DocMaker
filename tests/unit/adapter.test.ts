@@ -353,7 +353,7 @@ describe("adapter — Tiptap → IR defensive mapping", () => {
     if (blocks[0].type === "table") {
       const cells = blocks[0].rows[0].cells;
       expect(cells[0].content).toHaveLength(1);
-      expect(cells[0].content[0].content[0].text).toBe("odd");
+      expect((cells[0].content[0].content[0] as { text: string }).text).toBe("odd");
       expect(blocks[0].headerRow).toBe(true);
     }
   });
@@ -477,6 +477,63 @@ describe("adapter — ordered-list start bounds (M3 hardening)", () => {
       const block = tiptapDocToBlocks(orderedTiptap(invalid))[0];
       expect(block.type).toBe("list");
       if (block.type === "list") expect(block.start).toBe(1);
+    }
+  });
+});
+
+describe("adapter — inline dynamic field chips (M5)", () => {
+  it("round-trips a field reference preserving text, marks and order", () => {
+    const blocks: Block[] = [
+      {
+        id: "pg_abcdef12",
+        type: "paragraph",
+        content: [
+          { text: "Doc ", marks: [{ type: "bold" }] },
+          { field: "document.number" },
+          { text: " rev ", marks: [] },
+          { field: "document.revision" },
+        ],
+        style: null,
+        format: EMPTY_PARAGRAPH_FORMAT,
+      },
+    ];
+    expect(roundTrip(blocks)).toEqual(blocks);
+  });
+
+  it("maps a field reference to a fieldRef atom node in editor JSON", () => {
+    const doc = blocksToTiptapDoc([
+      {
+        id: "pg_abcdef12",
+        type: "paragraph",
+        content: [{ field: "page.total" }],
+        style: null,
+        format: EMPTY_PARAGRAPH_FORMAT,
+      },
+    ]);
+    expect(doc.content?.[0]?.content?.[0]).toEqual({
+      type: "fieldRef",
+      attrs: { field: "page.total" },
+    });
+  });
+
+  it("skips an unknown/foreign field key instead of smuggling it into the IR", () => {
+    const doc: TiptapNode = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { id: "pg_abcdef12" },
+          content: [
+            { type: "fieldRef", attrs: { field: "document.unknown" } },
+            { type: "fieldRef", attrs: { field: "document.title" } },
+          ],
+        },
+      ],
+    };
+    const block = tiptapDocToBlocks(doc)[0];
+    expect(block.type).toBe("paragraph");
+    if (block.type === "paragraph") {
+      expect(block.content).toEqual([{ field: "document.title" }]);
     }
   });
 });

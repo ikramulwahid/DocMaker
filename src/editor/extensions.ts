@@ -21,6 +21,7 @@ import TableCell from "@tiptap/extension-table-cell";
 import TableHeader from "@tiptap/extension-table-header";
 import { renderMath } from "@/core/equation";
 import { isValidHexColor } from "@/core/ir/sanitize";
+import { fieldDefinition, isFieldKey } from "@/core/fields";
 
 /* ------------------------------------------------------------ marks (M2) */
 
@@ -286,6 +287,55 @@ export const Image = ImageBase.extend({
   },
 });
 
+/**
+ * Inline dynamic-field chip (M5 — V1-FIELD-001). An atom node carrying only
+ * the allow-listed field KEY; it shows a visible chip in the editor and maps
+ * 1:1 to an IR field reference through the adapter. The resolved value is
+ * NEVER stored here, so editing metadata updates every occurrence (V1-META-003).
+ */
+export const FieldRef = Node.create({
+  name: "fieldRef",
+  group: "inline",
+  inline: true,
+  atom: true,
+  selectable: true,
+  addAttributes() {
+    return {
+      field: {
+        default: "",
+        parseHTML: (element: HTMLElement) =>
+          element.getAttribute("data-field-ref") ?? "",
+        renderHTML: (attributes: { field?: string }) =>
+          attributes.field ? { "data-field-ref": attributes.field } : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-field-ref]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    const field = String((HTMLAttributes as { field?: unknown }).field ?? "");
+    return [
+      "span",
+      mergeAttributes(HTMLAttributes, { class: "ir-field-ref" }),
+      `{{${field}}}`,
+    ];
+  },
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement("span");
+      const key = String(node.attrs.field ?? "");
+      const known = isFieldKey(key);
+      dom.className = "ir-field-chip";
+      dom.setAttribute("data-field-ref", key);
+      dom.setAttribute("contenteditable", "false");
+      dom.textContent = known ? `{{${key}}}` : "{{unknown field}}";
+      dom.title = known ? (fieldDefinition(key)?.label ?? key) : "Unknown field";
+      return { dom };
+    };
+  },
+});
+
 /** Table with IR-only attrs (caption, column widths). */
 export const Table = TableBase.extend({
   addAttributes() {
@@ -428,6 +478,7 @@ export function createExtensions(): Extensions {
     ColorMark,
     HighlightMark,
     Image,
+    FieldRef,
     Table.configure({ resizable: false, allowTableNodeSelection: true }),
     TableRow,
     TableCell,

@@ -211,7 +211,7 @@ test("marks and overrides survive save → reopen (round trip)", async ({ page }
   // marks/overrides must round-trip through serialize → parse → render.
   await page.reload();
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', saved);
+  await page.getByTestId("open-file-input").setInputFiles(saved);
   await expect(page.getByTestId("file-name")).toContainText("format-roundtrip");
 
   const frame = await previewFrame(page);

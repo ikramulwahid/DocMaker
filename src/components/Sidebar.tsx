@@ -9,8 +9,10 @@ import { listThemes } from "@/core/theme";
 import { isBuiltinStyleId, type StyleFormat } from "@/core";
 import { useDocStore, type StyleDefinitionPatch } from "@/store";
 import { Field } from "./Field";
+import { LaboratoryProfilePanel } from "./LaboratoryProfilePanel";
 import { NewDocumentDefaults } from "./NewDocumentDefaults";
 import { PageSetupEditor } from "./PageSetupEditor";
+import { UnresolvedFieldsPanel } from "./UnresolvedFieldsPanel";
 
 export function Sidebar() {
   const document_ = useDocStore((s) => s.document);
@@ -21,6 +23,7 @@ export function Sidebar() {
   const setActiveSection = useDocStore((s) => s.setActiveSection);
   const setPageSetup = useDocStore((s) => s.setPageSetup);
   const setHeaderText = useDocStore((s) => s.setHeaderText);
+  const setFooterText = useDocStore((s) => s.setFooterText);
   const addSection = useDocStore((s) => s.addSection);
   const removeSection = useDocStore((s) => s.removeSection);
   const setStyleDefinition = useDocStore((s) => s.setStyleDefinition);
@@ -38,16 +41,37 @@ export function Sidebar() {
         <Field label="Title" value={metadata.title} onChange={(v) => setMetadata({ title: v })} />
         <Field label="Doc number" value={metadata.docNumber} onChange={(v) => setMetadata({ docNumber: v })} />
         <Field label="Revision" value={metadata.revision} onChange={(v) => setMetadata({ revision: v })} />
+        <Field label="Document type" value={metadata.documentType} onChange={(v) => setMetadata({ documentType: v })} />
+        <Field label="Department" value={metadata.department} onChange={(v) => setMetadata({ department: v })} />
+        <Field label="Status" value={metadata.status} onChange={(v) => setMetadata({ status: v })} />
+        <Field
+          label="Classification"
+          value={metadata.classification}
+          onChange={(v) => setMetadata({ classification: v })}
+        />
         <Field
           label="Effective date"
           type="date"
           value={metadata.effectiveDate}
           onChange={(v) => setMetadata({ effectiveDate: v })}
         />
+        <Field
+          label="Review date"
+          type="date"
+          value={metadata.reviewDate}
+          onChange={(v) => setMetadata({ reviewDate: v })}
+        />
         <Field label="Author" value={metadata.author} onChange={(v) => setMetadata({ author: v })} />
+        <Field label="Prepared by" value={metadata.preparedBy} onChange={(v) => setMetadata({ preparedBy: v })} />
+        <Field label="Reviewed by" value={metadata.reviewedBy} onChange={(v) => setMetadata({ reviewedBy: v })} />
+        <Field label="Approved by" value={metadata.approvedBy} onChange={(v) => setMetadata({ approvedBy: v })} />
         <Field label="Organization" value={metadata.organization} onChange={(v) => setMetadata({ organization: v })} />
         <Field label="Description" wide value={metadata.description} onChange={(v) => setMetadata({ description: v })} />
       </section>
+
+      <LaboratoryProfilePanel />
+
+      <UnresolvedFieldsPanel />
 
       <section>
         <h2>Theme</h2>
@@ -119,9 +143,14 @@ export function Sidebar() {
               orientationTestId={`orientation-${index}`}
             />
             <Field
-              label="Header ([title], [page]…)"
+              label="Header ([title], [docNumber], [status]…)"
               value={serializeMarginText(section.header)}
               onChange={(v) => setHeaderText(index, v)}
+            />
+            <Field
+              label="Footer ([pageNumber], [count], [laboratoryName]…)"
+              value={serializeMarginText(section.footer)}
+              onChange={(v) => setFooterText(index, v)}
             />
           </div>
         ))}

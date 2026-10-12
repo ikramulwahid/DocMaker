@@ -4,26 +4,34 @@
  */
 import { newId } from "./ids";
 import { buildDefaultStyles } from "./styles";
+import type { FieldKey } from "../fields/keys";
 import {
   EMPTY_PARAGRAPH_FORMAT,
   type Block,
   type BulletMarker,
   type Document,
   type Equation,
+  type FieldNode,
   type Heading,
   type Image,
   type Inline,
   type List,
   type ListItem,
   type ListType,
+  type Mark,
   type MarginBox,
   type Paragraph,
   type Section,
   type Table,
 } from "./schema";
 
-export function text(value: string, marks: Inline["marks"] = []): Inline {
+export function text(value: string, marks: Mark[] = []): Inline {
   return { text: value, marks };
+}
+
+/** Canonical inline dynamic field reference (M5). */
+export function field(key: FieldKey): FieldNode {
+  return { field: key };
 }
 
 /**
@@ -170,6 +178,19 @@ export function createEmptyDocument(title = ""): Document {
       author: "",
       organization: "",
       description: "",
+      documentType: "",
+      department: "",
+      reviewDate: "",
+      status: "",
+      preparedBy: "",
+      reviewedBy: "",
+      approvedBy: "",
+      classification: "",
+    },
+    laboratoryProfile: {
+      name: "",
+      address: "",
+      logo: null,
     },
     settings: {
       theme: "lab_default",

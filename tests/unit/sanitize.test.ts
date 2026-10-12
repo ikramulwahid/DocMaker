@@ -84,8 +84,8 @@ describe("link safety in the editor adapter", () => {
     const para = back[0];
     expect(para.type).toBe("paragraph");
     if (para.type === "paragraph") {
-      expect(para.content[0].marks).toEqual([]);
-      expect(para.content[1].marks).toEqual([
+      expect((para.content[0] as { marks: unknown }).marks).toEqual([]);
+      expect((para.content[1] as { marks: unknown }).marks).toEqual([
         { type: "link", href: "https://example.com" },
       ]);
     }

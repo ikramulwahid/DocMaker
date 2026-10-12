@@ -98,7 +98,7 @@ test("opening a file keeps the file's own settings", async ({ page }) => {
   await page.getByTestId("defaults-doc-number").fill("DEFAULT-ONLY");
 
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', GOLDEN_SOP);
+  await page.getByTestId("open-file-input").setInputFiles(GOLDEN_SOP);
   await expect(page.getByLabel("Doc number", { exact: true })).toHaveValue("SOP-042");
 
   // The defaults are unaffected by the opened document.

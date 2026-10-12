@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dynamic fields</title>
+    <script>window.__layoutDone = false;</script>
+    <style>
+@page { size: 210mm 297mm; margin: 0; }
+@page sec_vyaymb2f {
+  size: 210mm 297mm;
+  margin: 20mm 18mm 20mm 18mm;
+  @top-center { content: "FIELD-08" " · " "Dynamic fields" " · " "Effective"; }
+  @bottom-right { content: "Analytical Testing Laboratory" " · Page " counter(page) " of " counter(pages); }
+}
+.doc-section-sec_vyaymb2f { page: sec_vyaymb2f; }
+.pagedjs_sec_vyaymb2f_page {
+  --pagedjs-width: 210mm;
+  --pagedjs-height: 297mm;
+  --pagedjs-width-left: 210mm;
+  --pagedjs-height-left: 297mm;
+  --pagedjs-width-right: 210mm;
+  --pagedjs-height-right: 297mm;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11pt;
+  color: #111111;
+}
+.doc-heading {
+  break-after: avoid;
+  break-inside: avoid;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1f3a5f;
+}
+h1.doc-heading { font-size: 16pt; margin: 6mm 0 3mm; }
+h2.doc-heading { font-size: 13pt; margin: 5mm 0 2.5mm; }
+h3.doc-heading { font-size: 11.5pt; margin: 4mm 0 2mm; }
+h4.doc-heading, h5.doc-heading, h6.doc-heading { font-size: 11pt; margin: 3mm 0 2mm; }
+.doc-num { font-weight: inherit; }
+p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
+.doc-section { break-before: page; }
+.doc-section:first-child { break-before: auto; }
+.doc-list { margin: 0 0 3mm; padding-left: 6mm; }
+.doc-list li { margin-bottom: 1.5mm; line-height: 1.45; }
+/* Canonical lists (M3). Bullets use native markers selected by the
+   allow-listed data-marker value; numbered lists suppress the native
+   marker because the derived (never stored) hierarchical label is emitted
+   inline. Only allow-listed enum values reach these selectors. */
+ul.doc-list-bullet[data-marker="disc"] { list-style-type: disc; }
+ul.doc-list-bullet[data-marker="circle"] { list-style-type: circle; }
+ul.doc-list-bullet[data-marker="square"] { list-style-type: square; }
+ul.doc-list-bullet[data-marker="dash"] { list-style-type: "–  "; }
+ul.doc-list-bullet[data-marker="arrow"] { list-style-type: "→  "; }
+ul.doc-list-bullet[data-marker="check"] { list-style-type: "✓  "; }
+ol.doc-list-ordered { list-style: none; padding-left: 8mm; }
+ol.doc-list-ordered > li > p.doc-list-para:first-child { text-indent: -8mm; }
+.doc-list-marker { font-variant-numeric: tabular-nums; }
+p.doc-list-para { margin: 0; line-height: 1.45; }
+p.doc-list-para + p.doc-list-para { margin-top: 1.5mm; }
+.doc-page-break { break-before: page; height: 0; }
+hr.doc-hr { border: none; border-top: 0.5pt solid #444444; margin: 4mm 0; }
+a { color: #1f3a5f; text-decoration: underline; }
+/* Character marks (M2, V1-FMT-001): the IR stores semantic enums — the
+   stacks/transforms are mapped here by the renderer, never taken from the
+   document (no user CSS). Underline/strike/sup/sub render with native
+   element defaults. */
+span[data-font-family="serif"] { font-family: Georgia, "Times New Roman", serif; }
+span[data-font-family="sans"] { font-family: Arial, Helvetica, "Segoe UI", sans-serif; }
+span[data-font-family="mono"] { font-family: "Consolas", "Courier New", monospace; }
+span[data-text-case="uppercase"] { text-transform: uppercase; }
+span[data-text-case="lowercase"] { text-transform: lowercase; }
+figure.doc-figure {
+  margin: 4mm 0;
+  break-inside: avoid;
+}
+figure.doc-figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+figcaption.doc-caption, caption.doc-caption {
+  font-size: 9pt;
+  text-align: center;
+  margin-top: 2mm;
+  caption-side: top;
+  color: #444444;
+}
+.doc-equation {
+  margin: 4mm 0;
+  break-inside: avoid;
+  text-align: center;
+}
+.doc-equation.display { text-align: center; }
+.doc-equation .katex { font-size: 1.05em; }
+.doc-equation .katex-display { margin: 2mm 0; }
+.doc-equation-error {
+  color: #b00020;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.9em;
+}
+table.doc-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 9pt;
+  margin: 4mm 0 2mm;
+}
+table.doc-table.fixed-layout { table-layout: fixed; }
+table.doc-table th, table.doc-table td {
+  border: 0.3pt solid #444444;
+  padding: 1.6mm 2mm;
+  text-align: left;
+  vertical-align: top;
+}
+table.doc-table th {
+  background: #eef2f7;
+  color: #111111;
+  font-weight: bold;
+}
+table.doc-table thead { display: table-header-group; }
+
+.doc-paragraph.doc-style-title,
+.doc-list-item.doc-style-title,
+.doc-heading.doc-style-title {
+  font-size: 22pt;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 6mm;
+}
+.doc-paragraph.doc-style-subtitle,
+.doc-list-item.doc-style-subtitle,
+.doc-heading.doc-style-subtitle {
+  font-size: 14pt;
+  text-align: center;
+  margin-bottom: 4mm;
+}
+.doc-paragraph.doc-style-caption,
+.doc-list-item.doc-style-caption,
+.doc-heading.doc-style-caption {
+  font-size: 9pt;
+  text-align: center;
+}
+.doc-paragraph.doc-style-table-text,
+.doc-list-item.doc-style-table-text,
+.doc-heading.doc-style-table-text {
+  font-size: 9pt;
+}
+.doc-paragraph.doc-style-quote,
+.doc-list-item.doc-style-quote,
+.doc-heading.doc-style-quote {
+  font-style: italic;
+  margin-left: 8mm;
+}
+.doc-paragraph.doc-style-note,
+.doc-list-item.doc-style-note,
+.doc-heading.doc-style-note {
+  font-style: italic;
+}
+.doc-paragraph.doc-style-warning,
+.doc-list-item.doc-style-warning,
+.doc-heading.doc-style-warning {
+  font-weight: 700;
+}
+.doc-paragraph.doc-style-important-notice,
+.doc-list-item.doc-style-important-notice,
+.doc-heading.doc-style-important-notice {
+  font-weight: 700;
+  text-align: center;
+}
+.doc-paragraph.doc-style-reference,
+.doc-list-item.doc-style-reference,
+.doc-heading.doc-style-reference {
+  font-size: 10.5pt;
+  font-style: italic;
+}
+.doc-paragraph.doc-style-header,
+.doc-list-item.doc-style-header,
+.doc-heading.doc-style-header {
+  font-size: 9pt;
+}
+.doc-paragraph.doc-style-footer,
+.doc-list-item.doc-style-footer,
+.doc-heading.doc-style-footer {
+  font-size: 9pt;
+}
+
+.doc-field-unresolved {
+  color: #b00020;
+  background: #ffe8e8;
+  border: 0.3pt dashed #b00020;
+  padding: 0 1mm;
+}
+.doc-field-logo { display: block; max-height: 20mm; max-width: 45mm; margin: 2mm 0; }
+.doc-field-page { display: inline-block; min-width: 4mm; }
+
+
+.pagedjs_sheet::after {
+  content: "DRAFT";
+  position: absolute;
+  top: 42%;
+  left: 26%;
+  font-size: 64pt;
+  font-family: Arial, Helvetica, sans-serif;
+  color: rgba(160, 0, 0, 0.12);
+  transform: rotate(-45deg);
+  transform-origin: center;
+  z-index: 0;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+    </style>
+  </head>
+  <body>
+<section id="sec_vyaymb2f" class="doc-section doc-section-sec_vyaymb2f" data-section="sec_vyaymb2f">
+<h1 id="hd_0ob7ivxk" class="doc-heading doc-style-heading-1"><span class="doc-num">1</span> Document control</h1>
+<p id="pg_9l87bwm7" class="doc-paragraph doc-style-normal">Document <span class="doc-field doc-field-resolved" data-field="document.number">FIELD-08</span> — <span class="doc-field doc-field-resolved" data-field="document.title">Dynamic fields</span> (revision <span class="doc-field doc-field-resolved" data-field="document.revision">03</span>), effective <span class="doc-field doc-field-resolved" data-field="document.effective_date">2026-10-01</span>, next review <span class="doc-field doc-field-resolved" data-field="document.review_date">2027-10-01</span>.</p>
+<p id="pg_9c286it9" class="doc-paragraph doc-style-normal">Status: <span class="doc-field doc-field-resolved" data-field="document.status">Effective</span> · Type: <span class="doc-field doc-field-resolved" data-field="document.type">SOP</span> · Department: <span class="doc-field doc-field-resolved" data-field="document.department">Quality</span>.</p>
+<p id="pg_xe8vsnht" class="doc-paragraph doc-style-normal">Prepared by <span class="doc-field doc-field-resolved" data-field="document.prepared_by">A. Analyst</span>, reviewed by <span class="doc-field doc-field-resolved" data-field="document.reviewed_by">R. Reviewer</span>, approved by <span class="doc-field doc-field-resolved" data-field="document.approved_by">A. Approver</span>; classification <span class="doc-field doc-field-resolved" data-field="document.classification">Internal</span>.</p>
+<h2 id="hd_mqhdp4d9" class="doc-heading doc-style-heading-2"><span class="doc-num">1.1</span> Laboratory profile</h2>
+<p id="pg_76b5f9ot" class="doc-paragraph doc-style-normal">Issued by <span class="doc-field doc-field-resolved" data-field="laboratory.name">Analytical Testing Laboratory</span> at <span class="doc-field doc-field-resolved" data-field="laboratory.address">12 Example Road, Testville</span>.</p>
+<p id="pg_ir7gbvbh" class="doc-paragraph doc-style-normal">Logo: <img class="doc-field doc-field-logo" data-field="laboratory.logo" src="data:image/svg+xml;utf8,PHN2Zy8+" alt="Laboratory logo" /></p>
+<h2 id="hd_nxi8x8pp" class="doc-heading doc-style-heading-2"><span class="doc-num">1.2</span> Pagination</h2>
+<p id="pg_sbaglh2d" class="doc-paragraph doc-style-normal">This is page <span class="doc-field doc-field-page" data-field="page.number" data-page-field="number"></span> of <span class="doc-field doc-field-page" data-field="page.total" data-page-field="total"></span>.</p>
+</section>
+    <script>
+      /*
+       * Page-number materialization for pageNumberStart (per-section restarts).
+       *
+       * Paged.js 0.4.3 emits [data-counter-page-reset] as a CSS
+       * "counter-reset: page N" rule during layout. On a fresh load Chromium
+       * honours it at first paint, but the app's live preview swaps iframe
+       * srcdoc documents — and in that path the reset does NOT change the
+       * painted margin-box ::after digits (verified empirically; Chromium does
+       * not reliably repaint CSS content changes on a painted ::after, and a
+       * bare-number literal like content: "Page " 5 ... is invalid CSS and is
+       * dropped by the parser). The shared renderer therefore replaces any
+       * counter-based margin content with a REAL text node per page once
+       * layout is complete. DOM text always repaints and prints verbatim.
+       * Runs for preview and PDF export alike (both consume this same HTML).
+       */
+      function materializePageNumbers() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        // No restarts → CSS counters already paint correct ordinals.
+        if (!document.querySelector("[data-counter-page-reset]")) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var boxes = page.querySelectorAll(".pagedjs_pagebox .pagedjs_margin");
+          for (var b = 0; b < boxes.length; b++) {
+            var box = boxes[b];
+            var mc = box.querySelector(".pagedjs_margin-content");
+            if (!mc) continue;
+            var raw = getComputedStyle(mc, "::after").content;
+            if (raw.indexOf("counter(page)") === -1 && raw.indexOf("counter(pages)") === -1) continue;
+            // Resolve the serialized content (e.g. "Page " counter(page) " of "
+            // counter(pages)) into display text: unquote string tokens and
+            // substitute the counters with the per-page value + global total.
+            var text = raw
+              .replace(/counter\(page\)/g, "%%PAGE%%")
+              .replace(/counter\(pages\)/g, "%%TOTAL%%")
+              .replace(/"([^"]*)"/g, "$1")
+              .replace(/\s+/g, " ")
+              .replace(/%%PAGE%%/g, String(visible))
+              .replace(/%%TOTAL%%/g, String(total));
+            var div = document.createElement("div");
+            div.setAttribute("data-pp", "1");
+            div.textContent = text;
+            box.replaceChild(div, mc);
+          }
+        }
+      }
+
+      /*
+       * Body {{page.number}} / {{page.total}} materialization (M5). Same rule as
+       * the margin counters: the resolver emits an EMPTY placeholder and the
+       * shared renderer fills it after layout, so preview and PDF agree. The
+       * total is the global page count; the number honours section restarts.
+       */
+      function materializePageFields() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var fields = page.querySelectorAll("[data-page-field]");
+          for (var f = 0; f < fields.length; f++) {
+            var el = fields[f];
+            el.textContent =
+              el.getAttribute("data-page-field") === "total" ? String(total) : String(visible);
+          }
+        }
+      }
+
+      window.PagedConfig = {
+        auto: true,
+        after: function () {
+          materializePageNumbers();
+          materializePageFields();
+          window.__layoutDone = true;
+          window.dispatchEvent(new Event("layout-done"));
+        }
+      };
+    </script>
+    <script src="/vendor/paged.polyfill.js"></script>
+    <script>
+      // paged.js 0.4.3 gap (spike gap 2): continuation pages lose <thead>.
+      // Handler re-inserts a cloned header row and re-runs overflow detection
+      // so the header height participates in pagination (evidence: spike).
+      (function () {
+        function repeatTheads(root) {
+          if (!root || !root.querySelectorAll) return 0;
+          var inserted = 0;
+          var tables = root.querySelectorAll("table");
+          for (var i = 0; i < tables.length; i++) {
+            var t = tables[i];
+            if (t.dataset.headerRepeated === "true") continue;
+            if (t.querySelector("thead")) { t.dataset.headerRepeated = "true"; continue; }
+            if (!t.querySelector("tr")) continue;
+            var src = t.dataset.splitFrom;
+            if (!src) { t.dataset.headerRepeated = "true"; continue; }
+            var thead = null;
+            var candidates = document.querySelectorAll('table[data-ref="' + CSS.escape(src) + '"]');
+            for (var j = 0; j < candidates.length; j++) {
+              var th = candidates[j].querySelector("thead");
+              if (th) { thead = th; break; }
+            }
+            if (!thead) continue;
+            var clone = thead.cloneNode(true);
+            clone.setAttribute("data-repeated-header", "true");
+            t.insertBefore(clone, t.firstElementChild);
+            t.dataset.headerRepeated = "true";
+            inserted++;
+          }
+          return inserted;
+        }
+        if (!window.Paged || !Paged.Handler) return;
+        class TableHeaderRepeater extends Paged.Handler {
+          onOverflow(overflow, rendered, bounds, layout) {
+            const inserted = repeatTheads(rendered);
+            if (overflow || inserted) return layout.findOverflow(rendered, bounds);
+            return undefined;
+          }
+          afterPageLayout(pageEl) {
+            repeatTheads(pageEl);
+          }
+        }
+        Paged.registerHandlers(TableHeaderRepeater);
+      })();
+    </script>
+  </body>
+</html>

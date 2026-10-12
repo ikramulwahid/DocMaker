@@ -87,7 +87,7 @@ test("golden SOP: multi-page table with repeated header, image, watermark, count
   await previewFrame(page);
 
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', GOLDEN_SOP);
+  await page.getByTestId("open-file-input").setInputFiles(GOLDEN_SOP);
   await expect(page.getByTestId("file-name")).toContainText("golden-02");
 
   const frame = page.frames().find((f) => f.name() === "preview")!;

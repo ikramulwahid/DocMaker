@@ -24,6 +24,7 @@ import {
 function richDoc() {
   const doc = createEmptyDocument("Theme Test");
   doc.metadata = {
+    ...doc.metadata,
     title: "Theme Test",
     docNumber: "TM-001",
     revision: "02",

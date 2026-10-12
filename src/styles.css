@@ -599,3 +599,53 @@ body {
 .defaults-card h2 {
   color: var(--accent);
 }
+
+/* ------------------------------------------------- dynamic fields (M5) */
+
+/* Editor chip: distinguishes a field reference from typed text. */
+.ir-field-ref,
+.ir-field-chip {
+  display: inline-block;
+  padding: 0 5px;
+  margin: 0 1px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  background: #e7f0ff;
+  color: var(--accent);
+  font-size: 0.9em;
+  white-space: nowrap;
+  cursor: default;
+}
+
+.ir-field-chip.ProseMirror-selectednode {
+  outline: 2px solid var(--accent);
+}
+
+.logo-preview {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.logo-preview img {
+  max-height: 48px;
+  max-width: 140px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.unresolved-fields {
+  border: 1px solid #b00020;
+  border-radius: 8px;
+  padding: 8px;
+  background: #fff1f2;
+}
+
+.unresolved-fields ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #7f1d1d;
+}

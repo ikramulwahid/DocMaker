@@ -7,6 +7,7 @@ export * from "./ir/pageGeometry";
 export * from "./theme";
 export * from "./equation";
 export * from "./numbering";
+export * from "./fields";
 export * from "./resolve";
 export * from "./json/envelope";
 export * from "./layout";

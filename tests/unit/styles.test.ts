@@ -281,7 +281,7 @@ describe("legacy style-less labdoc/1.0 documents (ADR-004)", () => {
     const [p, h] = doc.sections[0].blocks;
     expect(p.type).toBe("paragraph");
     if (p.type === "paragraph") {
-      expect(p.content[0].text).toBe("Kept");
+      expect((p.content[0] as { text: string }).text).toBe("Kept");
       expect(p.style).toBeNull(); // no explicit ref → derived default at resolve
     }
     expect(h.type).toBe("heading");

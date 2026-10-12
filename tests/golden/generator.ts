@@ -20,6 +20,7 @@ import {
   createParagraph,
   createSection,
   createTable,
+  field,
   text,
 } from "@/core/ir/factory";
 import { buildDefaultStyles } from "@/core/ir/styles";
@@ -36,6 +37,7 @@ export const PAGED_JS_SRC = "/vendor/paged.polyfill.js";
 export function createSopDocument(): Document {
   const doc = createEmptyDocument("SOP-042 Purified Water Quality Monitoring");
   doc.metadata = {
+    ...doc.metadata,
     title: "SOP-042 Purified Water Quality Monitoring",
     docNumber: "SOP-042",
     revision: "02",
@@ -166,6 +168,7 @@ const GATE_IMAGE =
 export function createPhase0GateDocument(): Document {
   const doc = createEmptyDocument("Phase-0 Rendering Gate Document");
   doc.metadata = {
+    ...doc.metadata,
     title: "Phase-0 Rendering Gate Document",
     docNumber: "SOP-GATE-001",
     revision: "01",
@@ -291,6 +294,7 @@ export function createPhase0GateDocument(): Document {
 export function createStyleSystemDocument(): Document {
   const doc = createEmptyDocument("Water Quality Monitoring Report");
   doc.metadata = {
+    ...doc.metadata,
     title: "Water Quality Monitoring Report",
     docNumber: "WQ-2026-014",
     revision: "01",
@@ -367,6 +371,7 @@ export function createStyleSystemDocument(): Document {
 export function createFormattingDocument(): Document {
   const doc = createEmptyDocument("Character and Paragraph Formatting");
   doc.metadata = {
+    ...doc.metadata,
     title: "Character and Paragraph Formatting",
     docNumber: "FMT-2026-015",
     revision: "01",
@@ -501,6 +506,7 @@ export function createListDocument(): Document {
 
   const doc = createEmptyDocument("Lists and multilevel numbering");
   doc.metadata = {
+    ...doc.metadata,
     title: "Lists and multilevel numbering",
     docNumber: "DEMO-LIST",
     revision: "01",
@@ -633,6 +639,113 @@ export function createPageSetupDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 08 — dynamic fields, laboratory profile and page fields (M5).
+ * Exercises every required field key in the body (document/laboratory/page),
+ * the laboratory logo image, and the new metadata + laboratory margin-box
+ * fields in the header and footer.
+ */
+export function createFieldDocument(): Document {
+  const doc = createEmptyDocument("Dynamic fields");
+  doc.metadata = {
+    ...doc.metadata,
+    title: "Dynamic fields",
+    docNumber: "FIELD-08",
+    revision: "03",
+    effectiveDate: "2026-10-01",
+    reviewDate: "2027-10-01",
+    status: "Effective",
+    author: "Q. A. Manager",
+    organization: "Analytical Laboratory",
+    description: "Golden document: dynamic fields, laboratory profile and page fields",
+    documentType: "SOP",
+    department: "Quality",
+    preparedBy: "A. Analyst",
+    reviewedBy: "R. Reviewer",
+    approvedBy: "A. Approver",
+    classification: "Internal",
+  };
+  doc.laboratoryProfile = {
+    name: "Analytical Testing Laboratory",
+    address: "12 Example Road, Testville",
+    logo: "data:image/svg+xml;utf8,PHN2Zy8+",
+  };
+
+  const sec = createSection([
+    createHeading(1, [text("Document control")]),
+    createParagraph([
+      text("Document "),
+      field("document.number"),
+      text(" — "),
+      field("document.title"),
+      text(" (revision "),
+      field("document.revision"),
+      text("), effective "),
+      field("document.effective_date"),
+      text(", next review "),
+      field("document.review_date"),
+      text("."),
+    ]),
+    createParagraph([
+      text("Status: "),
+      field("document.status"),
+      text(" · Type: "),
+      field("document.type"),
+      text(" · Department: "),
+      field("document.department"),
+      text("."),
+    ]),
+    createParagraph([
+      text("Prepared by "),
+      field("document.prepared_by"),
+      text(", reviewed by "),
+      field("document.reviewed_by"),
+      text(", approved by "),
+      field("document.approved_by"),
+      text("; classification "),
+      field("document.classification"),
+      text("."),
+    ]),
+    createHeading(2, [text("Laboratory profile")]),
+    createParagraph([
+      text("Issued by "),
+      field("laboratory.name"),
+      text(" at "),
+      field("laboratory.address"),
+      text("."),
+    ]),
+    createParagraph([text("Logo: "), field("laboratory.logo")]),
+    createHeading(2, [text("Pagination")]),
+    createParagraph([
+      text("This is page "),
+      field("page.number"),
+      text(" of "),
+      field("page.total"),
+      text("."),
+    ]),
+  ]);
+  sec.header = {
+    parts: [
+      { kind: "field", field: "docNumber" },
+      { kind: "text", value: " · " },
+      { kind: "field", field: "title" },
+      { kind: "text", value: " · " },
+      { kind: "field", field: "status" },
+    ],
+  };
+  sec.footer = {
+    parts: [
+      { kind: "field", field: "laboratoryName" },
+      { kind: "text", value: " · Page " },
+      { kind: "field", field: "pageNumber" },
+      { kind: "text", value: " of " },
+      { kind: "field", field: "pageCount" },
+    ],
+  };
+  doc.sections = [sec];
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
@@ -642,6 +755,7 @@ export function buildGoldens(): Golden[] {
     { name: "golden-05-formatting", doc: createFormattingDocument() },
     { name: "golden-06-lists", doc: createListDocument() },
     { name: "golden-07-page-setup", doc: createPageSetupDocument() },
+    { name: "golden-08-fields", doc: createFieldDocument() },
   ];
 }
 

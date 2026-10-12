@@ -151,7 +151,7 @@ test("golden-04 renders the semantic hierarchy and style-based text types", asyn
   await page.goto("/");
   await previewFrame(page);
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', GOLDEN_STYLES);
+  await page.getByTestId("open-file-input").setInputFiles(GOLDEN_STYLES);
 
   const frame = page.frames().find((f) => f.name() === "preview")!;
   // Wait for the loaded golden document to paginate.

@@ -21,6 +21,7 @@ import {
   type Inline,
   type Paragraph,
   type ParagraphFormatOverride,
+  type TextRun,
 } from "@/core/ir/schema";
 import { createEmptyDocument, createHeading, createParagraph, createTable, text } from "@/core/ir/factory";
 import { hexColorProblem, isValidHexColor, fontSizePtProblem } from "@/core/ir/sanitize";
@@ -223,7 +224,7 @@ describe("M2 — adapter round-trip", () => {
       ],
     };
     const block = tiptapDocToBlocks(doc)[0] as Paragraph;
-    expect(block.content[0].marks).toEqual([{ type: "superscript" }, { type: "bold" }]);
+    expect((block.content[0] as TextRun).marks).toEqual([{ type: "superscript" }, { type: "bold" }]);
   });
 
   it("normalizes a foreign run holding both text cases (keep-first)", () => {
@@ -247,7 +248,7 @@ describe("M2 — adapter round-trip", () => {
       ],
     };
     const block = tiptapDocToBlocks(doc)[0] as Paragraph;
-    expect(block.content[0].marks).toEqual([{ type: "textCase", transform: "uppercase" }]);
+    expect((block.content[0] as TextRun).marks).toEqual([{ type: "textCase", transform: "uppercase" }]);
   });
 
   it("drops invalid foreign mark values instead of failing the load", () => {
@@ -273,7 +274,7 @@ describe("M2 — adapter round-trip", () => {
       ],
     };
     const block = tiptapDocToBlocks(doc)[0] as Paragraph;
-    expect(block.content[0].marks).toEqual([{ type: "bold" }]);
+    expect((block.content[0] as TextRun).marks).toEqual([{ type: "bold" }]);
   });
 
   it("normalizes invalid foreign paragraph overrides to inherit (null)", () => {

@@ -61,6 +61,10 @@ export async function openJson(): Promise<OpenedFile | null> {
     const input = document.createElement("input");
     input.type = "file";
     input.accept = ".json,application/json";
+    // Explicit hook so tooling/tests can target THIS transient open-dialog
+    // input unambiguously: the sidebar also renders a file input (the
+    // laboratory logo), so a bare `input[type=file]` is no longer unique.
+    input.setAttribute("data-testid", "open-file-input");
     input.style.display = "none";
     input.addEventListener("change", () => {
       const file = input.files?.[0] ?? null;

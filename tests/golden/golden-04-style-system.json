@@ -11,7 +11,20 @@
       "effectiveDate": "2026-10-09",
       "author": "N. Analyst",
       "organization": "Analytical Laboratory",
-      "description": "Golden document: style system (V1-STYLE-001..004, V1-TXT-001)"
+      "description": "Golden document: style system (V1-STYLE-001..004, V1-TXT-001)",
+      "documentType": "",
+      "department": "",
+      "reviewDate": "",
+      "status": "",
+      "preparedBy": "",
+      "reviewedBy": "",
+      "approvedBy": "",
+      "classification": ""
+    },
+    "laboratoryProfile": {
+      "name": "",
+      "address": "",
+      "logo": null
     },
     "settings": {
       "theme": "lab_default",

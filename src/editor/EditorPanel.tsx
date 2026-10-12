@@ -14,6 +14,7 @@ import {
   paragraphFormatOverrideSchema,
   type ParagraphFormatOverride,
 } from "@/core/ir/schema";
+import { fieldDefinitionsBySource } from "@/core/fields";
 import { useDocStore } from "@/store";
 
 export function EditorPanel() {
@@ -603,6 +604,54 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
       )}
       {button("img", addImage, false, "Insert image (local file)")}
       {button("∑ eq", addEquation, false, "Insert equation (LaTeX)")}
+      <label className="toolbar-field">
+        <span className="toolbar-label">Field</span>
+        <select
+          data-testid="insert-field"
+          aria-label="Insert dynamic field"
+          defaultValue=""
+          onChange={(e) => {
+            const select = e.currentTarget;
+            const key = select.value;
+            if (!key) return;
+            editor
+              .chain()
+              .focus()
+              .insertContent({ type: "fieldRef", attrs: { field: key } })
+              .run();
+            // Reset the picker to the placeholder AFTER this event so the same
+            // field can be inserted again; deferred so the reset never races
+            // the change (an uncontrolled select is never re-rendered away
+            // from the value the user just chose).
+            window.setTimeout(() => {
+              select.value = "";
+            }, 0);
+          }}
+        >
+          <option value="">Insert field…</option>
+          <optgroup label="Document">
+            {fieldDefinitionsBySource("document").map((def) => (
+              <option key={def.key} value={def.key}>
+                {def.label}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Laboratory">
+            {fieldDefinitionsBySource("laboratory").map((def) => (
+              <option key={def.key} value={def.key}>
+                {def.label}
+              </option>
+            ))}
+          </optgroup>
+          <optgroup label="Page">
+            {fieldDefinitionsBySource("page").map((def) => (
+              <option key={def.key} value={def.key}>
+                {def.label}
+              </option>
+            ))}
+          </optgroup>
+        </select>
+      </label>
       {button(
         "⎘ break",
         () => editor.chain().focus().insertContent({ type: "pageBreak" }).run(),

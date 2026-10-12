@@ -31,7 +31,7 @@ async function loadGolden(page: Page): Promise<Frame> {
   await page.goto("/");
   await page.waitForSelector('iframe[name="preview"]');
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', GOLDEN_GATE);
+  await page.getByTestId("open-file-input").setInputFiles(GOLDEN_GATE);
   const frame = page.frames().find((f) => f.name() === "preview")!;
   // Body marker proves the gate document replaced the starter (unique caption).
   await expect(frame.locator("body")).toContainText("Raw data register", {

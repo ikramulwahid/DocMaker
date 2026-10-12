@@ -29,7 +29,7 @@ async function appPreviewPageCount(page: Page, jsonPath: string): Promise<number
   await page.goto("/");
   await page.waitForSelector('iframe[name="preview"]');
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', jsonPath);
+  await page.getByTestId("open-file-input").setInputFiles(jsonPath);
   const frame = page.frames().find((f) => f.name() === "preview")!;
   // Body marker proves the NEW document replaced the starter (renders are
   // debounced and re-paginate, resetting __layoutDone).

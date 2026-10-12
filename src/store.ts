@@ -13,12 +13,14 @@ import {
   createParagraph,
   createSection,
   createTable,
+  imageSrcProblem,
   resolveDocument,
   text,
   newStyleId,
   isBuiltinStyleId,
   type Block,
   type Document,
+  type LaboratoryProfile,
   type MarginBox,
   type Metadata,
   type PageSetup,
@@ -66,10 +68,13 @@ export interface DocState {
   setActiveSection(index: number): void;
   setSectionBlocks(index: number, blocks: Block[]): void;
   setMetadata(patch: Partial<Metadata>): void;
+  /** Edit the document-scoped laboratory profile (name/address/logo). */
+  setLaboratoryProfile(patch: Partial<LaboratoryProfile>): void;
   setTheme(theme: string): void;
   setWatermark(patch: Partial<Watermark>): void;
   setPageSetup(index: number, patch: Partial<Section["pageSetup"]>): void;
   setHeaderText(index: number, tokenText: string): void;
+  setFooterText(index: number, tokenText: string): void;
   addSection(): void;
   removeSection(index: number): void;
   /** Update a style definition (name and/or format tokens). */
@@ -92,6 +97,7 @@ export interface DocState {
 export function createStarterDocument(): Document {
   const doc = createEmptyDocument("Sample laboratory document");
   doc.metadata = {
+    ...doc.metadata,
     title: "Sample laboratory document",
     docNumber: "DOC-001",
     revision: "01",
@@ -203,6 +209,25 @@ export const useDocStore = create<DocState>((set) => ({
       dirty: true,
     })),
 
+  setLaboratoryProfile: (patch) =>
+    set((state) => {
+      // Defense in depth: a logo must satisfy the same embedded-image
+      // allow-list as any other image (no remote URL, no non-image data URI,
+      // no oversized payload). Invalid input is refused before it enters the
+      // IR with an actionable message (AGENTS.md §27/§33).
+      if (patch.logo !== undefined && patch.logo !== null && patch.logo !== "") {
+        const problem = imageSrcProblem(patch.logo);
+        if (problem) return { status: `Logo rejected — ${problem}` };
+      }
+      return {
+        document: mutate(state.document, (doc) =>
+          Object.assign(doc.laboratoryProfile, patch),
+        ),
+        dirty: true,
+        status: "Laboratory profile updated",
+      };
+    }),
+
   setTheme: (theme) =>
     set((state) => ({
       // Theme is presentation only: it must not touch content/ids/numbering.
@@ -291,6 +316,15 @@ export const useDocStore = create<DocState>((set) => ({
       document: mutate(state.document, (doc) => {
         const section = doc.sections[index];
         if (section) section.header = parseMarginText(tokenText);
+      }),
+      dirty: true,
+    })),
+
+  setFooterText: (index, tokenText) =>
+    set((state) => ({
+      document: mutate(state.document, (doc) => {
+        const section = doc.sections[index];
+        if (section) section.footer = parseMarginText(tokenText);
       }),
       dirty: true,
     })),

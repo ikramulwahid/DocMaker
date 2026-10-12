@@ -11,7 +11,20 @@
       "effectiveDate": "2026-10-10",
       "author": "Q. Officer",
       "organization": "Analytical Laboratory",
-      "description": "Golden document: M2 character marks and paragraph overrides (V1-FMT-001/002)"
+      "description": "Golden document: M2 character marks and paragraph overrides (V1-FMT-001/002)",
+      "documentType": "",
+      "department": "",
+      "reviewDate": "",
+      "status": "",
+      "preparedBy": "",
+      "reviewedBy": "",
+      "approvedBy": "",
+      "classification": ""
+    },
+    "laboratoryProfile": {
+      "name": "",
+      "address": "",
+      "logo": null
     },
     "settings": {
       "theme": "lab_default",

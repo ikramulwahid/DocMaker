@@ -233,7 +233,7 @@ test("lists survive save → reopen as a canonical recursive IR (round trip)", a
 
   await page.reload();
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', saved);
+  await page.getByTestId("open-file-input").setInputFiles(saved);
   await expect(page.getByTestId("file-name")).toContainText("lists");
 
   const frame = await previewFrame(page);

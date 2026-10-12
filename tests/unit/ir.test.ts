@@ -73,7 +73,7 @@ describe("factory defaults", () => {
       ["pH", "6.5 – 8.5"],
     ]);
     expect(table.rows).toHaveLength(2);
-    expect(table.rows[0].cells[1].content[0].content[0].text).toBe("Limit");
+    expect((table.rows[0].cells[1].content[0].content[0] as { text: string }).text).toBe("Limit");
     expect(table.headerRow).toBe(true);
   });
 

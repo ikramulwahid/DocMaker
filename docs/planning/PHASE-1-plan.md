@@ -1,7 +1,7 @@
-# Phase 1 — Plan & Approval Record R0.12 (M4 Evidence Hardening)
+# Phase 1 — Plan & Approval Record R0.13 (M5 Delivery)
 
-- **Status:** **APPROVED + M1, M2, M3 & M4 DELIVERED** — the Phase-1 scope and
-  decisions listed in §0 remain explicitly approved by the human (approval
+- **Status:** **APPROVED + M1, M2, M3, M4 & M5 DELIVERED** — the Phase-1 scope
+  and decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
   base-style leg); R0.6 recorded the **M1 post-delivery hardening**; R0.7
@@ -13,21 +13,24 @@
   **M3 post-delivery hardening**; R0.11 recorded the **delivery
   of M4** (page setup, paper sizes & new-document defaults: V1-PAGE-001..004
   PASS, V1-SEC-002 PASS, V1-PAG-004 PASS, the V1-PDF-002 non-A4 leg PASS, and
-  the V1-DOC-002 configurability leg PASS). It adds **no** new scope beyond the
-  already-approved M4 (§8.2, D11) and does **not** alter the R0.4 approval,
-  re-open approved decisions, change M1/M2/M3 acceptance, or authorize further
-  milestones. **All Phase 0 PASS classifications and evidence are preserved
-  unchanged.** This revision (**R0.12**) records the **M4 evidence hardening**:
-  the `golden-07-page-setup` fixture and the PDF MediaBox e2e test were expanded
-  so the **real exported PDF** is checked for **all 14 standard format ×
-  orientation combinations plus Custom (15 cases)**. No feature scope, criterion
-  definition or acceptance classification changed.
-- **Revision:** R0.12 (2026-10-11) — M4 evidence hardening; supersedes R0.11
-  (M4 delivery record) which superseded R0.10 (M3
-  post-delivery hardening) which superseded R0.9 (M3 delivery record) which
-  superseded R0.8 (M2 status reconciliation) which superseded R0.7 (M2 delivery
-  record) which superseded R0.6 (M1 hardening record) which superseded R0.5 (M1
-  delivery) which superseded R0.4 (approval record).
+  the V1-DOC-002 configurability leg PASS); R0.12 recorded the **M4 evidence
+  hardening** (the `golden-07-page-setup` fixture and the PDF MediaBox e2e test
+  were expanded so the **real exported PDF** is checked for **all 14 standard
+  format × orientation combinations plus Custom (15 cases)**). This revision
+  (**R0.13**) records the **delivery of M5** (metadata, laboratory profile &
+  dynamic fields: V1-META-001/002/003 PASS, V1-FIELD-001..004 PASS, V1-HF-003
+  PASS). It adds **no** new scope beyond the already-approved M5 (§8.2) and does
+  **not** alter the R0.4 approval, re-open approved decisions, change M1–M4
+  acceptance, or authorize further milestones. **All Phase 0 PASS
+  classifications and evidence are preserved unchanged.** No feature scope or
+  criterion definition changed.
+- **Revision:** R0.13 (2026-10-12) — M5 delivery; supersedes R0.12
+  (M4 evidence hardening) which superseded R0.11 (M4 delivery record) which
+  superseded R0.10 (M3 post-delivery hardening) which superseded R0.9 (M3
+  delivery record) which superseded R0.8 (M2 status reconciliation) which
+  superseded R0.7 (M2 delivery record) which superseded R0.6 (M1 hardening
+  record) which superseded R0.5 (M1 delivery) which superseded R0.4 (approval
+  record).
 - **Base:** Phase 0 **closed (PASS)** at
   `0593ba053c9911e7021f31d91a40058c4f62c107` (gate evidence ADR-003); planning
   R0.1–R0.3 at `c46cffaae4e7e1139c1985a723c32a81b38315b3`; approval at
@@ -38,7 +41,9 @@
   `88578896ccd47f862d7fff20bf6d21fdbd97774b` (§0.9) and hardened at
   `a18a91cdded03a85995ff0bd5455166d836cfca4` (§0.10, R0.10); M4 delivered at
   `cd1b0d5034943bde77a5d22c8a2b9ff7822ba964` (§0.11, R0.11); the M4 evidence
-  hardening (R0.12) sits on top of `cd1b0d5` (§0.12) — the base commit for this delivery.
+  hardening (R0.12) at `30867718756a83f3bfe60c24409b2d0a06493374` (§0.12); the
+  **M5 delivery (R0.13) sits on top of `3086771`** — the base commit for this
+  delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
   All Phase 0 PASS classifications and existing evidence in §4 are preserved
@@ -73,10 +78,13 @@
   **R0.12** is the sixth implementation checkpoint (M4 evidence hardening): the
   expanded fixture and the strengthened PDF MediaBox test were run end-to-end
   with the same five commands against the final tree (results recorded in §0.12).
+  **R0.13** is the seventh implementation checkpoint (M5 delivery): metadata, the
+  laboratory profile and dynamic fields were executed end-to-end with the same
+  five commands against the final tree (results recorded in §0.13).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.12)
+## 0. Approval record, change history & milestone delivery (R0.13)
 
 ### 0.1 Approval summary
 
@@ -223,6 +231,23 @@ This checkpoint is **documentation-only**:
   V1-PAGE-001..004, V1-SEC-002, V1-PAG-004, V1-PDF-002 and V1-DOC-002 keep their
   R0.11 classifications (evidence strengthened). `schema_version` stays `1.0`
   (ADR-004); M5–M11 not started. Published at the checkpoint recorded in §0.12.
+- **R0.13 (2026-10-12, this revision):** **M5 delivered** — metadata, laboratory
+  profile and dynamic fields implemented, tested and published (see §0.13). Plan
+  status markers updated: V1-META-001/002/003 → PASS, V1-FIELD-001..004 → PASS,
+  V1-HF-003 → PASS. One typed, allow-listed field registry
+  (`src/core/fields/keys.ts`) is the single source of field names for the editor
+  picker, body resolver, header/footer renderer and pre-export validator; the
+  IR gains a first-class inline **field node** (stores the key, never a copied
+  value) and a document-scoped `laboratoryProfile` (name/address/logo). New
+  metadata properties are additive with empty defaults; `metadata.status` is a
+  **data field**, not a lifecycle (approved D6 — V1-LIFE-001 stays V1.2). Body
+  and header/footer fields render through the shared resolve→layout pipeline;
+  page fields materialise after pagination; unresolved used fields are reported
+  and block final PDF export in both the app and `pnpm pdf` (draft save is
+  unaffected). ADR-004 additive policy holds — `schema_version` stays `1.0`
+  (goldens-01..07 regenerate with only the new defaulted fields; their HTML is
+  byte-identical). R0.4 approval record retained verbatim in its substance;
+  M6–M11 not started. Published at the checkpoint recorded in §0.13.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -653,6 +678,128 @@ This checkpoint is **documentation-only**:
   ADR-004); `tests/unit/input-security.test.ts` untouched (and still green); no
   tracked spike PDF/artifact changes.
 
+### 0.13 M5 delivery record (R0.13)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the M5
+  work sits on top of `30867718756a83f3bfe60c24409b2d0a06493374` (R0.12, M4
+  evidence hardening) — the base commit for this delivery.
+- **Scope delivered:** V1-META-001/002/003 (structured metadata: the schema gains
+  document type, department, review date, status, prepared/reviewed/approved by
+  and classification as additive empty-defaulted properties; the metadata panel
+  edits every field; metadata stays the single source of truth for every linked
+  occurrence); V1-META-002's laboratory profile leg (document-scoped
+  `laboratoryProfile` with name/address/logo, the logo via the existing embedded
+  image allow-list); V1-FIELD-001 (document fields — a canonical inline field
+  node + labelled picker), V1-FIELD-002 (laboratory fields — text + constrained
+  logo image), V1-FIELD-003 (page fields in the body, resolved post-pagination),
+  V1-FIELD-004 (one shared unresolved-field collector driving the UI panel and
+  both export gates); V1-HF-003 (dynamic metadata in header **and** footer via
+  the shared margin-field registry).
+- **Architecture (how the pieces fit):**
+  - **One field registry** (`src/core/fields/keys.ts`): the complete,
+    typed, allow-listed set of dotted field keys plus their definitions, the
+    margin-token ↔ key bridge (`MARGIN_FIELD_TO_KEY`) and the legacy
+    `[page]`/`[count]` parse aliases. **Every** consumer — the editor picker,
+    the body resolver, the header/footer renderer and the pre-export validator —
+    reads this one module, so a field name cannot drift between editor,
+    resolver, HF renderer and export validation.
+  - **One resolver / one collector** (`src/core/fields/resolve.ts`,
+    `unresolved.ts`): `resolveField`/`resolveFieldText`/`resolveFieldImage` read
+    only the canonical `metadata`/`laboratoryProfile` (never editor state);
+    page fields are **deferred** (never reported unresolved pre-pagination);
+    `collectUnresolvedFields` walks the body **and** header/footer via the
+    shared `src/core/ir/walk.ts` traversal, one entry per occurrence with its
+    location.
+  - **Canonical IR** (`src/core/ir/schema.ts`): `inlineSchema` becomes
+    `z.union([textRunSchema, fieldNodeSchema])`, both `.strict()` — a field node
+    stores only its `field` key (the value is never copied into the IR);
+    `metadataSchema` and `documentSchema` (`laboratoryProfile`) are extended
+    additively with empty/null defaults; `marginFieldSchema` gains
+    `reviewDate`/`status`/`laboratoryName` (and parses the `[page]`/`[count]`
+    aliases to the canonical `pageNumber`/`pageCount`).
+  - **Shared render** (`src/core/layout/html.ts`, `css.ts`, `index.ts`): the body
+    renders a field as `.doc-field` (resolved value / visible unresolved chip /
+    constrained `img.doc-field-logo`); the header/footer resolve their tokens
+    through the same resolver; page fields are emitted as placeholder elements
+    and materialised after pagination by the extended Paged.js script. Field CSS
+    and the page-field materialiser are **only** emitted when the document
+    actually contains fields, so legacy goldens stay byte-identical.
+  - **Editor** (`src/editor/extensions.ts`, `adapter.ts`, `EditorPanel.tsx`): a
+    `FieldRef` inline atom chip round-trips to/from the field node (preserving
+    surrounding text and marks); a labelled `<select>` field picker inserts a
+    field reference at the caret. User-typed `{{…}}` text is deliberately **not**
+    converted (only the explicit picker creates a semantic field).
+  - **Export gate** (`src/App.tsx`, `scripts/export-pdf.mjs`): the in-app
+    "Export PDF" button and the `pnpm pdf` CLI both call the **same** shared
+    collector and refuse to produce a final PDF while unresolved used fields
+    remain; the `.labdoc.json` draft save is unaffected.
+- **Tests added / extended:**
+  - `tests/unit/fields.test.ts` (**new, 35 tests**): the registry + margin
+    bridge; the resolver (including deferred page fields, empty→unresolved, and
+    the logo image); the unresolved walker (body + header/footer, repeated
+    occurrences, page deferral); inline rendering with HTML escaping; layout
+    gating; metadata-change-updates-every-occurrence; inline-schema strictness
+    (`{text, field}` is rejected); persistence/defaults/round-trip and invalid
+    logo rejection; per-document isolation.
+  - `tests/unit/margin-text.test.ts` (**+2**): the new M5 tokens; `[page]`/
+    `[count]` normalise on parse to the canonical `pageNumber`/`pageCount` and
+    serialise canonically.
+  - `tests/unit/adapter.test.ts` (**+3**): the field-node round-trip, the atom
+    node mapping, and the unknown-key skip.
+  - `tests/e2e/fields.spec.ts` (**new, 5 tests**): the picker inserts a chip and
+    the preview resolves it; an empty **used** field is reported and blocks
+    final PDF export while a draft still saves; laboratory fields resolve in the
+    body **and** header/footer and a rename updates every occurrence; the logo
+    renders as a constrained safe image and bad files are refused; field
+    references persist as keys (never a copied value) and reopen.
+  - **Fixture maintenance:** the persistent sidebar logo `<input type="file">`
+    made the bare `input[type="file"]` open-selector ambiguous, so
+    `openJson()`'s transient input now carries
+    `data-testid="open-file-input"` and the eight pre-existing e2e specs that
+    open a file target it (no assertion changed).
+- **Golden / fixture changes:** `tests/golden/generator.ts` gains
+  `createFieldDocument()`; new `tests/golden/golden-08-fields.json` +
+  `.expected.html`. Goldens-01..07 JSON are **additively** regenerated (new
+  defaulted metadata properties + `laboratoryProfile`) and their `.expected.html`
+  is **byte-identical**. `schema_version` stays `1.0` (ADR-004 additive
+  pre-release policy — older documents load unchanged with safe defaults; a
+  document saved by this build that uses the new field node cannot be opened by
+  a pre-M5 build, the documented forward-compat asymmetry).
+- **Verification executed (final tree):** `pnpm typecheck` **PASS**; `pnpm test`
+  **PASS** (18 files, 292 tests — was 17/252); `pnpm test:e2e` **PASS** (46 tests
+  — was 41, the M4 15-case MediaBox test still green); `pnpm build` **PASS**;
+  `git diff --check` **clean**. The CLI gate was additionally exercised by hand
+  on the final tree: `node scripts/export-pdf.mjs <cleared-status doc>` refused
+  with `PDF export blocked — 2 unresolved field(s)` (body + header occurrences,
+  exit 1); the fully-resolved `golden-08-fields` exported to a valid single-page
+  A4 PDF (exit 0).
+- **Changed files:** new `src/core/fields/{keys,resolve,unresolved,index}.ts` and
+  `src/core/ir/walk.ts`; modified `src/core/ir/schema.ts`,
+  `src/core/ir/factory.ts`, `src/core/index.ts`,
+  `src/core/layout/{html,css,index}.ts`, `src/editor/{extensions,adapter}.ts`,
+  `src/editor/EditorPanel.tsx`, `src/store.ts`, `src/App.tsx`,
+  `src/app/files.ts`, `src/app/marginText.ts`, `src/components/Sidebar.tsx`, new
+  `src/components/{LaboratoryProfilePanel,UnresolvedFieldsPanel}.tsx`,
+  `src/styles.css`, `scripts/export-pdf.mjs`; new `tests/unit/fields.test.ts` and
+  modified `tests/unit/margin-text.test.ts`, `tests/unit/adapter.test.ts`,
+  `tests/unit/fixtures.ts`, `tests/unit/format.test.ts`, `tests/unit/ir.test.ts`,
+  `tests/unit/sanitize.test.ts`, `tests/unit/styles.test.ts` and
+  `tests/unit/theme.test.ts`; `tests/golden/generator.ts`, the additively
+  regenerated `tests/golden/golden-01..07.json`, new
+  `tests/golden/golden-08-fields.{json,expected.html}`; new
+  `tests/e2e/fields.spec.ts` and the eight e2e specs' open-input hook;
+  `docs/limitations.md`; `docs/planning/PHASE-1-plan.md` (this plan).
+- **Acceptance classification (evidence):** V1-META-001/002/003, V1-FIELD-001..004
+  and V1-HF-003 → **PASS** (§3 matrix). No criterion definition was changed or
+  weakened. Residual limits (fixed field allow-list, the logo-in-margin-box HF
+  limitation, `status` as data not lifecycle, key-not-value storage) are
+  documented in `docs/limitations.md` §M5.
+- **Out of scope (unchanged):** M6–M11 not started (no cross-references/equation
+  numbering, themes, advanced tables, image editing, autosave, a11y audit);
+  Markdown import not started; no lifecycle/approval/revision-history/signature
+  workflow; no backend/login/cloud; no new dependencies; no schema-version bump
+  (`schema_version` stays `1.0`, ADR-004).
+
 ---
 
 ## 1. Objective
@@ -753,6 +900,10 @@ orientation semantics, custom/margin bounds, defaults scope) are documented in
 **no** row's status: it expanded `golden-07-page-setup` and the PDF MediaBox
 e2e test to prove all 14 standard format/orientation combinations plus Custom
 (15 cases), correcting R0.11's broader-than-actual description (§0.12).
+**R0.13 (M5) transitions:** V1-HF-003 → PASS, V1-META-001/002/003 → PASS,
+V1-FIELD-001..004 → PASS; the residual limits (fixed field allow-list, the
+logo-in-margin-box HF limitation, `status` as data not lifecycle, key-not-value
+storage) are documented in `docs/limitations.md` §M5 and §0.13.
 **All Phase 0 PASS classifications and evidence are preserved unchanged.**
 
 ### §5 Platform (MUST)
@@ -857,23 +1008,23 @@ e2e test to prove all 14 standard format/orientation combinations plus Custom
 |---|---|---|
 | V1-HF-001 — Header | **PASS** | sidebar header string + `[field]` tokens; structured margin box IR |
 | V1-HF-002 — Footer | **PASS** | default "Page X of Y" + per-section editing |
-| V1-HF-003 — Dynamic metadata in HF | **PARTIAL** | `[title] [docNumber] [revision] [effectiveDate] [page] [count]` verified (e2e `getComputedStyle`); reviewDate/status/laboratory tokens → **M5** |
+| V1-HF-003 — Dynamic metadata in HF | **PASS** ◂R0.13 | the margin-field registry resolves `[title] [docNumber] [revision] [effectiveDate] [reviewDate] [status] [laboratoryName] [pageNumber] [pageCount]` (plus the `[page]`/`[count]` parse aliases) in **both** header and footer through the shared resolver (e2e `getComputedStyle` + materialized footer text). The laboratory **logo** field is a documented HF limitation (margin boxes are CSS `content`, not DOM). Evidence: `tests/unit/fields.test.ts`, `tests/unit/margin-text.test.ts`, `tests/e2e/fields.spec.ts`, golden-08 |
 | V1-HF-004 — Page numbering | **PASS** | Page X / Page X of Y; auto-update; global-N approximation documented (item 6) |
 
 ### §18 Metadata (MUST)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-META-001 — Structured metadata | **PLANNED — M5** | has title/docNumber/revision/effectiveDate/author/organization/description; missing document type, department, review date, status, prepared/reviewed/approved by, classification → expand `metadataSchema` |
-| V1-META-002 — Metadata panel | **PARTIAL** | panel exists (7 fields) → **M5** adds the rest |
-| V1-META-003 — Metadata as source of truth | **PARTIAL** | linked token updates work for existing fields; new fields + body fields → **M5** |
+| V1-META-001 — Structured metadata | **PASS** ◂R0.13 | `metadataSchema` carries title/docNumber/revision/effectiveDate/author/organization/description **plus** document type, department, reviewDate, status, prepared/reviewed/approvedBy and classification (additive, empty defaults). Evidence: `tests/unit/fields.test.ts`, golden-08 |
+| V1-META-002 — Metadata panel | **PASS** ◂R0.13 | the sidebar edits every metadata field **and** the document-scoped laboratory profile (name/address/logo); the logo is an allow-listed embedded image (invalid/remote/oversized refused before the IR); per-document isolation tested. Evidence: `tests/e2e/fields.spec.ts`, `tests/unit/fields.test.ts` |
+| V1-META-003 — Metadata as source of truth | **PASS** ◂R0.13 | every occurrence references the canonical property via a field **key** (never a copied value), so a metadata/laboratory edit updates all linked occurrences in the body and header/footer. Evidence: `tests/unit/fields.test.ts` (all-occurrence update), `tests/e2e/fields.spec.ts` |
 
 ### §19 Dynamic fields (MUST)
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-FIELD-001 — Document fields | **PLANNED — M5** | margin tokens only; no body `{{document.*}}` |
-| V1-FIELD-002 — Laboratory fields | **PLANNED — M5** | no laboratory profile in IR |
-| V1-FIELD-003 — Page fields | **PARTIAL** | `[page]`/`[count]` in margin boxes only; body-level → **M5** |
-| V1-FIELD-004 — Unresolved field detection | **PLANNED — M5** | no pre-export unresolved reporting |
+| V1-FIELD-001 — Document fields | **PASS** ◂R0.13 | a canonical inline field node stores the **key**; the labelled picker inserts it as an editor chip; the body renders the resolved value from the shared resolver. Evidence: `tests/unit/fields.test.ts`, `tests/unit/adapter.test.ts`, `tests/e2e/fields.spec.ts`, golden-08 |
+| V1-FIELD-002 — Laboratory fields | **PASS** ◂R0.13 | document-scoped `laboratoryProfile` (name/address/logo) in the IR; `laboratory.name`/`address` resolve as text and `laboratory.logo` as a constrained safe `<img>` in the body. Evidence: `tests/unit/fields.test.ts`, `tests/e2e/fields.spec.ts`, golden-08 |
+| V1-FIELD-003 — Page fields | **PASS** ◂R0.13 | `page.number`/`page.total` in the **body** (and `[page]`/`[count]` in HF) resolve after pagination via the shared Paged.js materialiser; a section restart shifts the number; total = document page count. Evidence: `tests/unit/fields.test.ts`, `tests/e2e/fields.spec.ts`, golden-08 |
+| V1-FIELD-004 — Unresolved field detection | **PASS** ◂R0.13 | one shared collector reports each used-but-empty/missing field with its location (body/header/footer, repeated occurrences); the sidebar panel and preview surface it and **both** export paths (`pnpm pdf` + in-app) refuse final PDF while it remains (draft save unaffected). Evidence: `tests/unit/fields.test.ts`, `tests/e2e/fields.spec.ts` |
 
 ### §20 Automatic numbering (MUST)
 | Criterion | Status | Evidence / gap → assignment |
@@ -1098,6 +1249,10 @@ Re-checked every PASS row against its criterion text and implementation:
   Custom page dimensions) and `DOC-002` (configurability leg). No other row's
   status changed; the remaining named gaps (M5–M11, the §6 gates and
   remaining-V1 import) are unchanged.
+- **R0.13 (M5) update:** `HF-003`, `META-001/002/003` and `FIELD-001/002/003/004`
+  move to **PASS** per §0.13 (metadata + laboratory profile + dynamic fields);
+  no other row's status changed, and the remaining named gaps are M6–M11, the §6
+  gates and the remaining-V1 import.
 
 ---
 
@@ -1332,7 +1487,7 @@ M3 Lists (uses M2 marks, numbering principles)   ◂ promoted: multilevel
 M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
    executed sequentially per approved D2; also M4 closes V1-DOC-002
    configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11 ◂ HARDENED R0.12
-M5 Metadata + lab profile + fields (uses M1 styles for field rendering)
+M5 Metadata + lab profile + fields (uses M1 styles for field rendering)   ◂ DELIVERED R0.13
 M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq
 M7 Themes (needs M1 + M5)
 M8 Table depth (needs M4 geometry, M2 cell formatting) ◂ promoted: merged×pages
@@ -1455,6 +1610,32 @@ V1-FIELD-004 UI + export validation. Dep: M1. Tests: resolution unit,
 round-trip, golden (fields in body + HF), e2e metadata→field updates and
 unresolved detection. `status` is a **field**, not lifecycle — approved (D6);
 V1-LIFE-001 stays V1.2.
+**◂R0.13 — DELIVERED:** V1-META-001/002/003 PASS, V1-FIELD-001..004 PASS,
+V1-HF-003 PASS. One typed, allow-listed field registry
+(`src/core/fields/keys.ts`) is the single source of field names, read by the
+editor picker, the body/margin resolver, the renderer and the pre-export
+validator; a new `src/core/fields/` module (registry, resolver, unresolved
+collector) plus `src/core/ir/walk.ts` (shared inline traversal) carry the logic.
+The IR gains a first-class inline **field node** (`z.union([textRun, fieldNode])`,
+both `.strict()` — the key is stored, never a copied value) and a
+document-scoped `laboratoryProfile` (name/address/logo, logo via the existing
+image allow-list); the metadata schema gains document type, department, review
+date, status, prepared/reviewed/approved by and classification (additive, empty
+defaults). The shared resolver drives the body (`inlineHtml`) and the
+header/footer (`marginText`/CSS), page fields materialise after pagination via
+the extended Paged.js script, the sidebar adds a laboratory-profile panel and an
+unresolved-fields panel, and **both** export paths refuse final PDF while
+unresolved used fields remain (draft save unaffected). A new `golden-08-fields`
+exercises body/lab/page fields in the body and HF. Additive IR under ADR-004
+(`schema_version` stays `1.0`; goldens-01..07 regenerate with only the new
+defaulted fields — HTML byte-identical). Evidence: `tests/unit/fields.test.ts`
+(35 tests) plus additive cases in `tests/unit/margin-text.test.ts` /
+`tests/unit/adapter.test.ts`, golden-08, `tests/e2e/fields.spec.ts` (5 tests).
+Residual limits recorded in §0.13 and `docs/limitations.md` §M5. One app-level
+consequence: the sidebar's persistent logo file input made the bare
+`input[type="file"]` open-selector ambiguous, so the transient open-dialog input
+now carries an explicit `data-testid="open-file-input"` and the e2e specs target
+it.
 
 #### M6 — Numbering & cross-references · V1-REF-001 (retained), V1-REF-002/003 (SHOULD), equation numbering (SHOULD) ◂ promotes V1.1 cross-refs/equation numbering (approved — D8)
 IR: reference field node (`ref` → target stable id + kind); equation
@@ -1587,9 +1768,9 @@ and evidence are unchanged.
 > This document is the **approved** Phase-1 scope and decision record (§0,
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
-> separate, explicitly authorized task after this checkpoint. **M1, M2, M3
-> and M4 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10 and R0.11
+> separate, explicitly authorized task after this checkpoint. **M1, M2, M3, M4
+> and M5 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10, R0.11 and R0.13
 > respectively; the M4 PDF-geometry evidence was hardened in R0.12) on the
 > strength of separate, explicitly authorized tasks following the AGENTS.md
-> checkpoint workflow; **M5–M11 (and the Markdown import) have not been
+> checkpoint workflow; **M6–M11 (and the Markdown import) have not been
 > started.**

@@ -5,6 +5,7 @@
 import {
   BULLET_MARKERS,
   LIST_TYPES,
+  isFieldNode,
   type Block,
   type BulletMarker,
   type Inline,
@@ -29,6 +30,14 @@ import {
   SPACE_MM_MAX,
   SPACE_MM_MIN,
 } from "../ir/sanitize";
+import { forEachSectionParagraph } from "../ir/walk";
+import {
+  fieldDefinition,
+  isPageFieldKey,
+  resolveField,
+  unresolvedFieldMarker,
+  type FieldKey,
+} from "../fields";
 import { renderMath } from "../equation";
 
 /**
@@ -54,9 +63,42 @@ function escapeAttr(value: string): string {
   return escapeHtml(value);
 }
 
-export function inlineHtml(inlines: Inline[]): string {
+/**
+ * Render one body dynamic-field reference (V1-FIELD-001/002/003).
+ *
+ *  - resolved text is ESCAPED and wrapped in a distinguishable span;
+ *  - a resolved image (`laboratory.logo`) is an allow-listed embedded data URI
+ *    only (re-validated here at the render boundary);
+ *  - page fields render an empty placeholder that the post-pagination
+ *    materializer fills (so preview and PDF share one resolution path);
+ *  - unresolved fields render a visible marker, never blank, never `{{...}}`
+ *    leaked as literal text (V1-FIELD-004).
+ */
+function fieldHtml(key: FieldKey, resolved: ResolvedDocument | undefined): string {
+  const dataField = escapeAttr(key);
+  if (isPageFieldKey(key)) {
+    const kind = key === "page.number" ? "number" : "total";
+    return `<span class="doc-field doc-field-page" data-field="${dataField}" data-page-field="${kind}"></span>`;
+  }
+  if (!resolved) {
+    return `<span class="doc-field doc-field-unresolved" data-field="${dataField}">${escapeHtml(unresolvedFieldMarker(key))}</span>`;
+  }
+  const resolution = resolveField(resolved.document, key);
+  if (resolution.status === "resolved" && resolution.kind === "image") {
+    // Defense in depth: the src came from the allow-listed sanitizer.
+    return `<img class="doc-field doc-field-logo" data-field="${dataField}" src="${escapeAttr(resolution.src)}" alt="${escapeAttr(fieldDefinition(key)?.label ?? "Laboratory logo")}" />`;
+  }
+  if (resolution.status === "resolved" && resolution.kind === "text") {
+    return `<span class="doc-field doc-field-resolved" data-field="${dataField}">${escapeHtml(resolution.text)}</span>`;
+  }
+  const reason = resolution.status === "unresolved" ? resolution.reason : "unresolved field";
+  return `<span class="doc-field doc-field-unresolved" data-field="${dataField}" title="${escapeAttr(reason)}">${escapeHtml(unresolvedFieldMarker(key))}</span>`;
+}
+
+export function inlineHtml(inlines: Inline[], resolved?: ResolvedDocument): string {
   return inlines
     .map((run) => {
+      if (isFieldNode(run)) return fieldHtml(run.field, resolved);
       let html = escapeHtml(run.text);
       for (const mark of run.marks) {
         switch (mark.type) {
@@ -210,7 +252,7 @@ function listItemHtml(
       const fmt = paragraphFormatStyle(paragraph.format);
       const styleAttr = fmt ? ` style="${fmt}"` : "";
       const prefix = index === 0 ? lead : "";
-      return `<p id="${escapeAttr(paragraph.id)}" class="doc-list-para doc-paragraph${styleClassName(resolved, paragraph)}"${styleAttr}>${prefix}${inlineHtml(paragraph.content)}</p>`;
+      return `<p id="${escapeAttr(paragraph.id)}" class="doc-list-para doc-paragraph${styleClassName(resolved, paragraph)}"${styleAttr}>${prefix}${inlineHtml(paragraph.content, resolved)}</p>`;
     })
     .join("");
   const children = item.children.length
@@ -256,12 +298,12 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
       const numHtml = num ? `<span class="doc-num">${escapeHtml(num)}</span> ` : "";
       const fmt = paragraphFormatStyle(block.format);
       const styleAttr = fmt ? ` style="${fmt}"` : "";
-      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading${styleClassName(resolved, block)}"${styleAttr}>${numHtml}${inlineHtml(block.content)}</h${block.level}>`;
+      return `<h${block.level} id="${escapeAttr(block.id)}" class="doc-heading${styleClassName(resolved, block)}"${styleAttr}>${numHtml}${inlineHtml(block.content, resolved)}</h${block.level}>`;
     }
     case "paragraph": {
       const fmt = paragraphFormatStyle(block.format);
       const styleAttr = fmt ? ` style="${fmt}"` : "";
-      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph${styleClassName(resolved, block)}"${styleAttr}>${inlineHtml(block.content)}</p>`;
+      return `<p id="${escapeAttr(block.id)}" class="doc-paragraph${styleClassName(resolved, block)}"${styleAttr}>${inlineHtml(block.content, resolved)}</p>`;
     }
     case "bulletList":
       if (block.items.length === 0) return "";
@@ -269,7 +311,7 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
         .map((item) => {
           const fmt = paragraphFormatStyle(item.format);
           const styleAttr = fmt ? ` style="${fmt}"` : "";
-          return `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}"${styleAttr}>${inlineHtml(item.content)}</li>`;
+          return `<li id="${escapeAttr(item.id)}" class="doc-list-item${styleClassName(resolved, item)}"${styleAttr}>${inlineHtml(item.content, resolved)}</li>`;
         })
         .join("")}</ul>`;
     case "list":
@@ -319,7 +361,7 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
                   // declarations (alignment/space/indent) come after so the
                   // per-block override still wins for that aspect.
                   const margin = fmt ? `margin:0; ${fmt}` : "margin:0";
-                  return `<p class="doc-paragraph${styleClassName(resolved, p)}" style="${margin}">${inlineHtml(p.content)}</p>`;
+                  return `<p class="doc-paragraph${styleClassName(resolved, p)}" style="${margin}">${inlineHtml(p.content, resolved)}</p>`;
                 })
                 .join("")}</${tag}>`,
           )
@@ -402,8 +444,80 @@ export function documentHasEquations(resolved: ResolvedDocument): boolean {
   );
 }
 
-/** The boot scripts: PagedConfig + repeated-thead handler (spike-proven). */
-export function buildScripts(pagedJsSrc: string): string {
+/** True when any BODY paragraph/heading/list/table contains a field reference. */
+export function documentHasBodyFields(resolved: ResolvedDocument): boolean {
+  return resolved.document.sections.some((section) => {
+    let found = false;
+    forEachSectionParagraph(section, (paragraph) => {
+      if (!found && paragraph.content.some((run) => isFieldNode(run))) found = true;
+    });
+    return found;
+  });
+}
+
+/** True when any BODY field reference is a page field (needs materialization). */
+export function documentHasPageFields(resolved: ResolvedDocument): boolean {
+  return resolved.document.sections.some((section) => {
+    let found = false;
+    forEachSectionParagraph(section, (paragraph) => {
+      if (
+        !found &&
+        paragraph.content.some((run) => isFieldNode(run) && isPageFieldKey(run.field))
+      ) {
+        found = true;
+      }
+    });
+    return found;
+  });
+}
+
+/**
+ * The boot scripts: PagedConfig + repeated-thead handler (spike-proven).
+ *
+ * When `options.pageFields` is set, an additional body page-field materializer
+ * is emitted. It is emitted CONDITIONALLY so documents without body page
+ * fields produce byte-identical markup to the pre-M5 renderer (golden stability);
+ * the extra function would otherwise change every existing golden's HTML.
+ */
+export function buildScripts(
+  pagedJsSrc: string,
+  options: { pageFields?: boolean } = {},
+): string {
+  const pageFieldFunction = options.pageFields
+    ? `
+      /*
+       * Body {{page.number}} / {{page.total}} materialization (M5). Same rule as
+       * the margin counters: the resolver emits an EMPTY placeholder and the
+       * shared renderer fills it after layout, so preview and PDF agree. The
+       * total is the global page count; the number honours section restarts.
+       */
+      function materializePageFields() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var fields = page.querySelectorAll("[data-page-field]");
+          for (var f = 0; f < fields.length; f++) {
+            var el = fields[f];
+            el.textContent =
+              el.getAttribute("data-page-field") === "total" ? String(total) : String(visible);
+          }
+        }
+      }
+`
+    : "";
+  const pageFieldCall = options.pageFields ? "\n          materializePageFields();" : "";
   return `<script>
       /*
        * Page-number materialization for pageNumberStart (per-section restarts).
@@ -462,11 +576,11 @@ export function buildScripts(pagedJsSrc: string): string {
           }
         }
       }
-
+${pageFieldFunction}
       window.PagedConfig = {
         auto: true,
         after: function () {
-          materializePageNumbers();
+          materializePageNumbers();${pageFieldCall}
           window.__layoutDone = true;
           window.dispatchEvent(new Event("layout-done"));
         }

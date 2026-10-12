@@ -2,10 +2,16 @@
  * Sidebar ⇄ margin-box editing helper.
  *
  * Margin boxes are structured (text runs + fields like Page X of Y). The
- * Phase-0 sidebar edits them as a single string with `[field]` tokens, e.g.
- * `"TM-001 — [title] — [page]/[count]"`, so structured parts survive editing.
+ * sidebar edits them as a single string with `[field]` tokens, e.g.
+ * `"TM-001 — [title] — [pageNumber]/[pageCount]"`, so structured parts survive
+ * editing.
+ *
+ * M5 (V1-HF-003): additional metadata fields are authorable, and the legacy
+ * shorthand aliases `[page]` / `[count]` are accepted on PARSE and normalized
+ * to the canonical `pageNumber` / `pageCount` tokens on serialization, so the
+ * stored margin model stays stable.
  */
-import type { MarginBox, MarginField, MarginPart } from "@/core";
+import { MARGIN_TOKEN_ALIASES, type MarginBox, type MarginField, type MarginPart } from "@/core";
 
 const FIELDS: MarginField[] = [
   "pageNumber",
@@ -14,9 +20,18 @@ const FIELDS: MarginField[] = [
   "docNumber",
   "revision",
   "effectiveDate",
+  "reviewDate",
+  "status",
+  "laboratoryName",
 ];
 
-const TOKEN_PATTERN = new RegExp(`\\[(${FIELDS.join("|")})\\]`, "g");
+const TOKEN_KEYS = [...FIELDS, ...Object.keys(MARGIN_TOKEN_ALIASES)];
+const TOKEN_PATTERN = new RegExp(`\\[(${TOKEN_KEYS.join("|")})\\]`, "g");
+
+function normalizeField(token: string): MarginField {
+  const alias = MARGIN_TOKEN_ALIASES[token];
+  return (alias ?? token) as MarginField;
+}
 
 /** MarginBox → token string (null/empty box → ""). */
 export function serializeMarginText(box: MarginBox | null): string {
@@ -34,7 +49,7 @@ export function parseMarginText(value: string): MarginBox | null {
   for (const match of value.matchAll(TOKEN_PATTERN)) {
     const index = match.index ?? 0;
     if (index > last) parts.push({ kind: "text", value: value.slice(last, index) });
-    parts.push({ kind: "field", field: match[1] as MarginField });
+    parts.push({ kind: "field", field: normalizeField(match[1]) });
     last = index + match[0].length;
   }
   if (last < value.length) parts.push({ kind: "text", value: value.slice(last) });

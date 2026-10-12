@@ -110,7 +110,7 @@ async function openInApp(page: Page, jsonPath: string) {
   await page.goto("/");
   await page.waitForSelector('iframe[name="preview"]');
   await page.getByTestId("open").click();
-  await page.setInputFiles('input[type="file"]', jsonPath);
+  await page.getByTestId("open-file-input").setInputFiles(jsonPath);
   const frame = page.frames().find((f) => f.name() === "preview")!;
   await expect(frame.locator("body")).toContainText("Stress — primary", {
     timeout: 60_000,

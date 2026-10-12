@@ -32,4 +32,33 @@ describe("margin text tokens", () => {
       parts: [{ kind: "text", value: "see [note] here" }],
     });
   });
+
+  it("round-trips the M5 margin fields (review date, status, laboratory)", () => {
+    const tokens = "[reviewDate] · [status] · [laboratoryName]";
+    const box = parseMarginText(tokens);
+    expect(box).toEqual({
+      parts: [
+        { kind: "field", field: "reviewDate" },
+        { kind: "text", value: " · " },
+        { kind: "field", field: "status" },
+        { kind: "text", value: " · " },
+        { kind: "field", field: "laboratoryName" },
+      ],
+    });
+    expect(serializeMarginText(box)).toBe(tokens);
+  });
+
+  it("normalizes the legacy [page]/[count] aliases to canonical tokens on parse", () => {
+    const box = parseMarginText("Page [page] of [count]");
+    expect(box).toEqual({
+      parts: [
+        { kind: "text", value: "Page " },
+        { kind: "field", field: "pageNumber" },
+        { kind: "text", value: " of " },
+        { kind: "field", field: "pageCount" },
+      ],
+    });
+    // Serialization always emits the canonical tokens (stable stored model).
+    expect(serializeMarginText(box)).toBe("Page [pageNumber] of [pageCount]");
+  });
 });
