@@ -22,6 +22,7 @@ export {
   documentHasBodyFields,
   documentHasEquations,
   documentHasPageFields,
+  documentHasReferences,
   escapeHtml,
   inlineHtml,
   paragraphFormatStyle,

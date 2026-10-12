@@ -126,6 +126,15 @@ export function marginFieldKey(field: MarginField): FieldKey {
   return MARGIN_FIELD_TO_KEY[field];
 }
 
+/**
+ * The canonical margin-field token list, DERIVED from the key map above so the
+ * header/footer token vocabulary can never drift between the sidebar parser,
+ * the margin renderer and the field resolver (single source of truth).
+ */
+export const MARGIN_FIELDS: readonly MarginField[] = Object.keys(
+  MARGIN_FIELD_TO_KEY,
+) as MarginField[];
+
 /** Legacy header/footer token aliases accepted when parsing margin text. */
 export const MARGIN_TOKEN_ALIASES: Record<string, MarginField> = {
   page: "pageNumber",

@@ -20,7 +20,10 @@ import {
   type ListType,
   type Mark,
   type MarginBox,
+  type NodeId,
   type Paragraph,
+  type ReferenceKind,
+  type ReferenceNode,
   type Section,
   type Table,
 } from "./schema";
@@ -32,6 +35,11 @@ export function text(value: string, marks: Mark[] = []): Inline {
 /** Canonical inline dynamic field reference (M5). */
 export function field(key: FieldKey): FieldNode {
   return { field: key };
+}
+
+/** Canonical inline cross-reference to a numbered semantic node (M6). */
+export function reference(ref: NodeId, refKind: ReferenceKind): ReferenceNode {
+  return { ref, refKind };
 }
 
 /**

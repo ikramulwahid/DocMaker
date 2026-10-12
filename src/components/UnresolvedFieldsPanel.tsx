@@ -1,22 +1,24 @@
 /**
- * Unresolved dynamic fields panel (M5 — V1-FIELD-004).
+ * Document "issues" panel (M5 — V1-FIELD-004; M6 — V1-REF-002/003).
  *
- * Uses the SHARED unresolved-field walker (not a scattered string check) so the
- * panel, the preview and the export gate all agree. An unused empty metadata
- * property is NOT reported; only a field that is USED with an empty/missing
- * source is. Page fields are deferred to pagination and never shown here.
+ * Uses the SHARED combined issue walker (not a scattered string check) so the
+ * panel, the preview and both export paths all agree. Two families are
+ * reported: dynamic fields that are USED with an empty/missing source, and
+ * cross-references whose target is missing/deleted. An unused empty metadata
+ * property is NOT reported; page fields are deferred to pagination and never
+ * shown here.
  */
-import { collectUnresolvedFields, unresolvedFieldMessages } from "@/core";
+import { collectDocumentIssues, documentIssueMessages } from "@/core";
 import { useDocStore } from "@/store";
 
 export function UnresolvedFieldsPanel() {
   const document_ = useDocStore((s) => s.document);
-  const report = collectUnresolvedFields(document_);
-  const messages = unresolvedFieldMessages(report);
+  const report = collectDocumentIssues(document_);
+  const messages = documentIssueMessages(report);
 
   return (
     <section>
-      <h2>{"Dynamic fields"}</h2>
+      <h2>{"Issues"}</h2>
       {messages.length === 0 ? (
         <p className="hint" data-testid="unresolved-fields">
           All used fields are resolved.
@@ -24,8 +26,8 @@ export function UnresolvedFieldsPanel() {
       ) : (
         <div className="unresolved-fields" data-testid="unresolved-fields" role="alert">
           <p className="hint">
-            {messages.length} unresolved field{messages.length === 1 ? "" : "s"} — final
-            PDF export is blocked until these are resolved:
+            {messages.length} issue{messages.length === 1 ? "" : "s"} — final PDF export is
+            blocked until these are resolved:
           </p>
           <ul>
             {messages.map((message) => (

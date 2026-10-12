@@ -6,7 +6,7 @@ import { Preview } from "@/components/Preview";
 import { Sidebar } from "@/components/Sidebar";
 import { EditorPanel } from "@/editor/EditorPanel";
 import { effectivePageSizeMm, serializeDocument, tryDeserializeDocument } from "@/core";
-import { collectUnresolvedFields, unresolvedFieldMessages } from "@/core/fields";
+import { collectDocumentIssues, documentIssueMessages } from "@/core/issues";
 import { openJson, saveJson } from "@/app/files";
 import { useDocStore } from "@/store";
 
@@ -45,13 +45,16 @@ export default function App() {
 
   const onExportPdf = () => {
     const state = useDocStore.getState();
-    // V1-FIELD-004: final PDF export is refused while a USED field has no
-    // value. Saving the `.labdoc.json` draft stays possible; only the final
-    // output is gated. The list is actionable so the user knows what to fix.
-    const report = collectUnresolvedFields(state.document);
-    if (report.occurrences.length > 0) {
+    // V1-FIELD-004 / V1-REF-002: final PDF export is refused while a USED field
+    // has no value or a cross-reference points at a missing/deleted target.
+    // Saving the `.labdoc.json` draft stays possible; only the final output is
+    // gated. The list is actionable so the user knows what to fix.
+    const report = collectDocumentIssues(state.document);
+    const fieldCount = report.fields.occurrences.length;
+    const refCount = report.references.occurrences.length;
+    if (fieldCount > 0 || refCount > 0) {
       state.setStatus(
-        `PDF export blocked — ${report.occurrences.length} unresolved field(s): ${unresolvedFieldMessages(report).join("; ")}`,
+        `PDF export blocked — ${fieldCount} unresolved field(s), ${refCount} broken reference(s): ${documentIssueMessages(report).join("; ")}`,
       );
       return;
     }

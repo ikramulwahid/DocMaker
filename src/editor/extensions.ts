@@ -336,6 +336,71 @@ export const FieldRef = Node.create({
   },
 });
 
+const REFERENCE_KIND_LABEL: Record<string, string> = {
+  heading: "Heading",
+  table: "Table",
+  figure: "Figure",
+  equation: "Equation",
+};
+
+/**
+ * Inline cross-reference chip (M6 — V1-REF-002). An atom node carrying only the
+ * TARGET's stable id + kind. The editor shows a STRUCTURAL chip (the target
+ * KIND), never a derived label, so a stale number can never appear to be the
+ * source of truth; the resolved label lives in the picker and the preview,
+ * both derived from the current numbering at render time.
+ */
+export const ReferenceRef = Node.create({
+  name: "referenceRef",
+  group: "inline",
+  inline: true,
+  atom: true,
+  selectable: true,
+  addAttributes() {
+    return {
+      ref: {
+        default: "",
+        parseHTML: (element: HTMLElement) => element.getAttribute("data-ref-ref") ?? "",
+        renderHTML: (attributes: { ref?: string }) =>
+          attributes.ref ? { "data-ref-ref": attributes.ref } : {},
+      },
+      refKind: {
+        default: "",
+        parseHTML: (element: HTMLElement) =>
+          element.getAttribute("data-ref-kind") ?? "",
+        renderHTML: (attributes: { refKind?: string }) =>
+          attributes.refKind ? { "data-ref-kind": attributes.refKind } : {},
+      },
+    };
+  },
+  parseHTML() {
+    return [{ tag: "span[data-ref-ref]" }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    const attrs = HTMLAttributes as Record<string, unknown>;
+    const refKind = String(attrs["data-ref-kind"] ?? attrs.refKind ?? "");
+    return [
+      "span",
+      mergeAttributes(HTMLAttributes, { class: "ir-ref-ref" }),
+      `⟶ ${REFERENCE_KIND_LABEL[refKind] ?? "Reference"}`,
+    ];
+  },
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement("span");
+      const ref = String(node.attrs.ref ?? "");
+      const refKind = String(node.attrs.refKind ?? "");
+      dom.className = "ir-ref-chip";
+      dom.setAttribute("data-ref-ref", ref);
+      dom.setAttribute("data-ref-kind", refKind);
+      dom.setAttribute("contenteditable", "false");
+      dom.textContent = `⟶ ${REFERENCE_KIND_LABEL[refKind] ?? "Reference"}`;
+      dom.title = `Reference to ${refKind || "target"} ${ref}`;
+      return { dom };
+    };
+  },
+});
+
 /** Table with IR-only attrs (caption, column widths). */
 export const Table = TableBase.extend({
   addAttributes() {
@@ -479,6 +544,7 @@ export function createExtensions(): Extensions {
     HighlightMark,
     Image,
     FieldRef,
+    ReferenceRef,
     Table.configure({ resizable: false, allowTableNodeSelection: true }),
     TableRow,
     TableCell,

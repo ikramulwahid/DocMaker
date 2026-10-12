@@ -6,12 +6,14 @@ import {
   BULLET_MARKERS,
   LIST_TYPES,
   isFieldNode,
+  isReferenceNode,
   type Block,
   type BulletMarker,
   type Inline,
   type ListItem,
   type ListType,
   type ParagraphFormatOverride,
+  type ReferenceNode,
   type Section,
 } from "../ir/schema";
 import type { ResolvedDocument } from "../resolve";
@@ -38,6 +40,7 @@ import {
   unresolvedFieldMarker,
   type FieldKey,
 } from "../fields";
+import { missingReferenceMarker, resolveReference } from "../references";
 import { renderMath } from "../equation";
 
 /**
@@ -95,10 +98,38 @@ function fieldHtml(key: FieldKey, resolved: ResolvedDocument | undefined): strin
   return `<span class="doc-field doc-field-unresolved" data-field="${dataField}" title="${escapeAttr(reason)}">${escapeHtml(unresolvedFieldMarker(key))}</span>`;
 }
 
+/**
+ * Render one body cross-reference (M6 — V1-REF-002/003).
+ *
+ *  - a RESOLVED reference renders the target's CURRENT derived label (never a
+ *    copied number), wrapped in a distinguishable span carrying the target id
+ *    and kind;
+ *  - a BROKEN reference renders a visible marker with an actionable reason in
+ *    `title`, never a blank or a stale label (AGENTS.md §46).
+ *
+ * `data-reference` is used instead of `data-ref` because paged.js itself owns
+ * `data-ref` for split-fragment tracking; keeping them distinct avoids any
+ * interference with pagination (see node_modules/pagedjs).
+ */
+function referenceHtml(node: ReferenceNode, resolved?: ResolvedDocument): string {
+  const dataRef = escapeAttr(node.ref);
+  const dataKind = escapeAttr(node.refKind);
+  const base = `class="doc-ref" data-reference="${dataRef}" data-reference-kind="${dataKind}"`;
+  if (!resolved) {
+    return `<span ${base} data-broken="true" title="reference unresolved">${escapeHtml(missingReferenceMarker(node.refKind))}</span>`;
+  }
+  const resolution = resolveReference(resolved.numbering, node);
+  if (resolution.status === "resolved") {
+    return `<span ${base}>${escapeHtml(resolution.label)}</span>`;
+  }
+  return `<span ${base} data-broken="true" title="${escapeAttr(resolution.reason)}">${escapeHtml(missingReferenceMarker(node.refKind))}</span>`;
+}
+
 export function inlineHtml(inlines: Inline[], resolved?: ResolvedDocument): string {
   return inlines
     .map((run) => {
       if (isFieldNode(run)) return fieldHtml(run.field, resolved);
+      if (isReferenceNode(run)) return referenceHtml(run, resolved);
       let html = escapeHtml(run.text);
       for (const mark of run.marks) {
         switch (mark.type) {
@@ -406,7 +437,11 @@ export function blockHtml(block: Block, resolved: ResolvedDocument): string {
       return `<div id="${escapeAttr(block.id)}" class="doc-page-break"></div>`;
     case "equation": {
       const rendered = renderMath(block.latex, block.display);
-      return `<div id="${escapeAttr(block.id)}" class="doc-equation${block.display ? " display" : " inline"}">${rendered}</div>`;
+      const num = numbering.equations[block.id];
+      const numHtml = num
+        ? `<span class="doc-equation-number">${escapeHtml(num)}</span>`
+        : "";
+      return `<div id="${escapeAttr(block.id)}" class="doc-equation${block.display ? " display" : " inline"}">${rendered}${numHtml}</div>`;
     }
     case "horizontalRule":
       return `<hr id="${escapeAttr(block.id)}" class="doc-hr" />`;
@@ -466,6 +501,17 @@ export function documentHasPageFields(resolved: ResolvedDocument): boolean {
       ) {
         found = true;
       }
+    });
+    return found;
+  });
+}
+
+/** True when any BODY paragraph/heading/list/table contains a cross-reference. */
+export function documentHasReferences(resolved: ResolvedDocument): boolean {
+  return resolved.document.sections.some((section) => {
+    let found = false;
+    forEachSectionParagraph(section, (paragraph) => {
+      if (!found && paragraph.content.some((run) => isReferenceNode(run))) found = true;
     });
     return found;
   });

@@ -14,6 +14,8 @@ import {
   EMPTY_PARAGRAPH_FORMAT,
   LIST_TYPES,
   isFieldNode,
+  isReferenceKind,
+  isReferenceNode,
   isStyleId,
   type Block,
   type BulletMarker,
@@ -183,6 +185,9 @@ function runToTiptap(run: Inline): TiptapNode {
   if (isFieldNode(run)) {
     return { type: "fieldRef", attrs: { field: run.field } };
   }
+  if (isReferenceNode(run)) {
+    return { type: "referenceRef", attrs: { ref: run.ref, refKind: run.refKind } };
+  }
   return {
     type: "text",
     text: run.text,
@@ -221,6 +226,15 @@ function runsFromTiptap(nodes: TiptapNode[] | undefined): Inline[] {
     if (node.type === "fieldRef") {
       const field = node.attrs?.field;
       if (isFieldKey(field)) runs.push({ field });
+      continue;
+    }
+    // A cross-reference chip round-trips to the canonical reference node. Both
+    // the target id and the kind are re-validated (a foreign/stale attr is
+    // skipped rather than smuggled into the IR).
+    if (node.type === "referenceRef") {
+      const ref = node.attrs?.ref;
+      const refKind = node.attrs?.refKind;
+      if (isNodeId(ref) && isReferenceKind(refKind)) runs.push({ ref, refKind });
       continue;
     }
     if (node.type !== "text") continue; // hardBreak etc. cannot exist

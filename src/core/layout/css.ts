@@ -11,12 +11,13 @@ import type { ResolvedDocument } from "../resolve";
 import { effectivePageSizeCssMm } from "../ir/pageGeometry";
 import { resolveTheme, SANS_FONT_STACK, SERIF_FONT_STACK, type ThemeTokens } from "../theme";
 import {
+  MARGIN_FIELDS,
   isPageFieldKey,
   marginFieldKey,
   resolveField,
   unresolvedFieldMarker,
 } from "../fields";
-import { documentHasBodyFields } from "./html";
+import { documentHasBodyFields, documentHasEquations, documentHasReferences } from "./html";
 
 export function cssString(value: string): string {
   // JSON string syntax is a safe subset for CSS `content` strings once
@@ -24,9 +25,13 @@ export function cssString(value: string): string {
   return JSON.stringify(value.replace(/\r?\n/g, " "));
 }
 
-/** Page-counter margin fields (governed by section.pageSetup.showPageNumber). */
-function isPageField(field: MarginField): field is "pageNumber" | "pageCount" {
-  return field === "pageNumber" || field === "pageCount";
+/**
+ * Page-counter margin fields (governed by section.pageSetup.showPageNumber).
+ * Delegates to the shared field registry so the page-field set is never
+ * re-declared here (drift risk — see tests/unit/margin-text.test.ts).
+ */
+function isPageField(field: MarginField): boolean {
+  return isPageFieldKey(marginFieldKey(field));
 }
 
 function fieldExpression(field: MarginField, strings: Record<string, string>): string {
@@ -113,16 +118,7 @@ export function pageSizeMm(setup: PageSetup): { width: string; height: string } 
  */
 function marginStrings(document: Document): Record<string, string> {
   const values: Record<string, string> = {};
-  const fields: MarginField[] = [
-    "title",
-    "docNumber",
-    "revision",
-    "effectiveDate",
-    "reviewDate",
-    "status",
-    "laboratoryName",
-  ];
-  for (const field of fields) {
+  for (const field of MARGIN_FIELDS) {
     const key = marginFieldKey(field);
     if (isPageFieldKey(key)) continue;
     const resolution = resolveField(document, key);
@@ -304,6 +300,43 @@ table.doc-table thead { display: table-header-group; }
 }
 .doc-field-logo { display: block; max-height: 20mm; max-width: 45mm; margin: 2mm 0; }
 .doc-field-page { display: inline-block; min-width: 4mm; }
+`);
+  }
+
+  /* --------------------------------------------------------- equations (M6) */
+  // Emitted ONLY when the document contains equations, so equation-free
+  // documents keep byte-identical CSS (golden stability). A DISPLAY equation
+  // becomes a two-column grid (math | number) so the derived number sits on the
+  // right, exactly as it prints (preview == PDF).
+  if (documentHasEquations(resolved)) {
+    lines.push(`
+.doc-equation.display {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.doc-equation.display .katex-display { margin: 0; }
+.doc-equation-number {
+  margin-left: 4mm;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+`);
+  }
+
+  /* ------------------------------------------------------- references (M6) */
+  // Emitted ONLY when the document contains cross-references. A broken
+  // reference is visually flagged (never silently blank), mirroring the
+  // unresolved-field marker.
+  if (documentHasReferences(resolved)) {
+    lines.push(`
+.doc-ref { color: inherit; }
+.doc-ref[data-broken="true"] {
+  color: #b00020;
+  background: #ffe8e8;
+  border: 0.3pt dashed #b00020;
+  padding: 0 1mm;
+}
 `);
   }
 

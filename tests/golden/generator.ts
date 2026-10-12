@@ -21,6 +21,7 @@ import {
   createSection,
   createTable,
   field,
+  reference,
   text,
 } from "@/core/ir/factory";
 import { buildDefaultStyles } from "@/core/ir/styles";
@@ -746,6 +747,75 @@ export function createFieldDocument(): Document {
   return doc;
 }
 
+/**
+ * Golden 09 — cross-references (M6 — V1-REF-002/003).
+ *
+ * One reference to each numbered-object family (heading, table, figure,
+ * equation) whose visible label is DERIVED from the current numbering, plus one
+ * deliberately dangling reference that must render the visible broken marker —
+ * never a blank or stale label. The equation also pins derived equation
+ * numbering (`Equation 1`).
+ */
+export function createReferencesDocument(): Document {
+  const doc = createEmptyDocument("Cross-references");
+  doc.metadata = {
+    ...doc.metadata,
+    title: "Cross-references",
+    docNumber: "REF-09",
+    revision: "01",
+    effectiveDate: "2026-10-12",
+    description:
+      "M6 golden: heading/table/figure/equation cross-references + one broken reference",
+  };
+  doc.settings.watermark.enabled = false;
+
+  const purpose = createHeading(1, [text("Purpose")]);
+  const scope = createHeading(2, [text("Scope")]);
+  const table = createTable(
+    [
+      ["Parameter", "Limit"],
+      ["pH", "6.5 – 8.5"],
+      ["Conductivity", "< 1.0 µS/cm"],
+    ],
+    { caption: "Acceptance limits" },
+  );
+  const figure = createImage(GATE_IMAGE, {
+    alt: "Trending plot",
+    caption: "Conductivity trend",
+  });
+  const equation = createEquation("E = m c^2", true);
+
+  doc.sections = [
+    createSection([
+      purpose,
+      createParagraph([
+        text("This document is summarised in "),
+        reference(scope.id, "heading"),
+        text(" and detailed in "),
+        reference(table.id, "table"),
+        text("."),
+      ]),
+      scope,
+      createParagraph([
+        text("See "),
+        reference(figure.id, "figure"),
+        text(" and the mass–energy relation "),
+        reference(equation.id, "equation"),
+        text("."),
+      ]),
+      table,
+      figure,
+      equation,
+      createParagraph([
+        text("A deliberately dangling pointer appears here: "),
+        reference("hd_missing0001", "heading"),
+        text("."),
+      ]),
+    ]),
+  ];
+  return doc;
+}
+
 export function buildGoldens(): Golden[] {
   return [
     { name: "golden-01-mixed-orientation", doc: createDocumentFixture() },
@@ -756,6 +826,7 @@ export function buildGoldens(): Golden[] {
     { name: "golden-06-lists", doc: createListDocument() },
     { name: "golden-07-page-setup", doc: createPageSetupDocument() },
     { name: "golden-08-fields", doc: createFieldDocument() },
+    { name: "golden-09-references", doc: createReferencesDocument() },
   ];
 }
 

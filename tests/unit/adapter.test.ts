@@ -537,3 +537,62 @@ describe("adapter — inline dynamic field chips (M5)", () => {
     }
   });
 });
+
+describe("adapter — inline cross-reference chips (M6)", () => {
+  it("round-trips references preserving text, marks and order", () => {
+    const blocks: Block[] = [
+      {
+        id: "pg_abcdef12",
+        type: "paragraph",
+        content: [
+          { text: "See ", marks: [{ type: "bold" }] },
+          { ref: "tb_abcdef12", refKind: "table" },
+          { text: " and ", marks: [] },
+          { ref: "hd_abcdef12", refKind: "heading" },
+          { text: ".", marks: [] },
+        ],
+        style: null,
+        format: EMPTY_PARAGRAPH_FORMAT,
+      },
+    ];
+    expect(roundTrip(blocks)).toEqual(blocks);
+  });
+
+  it("maps a reference to a referenceRef atom node in editor JSON", () => {
+    const doc = blocksToTiptapDoc([
+      {
+        id: "pg_abcdef12",
+        type: "paragraph",
+        content: [{ ref: "tb_abcdef12", refKind: "table" }],
+        style: null,
+        format: EMPTY_PARAGRAPH_FORMAT,
+      },
+    ]);
+    expect(doc.content?.[0]?.content?.[0]).toEqual({
+      type: "referenceRef",
+      attrs: { ref: "tb_abcdef12", refKind: "table" },
+    });
+  });
+
+  it("skips an invalid target id or kind instead of smuggling it into the IR", () => {
+    const doc: TiptapNode = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          attrs: { id: "pg_abcdef12" },
+          content: [
+            { type: "referenceRef", attrs: { ref: "not-an-id", refKind: "table" } },
+            { type: "referenceRef", attrs: { ref: "tb_abcdef12", refKind: "widget" } },
+            { type: "referenceRef", attrs: { ref: "tb_abcdef12", refKind: "table" } },
+          ],
+        },
+      ],
+    };
+    const block = tiptapDocToBlocks(doc)[0];
+    expect(block.type).toBe("paragraph");
+    if (block.type === "paragraph") {
+      expect(block.content).toEqual([{ ref: "tb_abcdef12", refKind: "table" }]);
+    }
+  });
+});

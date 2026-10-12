@@ -37,8 +37,8 @@ const {
   deserializeDocument,
   resolveDocument,
   renderLayout,
-  collectUnresolvedFields,
-  unresolvedFieldMessages,
+  collectDocumentIssues,
+  documentIssueMessages,
 } = core;
 
 const inputPath = path.resolve(input);
@@ -52,18 +52,21 @@ try {
   process.exit(1);
 }
 
-// V1-FIELD-004: the same shared validation the app uses gates the CLI path.
-// A final PDF is refused while a USED field has no value; page fields are
-// deferred to pagination and are never reported here.
-const unresolved = collectUnresolvedFields(document);
-if (unresolved.occurrences.length > 0) {
+// V1-FIELD-004 / V1-REF-002: the same shared validation the app uses gates the
+// CLI path. A final PDF is refused while a USED field has no value or a
+// cross-reference points at a missing/deleted target; page fields are deferred
+// to pagination and are never reported here.
+const issues = collectDocumentIssues(document);
+const issueCount =
+  issues.fields.occurrences.length + issues.references.occurrences.length;
+if (issueCount > 0) {
   console.error(
-    `PDF export blocked — ${unresolved.occurrences.length} unresolved field(s):`,
+    `PDF export blocked — ${issues.fields.occurrences.length} unresolved field(s), ${issues.references.occurrences.length} broken reference(s):`,
   );
-  for (const message of unresolvedFieldMessages(unresolved)) {
+  for (const message of documentIssueMessages(issues)) {
     console.error(`  - ${message}`);
   }
-  console.error("Resolve the fields in the document, or keep editing the draft.");
+  console.error("Resolve the fields/references in the document, or keep editing the draft.");
   process.exit(1);
 }
 

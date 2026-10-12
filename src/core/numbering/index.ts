@@ -31,6 +31,12 @@ export interface Numbering {
    * entry (their glyph is a static marker). Never stored in the IR.
    */
   lists: Record<NodeId, string>;
+  /**
+   * e.g. `"Equation 1"` for every equation block, keyed by block id. Derived
+   * in document order, never stored (AGENTS.md §12). Inline-mode equation
+   * blocks are numbered too — the block is a first-class semantic object.
+   */
+  equations: Record<NodeId, string>;
 }
 
 const ALPHA = "abcdefghijklmnopqrstuvwxyz";
@@ -151,10 +157,12 @@ export function deriveNumbering(doc: Document): Numbering {
   const tables: Record<NodeId, string> = {};
   const figures: Record<NodeId, string> = {};
   const lists: Record<NodeId, string> = {};
+  const equations: Record<NodeId, string> = {};
 
   const levelCounters = [0, 0, 0, 0, 0, 0];
   let tableCount = 0;
   let figureCount = 0;
+  let equationCount = 0;
 
   for (const section of walkSections(doc)) {
     for (const block of walkBlocks(section.blocks)) {
@@ -184,11 +192,16 @@ export function deriveNumbering(doc: Document): Numbering {
           numberList(block, lists);
           break;
         }
+        case "equation": {
+          equationCount += 1;
+          equations[block.id] = `Equation ${equationCount}`;
+          break;
+        }
         default:
           break;
       }
     }
   }
 
-  return { headings, tables, figures, lists };
+  return { headings, tables, figures, lists, equations };
 }

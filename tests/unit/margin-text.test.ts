@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { parseMarginText, serializeMarginText } from "@/app/marginText";
 import { createDefaultFooter } from "@/core/ir/factory";
+import { MARGIN_FIELDS, MARGIN_FIELD_TO_KEY } from "@/core/fields";
+import { marginFieldSchema } from "@/core/ir/schema";
 
 describe("margin text tokens", () => {
   it("round-trips structured margin boxes", () => {
@@ -60,5 +62,20 @@ describe("margin text tokens", () => {
     });
     // Serialization always emits the canonical tokens (stable stored model).
     expect(serializeMarginText(box)).toBe("Page [pageNumber] of [pageCount]");
+  });
+});
+
+describe("margin field registry drift (M6 preflight)", () => {
+  it("derives MARGIN_FIELDS from the single key map (no hand-maintained list)", () => {
+    expect([...MARGIN_FIELDS]).toEqual(Object.keys(MARGIN_FIELD_TO_KEY));
+    expect(new Set(MARGIN_FIELDS)).toEqual(new Set(marginFieldSchema.options));
+  });
+
+  it("parses every registered margin field token", () => {
+    for (const field of MARGIN_FIELDS) {
+      expect(parseMarginText(`[${field}]`)).toEqual({
+        parts: [{ kind: "field", field }],
+      });
+    }
   });
 });

@@ -3,7 +3,7 @@
  * pushed through the explicit adapter into the store's IR, and section
  * switches / document loads flow back in through setContent.
  */
-import { useEffect, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { EditorContent, useEditor } from "@tiptap/react";
 import type { Editor } from "@tiptap/react";
 import { createExtensions } from "./extensions";
@@ -15,6 +15,7 @@ import {
   type ParagraphFormatOverride,
 } from "@/core/ir/schema";
 import { fieldDefinitionsBySource } from "@/core/fields";
+import { collectReferenceTargets, resolveDocument } from "@/core";
 import { useDocStore } from "@/store";
 
 export function EditorPanel() {
@@ -82,6 +83,17 @@ export function EditorPanel() {
 function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>> }) {
   const activeSection = useDocStore((s) => s.activeSection);
   const stylesMap = useDocStore((s) => s.document.styles);
+  const document_ = useDocStore((s) => s.document);
+  // Reference targets are DERIVED from the current numbering (never stored), so
+  // the picker always shows the up-to-date label. Memoized on the document
+  // identity so ordinary typing does not re-resolve the whole document.
+  const referenceTargets = useMemo(() => {
+    try {
+      return collectReferenceTargets(resolveDocument(document_));
+    } catch {
+      return [];
+    }
+  }, [document_]);
   const addImage = () => {
     const input = document.createElement("input");
     input.type = "file";
@@ -650,6 +662,45 @@ function Toolbar({ editor }: { editor: NonNullable<ReturnType<typeof useEditor>>
               </option>
             ))}
           </optgroup>
+        </select>
+      </label>
+      {/* Cross-references (V1-REF-002 — M6). The picker lists each target with
+          its CURRENT derived label; insertion stores only the stable id + kind. */}
+      <label className="toolbar-field">
+        <span className="toolbar-label">Ref</span>
+        <select
+          data-testid="insert-reference"
+          aria-label="Insert cross-reference"
+          defaultValue=""
+          disabled={referenceTargets.length === 0}
+          onChange={(e) => {
+            const select = e.currentTarget;
+            const value = select.value;
+            if (!value) return;
+            const sep = value.indexOf("|");
+            const refKind = value.slice(0, sep);
+            const ref = value.slice(sep + 1);
+            editor
+              .chain()
+              .focus()
+              .insertContent({ type: "referenceRef", attrs: { ref, refKind } })
+              .run();
+            // Reset AFTER this event so the same target can be inserted again.
+            window.setTimeout(() => {
+              select.value = "";
+            }, 0);
+          }}
+        >
+          <option value="">
+            {referenceTargets.length === 0 ? "No targets…" : "Insert reference…"}
+          </option>
+          {referenceTargets.map((target) => (
+            <option key={`${target.kind}|${target.id}`} value={`${target.kind}|${target.id}`}>
+              {target.detail
+                ? `${target.label} — ${target.detail.slice(0, 40)}`
+                : target.label}
+            </option>
+          ))}
         </select>
       </label>
       {button(

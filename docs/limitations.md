@@ -118,8 +118,8 @@ are disabled rather than silently dropped — see §"Disabled by design".
    single-document sizes beyond ~100 pages remain uncharacterized.
 9. **Equations are implemented as semantic IR blocks** (LaTeX source stored,
    rendered offline with bundled KaTeX — never an image, no CDN; V1-EQ).
-   Current limits: insert/edit goes through a simple dialog, and there is no
-   equation numbering/cross-referencing yet.
+   **M6** adds *derived* equation numbering and equation cross-references (see
+   the M6 section below); insert/edit still goes through a simple dialog.
 
 ## Untrusted document input
 
@@ -428,7 +428,8 @@ consumers. The honest residual limits are:
     an empty/missing source is unresolved (never blank).** A single shared
     walker (`src/core/fields/unresolved.ts`) reports each occurrence with its
     key and location (body block / header / footer), so repeated occurrences are
-    all traced. The sidebar "Dynamic fields" panel, the preview (a visible
+    all traced. The sidebar "Issues" panel (fields **and** broken references,
+    M6), the preview (a visible
     unresolved chip) and both export paths all consume this one report — there
     is no scattered string check. HTML-sensitive values are escaped as text; a
     field value can never become markup or script (AGENTS.md §61).
@@ -482,3 +483,70 @@ save → reload (ADR-004; `tests/unit/fields.test.ts`, plus the M5 e2e tests and
 the adapter/round-trip unit tests). Field CSS and the page-field materialiser
 are emitted only when the document actually contains fields, so legacy goldens
 stay byte-identical.
+
+## Cross-references & equation numbering (M6, delivered 2026-10-12)
+
+V1-REF-002 (basic cross-reference), V1-REF-003 (reference updates) and the
+numbering/cross-reference leg of V1-EQ-001 (**equation numbering**) are
+delivered. V1-REF-001 (stable reference targets) was already satisfied by the
+stable-ID model. One typed reference node (`{ ref, refKind }`) stores a target's
+**stable id + kind**; the visible label is derived by the shared numbering
+engine (`src/core/numbering`) at resolve time, so preview and PDF always agree.
+The honest residual limits are:
+
+52. **A reference stores a target id + kind, never a copied label.** A body
+    reference is a first-class inline node; the editor shows a *structural* chip
+    (the target **kind**, e.g. "⟶ Table") — deliberately **not** a derived
+    number — so a stale number can never appear to be the source of truth. The
+    resolved label (`"1.2"`, `"Table 1"`, `"Figure 1"`, `"Equation 1"`) lives in
+    the picker and the preview/export, both derived from the current numbering.
+    A document therefore cannot carry an inconsistent number; inserting,
+    deleting or reordering the target renumbers every reference automatically
+    (V1-REF-003). Evidence: `tests/unit/references.test.ts`,
+    `tests/e2e/references.spec.ts` (printed-PDF text after a renumber),
+    golden-09.
+53. **Reference targets are numbered objects only.** The picker offers headings,
+    tables, figures (images) and equations — the four families the numbering
+    engine labels. A reference to an arbitrary/un-numbered block (e.g. a plain
+    paragraph) is **not** modelled; the link UI is a target *picker*, not a
+    free-text id entry, so a well-formed document cannot create a reference to a
+    non-numbered object.
+54. **A broken reference is visible and blocks the final PDF; it is never blank
+    or stale.** A target that is missing, deleted, or of a different kind than
+    the stored `refKind` resolves to a distinguishable marker
+    (`⟦missing <kind>⟧`) whose `title` carries an actionable reason, and the
+    shared issue walker reports it with location. Both export paths refuse the
+    final PDF while a broken reference remains (the `.labdoc.json` draft is
+    unaffected) — the same gate as unresolved fields. A **wrong-kind** reference
+    (id exists under a different family) is reported distinctly from a
+    **deleted** one. Evidence: `tests/unit/references.test.ts`,
+    `tests/e2e/references.spec.ts`.
+55. **Equation numbering numbers EVERY equation block, display or inline.** The
+    label is derived from document order (not stored) and updates on structure
+    change; references use the current derived label. There is no
+    chapter/section-relative equation scheme, no manual equation tag, and no
+    per-equation "do not number" flag in V1. Evidence:
+    `tests/unit/references.test.ts`, `tests/unit/numbering.test.ts`, golden-09.
+56. **Forward compatibility (ADR-004).** A document saved by an M6+ build that
+    contains a `ref` inline node cannot be opened by an older build that predates
+    the node: the envelope still reports `1.0`, but the older build's inline
+    union rejects the unknown node with an actionable load error. This is the
+    same documented ADR-004 "additive pre-release" asymmetry as the M3 `list`
+    block (item 36): loading *older* documents stays guaranteed, while forward
+    loading is not.
+57. **Automatic numbering is not lifecycle control.** Derived heading/table/
+    figure/equation numbers (V1-NUM, M6 equations) are regenerated from
+    structure at render time and carry no controlled-document authority; they
+    are separate from the laboratory `revision`/`status` metadata (M5) and from
+    lifecycle/approval workflows (V1-LIFE-001, V1.2). This mirrors the
+    AGENTS.md §24 distinction between derived numbering and revision control.
+
+M6 is **additive**: `schema_version` stays `1.0`. The new inline `ref` node is
+optional, so every pre-M6 document loads and renders unchanged (proven by
+goldens-01..02 and 04..08 being byte-identical; golden-03 changes only because
+its equations now carry derived numbers). Reference CSS and the equation-number
+grid are emitted only when the document actually contains references/display
+equations. The new `golden-09-references` exercises heading/table/figure/
+equation references plus one deliberately broken reference. References
+round-trip through save → reload (ADR-004; `tests/unit/adapter.test.ts`,
+`tests/unit/references.test.ts`, and the M6 e2e tests).

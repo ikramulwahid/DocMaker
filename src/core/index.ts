@@ -8,6 +8,8 @@ export * from "./theme";
 export * from "./equation";
 export * from "./numbering";
 export * from "./fields";
+export * from "./references";
+export * from "./issues";
 export * from "./resolve";
 export * from "./json/envelope";
 export * from "./layout";

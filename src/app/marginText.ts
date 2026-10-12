@@ -11,21 +11,9 @@
  * to the canonical `pageNumber` / `pageCount` tokens on serialization, so the
  * stored margin model stays stable.
  */
-import { MARGIN_TOKEN_ALIASES, type MarginBox, type MarginField, type MarginPart } from "@/core";
+import { MARGIN_FIELDS, MARGIN_TOKEN_ALIASES, type MarginBox, type MarginField, type MarginPart } from "@/core";
 
-const FIELDS: MarginField[] = [
-  "pageNumber",
-  "pageCount",
-  "title",
-  "docNumber",
-  "revision",
-  "effectiveDate",
-  "reviewDate",
-  "status",
-  "laboratoryName",
-];
-
-const TOKEN_KEYS = [...FIELDS, ...Object.keys(MARGIN_TOKEN_ALIASES)];
+const TOKEN_KEYS = [...MARGIN_FIELDS, ...Object.keys(MARGIN_TOKEN_ALIASES)];
 const TOKEN_PATTERN = new RegExp(`\\[(${TOKEN_KEYS.join("|")})\\]`, "g");
 
 function normalizeField(token: string): MarginField {

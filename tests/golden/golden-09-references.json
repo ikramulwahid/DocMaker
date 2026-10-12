@@ -1,0 +1,782 @@
+{
+  "schema": "labdoc",
+  "schema_version": "1.0",
+  "document": {
+    "id": "doc_p4afyf7i",
+    "type": "document",
+    "metadata": {
+      "title": "Cross-references",
+      "docNumber": "REF-09",
+      "revision": "01",
+      "effectiveDate": "2026-10-12",
+      "author": "",
+      "organization": "",
+      "description": "M6 golden: heading/table/figure/equation cross-references + one broken reference",
+      "documentType": "",
+      "department": "",
+      "reviewDate": "",
+      "status": "",
+      "preparedBy": "",
+      "reviewedBy": "",
+      "approvedBy": "",
+      "classification": ""
+    },
+    "laboratoryProfile": {
+      "name": "",
+      "address": "",
+      "logo": null
+    },
+    "settings": {
+      "theme": "lab_default",
+      "watermark": {
+        "enabled": false,
+        "text": "DRAFT",
+        "opacity": 0.12,
+        "angle": -45,
+        "fontSizePt": 64
+      }
+    },
+    "styles": {
+      "normal": {
+        "id": "normal",
+        "name": "Normal",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "body-text": {
+        "id": "body-text",
+        "name": "Body Text",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "title": {
+        "id": "title",
+        "name": "Title",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 22,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 6,
+          "indentMm": null
+        }
+      },
+      "subtitle": {
+        "id": "subtitle",
+        "name": "Subtitle",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 14,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": 4,
+          "indentMm": null
+        }
+      },
+      "heading-1": {
+        "id": "heading-1",
+        "name": "Heading 1",
+        "kind": "heading",
+        "headingLevel": 1,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-2": {
+        "id": "heading-2",
+        "name": "Heading 2",
+        "kind": "heading",
+        "headingLevel": 2,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-3": {
+        "id": "heading-3",
+        "name": "Heading 3",
+        "kind": "heading",
+        "headingLevel": 3,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-4": {
+        "id": "heading-4",
+        "name": "Heading 4",
+        "kind": "heading",
+        "headingLevel": 4,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-5": {
+        "id": "heading-5",
+        "name": "Heading 5",
+        "kind": "heading",
+        "headingLevel": 5,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "heading-6": {
+        "id": "heading-6",
+        "name": "Heading 6",
+        "kind": "heading",
+        "headingLevel": 6,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "caption": {
+        "id": "caption",
+        "name": "Caption",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "table-text": {
+        "id": "table-text",
+        "name": "Table Text",
+        "kind": "tableText",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "quote": {
+        "id": "quote",
+        "name": "Quote",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": 8
+        }
+      },
+      "note": {
+        "id": "note",
+        "name": "Note",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "warning": {
+        "id": "warning",
+        "name": "Warning",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "important-notice": {
+        "id": "important-notice",
+        "name": "Important Notice",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": true,
+          "italic": false,
+          "color": null,
+          "alignment": "center",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "definition": {
+        "id": "definition",
+        "name": "Definition",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": null,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "reference": {
+        "id": "reference",
+        "name": "Reference",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 10.5,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": true,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "header": {
+        "id": "header",
+        "name": "Header",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      },
+      "footer": {
+        "id": "footer",
+        "name": "Footer",
+        "kind": "paragraph",
+        "headingLevel": null,
+        "format": {
+          "fontSizePt": 9,
+          "fontFamily": "inherit",
+          "bold": false,
+          "italic": false,
+          "color": null,
+          "alignment": "inherit",
+          "lineHeight": null,
+          "textTransform": "none",
+          "marginTopMm": null,
+          "marginBottomMm": null,
+          "indentMm": null
+        }
+      }
+    },
+    "sections": [
+      {
+        "id": "sec_sa2ei2jr",
+        "type": "section",
+        "pageSetup": {
+          "format": "A4",
+          "orientation": "portrait",
+          "margins": {
+            "top": 20,
+            "right": 18,
+            "bottom": 20,
+            "left": 18
+          },
+          "widthMm": null,
+          "heightMm": null,
+          "pageNumberStart": 1,
+          "showPageNumber": true
+        },
+        "header": null,
+        "footer": {
+          "parts": [
+            {
+              "kind": "text",
+              "value": "Page "
+            },
+            {
+              "kind": "field",
+              "field": "pageNumber"
+            },
+            {
+              "kind": "text",
+              "value": " of "
+            },
+            {
+              "kind": "field",
+              "field": "pageCount"
+            }
+          ]
+        },
+        "blocks": [
+          {
+            "id": "hd_0kn0b722",
+            "type": "heading",
+            "level": 1,
+            "content": [
+              {
+                "text": "Purpose",
+                "marks": []
+              }
+            ],
+            "style": "heading-1",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "pg_fycjonka",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "This document is summarised in ",
+                "marks": []
+              },
+              {
+                "ref": "hd_6iac2q6g",
+                "refKind": "heading"
+              },
+              {
+                "text": " and detailed in ",
+                "marks": []
+              },
+              {
+                "ref": "tb_0b94dkw8",
+                "refKind": "table"
+              },
+              {
+                "text": ".",
+                "marks": []
+              }
+            ],
+            "style": "normal",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "hd_6iac2q6g",
+            "type": "heading",
+            "level": 2,
+            "content": [
+              {
+                "text": "Scope",
+                "marks": []
+              }
+            ],
+            "style": "heading-2",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "pg_2kmfz6d5",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "See ",
+                "marks": []
+              },
+              {
+                "ref": "im_slbrd1kk",
+                "refKind": "figure"
+              },
+              {
+                "text": " and the mass–energy relation ",
+                "marks": []
+              },
+              {
+                "ref": "eq_ksa40tx5",
+                "refKind": "equation"
+              },
+              {
+                "text": ".",
+                "marks": []
+              }
+            ],
+            "style": "normal",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          },
+          {
+            "id": "tb_0b94dkw8",
+            "type": "table",
+            "caption": "Acceptance limits",
+            "headerRow": true,
+            "columnWidths": [],
+            "rows": [
+              {
+                "id": "tr_kqmva5ed",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_9yub7bj7",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_wp4xnhuf",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Parameter",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_31f9otie",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_2dw19qih",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Limit",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_0jw38bx4",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_c9qgrm80",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_0uvmvjev",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "pH",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_t2s3zk72",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_kxvuapga",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "6.5 – 8.5",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "tr_v0y2bmwl",
+                "type": "tableRow",
+                "cells": [
+                  {
+                    "id": "tc_6e3bau45",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_dm50rbzb",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "Conductivity",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "id": "tc_op2vj1hm",
+                    "type": "tableCell",
+                    "content": [
+                      {
+                        "id": "pg_7xria3cq",
+                        "type": "paragraph",
+                        "content": [
+                          {
+                            "text": "< 1.0 µS/cm",
+                            "marks": []
+                          }
+                        ],
+                        "style": "normal",
+                        "format": {
+                          "alignment": null,
+                          "lineSpacing": null,
+                          "spaceBeforeMm": null,
+                          "spaceAfterMm": null,
+                          "indentLeftMm": null
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "im_slbrd1kk",
+            "type": "image",
+            "src": "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22160%22%3E%3Crect%20width%3D%22420%22%20height%3D%22160%22%20fill%3D%22%23eef6ff%22%20stroke%3D%22%23336699%22%2F%3E%3Cpolyline%20points%3D%2230%2C130%20130%2C100%20230%2C70%20330%2C45%20400%2C30%22%20fill%3D%22none%22%20stroke%3D%22%23336699%22%20stroke-width%3D%223%22%2F%3E%3C%2Fsvg%3E",
+            "alt": "Trending plot",
+            "widthMm": null,
+            "caption": "Conductivity trend"
+          },
+          {
+            "id": "eq_ksa40tx5",
+            "type": "equation",
+            "latex": "E = m c^2",
+            "display": true
+          },
+          {
+            "id": "pg_gyonfrew",
+            "type": "paragraph",
+            "content": [
+              {
+                "text": "A deliberately dangling pointer appears here: ",
+                "marks": []
+              },
+              {
+                "ref": "hd_missing0001",
+                "refKind": "heading"
+              },
+              {
+                "text": ".",
+                "marks": []
+              }
+            ],
+            "style": "normal",
+            "format": {
+              "alignment": null,
+              "lineSpacing": null,
+              "spaceBeforeMm": null,
+              "spaceAfterMm": null,
+              "indentLeftMm": null
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

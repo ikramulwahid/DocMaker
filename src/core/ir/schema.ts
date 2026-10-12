@@ -308,11 +308,41 @@ export const fieldNodeSchema = z
 export type FieldNode = z.infer<typeof fieldNodeSchema>;
 
 /**
- * Inline content is a discriminated union of text runs and field references.
- * The union members are structurally exclusive (`text` vs `field`), so the
+ * The semantic kinds a cross-reference may target (M6 — V1-REF-002). These are
+ * the numbered object families the numbering engine derives labels for.
+ */
+export const REFERENCE_KINDS = ["heading", "table", "figure", "equation"] as const;
+export const referenceKindSchema = z.enum(REFERENCE_KINDS);
+export type ReferenceKind = z.infer<typeof referenceKindSchema>;
+
+/** True for a string that is one of the allow-listed reference kinds. */
+export function isReferenceKind(value: unknown): value is ReferenceKind {
+  return (REFERENCE_KINDS as readonly unknown[]).includes(value);
+}
+
+/**
+ * A canonical inline CROSS-REFERENCE to another semantic node (M6 —
+ * V1-REF-002/003).
+ *
+ * The IR stores the TARGET's stable node id plus the target's KIND — never a
+ * copied display label or a manually maintained number. The visible label is
+ * derived at resolve time from the authoritative numbering engine, so
+ * inserting, deleting or reordering the target updates every reference
+ * (V1-REF-003). The stored kind distinguishes "target deleted" from "target is
+ * a different kind"; either is surfaced as a broken reference rather than
+ * silently rendered (AGENTS.md §46).
+ */
+export const referenceNodeSchema = z
+  .object({ ref: nodeIdSchema, refKind: referenceKindSchema })
+  .strict();
+export type ReferenceNode = z.infer<typeof referenceNodeSchema>;
+
+/**
+ * Inline content is a union of text runs, field references and cross-references.
+ * The members are structurally exclusive (`text` vs `field` vs `ref`), so the
  * existing text-run JSON/marks shape is preserved byte-for-byte.
  */
-export const inlineSchema = z.union([textRunSchema, fieldNodeSchema]);
+export const inlineSchema = z.union([textRunSchema, fieldNodeSchema, referenceNodeSchema]);
 export type Inline = z.infer<typeof inlineSchema>;
 
 export function isTextRun(run: Inline): run is TextRun {
@@ -321,6 +351,10 @@ export function isTextRun(run: Inline): run is TextRun {
 
 export function isFieldNode(run: Inline): run is FieldNode {
   return (run as FieldNode).field !== undefined;
+}
+
+export function isReferenceNode(run: Inline): run is ReferenceNode {
+  return (run as ReferenceNode).ref !== undefined;
 }
 
 /* ------------------------------------------------- paragraph overrides (M2) */

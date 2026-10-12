@@ -1,6 +1,6 @@
-# Phase 1 — Plan & Approval Record R0.13 (M5 Delivery)
+# Phase 1 — Plan & Approval Record R0.14 (M6 Delivery)
 
-- **Status:** **APPROVED + M1, M2, M3, M4 & M5 DELIVERED** — the Phase-1 scope
+- **Status:** **APPROVED + M1, M2, M3, M4, M5 & M6 DELIVERED** — the Phase-1 scope
   and decisions listed in §0 remain explicitly approved by the human (approval
   record R0.4, 2026-10-09). Revision R0.5 recorded the **delivery of M1**
   (reusable style system, V1-STYLE-001..004 / V1-TXT-001 / V1-DOC-002
@@ -16,15 +16,19 @@
   the V1-DOC-002 configurability leg PASS); R0.12 recorded the **M4 evidence
   hardening** (the `golden-07-page-setup` fixture and the PDF MediaBox e2e test
   were expanded so the **real exported PDF** is checked for **all 14 standard
-  format × orientation combinations plus Custom (15 cases)**). This revision
-  (**R0.13**) records the **delivery of M5** (metadata, laboratory profile &
+  format × orientation combinations plus Custom (15 cases)**). R0.13 recorded the
+  **delivery of M5** (metadata, laboratory profile &
   dynamic fields: V1-META-001/002/003 PASS, V1-FIELD-001..004 PASS, V1-HF-003
-  PASS). It adds **no** new scope beyond the already-approved M5 (§8.2) and does
-  **not** alter the R0.4 approval, re-open approved decisions, change M1–M4
+  PASS). This revision (**R0.14**) records the **delivery of M6**
+  (numbering & cross-references: V1-REF-002 and V1-REF-003 PASS, and the
+  numbering/cross-reference leg of V1-EQ-001 — **equation numbering** — PASS).
+  It adds **no** new scope beyond the already-approved M6 (§8.2) and does
+  **not** alter the R0.4 approval, re-open approved decisions, change M1–M5
   acceptance, or authorize further milestones. **All Phase 0 PASS
   classifications and evidence are preserved unchanged.** No feature scope or
   criterion definition changed.
-- **Revision:** R0.13 (2026-10-12) — M5 delivery; supersedes R0.12
+- **Revision:** R0.14 (2026-10-12) — M6 delivery; supersedes R0.13
+  (M5 delivery) which superseded R0.12
   (M4 evidence hardening) which superseded R0.11 (M4 delivery record) which
   superseded R0.10 (M3 post-delivery hardening) which superseded R0.9 (M3
   delivery record) which superseded R0.8 (M2 status reconciliation) which
@@ -42,7 +46,9 @@
   `a18a91cdded03a85995ff0bd5455166d836cfca4` (§0.10, R0.10); M4 delivered at
   `cd1b0d5034943bde77a5d22c8a2b9ff7822ba964` (§0.11, R0.11); the M4 evidence
   hardening (R0.12) at `30867718756a83f3bfe60c24409b2d0a06493374` (§0.12); the
-  **M5 delivery (R0.13) sits on top of `3086771`** — the base commit for this
+  M5 delivery (R0.13) at
+  `cbcb708e42946b79c248e54eb3ead00a361774f2` (§0.13); the
+  **M6 delivery (R0.14) sits on top of `cbcb708`** — the base commit for this
   delivery.
 - **Authoritative criteria:** `docs/requirements/V1_ACCEPTANCE_CRITERIA.md`
   (133 unique identifiers, one-to-one — corrected in R0.3; unchanged here).
@@ -81,10 +87,14 @@
   **R0.13** is the seventh implementation checkpoint (M5 delivery): metadata, the
   laboratory profile and dynamic fields were executed end-to-end with the same
   five commands against the final tree (results recorded in §0.13).
+  **R0.14** is the eighth implementation checkpoint (M6 delivery): cross-references
+  and derived equation numbering were executed end-to-end with the same five
+  commands, plus real-document PDF/export checks (reference renumbering and
+  broken-target behaviour), against the final tree (results recorded in §0.14).
 
 ---
 
-## 0. Approval record, change history & milestone delivery (R0.13)
+## 0. Approval record, change history & milestone delivery (R0.14)
 
 ### 0.1 Approval summary
 
@@ -248,6 +258,25 @@ This checkpoint is **documentation-only**:
   (goldens-01..07 regenerate with only the new defaulted fields; their HTML is
   byte-identical). R0.4 approval record retained verbatim in its substance;
   M6–M11 not started. Published at the checkpoint recorded in §0.13.
+- **R0.14 (2026-10-12, this revision):** **M6 delivered** — numbering &
+  cross-references implemented, tested and published (see §0.14). Plan status
+  markers updated: V1-REF-002 → PASS, V1-REF-003 → PASS, V1-EQ-001 → PASS
+  (the equation-numbering / cross-reference leg; insertion via the existing
+  dialog). The IR gains a first-class inline **reference node**
+  (`{ ref, refKind }` — a target's stable id + kind, never a copied label); a
+  shared resolver (`src/core/references`) derives the visible label from the
+  authoritative numbering engine, and the numbering engine gains derived
+  **equation** numbers (`"Equation N"`, every equation block in document
+  order). The editor picker lists each numbered target with its current derived
+  label and inserts a structural chip (kind, not a number); a broken target is
+  surfaced (visible marker + issue panel) and blocks final PDF export in both
+  the app and `pnpm pdf` (draft save unaffected). Preview and PDF consume the
+  same resolver, so a renumber updates every dependent reference in both.
+  ADR-004 additive policy holds — `schema_version` stays `1.0`
+  (goldens-01..02 and 04..08 stay byte-identical; golden-03 changes only because
+  its equations now carry derived numbers; new golden-09 added). R0.4 approval
+  record retained verbatim in its substance; M7–M11 not started. Published at
+  the checkpoint recorded in §0.14.
 
 ### 0.5 M1 delivery record (R0.5)
 
@@ -800,6 +829,139 @@ This checkpoint is **documentation-only**:
   workflow; no backend/login/cloud; no new dependencies; no schema-version bump
   (`schema_version` stays `1.0`, ADR-004).
 
+### 0.14 M6 delivery record (R0.14)
+
+- **Checkpoint commit:** `HEAD` of `main` after this revision is pushed; the M6
+  work sits on top of `cbcb708e42946b79c248e54eb3ead00a361774f2` (R0.13, M5
+  delivery) — the base commit for this delivery.
+- **Scope delivered:** V1-REF-002 (basic cross-reference — a semantic reference
+  to a numbered object using the target's stable id + kind, with a picker that
+  lists each target's current derived label), V1-REF-003 (reference updates —
+  labels are derived from the authoritative numbering engine at resolve time, so
+  inserting/deleting/reordering a target renumbers every reference), and the
+  numbering/cross-reference leg of V1-EQ-001 (**equation numbering** — a derived
+  `"Equation N"` label for every equation block, addressable by a reference).
+  V1-REF-001 (stable reference targets) was already satisfied by the stable-ID
+  model and is unchanged.
+- **Architecture (how the pieces fit):**
+  - **Canonical IR** (`src/core/ir/schema.ts`): a first-class inline
+    `referenceNodeSchema` (`{ ref: NodeId, refKind: "heading" | "table" |
+    "figure" | "equation" }`, `.strict()`) added to `inlineSchema` as
+    `z.union([textRunSchema, fieldNodeSchema, referenceNodeSchema])`. The node
+    stores only the TARGET's stable id + kind — **never** a copied label or
+    manual number (AGENTS.md §11/§12). A `reference(...)` factory builds it.
+  - **Numbering engine** (`src/core/numbering/index.ts`): `Numbering` gains an
+    `equations` map; every equation block (display or inline) is numbered in
+    document order. Numbering stays **derived** (never stored), so it survives
+    save/load by construction and updates on every resolve.
+  - **One reference resolver** (`src/core/references/index.ts`):
+    `resolveReference` maps a reference to the target's CURRENT derived label
+    (or a broken result that distinguishes a deleted target from a wrong-kind
+    target); `collectReferenceTargets` supplies the picker with each numbered
+    object in document order; `collectBrokenReferences`/`referenceMessages`
+    report every missing/deleted target with its location. This module is shared
+    by the layout renderer, the editor picker and the pre-export validator, so
+    preview and PDF can never disagree.
+  - **Combined issues** (`src/core/issues/index.ts`): one walker over the two
+    "unresolved content" families (M5 fields + M6 references) drives the sidebar
+    panel and **both** export gates, so the field and reference rules cannot
+    drift apart.
+  - **Shared render** (`src/core/layout/html.ts`, `css.ts`, `index.ts`): a body
+    reference renders a `.doc-ref` span carrying the target id/kind and the
+    DERIVED label; a broken reference renders a visible `⟦missing <kind>⟧`
+    marker with an actionable `title`; an equation appends a
+    `.doc-equation-number` label. Reference CSS and the equation-number grid are
+    emitted **only** when the document actually contains references/display
+    equations, so reference-free goldens stay byte-identical. `data-reference`
+    (not `data-ref`) is used because Paged.js owns `data-ref` for split
+    fragments.
+  - **Editor** (`src/editor/extensions.ts`, `adapter.ts`, `EditorPanel.tsx`): a
+    `ReferenceRef` inline atom chip round-trips to/from the reference node; the
+    chip shows the target **kind** (never a derived number, so a stale number
+    can never masquerade as truth); a labelled `<select>` picker lists each
+    numbered target with its current label and inserts the reference at the
+    caret. Invalid ids/kinds from foreign editor state are skipped, never
+    smuggled into the IR.
+  - **Export gate** (`src/App.tsx`, `scripts/export-pdf.mjs`): the in-app
+    "Export PDF" button and the `pnpm pdf` CLI both call the shared combined
+    issue walker and refuse a final PDF while a broken reference (or unresolved
+    field) remains; the `.labdoc.json` draft save is unaffected.
+- **Tests added / extended:**
+  - `tests/unit/references.test.ts` (**new, 19 tests**): reference-node schema
+    strictness/exclusivity; stable-id save/reload (never a label); resolution to
+    the current derived label for all four families; renumber on insert;
+    wrong-kind vs deleted detection; broken-reference reporting and messages;
+    picker target collection with labels/details; derived equation numbering and
+    its update on structure change; layout rendering (label span, broken marker,
+    deterministic pipeline parity, CSS gating); combined field+reference issues.
+  - `tests/unit/numbering.test.ts` (**+1**): every equation block is numbered
+    sequentially in document order.
+  - `tests/unit/adapter.test.ts` (**+3**): the reference round-trip (text/marks
+    preserved), the `referenceRef` atom mapping, and the invalid-id/kind skip.
+  - `tests/unit/margin-text.test.ts` (**+2**): the M6 preflight drift guard —
+    `MARGIN_FIELDS` is derived from the single `MARGIN_FIELD_TO_KEY` map (and
+    matches `marginFieldSchema`), and every registered margin token parses.
+  - `tests/e2e/references.spec.ts` (**new, 6 tests**): the picker lists derived
+    labels and inserts a canonical reference (editor chip shows the kind); a
+    reference persists as a stable id (never a label) and reopens; a broken
+    reference is surfaced and blocks final PDF export; **inserting a numbered
+    object renumbers the dependent reference in the real printed PDF text**
+    (pdf.js text extraction with a sentinel isolating the reference); a broken
+    reference still exports a PDF containing the visible marker; the golden
+    round-trips through the JSON envelope.
+  - `tests/golden/golden.test.ts` (**+2**, from the new fixture): golden-09 is
+    checked for byte-exact layout **and** lossless JSON round-trip. The counts
+    sum to the +27 suite delta (19 + 1 + 3 + 2 + 2) on top of the M5 baseline
+    (18 files / 292 tests).
+- **Preflight hardening:** the remaining hand-maintained margin-field
+  enumerations in `src/app/marginText.ts` and `src/core/layout/css.ts` now derive
+  from the single `MARGIN_FIELDS` registry in `src/core/fields/keys.ts`
+  (`css.isPageField` delegates to `isPageFieldKey(marginFieldKey(field))`), so a
+  future field addition cannot drift between the parser and the HF renderer
+  (guarded by the new drift test).
+- **Golden / fixture changes:** `tests/golden/generator.ts` gains
+  `createReferencesDocument()`; new `tests/golden/golden-09-references.json` +
+  `.expected.html` (heading/table/figure/equation references + one deliberately
+  broken reference). `golden-03-phase0-gate.expected.html` changes **only**
+  because its equations now carry derived numbers and the gated equation CSS is
+  emitted (no other golden content changed). Goldens-01..02 and 04..08 are
+  **byte-identical** (reference/equation CSS is gated). `schema_version` stays
+  `1.0` (ADR-004 additive pre-release policy — older documents load unchanged; a
+  document saved by this build that uses the new `ref` node cannot be opened by
+  a pre-M6 build, the documented forward-compat asymmetry).
+- **Verification executed (final tree):** `pnpm typecheck` **PASS**; `pnpm test`
+  **PASS** (19 files, 319 tests — was 18/292); `pnpm test:e2e` **PASS** (52 tests
+  — was 46); `pnpm build` **PASS**; `git diff --check` **clean**. The real-document
+  PDF paths were exercised by the new e2e tests: `exportPaginatedPdf` +
+  pdf.js text extraction prove the dependent reference label changes `Table 1`
+  → `Table 2` after an insert (and does **not** linger as `Table 1`), and a
+  broken reference exports a PDF containing the visible missing marker.
+- **Changed files:** new `src/core/references/index.ts`,
+  `src/core/issues/index.ts`; modified `src/core/ir/schema.ts`,
+  `src/core/ir/factory.ts`, `src/core/index.ts`,
+  `src/core/numbering/index.ts`, `src/core/layout/{html,css,index}.ts`,
+  `src/core/fields/keys.ts`, `src/app/marginText.ts`,
+  `src/editor/{extensions,adapter}.ts`, `src/editor/EditorPanel.tsx`,
+  `src/App.tsx`, `src/components/UnresolvedFieldsPanel.tsx`,
+  `scripts/export-pdf.mjs`; new `tests/unit/references.test.ts` and modified
+  `tests/unit/{numbering,adapter,margin-text}.test.ts`; `tests/golden/generator.ts`,
+  new `tests/golden/golden-09-references.{json,expected.html}`, modified
+  `tests/golden/golden-03-phase0-gate.expected.html` (intentional); new
+  `tests/e2e/references.spec.ts`; `docs/limitations.md`;
+  `docs/planning/PHASE-1-plan.md` (this plan).
+- **Acceptance classification (evidence):** V1-REF-002, V1-REF-003 and V1-EQ-001
+  → **PASS** (§3 matrix). No criterion definition was changed or weakened.
+  Residual limits (references target numbered objects only; the editor chip
+  shows the kind not a number by design; equation numbering is document-order,
+  not chapter-relative, with no manual tag or per-equation opt-out; numbering is
+  derivation, not lifecycle control) are documented in `docs/limitations.md`
+  §M6.
+- **Out of scope (unchanged):** M7–M11 not started (themes, advanced tables,
+  image editing, autosave, a11y audit); Markdown import not started; no
+  lifecycle/approval/revision-history/signature workflow; no backend/login/cloud;
+  no new dependencies; no schema-version bump (`schema_version` stays `1.0`,
+  ADR-004).
+
 ---
 
 ## 1. Objective
@@ -1039,13 +1201,13 @@ storage) are documented in `docs/limitations.md` §M5 and §0.13.
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
 | V1-REF-001 — Stable reference target (MUST) | **PASS** | stable IDs (V1-IR-003) |
-| V1-REF-002 — Basic cross-reference (SHOULD) | **PLANNED — M6** ◂R0.3 | **promotes V1.1 cross-references** — approved (D8) |
-| V1-REF-003 — Reference updates (SHOULD) | **PLANNED — M6** ◂R0.3 | derived numbering ⇒ auto-update once resolver exists |
+| V1-REF-002 — Basic cross-reference (SHOULD) | **PASS** ◂R0.14 | a semantic inline `ref` node stores the target's stable id + kind (never a copied label); a picker lists each numbered target's current derived label; the body renders the derived label in a `.doc-ref` span. Evidence: `tests/unit/references.test.ts`, `tests/e2e/references.spec.ts`, golden-09 |
+| V1-REF-003 — Reference updates (SHOULD) | **PASS** ◂R0.14 | labels are derived from the authoritative numbering engine at resolve time, so insert/delete/reorder renumbers every dependent reference; the real printed PDF text is checked after a renumber. Evidence: `tests/unit/references.test.ts`, `tests/e2e/references.spec.ts` (pdf.js text extraction), golden-09 |
 
 ### §22 Equations
 | Criterion | Status | Evidence / gap → assignment |
 |---|---|---|
-| V1-EQ-001 — Structured insertion (SHOULD) | **PARTIAL** | LaTeX insert/edit via dialog; numbering/cross-ref absent → **M6 (SHOULD element)** ◂R0.3 — equation numbering **promotes V1.1** — approved (D8) |
+| V1-EQ-001 — Structured insertion (SHOULD) | **PASS** ◂R0.14 | structured LaTeX insertion/editing via a dialog (V1-EQ-003 semantics) **plus (M6) derived equation numbering** — every equation block gets a `"Equation N"` label in document order (never stored) and is addressable by a cross-reference. Evidence: `tests/unit/references.test.ts`, `tests/unit/numbering.test.ts`, `tests/e2e/references.spec.ts`, golden-09 |
 | V1-EQ-002 — Scientific notation (MUST) | **PASS** | H₂O, CO₂, m², ±, Δ, √, Σ … tested |
 | V1-EQ-003 — Semantic storage (MUST) | **PASS** | LaTeX source, bundled KaTeX — never an image |
 
@@ -1253,6 +1415,10 @@ Re-checked every PASS row against its criterion text and implementation:
   move to **PASS** per §0.13 (metadata + laboratory profile + dynamic fields);
   no other row's status changed, and the remaining named gaps are M6–M11, the §6
   gates and the remaining-V1 import.
+- **R0.14 (M6) update:** `REF-002`, `REF-003` and `EQ-001` move to **PASS** per
+  §0.14 (cross-references + derived equation numbering); `REF-001`, `NUM-001..005`
+  keep their PASS status. No other row's status changed, and the remaining named
+  gaps are M7–M11, the §6 gates and the remaining-V1 import.
 
 ---
 
@@ -1488,7 +1654,7 @@ M4 Page setup, paper sizes & DOCUMENT DEFAULTS (conceptually independent —
    executed sequentially per approved D2; also M4 closes V1-DOC-002
    configurable defaults + V1-PAGE-004 settings UI)   ◂ DELIVERED R0.11 ◂ HARDENED R0.12
 M5 Metadata + lab profile + fields (uses M1 styles for field rendering)   ◂ DELIVERED R0.13
-M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq
+M6 Numbering + references (+ equation numbering) ◂ promoted: cross-refs/eq   ◂ DELIVERED R0.14
 M7 Themes (needs M1 + M5)
 M8 Table depth (needs M4 geometry, M2 cell formatting) ◂ promoted: merged×pages
 M9 Images depth (needs M2 alignment, M8 caption UI)
@@ -1645,6 +1811,25 @@ numbering (derived). Resolve: labels from `deriveNumbering` (heading number,
 picker by id shown as visible number; Reference style from M1. Dep: M1, M5.
 Tests: numbering-unit additions, adapter, round-trip, e2e renumber-updates
 reference. Acceptance: V1-REF-002/003 + equation numbering in goldens (D8).
+**◂R0.14 — DELIVERED:** V1-REF-002 PASS, V1-REF-003 PASS, V1-EQ-001 PASS
+(equation-numbering/cross-reference leg). A first-class inline **reference
+node** (`{ ref, refKind }`, `.strict()`) stores the target's stable id + kind —
+never a copied label; one shared resolver (`src/core/references/`) derives the
+visible label from `deriveNumbering` for headings/tables/figures/equations and
+distinguishes deleted from wrong-kind targets; the numbering engine gains a
+derived `equations` map (`"Equation N"`, every equation block in document
+order). The editor picker lists each numbered target with its current derived
+label and inserts a structural chip (kind, not a number); broken targets are
+surfaced (visible marker + issue panel) and block final PDF in both the app and
+`pnpm pdf`. Preview and PDF share the resolver, so renumbering updates every
+reference in both (verified against the real printed PDF text). A new
+`golden-09-references` exercises all four families plus one broken reference;
+`golden-03` changes only because its equations now carry derived numbers.
+Additive IR under ADR-004 (`schema_version` stays `1.0`; goldens-01..02 and
+04..08 byte-identical). Evidence: `tests/unit/references.test.ts` (19 tests)
+plus additions in `tests/unit/{numbering,adapter,margin-text}.test.ts`,
+golden-09, `tests/e2e/references.spec.ts` (6 tests). Residual limits recorded
+in §0.14 and `docs/limitations.md` §M6.
 
 #### M7 — Theme library · V1-THEME-001/002 (MUST); 003/004 retained; V1-VIS-002 completion
 Ship 18 more presentation-only themes (≥20), extend B&W to ≥5; all pass the
@@ -1768,9 +1953,9 @@ and evidence are unchanged.
 > This document is the **approved** Phase-1 scope and decision record (§0,
 > R0.4, 2026-10-09). It records the approval only; feature implementation is
 > **not** authorized by this document. Phase-1 implementation begins in a
-> separate, explicitly authorized task after this checkpoint. **M1, M2, M3, M4
-> and M5 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10, R0.11 and R0.13
-> respectively; the M4 PDF-geometry evidence was hardened in R0.12) on the
+> separate, explicitly authorized task after this checkpoint. **M1, M2, M3, M4,
+> M5 and M6 have been delivered** (R0.5/R0.6, R0.7, R0.9/R0.10, R0.11, R0.13 and
+> R0.14 respectively; the M4 PDF-geometry evidence was hardened in R0.12) on the
 > strength of separate, explicitly authorized tasks following the AGENTS.md
-> checkpoint workflow; **M6–M11 (and the Markdown import) have not been
+> checkpoint workflow; **M7–M11 (and the Markdown import) have not been
 > started.**

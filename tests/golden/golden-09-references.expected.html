@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cross-references</title>
+    <script>window.__layoutDone = false;</script>
+    <style>
+@page { size: 210mm 297mm; margin: 0; }
+@page sec_sa2ei2jr {
+  size: 210mm 297mm;
+  margin: 20mm 18mm 20mm 18mm;
+  @bottom-right { content: "Page " counter(page) " of " counter(pages); }
+}
+.doc-section-sec_sa2ei2jr { page: sec_sa2ei2jr; }
+.pagedjs_sec_sa2ei2jr_page {
+  --pagedjs-width: 210mm;
+  --pagedjs-height: 297mm;
+  --pagedjs-width-left: 210mm;
+  --pagedjs-height-left: 297mm;
+  --pagedjs-width-right: 210mm;
+  --pagedjs-height-right: 297mm;
+}
+
+body {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 11pt;
+  color: #111111;
+}
+.doc-heading {
+  break-after: avoid;
+  break-inside: avoid;
+  font-family: Georgia, "Times New Roman", serif;
+  color: #1f3a5f;
+}
+h1.doc-heading { font-size: 16pt; margin: 6mm 0 3mm; }
+h2.doc-heading { font-size: 13pt; margin: 5mm 0 2.5mm; }
+h3.doc-heading { font-size: 11.5pt; margin: 4mm 0 2mm; }
+h4.doc-heading, h5.doc-heading, h6.doc-heading { font-size: 11pt; margin: 3mm 0 2mm; }
+.doc-num { font-weight: inherit; }
+p.doc-paragraph { margin: 0 0 3mm; line-height: 1.45; }
+.doc-section { break-before: page; }
+.doc-section:first-child { break-before: auto; }
+.doc-list { margin: 0 0 3mm; padding-left: 6mm; }
+.doc-list li { margin-bottom: 1.5mm; line-height: 1.45; }
+/* Canonical lists (M3). Bullets use native markers selected by the
+   allow-listed data-marker value; numbered lists suppress the native
+   marker because the derived (never stored) hierarchical label is emitted
+   inline. Only allow-listed enum values reach these selectors. */
+ul.doc-list-bullet[data-marker="disc"] { list-style-type: disc; }
+ul.doc-list-bullet[data-marker="circle"] { list-style-type: circle; }
+ul.doc-list-bullet[data-marker="square"] { list-style-type: square; }
+ul.doc-list-bullet[data-marker="dash"] { list-style-type: "–  "; }
+ul.doc-list-bullet[data-marker="arrow"] { list-style-type: "→  "; }
+ul.doc-list-bullet[data-marker="check"] { list-style-type: "✓  "; }
+ol.doc-list-ordered { list-style: none; padding-left: 8mm; }
+ol.doc-list-ordered > li > p.doc-list-para:first-child { text-indent: -8mm; }
+.doc-list-marker { font-variant-numeric: tabular-nums; }
+p.doc-list-para { margin: 0; line-height: 1.45; }
+p.doc-list-para + p.doc-list-para { margin-top: 1.5mm; }
+.doc-page-break { break-before: page; height: 0; }
+hr.doc-hr { border: none; border-top: 0.5pt solid #444444; margin: 4mm 0; }
+a { color: #1f3a5f; text-decoration: underline; }
+/* Character marks (M2, V1-FMT-001): the IR stores semantic enums — the
+   stacks/transforms are mapped here by the renderer, never taken from the
+   document (no user CSS). Underline/strike/sup/sub render with native
+   element defaults. */
+span[data-font-family="serif"] { font-family: Georgia, "Times New Roman", serif; }
+span[data-font-family="sans"] { font-family: Arial, Helvetica, "Segoe UI", sans-serif; }
+span[data-font-family="mono"] { font-family: "Consolas", "Courier New", monospace; }
+span[data-text-case="uppercase"] { text-transform: uppercase; }
+span[data-text-case="lowercase"] { text-transform: lowercase; }
+figure.doc-figure {
+  margin: 4mm 0;
+  break-inside: avoid;
+}
+figure.doc-figure img { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+figcaption.doc-caption, caption.doc-caption {
+  font-size: 9pt;
+  text-align: center;
+  margin-top: 2mm;
+  caption-side: top;
+  color: #444444;
+}
+.doc-equation {
+  margin: 4mm 0;
+  break-inside: avoid;
+  text-align: center;
+}
+.doc-equation.display { text-align: center; }
+.doc-equation .katex { font-size: 1.05em; }
+.doc-equation .katex-display { margin: 2mm 0; }
+.doc-equation-error {
+  color: #b00020;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.9em;
+}
+table.doc-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 9pt;
+  margin: 4mm 0 2mm;
+}
+table.doc-table.fixed-layout { table-layout: fixed; }
+table.doc-table th, table.doc-table td {
+  border: 0.3pt solid #444444;
+  padding: 1.6mm 2mm;
+  text-align: left;
+  vertical-align: top;
+}
+table.doc-table th {
+  background: #eef2f7;
+  color: #111111;
+  font-weight: bold;
+}
+table.doc-table thead { display: table-header-group; }
+
+.doc-paragraph.doc-style-title,
+.doc-list-item.doc-style-title,
+.doc-heading.doc-style-title {
+  font-size: 22pt;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 6mm;
+}
+.doc-paragraph.doc-style-subtitle,
+.doc-list-item.doc-style-subtitle,
+.doc-heading.doc-style-subtitle {
+  font-size: 14pt;
+  text-align: center;
+  margin-bottom: 4mm;
+}
+.doc-paragraph.doc-style-caption,
+.doc-list-item.doc-style-caption,
+.doc-heading.doc-style-caption {
+  font-size: 9pt;
+  text-align: center;
+}
+.doc-paragraph.doc-style-table-text,
+.doc-list-item.doc-style-table-text,
+.doc-heading.doc-style-table-text {
+  font-size: 9pt;
+}
+.doc-paragraph.doc-style-quote,
+.doc-list-item.doc-style-quote,
+.doc-heading.doc-style-quote {
+  font-style: italic;
+  margin-left: 8mm;
+}
+.doc-paragraph.doc-style-note,
+.doc-list-item.doc-style-note,
+.doc-heading.doc-style-note {
+  font-style: italic;
+}
+.doc-paragraph.doc-style-warning,
+.doc-list-item.doc-style-warning,
+.doc-heading.doc-style-warning {
+  font-weight: 700;
+}
+.doc-paragraph.doc-style-important-notice,
+.doc-list-item.doc-style-important-notice,
+.doc-heading.doc-style-important-notice {
+  font-weight: 700;
+  text-align: center;
+}
+.doc-paragraph.doc-style-reference,
+.doc-list-item.doc-style-reference,
+.doc-heading.doc-style-reference {
+  font-size: 10.5pt;
+  font-style: italic;
+}
+.doc-paragraph.doc-style-header,
+.doc-list-item.doc-style-header,
+.doc-heading.doc-style-header {
+  font-size: 9pt;
+}
+.doc-paragraph.doc-style-footer,
+.doc-list-item.doc-style-footer,
+.doc-heading.doc-style-footer {
+  font-size: 9pt;
+}
+
+.doc-equation.display {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+.doc-equation.display .katex-display { margin: 0; }
+.doc-equation-number {
+  margin-left: 4mm;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+
+.doc-ref { color: inherit; }
+.doc-ref[data-broken="true"] {
+  color: #b00020;
+  background: #ffe8e8;
+  border: 0.3pt dashed #b00020;
+  padding: 0 1mm;
+}
+
+/* KaTeX (bundled offline) */
+@font-face{font-display:block;font-family:KaTeX_AMS;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_AMS-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_AMS-Regular.woff) format("woff"),url(katex/fonts/KaTeX_AMS-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Caligraphic;font-style:normal;font-weight:700;src:url(katex/fonts/KaTeX_Caligraphic-Bold.woff2) format("woff2"),url(katex/fonts/KaTeX_Caligraphic-Bold.woff) format("woff"),url(katex/fonts/KaTeX_Caligraphic-Bold.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Caligraphic;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Caligraphic-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Caligraphic-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Caligraphic-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Fraktur;font-style:normal;font-weight:700;src:url(katex/fonts/KaTeX_Fraktur-Bold.woff2) format("woff2"),url(katex/fonts/KaTeX_Fraktur-Bold.woff) format("woff"),url(katex/fonts/KaTeX_Fraktur-Bold.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Fraktur;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Fraktur-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Fraktur-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Fraktur-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Main;font-style:normal;font-weight:700;src:url(katex/fonts/KaTeX_Main-Bold.woff2) format("woff2"),url(katex/fonts/KaTeX_Main-Bold.woff) format("woff"),url(katex/fonts/KaTeX_Main-Bold.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Main;font-style:italic;font-weight:700;src:url(katex/fonts/KaTeX_Main-BoldItalic.woff2) format("woff2"),url(katex/fonts/KaTeX_Main-BoldItalic.woff) format("woff"),url(katex/fonts/KaTeX_Main-BoldItalic.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Main;font-style:italic;font-weight:400;src:url(katex/fonts/KaTeX_Main-Italic.woff2) format("woff2"),url(katex/fonts/KaTeX_Main-Italic.woff) format("woff"),url(katex/fonts/KaTeX_Main-Italic.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Main;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Main-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Main-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Main-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Math;font-style:italic;font-weight:700;src:url(katex/fonts/KaTeX_Math-BoldItalic.woff2) format("woff2"),url(katex/fonts/KaTeX_Math-BoldItalic.woff) format("woff"),url(katex/fonts/KaTeX_Math-BoldItalic.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Math;font-style:italic;font-weight:400;src:url(katex/fonts/KaTeX_Math-Italic.woff2) format("woff2"),url(katex/fonts/KaTeX_Math-Italic.woff) format("woff"),url(katex/fonts/KaTeX_Math-Italic.ttf) format("truetype")}@font-face{font-display:block;font-family:"KaTeX_SansSerif";font-style:normal;font-weight:700;src:url(katex/fonts/KaTeX_SansSerif-Bold.woff2) format("woff2"),url(katex/fonts/KaTeX_SansSerif-Bold.woff) format("woff"),url(katex/fonts/KaTeX_SansSerif-Bold.ttf) format("truetype")}@font-face{font-display:block;font-family:"KaTeX_SansSerif";font-style:italic;font-weight:400;src:url(katex/fonts/KaTeX_SansSerif-Italic.woff2) format("woff2"),url(katex/fonts/KaTeX_SansSerif-Italic.woff) format("woff"),url(katex/fonts/KaTeX_SansSerif-Italic.ttf) format("truetype")}@font-face{font-display:block;font-family:"KaTeX_SansSerif";font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_SansSerif-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_SansSerif-Regular.woff) format("woff"),url(katex/fonts/KaTeX_SansSerif-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Script;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Script-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Script-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Script-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Size1;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Size1-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Size1-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Size1-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Size2;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Size2-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Size2-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Size2-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Size3;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Size3-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Size3-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Size3-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Size4;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Size4-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Size4-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Size4-Regular.ttf) format("truetype")}@font-face{font-display:block;font-family:KaTeX_Typewriter;font-style:normal;font-weight:400;src:url(katex/fonts/KaTeX_Typewriter-Regular.woff2) format("woff2"),url(katex/fonts/KaTeX_Typewriter-Regular.woff) format("woff"),url(katex/fonts/KaTeX_Typewriter-Regular.ttf) format("truetype")}.katex{font:normal 1.21em KaTeX_Main,math,Times New Roman,serif;line-height:1.2;position:relative;text-indent:0;text-rendering:auto}.katex *{-ms-high-contrast-adjust:none!important;border-color:currentColor}.katex .katex-version:after{content:"0.19.0"}.katex .katex-mathml{border:0;-webkit-clip-path:inset(50%);clip-path:inset(50%);height:1px;overflow:hidden;padding:0;position:absolute;width:1px}.katex .katex-html>.katex-newline{display:block}.katex .katex-base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .katex-base,.katex .katex-strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-style:italic;font-weight:700}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathboldfrak,.katex .textboldfrak{font-family:KaTeX_Fraktur;font-weight:700}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .mathsfit,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{border-collapse:collapse;display:inline-table;table-layout:fixed}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;position:relative;vertical-align:bottom}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;font-size:1px;min-width:2px;vertical-align:bottom;width:2px}.katex .katex-vbox{align-items:baseline;display:inline-flex;flex-direction:column}.katex .katex-thinbox{display:inline-flex;flex-direction:row;max-width:0;width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .katex-hdashline,.katex .katex-hline,.katex .katex-overline .overline-line,.katex .katex-rule,.katex .katex-underline .underline-line,.katex .mfrac .frac-line{min-height:1px}.katex .mspace{display:inline-block}.katex .katex-smash{display:inline;line-height:0}.katex .clap,.katex .llap,.katex .rlap{position:relative;width:0}.katex .clap>.katex-inner,.katex .llap>.katex-inner,.katex .rlap>.katex-inner{position:absolute}.katex .clap>.katex-fix,.katex .llap>.katex-fix,.katex .rlap>.katex-fix{display:inline-block}.katex .llap>.katex-inner{right:0}.katex .clap>.katex-inner,.katex .rlap>.katex-inner{left:0}.katex .clap>.katex-inner>span{margin-left:-50%;margin-right:50%}.katex .katex-rule{border:0 solid;display:inline-block;position:relative}.katex .katex-hline,.katex .katex-overline .overline-line,.katex .katex-underline .underline-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .katex-hdashline{border-bottom-style:dashed;display:inline-block;width:100%}.katex .sqrt>.katex-root{margin-left:.2777777778em;margin-right:-.5555555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .katex-sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .katex-sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .katex-sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .katex-sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .katex-sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .katex-sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .katex-sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .katex-sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .katex-sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .katex-sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .katex-sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .katex-sizing.reset-size2.size1{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .katex-sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .katex-sizing.reset-size2.size3{font-size:1.1666666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .katex-sizing.reset-size2.size4{font-size:1.3333333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .katex-sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .katex-sizing.reset-size2.size6{font-size:1.6666666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .katex-sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .katex-sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .katex-sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .katex-sizing.reset-size2.size10{font-size:3.4566666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .katex-sizing.reset-size2.size11{font-size:4.1466666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .katex-sizing.reset-size3.size1{font-size:.7142857143em}.katex .fontsize-ensurer.reset-size3.size2,.katex .katex-sizing.reset-size3.size2{font-size:.8571428571em}.katex .fontsize-ensurer.reset-size3.size3,.katex .katex-sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .katex-sizing.reset-size3.size4{font-size:1.1428571429em}.katex .fontsize-ensurer.reset-size3.size5,.katex .katex-sizing.reset-size3.size5{font-size:1.2857142857em}.katex .fontsize-ensurer.reset-size3.size6,.katex .katex-sizing.reset-size3.size6{font-size:1.4285714286em}.katex .fontsize-ensurer.reset-size3.size7,.katex .katex-sizing.reset-size3.size7{font-size:1.7142857143em}.katex .fontsize-ensurer.reset-size3.size8,.katex .katex-sizing.reset-size3.size8{font-size:2.0571428571em}.katex .fontsize-ensurer.reset-size3.size9,.katex .katex-sizing.reset-size3.size9{font-size:2.4685714286em}.katex .fontsize-ensurer.reset-size3.size10,.katex .katex-sizing.reset-size3.size10{font-size:2.9628571429em}.katex .fontsize-ensurer.reset-size3.size11,.katex .katex-sizing.reset-size3.size11{font-size:3.5542857143em}.katex .fontsize-ensurer.reset-size4.size1,.katex .katex-sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .katex-sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .katex-sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .katex-sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .katex-sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .katex-sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .katex-sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .katex-sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .katex-sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .katex-sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .katex-sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .katex-sizing.reset-size5.size1{font-size:.5555555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .katex-sizing.reset-size5.size2{font-size:.6666666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .katex-sizing.reset-size5.size3{font-size:.7777777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .katex-sizing.reset-size5.size4{font-size:.8888888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .katex-sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .katex-sizing.reset-size5.size6{font-size:1.1111111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .katex-sizing.reset-size5.size7{font-size:1.3333333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .katex-sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .katex-sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .katex-sizing.reset-size5.size10{font-size:2.3044444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .katex-sizing.reset-size5.size11{font-size:2.7644444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .katex-sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .katex-sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .katex-sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .katex-sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .katex-sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .katex-sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .katex-sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .katex-sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .katex-sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .katex-sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .katex-sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .katex-sizing.reset-size7.size1{font-size:.4166666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .katex-sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .katex-sizing.reset-size7.size3{font-size:.5833333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .katex-sizing.reset-size7.size4{font-size:.6666666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .katex-sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .katex-sizing.reset-size7.size6{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .katex-sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .katex-sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .katex-sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .katex-sizing.reset-size7.size10{font-size:1.7283333333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .katex-sizing.reset-size7.size11{font-size:2.0733333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .katex-sizing.reset-size8.size1{font-size:.3472222222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .katex-sizing.reset-size8.size2{font-size:.4166666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .katex-sizing.reset-size8.size3{font-size:.4861111111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .katex-sizing.reset-size8.size4{font-size:.5555555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .katex-sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .katex-sizing.reset-size8.size6{font-size:.6944444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .katex-sizing.reset-size8.size7{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .katex-sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .katex-sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .katex-sizing.reset-size8.size10{font-size:1.4402777778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .katex-sizing.reset-size8.size11{font-size:1.7277777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .katex-sizing.reset-size9.size1{font-size:.2893518519em}.katex .fontsize-ensurer.reset-size9.size2,.katex .katex-sizing.reset-size9.size2{font-size:.3472222222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .katex-sizing.reset-size9.size3{font-size:.4050925926em}.katex .fontsize-ensurer.reset-size9.size4,.katex .katex-sizing.reset-size9.size4{font-size:.462962963em}.katex .fontsize-ensurer.reset-size9.size5,.katex .katex-sizing.reset-size9.size5{font-size:.5208333333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .katex-sizing.reset-size9.size6{font-size:.5787037037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .katex-sizing.reset-size9.size7{font-size:.6944444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .katex-sizing.reset-size9.size8{font-size:.8333333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .katex-sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .katex-sizing.reset-size9.size10{font-size:1.2002314815em}.katex .fontsize-ensurer.reset-size9.size11,.katex .katex-sizing.reset-size9.size11{font-size:1.4398148148em}.katex .fontsize-ensurer.reset-size10.size1,.katex .katex-sizing.reset-size10.size1{font-size:.2410800386em}.katex .fontsize-ensurer.reset-size10.size2,.katex .katex-sizing.reset-size10.size2{font-size:.2892960463em}.katex .fontsize-ensurer.reset-size10.size3,.katex .katex-sizing.reset-size10.size3{font-size:.337512054em}.katex .fontsize-ensurer.reset-size10.size4,.katex .katex-sizing.reset-size10.size4{font-size:.3857280617em}.katex .fontsize-ensurer.reset-size10.size5,.katex .katex-sizing.reset-size10.size5{font-size:.4339440694em}.katex .fontsize-ensurer.reset-size10.size6,.katex .katex-sizing.reset-size10.size6{font-size:.4821600771em}.katex .fontsize-ensurer.reset-size10.size7,.katex .katex-sizing.reset-size10.size7{font-size:.5785920926em}.katex .fontsize-ensurer.reset-size10.size8,.katex .katex-sizing.reset-size10.size8{font-size:.6943105111em}.katex .fontsize-ensurer.reset-size10.size9,.katex .katex-sizing.reset-size10.size9{font-size:.8331726133em}.katex .fontsize-ensurer.reset-size10.size10,.katex .katex-sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .katex-sizing.reset-size10.size11{font-size:1.1996142719em}.katex .fontsize-ensurer.reset-size11.size1,.katex .katex-sizing.reset-size11.size1{font-size:.2009646302em}.katex .fontsize-ensurer.reset-size11.size2,.katex .katex-sizing.reset-size11.size2{font-size:.2411575563em}.katex .fontsize-ensurer.reset-size11.size3,.katex .katex-sizing.reset-size11.size3{font-size:.2813504823em}.katex .fontsize-ensurer.reset-size11.size4,.katex .katex-sizing.reset-size11.size4{font-size:.3215434084em}.katex .fontsize-ensurer.reset-size11.size5,.katex .katex-sizing.reset-size11.size5{font-size:.3617363344em}.katex .fontsize-ensurer.reset-size11.size6,.katex .katex-sizing.reset-size11.size6{font-size:.4019292605em}.katex .fontsize-ensurer.reset-size11.size7,.katex .katex-sizing.reset-size11.size7{font-size:.4823151125em}.katex .fontsize-ensurer.reset-size11.size8,.katex .katex-sizing.reset-size11.size8{font-size:.578778135em}.katex .fontsize-ensurer.reset-size11.size9,.katex .katex-sizing.reset-size11.size9{font-size:.6945337621em}.katex .fontsize-ensurer.reset-size11.size10,.katex .katex-sizing.reset-size11.size10{font-size:.8336012862em}.katex .fontsize-ensurer.reset-size11.size11,.katex .katex-sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .katex-accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .katex-accent .accent-body{position:relative}.katex .katex-accent .accent-body:not(.accent-full){width:0}.katex .katex-overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{fill:currentColor;stroke:currentColor;display:block;height:inherit;position:absolute;width:100%}.katex svg path{stroke:none}.katex svg{fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1}.katex img{border-style:none;max-height:none;max-width:none;min-height:0;min-width:0}.katex .katex-stretchy{display:block;overflow:hidden;position:relative;width:100%}.katex .katex-stretchy:after,.katex .katex-stretchy:before{content:""}.katex .hide-tail{overflow:hidden;position:relative;width:100%}.katex .halfarrow-left{left:0;overflow:hidden;position:absolute;width:50.2%}.katex .halfarrow-right{overflow:hidden;position:absolute;right:0;width:50.2%}.katex .brace-left{left:0;overflow:hidden;position:absolute;width:25.1%}.katex .brace-center{left:25%;overflow:hidden;position:absolute;width:50%}.katex .brace-right{overflow:hidden;position:absolute;right:0;width:25.1%}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{border:.04em solid;box-sizing:border-box}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .katex-sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{border-right:.049em solid;border-top:.049em solid;box-sizing:border-box;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .reflectbox{display:inline-block;transform:scaleX(-1)}.katex .eqn-num:before{content:"(" counter(katexEqnNo) ")";counter-increment:katexEqnNo}.katex .mml-eqn-num:before{content:"(" counter(mmlEqnNo) ")";counter-increment:mmlEqnNo}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;left:calc(50% + .3em);position:absolute;text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.katex-tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.katex-tag{left:0;right:auto}.katex-display.fleqn>.katex{padding-left:2em;text-align:left}body{counter-reset:katexEqnNo mmlEqnNo}
+
+    </style>
+  </head>
+  <body>
+<section id="sec_sa2ei2jr" class="doc-section doc-section-sec_sa2ei2jr" data-section="sec_sa2ei2jr">
+<h1 id="hd_0kn0b722" class="doc-heading doc-style-heading-1"><span class="doc-num">1</span> Purpose</h1>
+<p id="pg_fycjonka" class="doc-paragraph doc-style-normal">This document is summarised in <span class="doc-ref" data-reference="hd_6iac2q6g" data-reference-kind="heading">1.1</span> and detailed in <span class="doc-ref" data-reference="tb_0b94dkw8" data-reference-kind="table">Table 1</span>.</p>
+<h2 id="hd_6iac2q6g" class="doc-heading doc-style-heading-2"><span class="doc-num">1.1</span> Scope</h2>
+<p id="pg_2kmfz6d5" class="doc-paragraph doc-style-normal">See <span class="doc-ref" data-reference="im_slbrd1kk" data-reference-kind="figure">Figure 1</span> and the mass–energy relation <span class="doc-ref" data-reference="eq_ksa40tx5" data-reference-kind="equation">Equation 1</span>.</p>
+<table id="tb_0b94dkw8" class="doc-table"><caption class="doc-caption">Table 1 — Acceptance limits</caption><thead><tr id="tr_kqmva5ed"><th id="tc_9yub7bj7"><p class="doc-paragraph doc-style-normal" style="margin:0">Parameter</p></th><th id="tc_31f9otie"><p class="doc-paragraph doc-style-normal" style="margin:0">Limit</p></th></tr></thead><tbody><tr id="tr_0jw38bx4"><td id="tc_c9qgrm80"><p class="doc-paragraph doc-style-normal" style="margin:0">pH</p></td><td id="tc_t2s3zk72"><p class="doc-paragraph doc-style-normal" style="margin:0">6.5 – 8.5</p></td></tr><tr id="tr_v0y2bmwl"><td id="tc_6e3bau45"><p class="doc-paragraph doc-style-normal" style="margin:0">Conductivity</p></td><td id="tc_op2vj1hm"><p class="doc-paragraph doc-style-normal" style="margin:0">&lt; 1.0 µS/cm</p></td></tr></tbody></table>
+<figure class="doc-figure" id="im_slbrd1kk"><img src="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22420%22%20height%3D%22160%22%3E%3Crect%20width%3D%22420%22%20height%3D%22160%22%20fill%3D%22%23eef6ff%22%20stroke%3D%22%23336699%22%2F%3E%3Cpolyline%20points%3D%2230%2C130%20130%2C100%20230%2C70%20330%2C45%20400%2C30%22%20fill%3D%22none%22%20stroke%3D%22%23336699%22%20stroke-width%3D%223%22%2F%3E%3C%2Fsvg%3E" alt="Trending plot" /><figcaption class="doc-caption">Figure 1 — Conductivity trend</figcaption></figure>
+<div id="eq_ksa40tx5" class="doc-equation display"><span class="katex-display"><span class="katex"><span class="katex-html" aria-hidden="true"><span class="katex-base"><span class="katex-strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.0576em;">E</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="katex-base"><span class="katex-strut" style="height:0.8641em;"></span><span class="mord mathnormal">m</span><span class="mord"><span class="mord mathnormal">c</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8641em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="katex-sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span class="doc-equation-number">Equation 1</span></div>
+<p id="pg_gyonfrew" class="doc-paragraph doc-style-normal">A deliberately dangling pointer appears here: <span class="doc-ref" data-reference="hd_missing0001" data-reference-kind="heading" data-broken="true" title="reference target hd_missing0001 (heading) does not exist or was deleted">⟦missing heading⟧</span>.</p>
+</section>
+    <script>
+      /*
+       * Page-number materialization for pageNumberStart (per-section restarts).
+       *
+       * Paged.js 0.4.3 emits [data-counter-page-reset] as a CSS
+       * "counter-reset: page N" rule during layout. On a fresh load Chromium
+       * honours it at first paint, but the app's live preview swaps iframe
+       * srcdoc documents — and in that path the reset does NOT change the
+       * painted margin-box ::after digits (verified empirically; Chromium does
+       * not reliably repaint CSS content changes on a painted ::after, and a
+       * bare-number literal like content: "Page " 5 ... is invalid CSS and is
+       * dropped by the parser). The shared renderer therefore replaces any
+       * counter-based margin content with a REAL text node per page once
+       * layout is complete. DOM text always repaints and prints verbatim.
+       * Runs for preview and PDF export alike (both consume this same HTML).
+       */
+      function materializePageNumbers() {
+        var pages = document.querySelectorAll(".pagedjs_page");
+        if (!pages.length) return;
+        // No restarts → CSS counters already paint correct ordinals.
+        if (!document.querySelector("[data-counter-page-reset]")) return;
+        var total = pages.length;
+        var currentStart = 1;
+        var currentStartOrdinal = 1;
+        for (var i = 0; i < pages.length; i++) {
+          var page = pages[i];
+          var ordinal = i + 1;
+          var resetEl = page.querySelector("[data-counter-page-reset]:not([data-split-from])");
+          if (resetEl) {
+            var parsed = parseInt(resetEl.getAttribute("data-counter-page-reset"), 10);
+            currentStart = isFinite(parsed) && parsed >= 1 ? parsed : 1;
+            currentStartOrdinal = ordinal;
+          }
+          var visible = currentStart + (ordinal - currentStartOrdinal);
+          var boxes = page.querySelectorAll(".pagedjs_pagebox .pagedjs_margin");
+          for (var b = 0; b < boxes.length; b++) {
+            var box = boxes[b];
+            var mc = box.querySelector(".pagedjs_margin-content");
+            if (!mc) continue;
+            var raw = getComputedStyle(mc, "::after").content;
+            if (raw.indexOf("counter(page)") === -1 && raw.indexOf("counter(pages)") === -1) continue;
+            // Resolve the serialized content (e.g. "Page " counter(page) " of "
+            // counter(pages)) into display text: unquote string tokens and
+            // substitute the counters with the per-page value + global total.
+            var text = raw
+              .replace(/counter\(page\)/g, "%%PAGE%%")
+              .replace(/counter\(pages\)/g, "%%TOTAL%%")
+              .replace(/"([^"]*)"/g, "$1")
+              .replace(/\s+/g, " ")
+              .replace(/%%PAGE%%/g, String(visible))
+              .replace(/%%TOTAL%%/g, String(total));
+            var div = document.createElement("div");
+            div.setAttribute("data-pp", "1");
+            div.textContent = text;
+            box.replaceChild(div, mc);
+          }
+        }
+      }
+
+      window.PagedConfig = {
+        auto: true,
+        after: function () {
+          materializePageNumbers();
+          window.__layoutDone = true;
+          window.dispatchEvent(new Event("layout-done"));
+        }
+      };
+    </script>
+    <script src="/vendor/paged.polyfill.js"></script>
+    <script>
+      // paged.js 0.4.3 gap (spike gap 2): continuation pages lose <thead>.
+      // Handler re-inserts a cloned header row and re-runs overflow detection
+      // so the header height participates in pagination (evidence: spike).
+      (function () {
+        function repeatTheads(root) {
+          if (!root || !root.querySelectorAll) return 0;
+          var inserted = 0;
+          var tables = root.querySelectorAll("table");
+          for (var i = 0; i < tables.length; i++) {
+            var t = tables[i];
+            if (t.dataset.headerRepeated === "true") continue;
+            if (t.querySelector("thead")) { t.dataset.headerRepeated = "true"; continue; }
+            if (!t.querySelector("tr")) continue;
+            var src = t.dataset.splitFrom;
+            if (!src) { t.dataset.headerRepeated = "true"; continue; }
+            var thead = null;
+            var candidates = document.querySelectorAll('table[data-ref="' + CSS.escape(src) + '"]');
+            for (var j = 0; j < candidates.length; j++) {
+              var th = candidates[j].querySelector("thead");
+              if (th) { thead = th; break; }
+            }
+            if (!thead) continue;
+            var clone = thead.cloneNode(true);
+            clone.setAttribute("data-repeated-header", "true");
+            t.insertBefore(clone, t.firstElementChild);
+            t.dataset.headerRepeated = "true";
+            inserted++;
+          }
+          return inserted;
+        }
+        if (!window.Paged || !Paged.Handler) return;
+        class TableHeaderRepeater extends Paged.Handler {
+          onOverflow(overflow, rendered, bounds, layout) {
+            const inserted = repeatTheads(rendered);
+            if (overflow || inserted) return layout.findOverflow(rendered, bounds);
+            return undefined;
+          }
+          afterPageLayout(pageEl) {
+            repeatTheads(pageEl);
+          }
+        }
+        Paged.registerHandlers(TableHeaderRepeater);
+      })();
+    </script>
+  </body>
+</html>

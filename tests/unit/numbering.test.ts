@@ -3,6 +3,7 @@ import { deriveNumbering } from "@/core/numbering";
 import { resolveDocument } from "@/core/resolve";
 import {
   createEmptyDocument,
+  createEquation,
   createHeading,
   createSection,
   createTable,
@@ -60,6 +61,18 @@ describe("derived numbering", () => {
     expect(numbering.tables[t1.id]).toBe("Table 1");
     expect(numbering.tables[t2.id]).toBe("Table 2");
     expect(numbering.figures[img.id]).toBe("Figure 1");
+  });
+
+  it("numbers every equation block sequentially in document order (M6)", () => {
+    const doc = createEmptyDocument();
+    const e1 = createEquation("a", true);
+    const e2 = createEquation("b", false);
+    const e3 = createEquation("c", true);
+    doc.sections = [createSection([e1, e2]), createSection([e3])];
+    const { numbering } = resolveDocument(doc);
+    expect(numbering.equations[e1.id]).toBe("Equation 1");
+    expect(numbering.equations[e2.id]).toBe("Equation 2");
+    expect(numbering.equations[e3.id]).toBe("Equation 3");
   });
 
   it("keeps numbering intact around bullet lists", () => {
